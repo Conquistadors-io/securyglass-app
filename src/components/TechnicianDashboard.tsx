@@ -86,7 +86,7 @@ export const TechnicianDashboard = ({ onNavigate }: TechnicianDashboardProps) =>
           <Card 
             key={intervention.id} 
             className="p-4 cursor-pointer hover:shadow-lg transition-shadow"
-            onClick={() => onNavigate("technician-intervention")}
+            onClick={() => onNavigate("quote-detail")}
           >
             <div className="flex justify-between items-start mb-2">
               <div className="flex-1">
