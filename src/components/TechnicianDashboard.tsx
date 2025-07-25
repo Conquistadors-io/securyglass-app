@@ -1,15 +1,49 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Calendar, MapPin, Euro, Star, Phone, Clock, Award, Target, Zap, Timer, Menu, User, FileText, Shield, Car, TrendingUp, CreditCard, AlertTriangle, X, Users } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Calendar, MapPin, Euro, Star, Phone, Clock, Award, Target, Zap, Timer, Menu, User, FileText, Shield, Car, TrendingUp, CreditCard, AlertTriangle, X, Users, Edit3, Save, XCircle } from "lucide-react";
 interface TechnicianDashboardProps {
   onNavigate: (route: string) => void;
 }
 export const TechnicianDashboard = ({
   onNavigate
 }: TechnicianDashboardProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState({
+    prenom: "DRAME",
+    departement: "75 - Paris",
+    note: 4.8,
+    competences: "Expert",
+    diplome: "CAP Vitrier",
+    vehicule: "Utilitaire 500kg",
+    interventions: 142,
+    caSemine: 680,
+    caMensuel: 2450,
+    retards: 2,
+    reclamations: 1,
+    annulations: 0,
+    astreinteNuit: true,
+    astreinteWeekend: true
+  });
+
+  const handleSave = () => {
+    setIsEditing(false);
+    // Ici on pourrait sauvegarder les données
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    // Ici on pourrait restaurer les données originales
+  };
+
+  const updateField = (field: string, value: any) => {
+    setProfileData(prev => ({ ...prev, [field]: value }));
+  };
   const interventions = [{
     id: 1,
     client: "Marie Dupont",
@@ -48,9 +82,27 @@ export const TechnicianDashboard = ({
           </SheetTrigger>
           <SheetContent side="right" className="w-[350px] sm:w-[400px]">
             <SheetHeader>
-              <SheetTitle className="flex items-center space-x-2">
-                <User className="h-5 w-5" />
-                <span>Profil Technicien</span>
+              <SheetTitle className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <User className="h-5 w-5" />
+                  <span>Profil Technicien</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  {isEditing ? (
+                    <>
+                      <Button variant="ghost" size="sm" onClick={handleSave}>
+                        <Save className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={handleCancel}>
+                        <XCircle className="h-4 w-4" />
+                      </Button>
+                    </>
+                  ) : (
+                    <Button variant="ghost" size="sm" onClick={() => setIsEditing(true)}>
+                      <Edit3 className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
               </SheetTitle>
             </SheetHeader>
             
@@ -61,11 +113,27 @@ export const TechnicianDashboard = ({
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Prénom</span>
-                    <span className="font-medium">DRAME</span>
+                    {isEditing ? (
+                      <Input 
+                        value={profileData.prenom} 
+                        onChange={(e) => updateField('prenom', e.target.value)}
+                        className="w-32 h-8"
+                      />
+                    ) : (
+                      <span className="font-medium">{profileData.prenom}</span>
+                    )}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Département</span>
-                    <Badge variant="outline">75 - Paris</Badge>
+                    {isEditing ? (
+                      <Input 
+                        value={profileData.departement} 
+                        onChange={(e) => updateField('departement', e.target.value)}
+                        className="w-32 h-8"
+                      />
+                    ) : (
+                      <Badge variant="outline">{profileData.departement}</Badge>
+                    )}
                   </div>
                 </div>
               </div>
@@ -101,18 +169,46 @@ export const TechnicianDashboard = ({
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Note / Étoiles</span>
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      <span className="font-medium">4.8/5</span>
-                    </div>
+                    {isEditing ? (
+                      <Input 
+                        type="number"
+                        step="0.1"
+                        min="0"
+                        max="5"
+                        value={profileData.note} 
+                        onChange={(e) => updateField('note', parseFloat(e.target.value))}
+                        className="w-20 h-8"
+                      />
+                    ) : (
+                      <div className="flex items-center space-x-1">
+                        <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                        <span className="font-medium">{profileData.note}/5</span>
+                      </div>
+                    )}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Compétences</span>
-                    <Badge className="bg-blue-100 text-blue-800">Expert</Badge>
+                    {isEditing ? (
+                      <Input 
+                        value={profileData.competences} 
+                        onChange={(e) => updateField('competences', e.target.value)}
+                        className="w-24 h-8"
+                      />
+                    ) : (
+                      <Badge className="bg-blue-100 text-blue-800">{profileData.competences}</Badge>
+                    )}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Diplôme</span>
-                    <Badge variant="outline">CAP Vitrier</Badge>
+                    {isEditing ? (
+                      <Input 
+                        value={profileData.diplome} 
+                        onChange={(e) => updateField('diplome', e.target.value)}
+                        className="w-32 h-8"
+                      />
+                    ) : (
+                      <Badge variant="outline">{profileData.diplome}</Badge>
+                    )}
                   </div>
                 </div>
               </div>
@@ -126,11 +222,28 @@ export const TechnicianDashboard = ({
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Véhicule / Capacité</span>
-                    <span className="font-medium">Utilitaire 500kg</span>
+                    {isEditing ? (
+                      <Input 
+                        value={profileData.vehicule} 
+                        onChange={(e) => updateField('vehicule', e.target.value)}
+                        className="w-36 h-8"
+                      />
+                    ) : (
+                      <span className="font-medium">{profileData.vehicule}</span>
+                    )}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Interventions</span>
-                    <span className="font-medium">142 total</span>
+                    {isEditing ? (
+                      <Input 
+                        type="number"
+                        value={profileData.interventions} 
+                        onChange={(e) => updateField('interventions', parseInt(e.target.value))}
+                        className="w-20 h-8"
+                      />
+                    ) : (
+                      <span className="font-medium">{profileData.interventions} total</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -144,11 +257,35 @@ export const TechnicianDashboard = ({
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="text-sm">CA Semaine</span>
-                    <span className="font-medium text-green-600">680€</span>
+                    {isEditing ? (
+                      <div className="flex items-center space-x-1">
+                        <Input 
+                          type="number"
+                          value={profileData.caSemine} 
+                          onChange={(e) => updateField('caSemine', parseInt(e.target.value))}
+                          className="w-20 h-8"
+                        />
+                        <span className="text-sm">€</span>
+                      </div>
+                    ) : (
+                      <span className="font-medium text-green-600">{profileData.caSemine}€</span>
+                    )}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm">CA Mensuel</span>
-                    <span className="font-medium text-green-600">2,450€</span>
+                    {isEditing ? (
+                      <div className="flex items-center space-x-1">
+                        <Input 
+                          type="number"
+                          value={profileData.caMensuel} 
+                          onChange={(e) => updateField('caMensuel', parseInt(e.target.value))}
+                          className="w-24 h-8"
+                        />
+                        <span className="text-sm">€</span>
+                      </div>
+                    ) : (
+                      <span className="font-medium text-green-600">{profileData.caMensuel.toLocaleString()}€</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -179,15 +316,45 @@ export const TechnicianDashboard = ({
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Retard</span>
-                    <Badge variant="destructive">2 retards</Badge>
+                    {isEditing ? (
+                      <Input 
+                        type="number"
+                        min="0"
+                        value={profileData.retards} 
+                        onChange={(e) => updateField('retards', parseInt(e.target.value))}
+                        className="w-16 h-8"
+                      />
+                    ) : (
+                      <Badge variant="destructive">{profileData.retards} retards</Badge>
+                    )}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Réclamation</span>
-                    <Badge className="bg-orange-100 text-orange-800">1 en cours</Badge>
+                    {isEditing ? (
+                      <Input 
+                        type="number"
+                        min="0"
+                        value={profileData.reclamations} 
+                        onChange={(e) => updateField('reclamations', parseInt(e.target.value))}
+                        className="w-16 h-8"
+                      />
+                    ) : (
+                      <Badge className="bg-orange-100 text-orange-800">{profileData.reclamations} en cours</Badge>
+                    )}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Annulation</span>
-                    <Badge variant="outline">0 ce mois</Badge>
+                    {isEditing ? (
+                      <Input 
+                        type="number"
+                        min="0"
+                        value={profileData.annulations} 
+                        onChange={(e) => updateField('annulations', parseInt(e.target.value))}
+                        className="w-16 h-8"
+                      />
+                    ) : (
+                      <Badge variant="outline">{profileData.annulations} ce mois</Badge>
+                    )}
                   </div>
                 </div>
               </div>
@@ -201,11 +368,29 @@ export const TechnicianDashboard = ({
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Nuit</span>
-                    <Badge className="bg-blue-100 text-blue-800">Activé</Badge>
+                    {isEditing ? (
+                      <Switch 
+                        checked={profileData.astreinteNuit}
+                        onCheckedChange={(checked) => updateField('astreinteNuit', checked)}
+                      />
+                    ) : (
+                      <Badge className={profileData.astreinteNuit ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-800"}>
+                        {profileData.astreinteNuit ? "Activé" : "Désactivé"}
+                      </Badge>
+                    )}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Week-end</span>
-                    <Badge className="bg-blue-100 text-blue-800">Activé</Badge>
+                    {isEditing ? (
+                      <Switch 
+                        checked={profileData.astreinteWeekend}
+                        onCheckedChange={(checked) => updateField('astreinteWeekend', checked)}
+                      />
+                    ) : (
+                      <Badge className={profileData.astreinteWeekend ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-800"}>
+                        {profileData.astreinteWeekend ? "Activé" : "Désactivé"}
+                      </Badge>
+                    )}
                   </div>
                 </div>
               </div>
