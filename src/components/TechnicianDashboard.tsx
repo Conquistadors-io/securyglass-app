@@ -75,8 +75,8 @@ export const TechnicianDashboard = ({
           <div className="text-sm font-medium text-green-600 mt-1">680€</div>
         </Card>
         <Card className="p-4 text-center">
-          <div className="text-2xl font-bold text-yellow-600">2</div>
-          <div className="text-xs text-muted-foreground">Prendre RDV</div>
+          <div className="text-2xl font-bold text-red-600">2</div>
+          <div className="text-xs text-red-600 font-medium">Prendre RDV</div>
         </Card>
         <Card className="p-4 text-center">
           <div className="text-2xl font-bold text-green-600">28</div>
