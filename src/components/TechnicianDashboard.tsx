@@ -103,7 +103,7 @@ export const TechnicianDashboard = ({
             <Target className="h-5 w-5 text-green-600" />
             <div>
               <div className="text-sm font-medium text-green-800">138
-r</div>
+Travaux</div>
               <div className="text-xs text-green-600">En attente</div>
             </div>
           </div>
