@@ -11,6 +11,7 @@ import { TechnicianInstallation } from "@/components/TechnicianInstallation";
 import { TechnicianPlanning } from "@/components/TechnicianPlanning";
 import { TechnicianProfile } from "@/components/TechnicianProfile";
 import { TechnicianEarnings } from "@/components/TechnicianEarnings";
+import { TechnicianMap } from "@/components/TechnicianMap";
 
 const Index = () => {
   const [currentRoute, setCurrentRoute] = useState("welcome");
@@ -45,6 +46,8 @@ const Index = () => {
         return <TechnicianProfile onNavigate={handleNavigate} />;
       case "technician-earnings":
         return <TechnicianEarnings onNavigate={handleNavigate} />;
+      case "technician-map":
+        return <TechnicianMap onNavigate={handleNavigate} />;
       case "admin-dashboard":
         // TODO: Implement admin dashboard
         return <div className="min-h-screen bg-background flex items-center justify-center">

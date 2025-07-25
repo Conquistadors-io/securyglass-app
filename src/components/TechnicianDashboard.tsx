@@ -124,10 +124,10 @@ export const TechnicianDashboard = ({ onNavigate }: TechnicianDashboardProps) =>
         <Button 
           variant="outline" 
           className="h-16 flex-col space-y-1"
-          onClick={() => onNavigate("technician-profile")}
+          onClick={() => onNavigate("technician-map")}
         >
-          <Star className="h-5 w-5" />
-          <span className="text-xs">Profil</span>
+          <MapPin className="h-5 w-5" />
+          <span className="text-xs">Carte</span>
         </Button>
         
         <Button 
@@ -142,10 +142,10 @@ export const TechnicianDashboard = ({ onNavigate }: TechnicianDashboardProps) =>
         <Button 
           variant="outline" 
           className="h-16 flex-col space-y-1"
-          onClick={() => onNavigate("technician-intervention")}
+          onClick={() => onNavigate("technician-profile")}
         >
-          <Phone className="h-5 w-5" />
-          <span className="text-xs">Urgence</span>
+          <Star className="h-5 w-5" />
+          <span className="text-xs">Profil</span>
         </Button>
       </div>
 
