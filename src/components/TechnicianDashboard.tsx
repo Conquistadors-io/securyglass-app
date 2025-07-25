@@ -54,10 +54,12 @@ export const TechnicianDashboard = ({ onNavigate }: TechnicianDashboardProps) =>
             </div>
           </div>
           <div className="flex-1">
-            <div className="flex items-center space-x-2 mb-1">
+            <div className="mb-1">
               <h1 className="text-xl font-bold text-foreground">Thomas Carpentier</h1>
-              <Badge className="bg-green-100 text-green-800 text-xs">Disponible</Badge>
-              <Badge className="bg-purple-100 text-purple-800 text-xs">Expert</Badge>
+              <div className="flex items-center space-x-2 mt-1">
+                <Badge className="bg-blue-500 text-white text-xs font-medium">Expert</Badge>
+                <Badge className="bg-green-100 text-green-800 text-xs">Disponible</Badge>
+              </div>
             </div>
             <div className="flex items-center space-x-2 mt-1">
               <Star className="h-4 w-4 text-yellow-500 fill-current" />
