@@ -57,7 +57,7 @@ export const TechnicianDashboard = ({ onNavigate }: TechnicianDashboardProps) =>
             <div className="mb-1">
               <h1 className="text-xl font-bold text-foreground">Thomas Carpentier</h1>
               <div className="flex items-center space-x-2 mt-1">
-                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-medium">OR</Badge>
+                <Badge className="bg-blue-500 text-white text-xs font-medium">Expert</Badge>
                 <Badge className="bg-green-100 text-green-800 text-xs">Disponible</Badge>
               </div>
             </div>
