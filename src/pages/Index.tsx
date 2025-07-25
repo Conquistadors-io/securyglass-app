@@ -15,6 +15,7 @@ import { TechnicianMap } from "@/components/TechnicianMap";
 import { TechnicianOnboarding } from "@/components/TechnicianOnboarding";
 import { TechnicianLogin } from "@/components/TechnicianLogin";
 import { QuoteDetail } from "@/components/QuoteDetail";
+import { InvoiceDetail } from "@/components/InvoiceDetail";
 import { AppointmentDetail } from "@/components/AppointmentDetail";
 
 const Index = () => {
@@ -58,6 +59,8 @@ const Index = () => {
         return <TechnicianOnboarding onComplete={() => handleNavigate("technician-dashboard")} onNavigate={handleNavigate} />;
       case "quote-detail":
         return <QuoteDetail onNavigate={handleNavigate} />;
+      case "invoice-detail":
+        return <InvoiceDetail onNavigate={handleNavigate} />;
       case "appointment-detail":
         return <AppointmentDetail onNavigate={handleNavigate} />;
       case "admin-dashboard":
