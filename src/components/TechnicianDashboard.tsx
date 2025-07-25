@@ -74,8 +74,9 @@ export const TechnicianDashboard = ({ onNavigate }: TechnicianDashboardProps) =>
           <div className="text-xs text-muted-foreground">À confirmer</div>
         </Card>
         <Card className="p-4 text-center">
-          <div className="text-2xl font-bold text-green-600">12</div>
-          <div className="text-xs text-muted-foreground">Cette semaine</div>
+          <div className="text-2xl font-bold text-green-600">28</div>
+          <div className="text-xs text-muted-foreground">Ce mois</div>
+          <div className="text-sm font-medium text-green-600 mt-1">2,450€</div>
         </Card>
       </div>
 
