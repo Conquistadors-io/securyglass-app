@@ -13,6 +13,7 @@ import { TechnicianProfile } from "@/components/TechnicianProfile";
 import { TechnicianEarnings } from "@/components/TechnicianEarnings";
 import { TechnicianMap } from "@/components/TechnicianMap";
 import { TechnicianOnboarding } from "@/components/TechnicianOnboarding";
+import { TechnicianLogin } from "@/components/TechnicianLogin";
 import { QuoteDetail } from "@/components/QuoteDetail";
 import { AppointmentDetail } from "@/components/AppointmentDetail";
 
@@ -51,6 +52,8 @@ const Index = () => {
         return <TechnicianEarnings onNavigate={handleNavigate} />;
       case "technician-map":
         return <TechnicianMap onNavigate={handleNavigate} />;
+      case "technician-login":
+        return <TechnicianLogin onNavigate={handleNavigate} />;
       case "technician-onboarding":
         return <TechnicianOnboarding onComplete={() => handleNavigate("technician-dashboard")} onNavigate={handleNavigate} />;
       case "quote-detail":

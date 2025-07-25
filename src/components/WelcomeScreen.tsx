@@ -45,7 +45,7 @@ export const WelcomeScreen = ({
           </Card>
 
           {/* Technician Card */}
-          <Card className="p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-white/95 backdrop-blur shadow-card border-0" onClick={() => setSelectedUserType('technician')}>
+          <Card className="p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-white/95 backdrop-blur shadow-card border-0" onClick={() => onNavigate('technician-login')}>
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-gradient-secondary rounded-full flex items-center justify-center">
                 <Users className="h-6 w-6 text-white" />
