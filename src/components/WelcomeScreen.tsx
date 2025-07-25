@@ -116,15 +116,23 @@ export const WelcomeScreen = ({ onNavigate }: WelcomeScreenProps) => {
           )}
 
           {selectedUserType === 'technician' && (
-            <div className="mt-8 animate-scale-in">
+            <div className="space-y-4 mt-8 animate-scale-in">
               <Button 
                 variant="secondary" 
                 size="lg" 
                 className="w-full"
-                onClick={() => onNavigate('technician-dashboard')}
+                onClick={() => onNavigate('technician-onboarding')}
               >
                 <Users className="h-5 w-5 mr-2" />
-                Accéder au Tableau de Bord
+                Premier Accès - Configuration
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="w-full bg-white/90"
+                onClick={() => onNavigate('technician-dashboard')}
+              >
+                Accès Direct au Tableau de Bord
               </Button>
             </div>
           )}

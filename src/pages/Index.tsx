@@ -12,6 +12,7 @@ import { TechnicianPlanning } from "@/components/TechnicianPlanning";
 import { TechnicianProfile } from "@/components/TechnicianProfile";
 import { TechnicianEarnings } from "@/components/TechnicianEarnings";
 import { TechnicianMap } from "@/components/TechnicianMap";
+import { TechnicianOnboarding } from "@/components/TechnicianOnboarding";
 
 const Index = () => {
   const [currentRoute, setCurrentRoute] = useState("welcome");
@@ -48,6 +49,8 @@ const Index = () => {
         return <TechnicianEarnings onNavigate={handleNavigate} />;
       case "technician-map":
         return <TechnicianMap onNavigate={handleNavigate} />;
+      case "technician-onboarding":
+        return <TechnicianOnboarding onComplete={() => handleNavigate("technician-dashboard")} onNavigate={handleNavigate} />;
       case "admin-dashboard":
         // TODO: Implement admin dashboard
         return <div className="min-h-screen bg-background flex items-center justify-center">
