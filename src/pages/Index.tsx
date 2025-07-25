@@ -1,14 +1,39 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { WelcomeScreen } from "@/components/WelcomeScreen";
+import { UrgentIntervention } from "@/components/UrgentIntervention";
+import { OnlineQuote } from "@/components/OnlineQuote";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [currentRoute, setCurrentRoute] = useState("welcome");
+
+  const handleNavigate = (route: string) => {
+    setCurrentRoute(route);
+  };
+
+  const renderCurrentScreen = () => {
+    switch (currentRoute) {
+      case "welcome":
+        return <WelcomeScreen onNavigate={handleNavigate} />;
+      case "urgent-intervention":
+        return <UrgentIntervention onNavigate={handleNavigate} />;
+      case "online-quote":
+        return <OnlineQuote onNavigate={handleNavigate} />;
+      case "technician-dashboard":
+        // TODO: Implement technician dashboard
+        return <div className="min-h-screen bg-background flex items-center justify-center">
+          <p className="text-lg">Tableau de bord technicien - En développement</p>
+        </div>;
+      case "admin-dashboard":
+        // TODO: Implement admin dashboard
+        return <div className="min-h-screen bg-background flex items-center justify-center">
+          <p className="text-lg">Tableau de bord admin - En développement</p>
+        </div>;
+      default:
+        return <WelcomeScreen onNavigate={handleNavigate} />;
+    }
+  };
+
+  return renderCurrentScreen();
 };
 
 export default Index;
