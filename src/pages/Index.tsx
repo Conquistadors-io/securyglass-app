@@ -18,7 +18,7 @@ import { QuoteDetail } from "@/components/QuoteDetail";
 import { AppointmentDetail } from "@/components/AppointmentDetail";
 
 const Index = () => {
-  const [currentRoute, setCurrentRoute] = useState("welcome");
+  const [currentRoute, setCurrentRoute] = useState("technician-dashboard");
 
   const handleNavigate = (route: string) => {
     setCurrentRoute(route);
