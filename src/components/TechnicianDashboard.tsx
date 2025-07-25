@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Calendar, MapPin, Euro, Star, Phone, Clock, Award, Target, Zap, Timer } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Calendar, MapPin, Euro, Star, Phone, Clock, Award, Target, Zap, Timer, Menu, User, FileText, Shield, Car, TrendingUp, CreditCard, AlertTriangle, X, Users } from "lucide-react";
 interface TechnicianDashboardProps {
   onNavigate: (route: string) => void;
 }
@@ -35,6 +36,184 @@ export const TechnicianDashboard = ({
     }
   };
   return <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 p-4 pb-32">{/* Added pb-32 for bottom padding */}
+      {/* Header with Hamburger Menu */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+        
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-10 w-10">
+              <Menu className="h-6 w-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[350px] sm:w-[400px]">
+            <SheetHeader>
+              <SheetTitle className="flex items-center space-x-2">
+                <User className="h-5 w-5" />
+                <span>Profil Technicien</span>
+              </SheetTitle>
+            </SheetHeader>
+            
+            <div className="mt-6 space-y-6">
+              {/* Informations personnelles */}
+              <div className="space-y-3">
+                <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Informations</h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Prénom</span>
+                    <span className="font-medium">DRAME</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Département</span>
+                    <Badge variant="outline">75 - Paris</Badge>
+                  </div>
+                </div>
+              </div>
+
+              {/* Documents */}
+              <div className="space-y-3">
+                <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide flex items-center">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Documents
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Contrat sous-traitance</span>
+                    <Badge className="bg-green-100 text-green-800">Valide</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Attestation vigilance</span>
+                    <Badge className="bg-green-100 text-green-800">Valide</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Assurance</span>
+                    <Badge className="bg-green-100 text-green-800">Valide</Badge>
+                  </div>
+                </div>
+              </div>
+
+              {/* Évaluations et Compétences */}
+              <div className="space-y-3">
+                <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide flex items-center">
+                  <Star className="h-4 w-4 mr-2" />
+                  Évaluations
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Note / Étoiles</span>
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                      <span className="font-medium">4.8/5</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Compétences</span>
+                    <Badge className="bg-blue-100 text-blue-800">Expert</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Diplôme</span>
+                    <Badge variant="outline">CAP Vitrier</Badge>
+                  </div>
+                </div>
+              </div>
+
+              {/* Véhicule et Interventions */}
+              <div className="space-y-3">
+                <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide flex items-center">
+                  <Car className="h-4 w-4 mr-2" />
+                  Logistique
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Véhicule / Capacité</span>
+                    <span className="font-medium">Utilitaire 500kg</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Interventions</span>
+                    <span className="font-medium">142 total</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Chiffre d'affaires */}
+              <div className="space-y-3">
+                <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide flex items-center">
+                  <TrendingUp className="h-4 w-4 mr-2" />
+                  Chiffre d'affaires
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">CA Semaine</span>
+                    <span className="font-medium text-green-600">680€</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">CA Mensuel</span>
+                    <span className="font-medium text-green-600">2,450€</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Paiements */}
+              <div className="space-y-3">
+                <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide flex items-center">
+                  <CreditCard className="h-4 w-4 mr-2" />
+                  Paiements
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Paiement dû</span>
+                    <div className="flex space-x-1">
+                      <Badge variant="outline">Chèque</Badge>
+                      <Badge variant="outline">Espèces</Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Alertes */}
+              <div className="space-y-3">
+                <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide flex items-center">
+                  <AlertTriangle className="h-4 w-4 mr-2" />
+                  Alertes
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Retard</span>
+                    <Badge variant="destructive">2 retards</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Réclamation</span>
+                    <Badge className="bg-orange-100 text-orange-800">1 en cours</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Annulation</span>
+                    <Badge variant="outline">0 ce mois</Badge>
+                  </div>
+                </div>
+              </div>
+
+              {/* Astreintes */}
+              <div className="space-y-3">
+                <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide flex items-center">
+                  <Clock className="h-4 w-4 mr-2" />
+                  Astreintes
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Nuit</span>
+                    <Badge className="bg-blue-100 text-blue-800">Activé</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm">Week-end</span>
+                    <Badge className="bg-blue-100 text-blue-800">Activé</Badge>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+
       {/* Header Profile */}
       <Card className="p-6 mb-6">
         <div className="flex items-center space-x-4">
