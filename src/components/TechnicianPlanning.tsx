@@ -228,7 +228,7 @@ export const TechnicianPlanning = ({ onNavigate }: TechnicianPlanningProps) => {
                       {appointment ? (
                         <Card 
                           className="flex-1 p-3 cursor-pointer hover:shadow-md transition-shadow animate-fade-in"
-                          onClick={() => onNavigate("technician-intervention")}
+                  onClick={() => onNavigate("appointment-detail")}
                         >
                           <div className="flex items-start justify-between mb-2">
                             <div>
@@ -315,7 +315,7 @@ export const TechnicianPlanning = ({ onNavigate }: TechnicianPlanningProps) => {
               <div 
                 key={appointment.id}
                 className="flex items-center justify-between p-3 bg-secondary/10 rounded-lg cursor-pointer hover:bg-secondary/20 transition-colors"
-                onClick={() => onNavigate("technician-intervention")}
+                onClick={() => onNavigate("appointment-detail")}
               >
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
