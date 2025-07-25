@@ -85,7 +85,7 @@ export const TechnicianEarnings = ({ onNavigate }: TechnicianEarningsProps) => {
         </div>
       </div>
 
-      <div className="p-4 space-y-4">
+      <div className="p-4 space-y-4 pb-32">{/* Added pb-32 for bottom padding */}
         {/* Period Selection */}
         <div className="flex space-x-2">
           {[

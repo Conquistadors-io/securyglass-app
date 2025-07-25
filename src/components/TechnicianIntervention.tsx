@@ -81,7 +81,7 @@ export const TechnicianIntervention = ({ onNavigate }: TechnicianInterventionPro
         </div>
       </div>
 
-      <div className="p-4 space-y-4">
+      <div className="p-4 space-y-4 pb-32">{/* Added pb-32 for bottom padding */}
         {/* Client Info */}
         <Card className="p-4">
           <div className="flex items-start space-x-3">

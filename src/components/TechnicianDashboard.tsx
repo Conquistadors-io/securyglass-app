@@ -40,7 +40,7 @@ export const TechnicianDashboard = ({ onNavigate }: TechnicianDashboardProps) =>
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 p-4 pb-32">{/* Added pb-32 for bottom padding */}
       {/* Header Profile */}
       <Card className="p-6 mb-6">
         <div className="flex items-center space-x-4">

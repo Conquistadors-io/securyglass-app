@@ -189,7 +189,7 @@ export const TechnicianMap = ({ onNavigate }: TechnicianMapProps) => {
         </div>
 
         {/* Intervention Details */}
-        <div className="p-4 space-y-4">
+        <div className="p-4 space-y-4 pb-32">{/* Added pb-32 for bottom padding */}
           {/* Selected Intervention */}
           <Card className="p-4 border-primary/20 bg-primary/5">
             <div className="flex items-start justify-between mb-3">

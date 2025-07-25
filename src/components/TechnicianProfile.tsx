@@ -58,7 +58,7 @@ export const TechnicianProfile = ({ onNavigate }: TechnicianProfileProps) => {
         </div>
       </div>
 
-      <div className="p-4 space-y-4">
+      <div className="p-4 space-y-4 pb-32">{/* Added pb-32 for bottom padding */}
         {/* Profile Header */}
         <Card className="p-6">
           <div className="flex items-center space-x-4 mb-4">

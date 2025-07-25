@@ -328,7 +328,7 @@ export const TechnicianOnboarding = ({ onComplete, onNavigate }: TechnicianOnboa
       </div>
 
       {/* Content */}
-      <div className="p-4 space-y-6">
+      <div className="p-4 space-y-6 pb-32">{/* Added pb-32 for bottom padding */}
         <Card className="p-6 animate-fade-in">
           <div className="text-center mb-6">
             {currentStepData.icon}

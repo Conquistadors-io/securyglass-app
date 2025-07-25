@@ -83,7 +83,7 @@ export const TechnicianOrder = ({ onNavigate }: TechnicianOrderProps) => {
         </div>
       </div>
 
-      <div className="p-4 space-y-4">
+      <div className="p-4 space-y-4 pb-32">{/* Added pb-32 for bottom padding */}
         {/* Order Status */}
         <Card className="p-4">
           <div className="flex items-center justify-between mb-3">

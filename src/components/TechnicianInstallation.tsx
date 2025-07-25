@@ -60,7 +60,7 @@ export const TechnicianInstallation = ({ onNavigate }: TechnicianInstallationPro
         </div>
       </div>
 
-      <div className="p-4 space-y-4">
+      <div className="p-4 space-y-4 pb-32">{/* Added pb-32 for bottom padding */}
         {/* Client Info */}
         <Card className="p-4">
           <h3 className="font-medium text-foreground mb-2">Marie Dupont</h3>
