@@ -67,6 +67,7 @@ export const TechnicianDashboard = ({ onNavigate }: TechnicianDashboardProps) =>
         <Card className="p-4 text-center">
           <div className="text-2xl font-bold text-primary">5</div>
           <div className="text-xs text-muted-foreground">Aujourd'hui</div>
+          <div className="text-sm font-medium text-green-600 mt-1">680€</div>
         </Card>
         <Card className="p-4 text-center">
           <div className="text-2xl font-bold text-yellow-600">2</div>
