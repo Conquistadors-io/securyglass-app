@@ -4,7 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { PhotoCapture } from "@/components/ui/photo-capture";
 import { ChevronRight, ChevronLeft, Check, Star, Calendar, MapPin, Euro, Camera, Phone, Clock, Shield } from "lucide-react";
 
 interface TechnicianOnboardingProps {
@@ -20,8 +21,13 @@ export const TechnicianOnboarding = ({ onComplete, onNavigate }: TechnicianOnboa
     email: "",
     zone: "",
     weekendWork: false,
-    emergencyWork: false
+    emergencyWork: false,
+    photo: null as string | null
   });
+
+  const handlePhotoSelect = (file: File, previewUrl: string) => {
+    setProfile({...profile, photo: previewUrl});
+  };
 
   const steps = [
     {
@@ -56,14 +62,20 @@ export const TechnicianOnboarding = ({ onComplete, onNavigate }: TechnicianOnboa
         <div className="space-y-6">
           <div className="text-center">
             <Avatar className="h-20 w-20 mx-auto mb-4">
-              <AvatarFallback className="bg-gradient-primary text-white text-xl">
-                {profile.name.split(' ').map(n => n[0]).join('').toUpperCase() || 'TC'}
-              </AvatarFallback>
+              {profile.photo ? (
+                <AvatarImage src={profile.photo} alt="Photo de profil" />
+              ) : (
+                <AvatarFallback className="bg-gradient-primary text-white text-xl">
+                  {profile.name.split(' ').map(n => n[0]).join('').toUpperCase() || 'TC'}
+                </AvatarFallback>
+              )}
             </Avatar>
-            <Button variant="outline" size="sm">
-              <Camera className="h-4 w-4 mr-2" />
-              Ajouter une photo
-            </Button>
+            <PhotoCapture onPhotoSelect={handlePhotoSelect}>
+              <Button variant="outline" size="sm">
+                <Camera className="h-4 w-4 mr-2" />
+                {profile.photo ? 'Changer la photo' : 'Ajouter une photo'}
+              </Button>
+            </PhotoCapture>
           </div>
 
           <div className="space-y-4">

@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { PhotoCapture } from "@/components/ui/photo-capture";
 import { ArrowLeft, Star, MapPin, Phone, Mail, Settings, Camera, Shield, FileText } from "lucide-react";
 
 interface TechnicianProfileProps {
@@ -15,6 +16,11 @@ interface TechnicianProfileProps {
 export const TechnicianProfile = ({ onNavigate }: TechnicianProfileProps) => {
   const [isAvailable, setIsAvailable] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+
+  const handlePhotoSelect = (file: File, previewUrl: string) => {
+    setProfilePhoto(previewUrl);
+  };
 
   const profile = {
     name: "Thomas Carpentier",
@@ -64,17 +70,22 @@ export const TechnicianProfile = ({ onNavigate }: TechnicianProfileProps) => {
           <div className="flex items-center space-x-4 mb-4">
             <div className="relative">
               <Avatar className="h-20 w-20">
-                <AvatarImage src="/placeholder.svg" />
-                <AvatarFallback className="bg-gradient-primary text-white text-xl">TC</AvatarFallback>
+                {profilePhoto ? (
+                  <AvatarImage src={profilePhoto} alt="Photo de profil" />
+                ) : (
+                  <AvatarFallback className="bg-gradient-primary text-white text-xl">TC</AvatarFallback>
+                )}
               </Avatar>
               {isEditing && (
-                <Button 
-                  size="icon" 
-                  variant="outline" 
-                  className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full"
-                >
-                  <Camera className="h-3 w-3" />
-                </Button>
+                <PhotoCapture onPhotoSelect={handlePhotoSelect}>
+                  <Button 
+                    size="icon" 
+                    variant="outline" 
+                    className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full"
+                  >
+                    <Camera className="h-3 w-3" />
+                  </Button>
+                </PhotoCapture>
               )}
             </div>
             

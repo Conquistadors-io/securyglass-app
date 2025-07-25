@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { PhotoCapture } from "@/components/ui/photo-capture";
 import { ArrowLeft, Camera, PenTool, Euro, CheckCircle, FileText, Download } from "lucide-react";
 
 interface TechnicianInstallationProps {
@@ -12,11 +13,32 @@ interface TechnicianInstallationProps {
 }
 
 export const TechnicianInstallation = ({ onNavigate }: TechnicianInstallationProps) => {
-  const [photos, setPhotos] = useState(0);
+  const [beforePhotos, setBeforePhotos] = useState<string[]>([]);
+  const [afterPhotos, setAfterPhotos] = useState<string[]>([]);
   const [signature, setSigned] = useState(false);
   const [finalPayment, setFinalPayment] = useState<string>("");
   const [notes, setNotes] = useState("");
   const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleBeforePhotoSelect = (file: File, previewUrl: string) => {
+    if (beforePhotos.length < 3) {
+      setBeforePhotos([...beforePhotos, previewUrl]);
+    }
+  };
+
+  const handleAfterPhotoSelect = (file: File, previewUrl: string) => {
+    if (afterPhotos.length < 3) {
+      setAfterPhotos([...afterPhotos, previewUrl]);
+    }
+  };
+
+  const removeBeforePhoto = (index: number) => {
+    setBeforePhotos(beforePhotos.filter((_, i) => i !== index));
+  };
+
+  const removeAfterPhoto = (index: number) => {
+    setAfterPhotos(afterPhotos.filter((_, i) => i !== index));
+  };
 
   const handleComplete = () => {
     setIsCompleted(true);
@@ -75,29 +97,83 @@ export const TechnicianInstallation = ({ onNavigate }: TechnicianInstallationPro
             Photos finales
           </h3>
           
-          <div className="space-y-3">
-            <Button 
-              variant="outline" 
-              className="w-full"
-              onClick={() => setPhotos(photos + 1)}
-            >
-              <Camera className="h-4 w-4 mr-2" />
-              Prendre photo avant ({photos}/3)
-            </Button>
+          <div className="space-y-4">
+            {/* Photos avant */}
+            <div>
+              <h4 className="text-sm font-medium text-foreground mb-2">Photos avant installation</h4>
+              {beforePhotos.length > 0 && (
+                <div className="grid grid-cols-3 gap-2 mb-2">
+                  {beforePhotos.map((photo, index) => (
+                    <div key={index} className="relative">
+                      <img 
+                        src={photo} 
+                        alt={`Avant ${index + 1}`}
+                        className="w-full h-16 object-cover rounded-lg"
+                      />
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 hover:bg-red-600 text-white border-0"
+                        onClick={() => removeBeforePhoto(index)}
+                      >
+                        <span className="text-xs">×</span>
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <PhotoCapture onPhotoSelect={handleBeforePhotoSelect}>
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  disabled={beforePhotos.length >= 3}
+                >
+                  <Camera className="h-4 w-4 mr-2" />
+                  Photo avant ({beforePhotos.length}/3)
+                </Button>
+              </PhotoCapture>
+            </div>
             
-            <Button 
-              variant="outline" 
-              className="w-full"
-              onClick={() => setPhotos(photos + 1)}
-            >
-              <Camera className="h-4 w-4 mr-2" />
-              Prendre photo après ({photos}/3)
-            </Button>
+            {/* Photos après */}
+            <div>
+              <h4 className="text-sm font-medium text-foreground mb-2">Photos après installation</h4>
+              {afterPhotos.length > 0 && (
+                <div className="grid grid-cols-3 gap-2 mb-2">
+                  {afterPhotos.map((photo, index) => (
+                    <div key={index} className="relative">
+                      <img 
+                        src={photo} 
+                        alt={`Après ${index + 1}`}
+                        className="w-full h-16 object-cover rounded-lg"
+                      />
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 hover:bg-red-600 text-white border-0"
+                        onClick={() => removeAfterPhoto(index)}
+                      >
+                        <span className="text-xs">×</span>
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <PhotoCapture onPhotoSelect={handleAfterPhotoSelect}>
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  disabled={afterPhotos.length >= 3}
+                >
+                  <Camera className="h-4 w-4 mr-2" />
+                  Photo après ({afterPhotos.length}/3)
+                </Button>
+              </PhotoCapture>
+            </div>
           </div>
 
-          {photos > 0 && (
+          {(beforePhotos.length > 0 || afterPhotos.length > 0) && (
             <div className="mt-3 p-2 bg-green-50 rounded text-sm text-green-800">
-              {photos} photo(s) ajoutée(s)
+              {beforePhotos.length + afterPhotos.length} photo(s) ajoutée(s)
             </div>
           )}
         </Card>
@@ -210,7 +286,7 @@ export const TechnicianInstallation = ({ onNavigate }: TechnicianInstallationPro
           variant="hero" 
           size="lg" 
           className="w-full"
-          disabled={!photos || !signature || !finalPayment}
+          disabled={beforePhotos.length === 0 || afterPhotos.length === 0 || !signature || !finalPayment}
           onClick={handleComplete}
         >
           <CheckCircle className="h-5 w-5 mr-2" />

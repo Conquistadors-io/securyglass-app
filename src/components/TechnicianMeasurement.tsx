@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { PhotoCapture } from "@/components/ui/photo-capture";
 import { ArrowLeft, Camera, Ruler, Euro, CheckCircle, Receipt } from "lucide-react";
 
 interface TechnicianMeasurementProps {
@@ -18,6 +19,17 @@ export const TechnicianMeasurement = ({ onNavigate }: TechnicianMeasurementProps
   });
   const [paymentMethod, setPaymentMethod] = useState<string>("");
   const [isCompleted, setIsCompleted] = useState(false);
+  const [photos, setPhotos] = useState<string[]>([]);
+
+  const handlePhotoSelect = (file: File, previewUrl: string) => {
+    if (photos.length < 3) {
+      setPhotos([...photos, previewUrl]);
+    }
+  };
+
+  const removePhoto = (index: number) => {
+    setPhotos(photos.filter((_, i) => i !== index));
+  };
 
   const handleComplete = () => {
     setIsCompleted(true);
@@ -66,10 +78,39 @@ export const TechnicianMeasurement = ({ onNavigate }: TechnicianMeasurementProps
         {/* Photo Upload */}
         <Card className="p-4">
           <h3 className="font-medium text-foreground mb-3">Photos du dégât</h3>
-          <Button variant="outline" className="w-full">
-            <Camera className="h-4 w-4 mr-2" />
-            Prendre des photos (0/3)
-          </Button>
+          
+          {photos.length > 0 && (
+            <div className="grid grid-cols-3 gap-2 mb-3">
+              {photos.map((photo, index) => (
+                <div key={index} className="relative">
+                  <img 
+                    src={photo} 
+                    alt={`Photo ${index + 1}`}
+                    className="w-full h-20 object-cover rounded-lg"
+                  />
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 hover:bg-red-600 text-white border-0"
+                    onClick={() => removePhoto(index)}
+                  >
+                    <span className="text-xs">×</span>
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          <PhotoCapture onPhotoSelect={handlePhotoSelect}>
+            <Button 
+              variant="outline" 
+              className="w-full"
+              disabled={photos.length >= 3}
+            >
+              <Camera className="h-4 w-4 mr-2" />
+              Prendre des photos ({photos.length}/3)
+            </Button>
+          </PhotoCapture>
         </Card>
 
         {/* Dimensions */}
@@ -175,7 +216,7 @@ export const TechnicianMeasurement = ({ onNavigate }: TechnicianMeasurementProps
           variant="hero" 
           size="lg" 
           className="w-full"
-          disabled={!dimensions.width || !dimensions.height || !paymentMethod}
+          disabled={!dimensions.width || !dimensions.height || !paymentMethod || photos.length === 0}
           onClick={handleComplete}
         >
           <CheckCircle className="h-5 w-5 mr-2" />
