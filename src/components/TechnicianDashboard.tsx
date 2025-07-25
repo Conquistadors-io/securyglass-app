@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Calendar, MapPin, Euro, Star, Phone, Clock } from "lucide-react";
+import { Calendar, MapPin, Euro, Star, Phone, Clock, Award, Target, Zap, Timer } from "lucide-react";
 
 interface TechnicianDashboardProps {
   onNavigate: (route: string) => void;
@@ -87,6 +87,47 @@ export const TechnicianDashboard = ({ onNavigate }: TechnicianDashboardProps) =>
           <div className="text-sm font-medium text-green-600 mt-1">2,450€</div>
         </Card>
       </div>
+
+      {/* Gamification Badges */}
+      <Card className="p-4 mb-6">
+        <h2 className="text-lg font-semibold text-foreground mb-4">Performances & Badges</h2>
+        
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="flex items-center space-x-2 bg-purple-50 p-3 rounded-lg">
+            <Award className="h-5 w-5 text-purple-600" />
+            <div>
+              <div className="text-sm font-medium text-purple-800">142 Acceptées</div>
+              <div className="text-xs text-purple-600">Expert</div>
+            </div>
+          </div>
+          
+          <div className="flex items-center space-x-2 bg-green-50 p-3 rounded-lg">
+            <Target className="h-5 w-5 text-green-600" />
+            <div>
+              <div className="text-sm font-medium text-green-800">138 Terminées</div>
+              <div className="text-xs text-green-600">Finisseur</div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-3">
+          <div className="flex items-center space-x-2 bg-blue-50 p-3 rounded-lg">
+            <Zap className="h-5 w-5 text-blue-600" />
+            <div>
+              <div className="text-sm font-medium text-blue-800">97% Taux</div>
+              <div className="text-xs text-blue-600">Fiable</div>
+            </div>
+          </div>
+          
+          <div className="flex items-center space-x-2 bg-orange-50 p-3 rounded-lg">
+            <Timer className="h-5 w-5 text-orange-600" />
+            <div>
+              <div className="text-sm font-medium text-orange-800">2.3 jours</div>
+              <div className="text-xs text-orange-600">Délai moyen</div>
+            </div>
+          </div>
+        </div>
+      </Card>
 
       {/* Interventions List */}
       <div className="space-y-3">
