@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Send, Printer, Copy, FileText, Euro, Calendar, User, Phone, Mail, CheckCircle } from "lucide-react";
+import { ArrowLeft, Send, Printer, Copy, FileText, Euro, Calendar, User, Phone, Mail, CheckCircle, Download } from "lucide-react";
 import securyglassLogo from "@/assets/securyglass-logo.png";
 
 interface InvoiceDetailProps {
@@ -232,6 +232,19 @@ export const InvoiceDetail = ({ onNavigate }: InvoiceDetailProps) => {
             {getStatusBadge()}
           </div>
         </Card>
+
+        {/* PDF Download */}
+        <Button 
+          variant="outline" 
+          className="w-full"
+          onClick={() => {
+            // Handle PDF download
+            console.log('Téléchargement PDF de la facture', invoice.id);
+          }}
+        >
+          <Download className="h-4 w-4 mr-2" />
+          Télécharger en PDF
+        </Button>
 
         {/* Additional Options */}
         <Card className="p-4">
