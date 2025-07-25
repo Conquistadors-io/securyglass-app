@@ -110,6 +110,45 @@ export const TechnicianDashboard = ({ onNavigate }: TechnicianDashboardProps) =>
         ))}
       </div>
 
+      {/* Quick Actions */}
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        <Button 
+          variant="outline" 
+          className="h-16 flex-col space-y-1"
+          onClick={() => onNavigate("technician-planning")}
+        >
+          <Calendar className="h-5 w-5" />
+          <span className="text-xs">Planning</span>
+        </Button>
+        
+        <Button 
+          variant="outline" 
+          className="h-16 flex-col space-y-1"
+          onClick={() => onNavigate("technician-profile")}
+        >
+          <Star className="h-5 w-5" />
+          <span className="text-xs">Profil</span>
+        </Button>
+        
+        <Button 
+          variant="outline" 
+          className="h-16 flex-col space-y-1"
+          onClick={() => onNavigate("technician-earnings")}
+        >
+          <Euro className="h-5 w-5" />
+          <span className="text-xs">Gains</span>
+        </Button>
+        
+        <Button 
+          variant="outline" 
+          className="h-16 flex-col space-y-1"
+          onClick={() => onNavigate("technician-intervention")}
+        >
+          <Phone className="h-5 w-5" />
+          <span className="text-xs">Urgence</span>
+        </Button>
+      </div>
+
       {/* Bottom Actions */}
       <div className="fixed bottom-4 left-4 right-4 space-y-2">
         <Button 

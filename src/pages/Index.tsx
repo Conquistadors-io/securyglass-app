@@ -8,6 +8,9 @@ import { TechnicianAppointment } from "@/components/TechnicianAppointment";
 import { TechnicianMeasurement } from "@/components/TechnicianMeasurement";
 import { TechnicianOrder } from "@/components/TechnicianOrder";
 import { TechnicianInstallation } from "@/components/TechnicianInstallation";
+import { TechnicianPlanning } from "@/components/TechnicianPlanning";
+import { TechnicianProfile } from "@/components/TechnicianProfile";
+import { TechnicianEarnings } from "@/components/TechnicianEarnings";
 
 const Index = () => {
   const [currentRoute, setCurrentRoute] = useState("welcome");
@@ -36,6 +39,12 @@ const Index = () => {
         return <TechnicianOrder onNavigate={handleNavigate} />;
       case "technician-installation":
         return <TechnicianInstallation onNavigate={handleNavigate} />;
+      case "technician-planning":
+        return <TechnicianPlanning onNavigate={handleNavigate} />;
+      case "technician-profile":
+        return <TechnicianProfile onNavigate={handleNavigate} />;
+      case "technician-earnings":
+        return <TechnicianEarnings onNavigate={handleNavigate} />;
       case "admin-dashboard":
         // TODO: Implement admin dashboard
         return <div className="min-h-screen bg-background flex items-center justify-center">
