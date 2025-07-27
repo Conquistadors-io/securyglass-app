@@ -14,7 +14,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
   const [formData, setFormData] = useState({
     object: data.object || "",
     property: data.property || "",
-    category: data.category || ""
+    motif: data.motif || ""
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -22,7 +22,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
     onComplete(formData);
   };
 
-  const isValid = formData.object && formData.property && formData.category;
+  const isValid = formData.object && formData.property && formData.motif;
 
   return (
     <Card className="shadow-card border-0">
@@ -75,20 +75,19 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
           </div>
 
           <div>
-            <Label htmlFor="category">Catégorie *</Label>
+            <Label htmlFor="motif">Motif de l'intervention *</Label>
             <Select 
-              value={formData.category}
-              onValueChange={(value) => setFormData(prev => ({...prev, category: value}))}
+              value={formData.motif}
+              onValueChange={(value) => setFormData(prev => ({...prev, motif: value}))}
             >
               <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Précisez la catégorie" />
+                <SelectValue placeholder="Cause du problème" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="fenetre">Fenêtre</SelectItem>
-                <SelectItem value="porte-vitree">Porte vitrée</SelectItem>
-                <SelectItem value="vitrine">Vitrine</SelectItem>
-                <SelectItem value="baie-vitree">Baie vitrée</SelectItem>
-                <SelectItem value="cloison">Cloison vitrée</SelectItem>
+                <SelectItem value="accident">Accident</SelectItem>
+                <SelectItem value="choc-thermique">Choc thermique</SelectItem>
+                <SelectItem value="vandalisme">Vandalisme</SelectItem>
+                <SelectItem value="usure">Usure normale</SelectItem>
                 <SelectItem value="autre">Autre</SelectItem>
               </SelectContent>
             </Select>

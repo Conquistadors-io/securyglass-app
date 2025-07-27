@@ -14,7 +14,7 @@ interface QuoteStep3Props {
 
 export const QuoteStep3 = ({ data, onComplete }: QuoteStep3Props) => {
   const [formData, setFormData] = useState({
-    motif: data.motif || "",
+    category: data.category || "",
     vitrage: data.vitrage || "",
     largeur: data.largeur || "",
     hauteur: data.hauteur || "",
@@ -40,7 +40,7 @@ export const QuoteStep3 = ({ data, onComplete }: QuoteStep3Props) => {
     }
   };
 
-  const isValid = formData.motif && formData.vitrage && formData.largeur && formData.hauteur;
+  const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur;
 
   return (
     <Card className="shadow-card border-0">
@@ -56,19 +56,20 @@ export const QuoteStep3 = ({ data, onComplete }: QuoteStep3Props) => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label htmlFor="motif">Motif de l'intervention *</Label>
+            <Label htmlFor="category">Catégorie *</Label>
             <Select 
-              value={formData.motif}
-              onValueChange={(value) => setFormData(prev => ({...prev, motif: value}))}
+              value={formData.category}
+              onValueChange={(value) => setFormData(prev => ({...prev, category: value}))}
             >
               <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Cause du problème" />
+                <SelectValue placeholder="Précisez la catégorie" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="accident">Accident</SelectItem>
-                <SelectItem value="choc-thermique">Choc thermique</SelectItem>
-                <SelectItem value="vandalisme">Vandalisme</SelectItem>
-                <SelectItem value="usure">Usure normale</SelectItem>
+                <SelectItem value="fenetre">Fenêtre</SelectItem>
+                <SelectItem value="porte-vitree">Porte vitrée</SelectItem>
+                <SelectItem value="vitrine">Vitrine</SelectItem>
+                <SelectItem value="baie-vitree">Baie vitrée</SelectItem>
+                <SelectItem value="cloison">Cloison vitrée</SelectItem>
                 <SelectItem value="autre">Autre</SelectItem>
               </SelectContent>
             </Select>
