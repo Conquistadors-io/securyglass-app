@@ -32,7 +32,7 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
       <div className="p-6">
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-foreground mb-2">
-            Informations personnelles
+            Message
           </h2>
           <p className="text-muted-foreground">
             Nous avons besoin de vos coordonnées pour établir votre devis
