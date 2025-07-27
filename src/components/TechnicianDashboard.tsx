@@ -404,9 +404,9 @@ export const TechnicianDashboard = ({
         <div className="flex items-center space-x-4">
           <div className="relative">
             <Avatar className="h-16 w-16">
-              <AvatarImage src="/placeholder.svg" />
-              <AvatarFallback className="bg-gradient-primary text-white text-lg">TC</AvatarFallback>
-            </Avatar>
+               <AvatarImage src="/src/assets/thomas-photo.jpg" />
+               <AvatarFallback className="bg-gradient-primary text-white text-lg">TC</AvatarFallback>
+             </Avatar>
             <div className="absolute -top-1 -right-1 h-5 w-5 bg-green-500 border-2 border-background rounded-full flex items-center justify-center">
               <div className="h-2 w-2 bg-white rounded-full"></div>
             </div>

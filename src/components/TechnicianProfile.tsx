@@ -73,8 +73,9 @@ export const TechnicianProfile = ({ onNavigate }: TechnicianProfileProps) => {
                 {profilePhoto ? (
                   <AvatarImage src={profilePhoto} alt="Photo de profil" />
                 ) : (
-                  <AvatarFallback className="bg-gradient-primary text-white text-xl">TC</AvatarFallback>
+                  <AvatarImage src="/src/assets/thomas-photo.jpg" alt="Thomas Carpentier" />
                 )}
+                <AvatarFallback className="bg-gradient-primary text-white text-xl">TC</AvatarFallback>
               </Avatar>
               {isEditing && (
                 <PhotoCapture onPhotoSelect={handlePhotoSelect}>
