@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, Phone, Mail, MapPin } from "lucide-react";
+import { User, Phone, Mail, MapPin, Shield } from "lucide-react";
 
 interface QuoteStep1Props {
   data: any;
@@ -17,7 +17,8 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
     nom: data.nom || "",
     telephone: data.telephone || "",
     email: data.email || "",
-    adresse: data.adresse || ""
+    adresse: data.adresse || "",
+    assurance: data.assurance || ""
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -114,6 +115,20 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
                 className="pl-10"
                 value={formData.adresse}
                 onChange={(e) => setFormData(prev => ({...prev, adresse: e.target.value}))}
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="assurance">Assurance (facultatif)</Label>
+            <div className="relative mt-1">
+              <Shield className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="assurance"
+                placeholder="Nom de votre assurance"
+                className="pl-10"
+                value={formData.assurance}
+                onChange={(e) => setFormData(prev => ({...prev, assurance: e.target.value}))}
               />
             </div>
           </div>
