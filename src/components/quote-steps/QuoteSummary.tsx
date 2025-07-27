@@ -117,7 +117,7 @@ export const QuoteSummary = ({
 
         <Button variant="secondary" size="lg" className="w-full" onClick={() => {/* Handle appointment booking */}}>
           <Calendar className="h-5 w-5 mr-2" />
-          Prendre rendez-vous avec un technicien
+          Prendre RDV
         </Button>
       </div>
 
