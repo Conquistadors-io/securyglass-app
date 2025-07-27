@@ -93,7 +93,18 @@ export const QuoteStep3 = ({
             </Select>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <Label htmlFor="hauteur">Hauteur (cm) *</Label>
+              <div className="relative mt-1">
+                <Ruler className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input id="hauteur" type="number" placeholder="150" className="pl-10" value={formData.hauteur} onChange={e => setFormData(prev => ({
+                ...prev,
+                hauteur: e.target.value
+              }))} required />
+              </div>
+            </div>
+
             <div>
               <Label htmlFor="largeur">Largeur (cm) *</Label>
               <div className="relative mt-1">
@@ -106,23 +117,12 @@ export const QuoteStep3 = ({
             </div>
 
             <div>
-              <Label htmlFor="hauteur">Hauteur (cm) *</Label>
-              <div className="relative mt-1">
-                <Ruler className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input id="hauteur" type="number" placeholder="150" className="pl-10" value={formData.hauteur} onChange={e => setFormData(prev => ({
-                ...prev,
-                hauteur: e.target.value
-              }))} required />
-              </div>
+              <Label htmlFor="quantite">Quantité</Label>
+              <Input id="quantite" type="number" min="1" value={formData.quantite} onChange={e => setFormData(prev => ({
+              ...prev,
+              quantite: e.target.value
+            }))} className="mt-1" />
             </div>
-          </div>
-
-          <div>
-            <Label htmlFor="quantite">Quantité</Label>
-            <Input id="quantite" type="number" min="1" value={formData.quantite} onChange={e => setFormData(prev => ({
-            ...prev,
-            quantite: e.target.value
-          }))} className="mt-1" />
           </div>
 
           <div>
