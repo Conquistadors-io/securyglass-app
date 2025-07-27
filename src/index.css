@@ -9,13 +9,13 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* HEETCH-INSPIRED Design System - Purple/Pink/Violet Theme */
-    --background: 245 35% 15%;
+    --background: 235 45% 22%;
     --foreground: 0 0% 100%;
 
-    --card: 245 30% 18%;
+    --card: 235 40% 25%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 245 30% 18%;
+    --popover: 235 40% 25%;
     --popover-foreground: 0 0% 100%;
 
     /* Primary: Heetch Purple */
