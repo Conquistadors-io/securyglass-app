@@ -34,7 +34,7 @@ export const QuoteSummary = ({
           <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-foreground mb-2">Devis envoyé !</h2>
           <p className="text-muted-foreground">
-            Référence: {quoteNumber}
+            à : yves@securyglass.fr
           </p>
         </div>
       </Card>
