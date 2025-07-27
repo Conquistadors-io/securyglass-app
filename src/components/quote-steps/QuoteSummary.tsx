@@ -110,7 +110,7 @@ export const QuoteSummary = ({
           </Button>
           
           <Button variant="outline" onClick={() => {/* Handle insurance */}}>
-            <FileText className="h-4 w-4 mr-2" />
+            <CreditCard className="h-4 w-4 mr-2" />
             Payer
           </Button>
         </div>
