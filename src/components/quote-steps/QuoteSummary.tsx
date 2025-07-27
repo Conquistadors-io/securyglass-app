@@ -124,7 +124,9 @@ export const QuoteSummary = ({
       {/* Info Message */}
       <Card className="p-4 bg-accent border-0">
         <p className="text-sm text-center text-foreground">
-          <strong>Nous vous appellerons dans les 24h</strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
+          <strong>Vérifiez votre e-mail  📩
+
+        </strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
         </p>
       </Card>
 
