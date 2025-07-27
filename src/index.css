@@ -8,108 +8,112 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* SECURYGLASS Design System - Turquoise/Blue/White Theme */
-    --background: 0 0% 100%;
-    --foreground: 210 15% 20%;
+    /* HEETCH-INSPIRED Design System - Purple/Pink/Violet Theme */
+    --background: 245 25% 8%;
+    --foreground: 0 0% 100%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 210 15% 20%;
+    --card: 245 20% 12%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 210 15% 20%;
+    --popover: 245 20% 12%;
+    --popover-foreground: 0 0% 100%;
 
-    /* Primary: Turquoise */
-    --primary: 174 72% 42%;
+    /* Primary: Heetch Purple */
+    --primary: 267 85% 65%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 174 65% 55%;
-    --primary-dark: 174 80% 35%;
+    --primary-light: 267 80% 75%;
+    --primary-dark: 267 90% 55%;
 
-    /* Secondary: Deep Blue */
-    --secondary: 215 84% 47%;
+    /* Secondary: Hot Pink */
+    --secondary: 315 85% 65%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-light: 215 75% 60%;
+    --secondary-light: 315 80% 75%;
 
-    /* Accent: Light Blue */
-    --accent: 195 100% 96%;
-    --accent-foreground: 210 15% 20%;
+    /* Accent: Electric Blue */
+    --accent: 215 85% 65%;
+    --accent-foreground: 0 0% 100%;
 
-    /* Muted: Soft grays */
-    --muted: 210 20% 95%;
-    --muted-foreground: 210 10% 50%;
+    /* Muted: Dark grays */
+    --muted: 245 15% 20%;
+    --muted-foreground: 245 10% 70%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 215 20% 90%;
-    --input: 215 20% 90%;
-    --ring: 174 72% 42%;
+    --border: 245 20% 25%;
+    --input: 245 20% 18%;
+    --ring: 267 85% 65%;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-light)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
-    --gradient-card: linear-gradient(180deg, hsl(var(--background)), hsl(var(--accent)));
+    /* Success: Electric Green */
+    --success: 145 85% 55%;
+    --success-foreground: 0 0% 100%;
 
-    /* Shadows */
-    --shadow-card: 0 4px 16px -2px hsl(var(--primary) / 0.1);
-    --shadow-button: 0 2px 12px -2px hsl(var(--primary) / 0.2);
-    --shadow-emergency: 0 8px 32px -4px hsl(var(--destructive) / 0.15);
+    /* Warning: Electric Orange */
+    --warning: 35 85% 65%;
+    --warning-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    /* Gradients - Heetch Style */
+    --gradient-primary: linear-gradient(135deg, hsl(267 85% 65%), hsl(315 85% 65%));
+    --gradient-secondary: linear-gradient(135deg, hsl(315 85% 65%), hsl(35 85% 65%));
+    --gradient-hero: linear-gradient(135deg, hsl(267 85% 65%), hsl(315 85% 65%), hsl(215 85% 65%));
+    --gradient-card: linear-gradient(135deg, hsl(245 20% 12%), hsl(245 25% 15%));
+    --gradient-glow: linear-gradient(135deg, hsl(267 85% 65% / 0.3), hsl(315 85% 65% / 0.3));
 
-    --sidebar-background: 0 0% 98%;
+    /* Shadows - Colorful glows */
+    --shadow-card: 0 8px 32px -8px hsl(267 85% 65% / 0.3);
+    --shadow-button: 0 4px 16px -4px hsl(267 85% 65% / 0.4);
+    --shadow-emergency: 0 8px 32px -4px hsl(0 84% 60% / 0.3);
+    --shadow-glow: 0 0 40px hsl(267 85% 65% / 0.4);
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --radius: 1rem;
 
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 245 25% 10%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 267 85% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 245 20% 15%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 245 20% 20%;
+    --sidebar-ring: 267 85% 65%;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 245 25% 8%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 245 25% 8%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 245 25% 8%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 267 85% 65%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 315 85% 65%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 245 5% 95%;
+    --muted-foreground: 245 10% 40%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 245 5% 95%;
+    --accent-foreground: 245 25% 8%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 245 10% 90%;
+    --input: 245 10% 95%;
+    --ring: 267 85% 65%;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 245 25% 8%;
+    --sidebar-primary: 267 85% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 245 5% 95%;
+    --sidebar-accent-foreground: 245 25% 8%;
+    --sidebar-border: 245 10% 90%;
+    --sidebar-ring: 267 85% 65%;
   }
 }
 
