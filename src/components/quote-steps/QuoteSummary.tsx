@@ -39,7 +39,6 @@ export const QuoteSummary = ({
         </div>
       </Card>
 
-
       {/* Quote Details */}
       <Card className="shadow-card border-0">
         <div className="p-6">
