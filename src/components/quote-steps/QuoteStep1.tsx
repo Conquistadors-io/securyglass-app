@@ -105,7 +105,7 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
           </div>
 
           <div>
-            <Label htmlFor="adresse">Adresse</Label>
+            <Label htmlFor="adresse">Adresse (facultatif)</Label>
             <div className="relative mt-1">
               <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
