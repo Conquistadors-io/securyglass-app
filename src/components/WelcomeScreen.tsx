@@ -30,15 +30,15 @@ export const WelcomeScreen = ({
           <h2 className="text-xl font-semibold text-white text-center mb-8">Choisissez votre profil</h2>
 
           {/* Client Card */}
-          <Card className="p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-white/95 backdrop-blur shadow-card border-0" onClick={() => setSelectedUserType('client')}>
+          <Card className="p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-white/95 backdrop-blur shadow-card border-0" onClick={() => onNavigate('online-quote')}>
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
-                <AlertCircle className="h-6 w-6 text-white" />
+                <Quote className="h-6 w-6 text-white" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-blue-700">Clients</h3>
-                <p className="text-sm text-muted-foreground">
-                  Intervention urgente ou devis en ligne
+                <h3 className="font-semibold text-gray-900">CLIENTS</h3>
+                <p className="text-sm text-gray-600">
+                  Commencer un devis automatique
                 </p>
               </div>
             </div>
@@ -51,8 +51,8 @@ export const WelcomeScreen = ({
                 <Users className="h-6 w-6 text-white" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-blue-700">Techniciens</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="font-semibold text-gray-900">TECHNICIENS</h3>
+                <p className="text-sm text-gray-600">
                   Gérer mes interventions
                 </p>
               </div>
@@ -66,8 +66,8 @@ export const WelcomeScreen = ({
                 <Settings className="h-6 w-6 text-muted-foreground" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-blue-700">Administrateur</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="font-semibold text-gray-900">ADMIN</h3>
+                <p className="text-sm text-gray-600">
                   Tableau de bord complet
                 </p>
               </div>
