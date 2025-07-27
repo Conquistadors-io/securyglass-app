@@ -36,7 +36,7 @@ export const WelcomeScreen = ({
                 <AlertCircle className="h-6 w-6 text-white" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-foreground">Client</h3>
+                <h3 className="font-semibold text-blue-700">Client</h3>
                 <p className="text-sm text-muted-foreground">
                   Intervention urgente ou devis en ligne
                 </p>
