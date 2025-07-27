@@ -106,7 +106,7 @@ export const QuoteSummary = ({
         <div className="grid grid-cols-2 gap-3">
           <Button variant="outline" onClick={() => {/* Handle payment */}}>
             <CreditCard className="h-4 w-4 mr-2" />
-            Payer un acompte
+            Valider
           </Button>
           
           <Button variant="outline" onClick={() => {/* Handle insurance */}}>
