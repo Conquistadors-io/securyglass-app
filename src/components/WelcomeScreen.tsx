@@ -36,7 +36,7 @@ export const WelcomeScreen = ({
                 <AlertCircle className="h-6 w-6 text-white" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-blue-700">Client</h3>
+                <h3 className="font-semibold text-blue-700">Clients</h3>
                 <p className="text-sm text-muted-foreground">
                   Intervention urgente ou devis en ligne
                 </p>
@@ -51,7 +51,7 @@ export const WelcomeScreen = ({
                 <Users className="h-6 w-6 text-white" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-blue-700">Technicien</h3>
+                <h3 className="font-semibold text-blue-700">Techniciens</h3>
                 <p className="text-sm text-muted-foreground">
                   Gérer mes interventions
                 </p>
@@ -66,7 +66,7 @@ export const WelcomeScreen = ({
                 <Settings className="h-6 w-6 text-muted-foreground" />
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-foreground">Administrateur</h3>
+                <h3 className="font-semibold text-blue-700">Administrateur</h3>
                 <p className="text-sm text-muted-foreground">
                   Tableau de bord complet
                 </p>
