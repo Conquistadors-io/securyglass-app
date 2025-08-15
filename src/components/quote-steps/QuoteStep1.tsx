@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -20,7 +21,8 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
     adresse: data.adresse || "",
     codePostal: data.codePostal || "",
     ville: data.ville || "",
-    assurance: data.assurance || ""
+    assurance: data.assurance || "",
+    property: data.property || ""
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -105,6 +107,22 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
                 required
               />
             </div>
+          </div>
+
+          <div>
+            <Label htmlFor="property">Type de propriété</Label>
+            <Select 
+              value={formData.property}
+              onValueChange={(value) => setFormData(prev => ({...prev, property: value}))}
+            >
+              <SelectTrigger className="mt-1">
+                <SelectValue placeholder="Particuliers / Entreprise" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="particuliers">Particuliers</SelectItem>
+                <SelectItem value="entreprise">Entreprise</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div>
