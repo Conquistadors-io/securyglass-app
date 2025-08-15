@@ -56,7 +56,8 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
               <SelectContent>
                 <SelectItem value="monsieur">Monsieur</SelectItem>
                 <SelectItem value="madame">Madame</SelectItem>
-                <SelectItem value="mademoiselle">Mademoiselle</SelectItem>
+                <SelectItem value="societe">Société ( ou Association )</SelectItem>
+                <SelectItem value="entreprise-btp">Entreprise BTP</SelectItem>
               </SelectContent>
             </Select>
           </div>
