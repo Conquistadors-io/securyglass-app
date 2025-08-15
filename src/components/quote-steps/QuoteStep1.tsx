@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, Phone, Mail, MapPin, Hash, Shield } from "lucide-react";
+import { User, Phone, Mail, MapPin, Hash, Building, Shield } from "lucide-react";
 
 interface QuoteStep1Props {
   data: any;
@@ -19,6 +19,7 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
     email: data.email || "",
     adresse: data.adresse || "",
     codePostal: data.codePostal || "",
+    ville: data.ville || "",
     assurance: data.assurance || ""
   });
 
@@ -130,6 +131,20 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
                 className="pl-10"
                 value={formData.codePostal}
                 onChange={(e) => setFormData(prev => ({...prev, codePostal: e.target.value}))}
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="ville">Ville (facultatif)</Label>
+            <div className="relative mt-1">
+              <Building className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="ville"
+                placeholder="Paris"
+                className="pl-10"
+                value={formData.ville}
+                onChange={(e) => setFormData(prev => ({...prev, ville: e.target.value}))}
               />
             </div>
           </div>
