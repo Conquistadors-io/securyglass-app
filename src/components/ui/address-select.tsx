@@ -77,12 +77,16 @@ export function AddressSelect({
     const normalized = query.trim().toLowerCase()
     const stripLeadingNumber = (s: string) => s.replace(/^\s*\d+\s*(bis|ter|quater)?\s*/i, "")
     const afterNumber = stripLeadingNumber(normalized)
-    const wantsBoulevard = /^(bd|bld|boulevard|boul\.?|blvd)\b/i.test(afterNumber)
+    const tokens = afterNumber.trim()
+    const boulevardPrefixes = ["bd", "bld", "b", "bou", "boul", "boulev", "boulevard", "blvd", "bvd", "boul."]
+    const wantsBoulevard = boulevardPrefixes.some((p) => tokens.startsWith(p))
+
+    const isBoulevardText = (text: string) => /\bboulevard\b/i.test(text) || /\bbd\b/i.test(text) || /\bblvd\b/i.test(text) || /\bboul\.?\b/i.test(text)
 
     if (query.length < 3) {
       const base = commonAddresses.slice(0, 10)
       const baseFiltered = wantsBoulevard
-        ? base.filter((s) => s.label.toLowerCase().includes("boulevard"))
+        ? base.filter((s) => isBoulevardText(s.label))
         : base
       setSuggestions(baseFiltered)
       return
@@ -98,6 +102,7 @@ export function AddressSelect({
       url.searchParams.set("q", searchQuery)
       url.searchParams.set("limit", "10")
       url.searchParams.set("type", type)
+      url.searchParams.set("autocomplete", "1")
 
       const response = await fetch(url.toString())
       
@@ -105,7 +110,6 @@ export function AddressSelect({
         const data = await response.json()
         const features: any[] = data.features || []
 
-        // Filtrer/prioriser par ville si disponible
         const lcCity = city?.toLowerCase()
         const matchesCity = (p: any) =>
           lcCity
@@ -115,16 +119,14 @@ export function AddressSelect({
 
         let filtered = features
 
-        // Restreindre aux boulevards si demandé
         if (wantsBoulevard) {
           const isBoulevard = (p: any) => {
             const hay = `${p?.street ?? ""} ${p?.name ?? ""} ${p?.label ?? ""}`.toLowerCase()
-            return /\bboulevard\b/.test(hay) || /\bbd\b/.test(hay) || /\bblvd\b/.test(hay)
+            return isBoulevardText(hay)
           }
           filtered = filtered.filter((f) => isBoulevard(f.properties))
         }
 
-        // Appliquer filtre ville et trier pour prioriser la ville
         const inCity = filtered.filter((f) => matchesCity(f.properties))
         filtered = inCity.length ? inCity : filtered
         filtered = filtered.sort((a, b) => Number(matchesCity(b.properties)) - Number(matchesCity(a.properties)))
