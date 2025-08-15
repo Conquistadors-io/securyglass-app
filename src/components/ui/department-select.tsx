@@ -150,7 +150,6 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "75 Paris
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" align="start">
         <Command>
-          <CommandInput placeholder="Rechercher un département..." />
           <CommandList>
             <CommandEmpty>Aucun département trouvé.</CommandEmpty>
             <CommandGroup>
@@ -174,6 +173,7 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "75 Paris
               ))}
             </CommandGroup>
           </CommandList>
+          <CommandInput placeholder="Rechercher un département..." />
         </Command>
       </PopoverContent>
     </Popover>
