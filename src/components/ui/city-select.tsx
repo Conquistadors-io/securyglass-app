@@ -108,7 +108,7 @@ const CITIES_BY_DEPARTMENT: Record<string, string[]> = {
   "89": ["Auxerre", "Sens", "Joigny", "Avallon", "Migennes", "Saint-Florentin", "Tonnerre", "Villeneuve-sur-Yonne", "Pont-sur-Yonne", "Cheroy"],
   "90": ["Belfort", "Delle", "Bavilliers", "Valdoie", "Beaucourt", "Danjoutin", "Offemont", "Essert", "Andelnans", "Bourogne"],
   "91": ["Évry-Courcouronnes", "Corbeil-Essonnes", "Massy", "Savigny-sur-Orge", "Sainte-Geneviève-des-Bois", "Palaiseau", "Athis-Mons", "Viry-Châtillon", "Yerres", "Brunoy"],
-  "92": ["Boulogne-Billancourt", "Nanterre", "Courbevoie", "Colombes", "Asnières-sur-Seine", "Rueil-Malmaison", "Levallois-Perret", "Issy-les-Moulineaux", "Antony", "Neuilly-sur-Seine"],
+  "92": ["Boulogne-Billancourt", "Nanterre", "Courbevoie", "Colombes", "Asnières-sur-Seine", "Rueil-Malmaison", "Levallois-Perret", "Issy-les-Moulineaux", "Antony", "Neuilly-sur-Seine", "Puteaux", "Suresnes", "Clichy", "Montrouge", "Clamart", "Meudon", "Châtillon", "Vanves", "Malakoff", "Fontenay-aux-Roses"],
   "93": ["Saint-Denis", "Montreuil", "Aubervilliers", "Aulnay-sous-Bois", "Drancy", "Noisy-le-Grand", "Pantin", "Le Blanc-Mesnil", "Épinay-sur-Seine", "Bobigny"],
   "94": ["Créteil", "Vitry-sur-Seine", "Saint-Maur-des-Fossés", "Champigny-sur-Marne", "Ivry-sur-Seine", "Maisons-Alfort", "Vincennes", "Fontenay-sous-Bois", "Alfortville", "Nogent-sur-Marne"],
   "95": ["Argenteuil", "Cergy", "Garges-lès-Gonesse", "Franconville", "Goussainville", "Pontoise", "Bezons", "Ermont", "Villiers-le-Bel", "Gonesse"]
