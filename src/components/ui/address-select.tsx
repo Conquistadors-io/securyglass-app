@@ -83,7 +83,7 @@ export function AddressSelect({
     try {
       const searchQuery = city ? `${query} ${city}` : query
       const response = await fetch(
-        `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(searchQuery)}&limit=10${departmentCode ? `&postcode=${departmentCode}*` : ''}`
+        `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(searchQuery)}&limit=10`
       )
       
       if (response.ok) {
