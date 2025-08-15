@@ -131,10 +131,16 @@ export function AddressSelect({
         filtered = inCity.length ? inCity : filtered
         filtered = filtered.sort((a, b) => Number(matchesCity(b.properties)) - Number(matchesCity(a.properties)))
 
-        const addressSuggestions = filtered.map((feature: any) => ({
-          label: feature.properties.label,
-          value: feature.properties.label,
-        }))
+        const addressSuggestions = filtered.map((feature: any) => {
+          // Extraire seulement le numéro et la rue (sans code postal et ville)
+          const fullAddress = feature.properties.label
+          const streetAddress = fullAddress.split(',')[0].trim()
+          
+          return {
+            label: streetAddress,
+            value: streetAddress,
+          }
+        })
         setSuggestions(addressSuggestions)
       } else {
         setSuggestions(commonAddresses.slice(0, 10))
