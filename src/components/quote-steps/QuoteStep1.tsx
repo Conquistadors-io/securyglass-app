@@ -100,7 +100,8 @@ export const QuoteStep1 = ({
                 value={formData.codePostal} 
                 onValueChange={(value) => setFormData(prev => ({
                   ...prev,
-                  codePostal: value
+                  codePostal: value,
+                  ville: "" // Réinitialiser la ville quand on change de département
                 }))}
                 placeholder="75 Paris"
               />
