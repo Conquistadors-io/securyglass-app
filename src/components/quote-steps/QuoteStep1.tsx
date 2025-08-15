@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -6,13 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { User, Phone, Mail, MapPin, Hash, Shield } from "lucide-react";
-
 interface QuoteStep1Props {
   data: any;
   onComplete: (data: any) => void;
 }
-
-export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
+export const QuoteStep1 = ({
+  data,
+  onComplete
+}: QuoteStep1Props) => {
   const [formData, setFormData] = useState({
     civilite: data.civilite || "",
     nom: data.nom || "",
@@ -23,16 +23,12 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
     ville: data.ville || "",
     assurance: data.assurance || ""
   });
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onComplete(formData);
   };
-
   const isValid = formData.nom && formData.telephone && formData.email;
-
-  return (
-    <Card className="shadow-card border-0">
+  return <Card className="shadow-card border-0">
       <div className="p-6">
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-foreground mb-2">
@@ -46,10 +42,10 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <Label htmlFor="civilite">Civilité</Label>
-            <Select 
-              value={formData.civilite}
-              onValueChange={(value) => setFormData(prev => ({...prev, civilite: value}))}
-            >
+            <Select value={formData.civilite} onValueChange={value => setFormData(prev => ({
+            ...prev,
+            civilite: value
+          }))}>
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Sélectionnez" />
               </SelectTrigger>
@@ -66,14 +62,10 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
             <Label htmlFor="nom">Nom complet *</Label>
             <div className="relative mt-1">
               <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="nom"
-                placeholder="Nom et prénom"
-                className="pl-10"
-                value={formData.nom}
-                onChange={(e) => setFormData(prev => ({...prev, nom: e.target.value}))}
-                required
-              />
+              <Input id="nom" placeholder="Nom et prénom" className="pl-10" value={formData.nom} onChange={e => setFormData(prev => ({
+              ...prev,
+              nom: e.target.value
+            }))} required />
             </div>
           </div>
 
@@ -81,15 +73,10 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
             <Label htmlFor="telephone">Téléphone *</Label>
             <div className="relative mt-1">
               <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="telephone"
-                type="tel"
-                placeholder="06 12 34 56 78"
-                className="pl-10"
-                value={formData.telephone}
-                onChange={(e) => setFormData(prev => ({...prev, telephone: e.target.value}))}
-                required
-              />
+              <Input id="telephone" type="tel" placeholder="06 12 34 56 78" className="pl-10" value={formData.telephone} onChange={e => setFormData(prev => ({
+              ...prev,
+              telephone: e.target.value
+            }))} required />
             </div>
           </div>
 
@@ -97,43 +84,32 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
             <Label htmlFor="email">Email *</Label>
             <div className="relative mt-1">
               <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="email"
-                type="email"
-                placeholder="votre@email.com"
-                className="pl-10"
-                value={formData.email}
-                onChange={(e) => setFormData(prev => ({...prev, email: e.target.value}))}
-                required
-              />
+              <Input id="email" type="email" placeholder="votre@email.com" className="pl-10" value={formData.email} onChange={e => setFormData(prev => ({
+              ...prev,
+              email: e.target.value
+            }))} required />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="codePostal">Code Postal (facultatif)</Label>
+            <Label htmlFor="codePostal"></Label>
             <div className="relative mt-1">
               <Hash className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="codePostal"
-                placeholder="75000"
-                className="pl-10"
-                value={formData.codePostal}
-                onChange={(e) => setFormData(prev => ({...prev, codePostal: e.target.value}))}
-              />
+              <Input id="codePostal" placeholder="75000" className="pl-10" value={formData.codePostal} onChange={e => setFormData(prev => ({
+              ...prev,
+              codePostal: e.target.value
+            }))} />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="ville">Ville (facultatif)</Label>
+            <Label htmlFor="ville">Ville</Label>
             <div className="relative mt-1">
               <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="ville"
-                placeholder="Paris"
-                className="pl-10"
-                value={formData.ville}
-                onChange={(e) => setFormData(prev => ({...prev, ville: e.target.value}))}
-              />
+              <Input id="ville" placeholder="Paris" className="pl-10" value={formData.ville} onChange={e => setFormData(prev => ({
+              ...prev,
+              ville: e.target.value
+            }))} />
             </div>
           </div>
 
@@ -141,13 +117,10 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
             <Label htmlFor="adresse">Adresse (facultatif)</Label>
             <div className="relative mt-1">
               <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="adresse"
-                placeholder="Adresse complète"
-                className="pl-10"
-                value={formData.adresse}
-                onChange={(e) => setFormData(prev => ({...prev, adresse: e.target.value}))}
-              />
+              <Input id="adresse" placeholder="Adresse complète" className="pl-10" value={formData.adresse} onChange={e => setFormData(prev => ({
+              ...prev,
+              adresse: e.target.value
+            }))} />
             </div>
           </div>
 
@@ -155,27 +128,17 @@ export const QuoteStep1 = ({ data, onComplete }: QuoteStep1Props) => {
             <Label htmlFor="assurance">Assurance (facultatif)</Label>
             <div className="relative mt-1">
               <Shield className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="assurance"
-                placeholder="Nom de votre assurance"
-                className="pl-10"
-                value={formData.assurance}
-                onChange={(e) => setFormData(prev => ({...prev, assurance: e.target.value}))}
-              />
+              <Input id="assurance" placeholder="Nom de votre assurance" className="pl-10" value={formData.assurance} onChange={e => setFormData(prev => ({
+              ...prev,
+              assurance: e.target.value
+            }))} />
             </div>
           </div>
 
-          <Button 
-            type="submit" 
-            variant="default" 
-            size="lg" 
-            className="w-full"
-            disabled={!isValid}
-          >
+          <Button type="submit" variant="default" size="lg" className="w-full" disabled={!isValid}>
             Continuer
           </Button>
         </form>
       </div>
-    </Card>
-  );
+    </Card>;
 };
