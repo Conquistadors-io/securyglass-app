@@ -155,6 +155,7 @@ export function CitySelect({
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" align="start">
         <Command>
+          <CommandInput placeholder="Rechercher une ville..." />
           <CommandList>
             <CommandEmpty>Aucune ville trouvée.</CommandEmpty>
             <CommandGroup>
@@ -178,7 +179,6 @@ export function CitySelect({
               ))}
             </CommandGroup>
           </CommandList>
-          <CommandInput placeholder="Rechercher une ville..." />
         </Command>
       </PopoverContent>
     </Popover>
