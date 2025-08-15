@@ -153,7 +153,7 @@ export function CitySelect({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0" align="start">
+      <PopoverContent className="w-full p-0" align="start" side="bottom" sideOffset={4}>
         <Command>
           <CommandInput placeholder="Rechercher une ville..." />
           <CommandList>
