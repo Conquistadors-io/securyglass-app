@@ -94,7 +94,7 @@ export const QuoteStep1 = ({
           <div>
             <Label htmlFor="codePostal">Département</Label>
             <div className="relative mt-1">
-              <Hash className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input id="codePostal" placeholder="Département" className="pl-10" value={formData.codePostal} onChange={e => setFormData(prev => ({
               ...prev,
               codePostal: e.target.value
