@@ -82,22 +82,45 @@ export function AddressSelect({
     setIsLoading(true)
     try {
       const searchQuery = city ? `${query} ${city}` : query
-      const response = await fetch(
-        `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(searchQuery)}&limit=10`
-      )
+      const hasNumber = /^\s*\d/.test(query)
+      const type = hasNumber ? "housenumber" : "street"
+
+      const url = new URL("https://api-adresse.data.gouv.fr/search/")
+      url.searchParams.set("q", searchQuery)
+      url.searchParams.set("limit", "10")
+      url.searchParams.set("type", type)
+
+      const response = await fetch(url.toString())
       
       if (response.ok) {
         const data = await response.json()
-        const addressSuggestions = data.features.map((feature: any) => ({
+        const features: any[] = data.features || []
+
+        // Filtrer/prioriser par ville si disponible
+        let filtered = features
+        if (city) {
+          const lcCity = city.toLowerCase()
+          const matchesCity = (p: any) =>
+            (p?.city && String(p.city).toLowerCase().includes(lcCity)) ||
+            (p?.context && String(p.context).toLowerCase().includes(lcCity))
+
+          const exact = features.filter(f => matchesCity(f.properties))
+          filtered = exact.length ? exact : features
+
+          // Trier: d'abord les adresses qui matchent la ville
+          filtered = filtered.sort((a, b) => Number(matchesCity(b.properties)) - Number(matchesCity(a.properties)))
+        }
+
+        const addressSuggestions = filtered.map((feature: any) => ({
           label: feature.properties.label,
-          value: feature.properties.name || feature.properties.label
+          value: feature.properties.label,
         }))
         setSuggestions(addressSuggestions)
       } else {
         setSuggestions(commonAddresses.slice(0, 10))
       }
     } catch (error) {
-      console.error('Erreur lors de la recherche d\'adresses:', error)
+      console.error("Erreur lors de la recherche d'adresses:", error)
       setSuggestions(commonAddresses.slice(0, 10))
     } finally {
       setIsLoading(false)
