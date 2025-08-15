@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { User, Phone, Mail, MapPin, Hash, Shield } from "lucide-react";
 import { DepartmentSelect } from "@/components/ui/department-select";
 import { CitySelect } from "@/components/ui/city-select";
+import { AddressSelect } from "@/components/ui/address-select";
 interface QuoteStep1Props {
   data: any;
   onComplete: (data: any) => void;
@@ -125,12 +126,17 @@ export const QuoteStep1 = ({
 
           <div>
             <Label htmlFor="adresse">Adresse (facultatif)</Label>
-            <div className="relative mt-1">
-              <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input id="adresse" placeholder="Adresse complète" className="pl-10" value={formData.adresse} onChange={e => setFormData(prev => ({
-              ...prev,
-              adresse: e.target.value
-            }))} />
+            <div className="mt-1">
+              <AddressSelect 
+                value={formData.adresse} 
+                onValueChange={(value) => setFormData(prev => ({
+                  ...prev,
+                  adresse: value
+                }))}
+                departmentCode={formData.codePostal}
+                city={formData.ville}
+                placeholder="Tapez votre adresse"
+              />
             </div>
           </div>
 
