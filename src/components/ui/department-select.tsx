@@ -128,8 +128,24 @@ interface DepartmentSelectProps {
 
 export function DepartmentSelect({ value, onValueChange, placeholder = "75 Paris" }: DepartmentSelectProps) {
   const [open, setOpen] = useState(false)
+  const [searchValue, setSearchValue] = useState("")
 
   const selectedDepartment = DEPARTMENTS.find(dept => dept.code === value)
+
+  const filteredDepartments = DEPARTMENTS.filter(department => {
+    if (!searchValue) return true
+    
+    const search = searchValue.toLowerCase()
+    const departmentText = `${department.code} ${department.name}`.toLowerCase()
+    
+    // Si la recherche ne contient que des chiffres, chercher seulement au début du code
+    if (/^\d+$/.test(searchValue)) {
+      return department.code.startsWith(searchValue)
+    }
+    
+    // Sinon, recherche normale dans le texte complet
+    return departmentText.includes(search)
+  })
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -148,18 +164,23 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "75 Paris
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" align="start" side="bottom" sideOffset={4}>
-        <Command>
-          <CommandInput placeholder="Rechercher un département..." />
+        <Command shouldFilter={false}>
+          <CommandInput 
+            placeholder="Rechercher un département..." 
+            value={searchValue}
+            onValueChange={setSearchValue}
+          />
           <CommandList>
             <CommandEmpty>Aucun département trouvé.</CommandEmpty>
             <CommandGroup>
-              {DEPARTMENTS.map((department) => (
+              {filteredDepartments.map((department) => (
                 <CommandItem
                   key={department.code}
                   value={`${department.code} ${department.name}`}
                   onSelect={() => {
                     onValueChange?.(department.code)
                     setOpen(false)
+                    setSearchValue("")
                   }}
                 >
                   <Check
