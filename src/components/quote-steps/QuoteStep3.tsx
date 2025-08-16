@@ -20,7 +20,6 @@ export const QuoteStep3 = ({
     largeur: data.largeur || "",
     hauteur: data.hauteur || "",
     quantite: data.quantite || "1",
-    assurance: data.assurance || "",
     photo: data.photo || null
   });
   const {
@@ -127,30 +126,6 @@ export const QuoteStep3 = ({
             </div>
           </div>
 
-          <div>
-            <Label htmlFor="assurance">Prise en charge assurance</Label>
-            <Select value={formData.assurance} onValueChange={value => setFormData(prev => ({
-            ...prev,
-            assurance: value
-          }))}>
-              <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Avez-vous une assurance ?" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="oui">Oui, j'ai une assurance</SelectItem>
-                <SelectItem value="non">Non, pas d'assurance</SelectItem>
-                <SelectItem value="ne-sait-pas">Je ne sais pas</SelectItem>
-              </SelectContent>
-            </Select>
-            {formData.assurance === "oui" && <div className="mt-2 p-3 bg-accent rounded-lg">
-                <div className="flex items-center space-x-2">
-                  <Shield className="h-4 w-4 text-primary" />
-                  <p className="text-sm text-foreground">
-                    Nous vous aiderons avec votre dossier assurance
-                  </p>
-                </div>
-              </div>}
-          </div>
 
           <div>
             <Label htmlFor="photo">Photo (optionnel)</Label>
