@@ -128,7 +128,7 @@ export const QuoteStep3 = ({
 
 
           <div>
-            <Label htmlFor="photo">Photo (optionnel)</Label>
+            <Label htmlFor="photo">Photos (optionnel)</Label>
             <div className="mt-1 space-y-3">
               {formData.photo && (
                 <div className="p-3 bg-accent rounded-lg">
