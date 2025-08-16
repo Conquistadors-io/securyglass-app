@@ -104,7 +104,7 @@ export function InsuranceSelect({
                   <img 
                     src={selectedInsurance.logo.src} 
                     alt={selectedInsurance.logo.alt}
-                    className="w-4 h-4 object-contain"
+                    className="w-6 h-6 object-contain"
                   />
                 )}
               </>
@@ -146,7 +146,7 @@ export function InsuranceSelect({
                     <img 
                       src={insurance.logo.src} 
                       alt={insurance.logo.alt}
-                      className="w-4 h-4 object-contain mr-2"
+                      className="w-6 h-6 object-contain mr-2"
                     />
                   )}
                   {insurance.name}
