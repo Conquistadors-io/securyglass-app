@@ -35,7 +35,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
               onValueChange={(value) => setFormData(prev => ({...prev, object: value}))}
             >
               <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Que souhaitez-vous faire ?" />
+                <SelectValue placeholder="Vitre cassée" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="vitre-cassee">Vitre cassée</SelectItem>
