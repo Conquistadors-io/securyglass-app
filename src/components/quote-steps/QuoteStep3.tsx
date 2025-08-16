@@ -15,8 +15,8 @@ export const QuoteStep3 = ({
   onComplete
 }: QuoteStep3Props) => {
   const [formData, setFormData] = useState({
-    category: data.category || "",
-    vitrage: data.vitrage || "",
+    category: data.category || "fenetre",
+    vitrage: data.vitrage || "simple",
     largeur: data.largeur || "",
     hauteur: data.hauteur || "",
     quantite: data.quantite || "1",
