@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Camera, Shield, MoveVertical, MoveHorizontal } from "lucide-react";
+import { Camera, Shield, MoveVertical, MoveHorizontal, Images } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 interface QuoteStep3Props {
   data: any;
@@ -146,9 +146,7 @@ export const QuoteStep3 = ({
                 </label>
                 
                 <label htmlFor="gallery-upload" className="flex flex-col items-center justify-center h-20 border border-border rounded-lg cursor-pointer hover:bg-accent transition-colors">
-                  <div className="h-5 w-5 mb-1 flex items-center justify-center">
-                    <div className="w-4 h-3 border border-muted-foreground rounded-sm"></div>
-                  </div>
+                  <Images className="h-5 w-5 text-muted-foreground mb-1" />
                   <span className="text-sm text-muted-foreground">Mes photos</span>
                   <input id="gallery-upload" type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
                 </label>
