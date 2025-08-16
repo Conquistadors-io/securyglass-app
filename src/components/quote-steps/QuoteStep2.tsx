@@ -42,6 +42,10 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
                 <SelectItem value="miroir">Miroir</SelectItem>
                 <SelectItem value="chatiere">Chatière</SelectItem>
                 <SelectItem value="decoupe-clim">Découpe climatisation</SelectItem>
+                <SelectItem value="verre-anti-bruit">Verre Anti-Bruit</SelectItem>
+                <SelectItem value="renovation">Rénovation</SelectItem>
+                <SelectItem value="verre-anti-effraction">Verre Anti-effraction</SelectItem>
+                <SelectItem value="mise-conformite-erp">Mise en conformité ERP</SelectItem>
                 <SelectItem value="autre">Autre</SelectItem>
               </SelectContent>
             </Select>
