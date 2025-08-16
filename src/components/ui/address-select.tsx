@@ -67,7 +67,7 @@ export function AddressSelect({
     ]
 
     return baseAddresses.map(addr => ({
-      label: `${addr}, ${city}`,
+      label: addr,
       value: addr
     }))
   }, [city])
