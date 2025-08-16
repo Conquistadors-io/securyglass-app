@@ -101,24 +101,18 @@ export const QuoteStep3 = ({
           <div className="grid grid-cols-3 gap-4">
             <div>
               <Label htmlFor="hauteur">Hauteur (cm) *</Label>
-              <div className="relative mt-1">
-                <MoveVertical className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input id="hauteur" type="number" placeholder="150" className="pl-10" value={formData.hauteur} onChange={e => setFormData(prev => ({
+              <Input id="hauteur" type="number" placeholder="150" className="mt-1" value={formData.hauteur} onChange={e => setFormData(prev => ({
                 ...prev,
                 hauteur: e.target.value
               }))} required />
-              </div>
             </div>
 
             <div>
               <Label htmlFor="largeur">Largeur (cm) *</Label>
-              <div className="relative mt-1">
-                <MoveHorizontal className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input id="largeur" type="number" placeholder="100" className="pl-10" value={formData.largeur} onChange={e => setFormData(prev => ({
+              <Input id="largeur" type="number" placeholder="100" className="mt-1" value={formData.largeur} onChange={e => setFormData(prev => ({
                 ...prev,
                 largeur: e.target.value
               }))} required />
-              </div>
             </div>
 
             <div>
