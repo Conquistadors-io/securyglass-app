@@ -95,7 +95,7 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="codePostal">Département</Label>
+            <Label htmlFor="codePostal">Département *</Label>
             <div className="mt-1">
               <DepartmentSelect 
                 value={formData.codePostal} 
@@ -110,7 +110,7 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="ville">Ville</Label>
+            <Label htmlFor="ville">Ville *</Label>
             <div className="mt-1">
               <CitySelect 
                 value={formData.ville} 
