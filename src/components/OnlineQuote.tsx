@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -13,31 +13,98 @@ interface OnlineQuoteProps {
 }
 
 export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
-    // Step 1: Personal info
-    civilite: "",
-    nom: "",
-    telephone: "",
-    email: "",
-    adresse: "",
-    
-    // Step 2: Object
-    object: "",
-    
-    // Step 3: Motif
-    motif: "",
-    
-    // Step 4: Property (simplified for demo)
-    property: "",
-    category: "",
-    vitrage: "",
-    largeur: "",
-    hauteur: "",
-    quantite: "1",
-    assurance: "",
-    photo: null as File | null
-  });
+  // Charger les données sauvegardées depuis localStorage
+  const loadSavedData = () => {
+    try {
+      const savedData = localStorage.getItem('quote-form-data');
+      const savedStep = localStorage.getItem('quote-current-step');
+      
+      return {
+        formData: savedData ? JSON.parse(savedData) : {
+          // Step 1: Personal info
+          civilite: "",
+          nom: "",
+          telephone: "",
+          email: "",
+          adresse: "",
+          codePostal: "",
+          ville: "",
+          
+          // Step 2: Object
+          object: "",
+          property: "",
+          motif: "",
+          
+          // Step 3: Property details
+          category: "",
+          vitrage: "",
+          largeur: "",
+          hauteur: "",
+          quantite: "1",
+          assurance: "",
+          photo: null as File | null
+        },
+        currentStep: savedStep ? parseInt(savedStep) : 1
+      };
+    } catch (error) {
+      console.error('Erreur lors du chargement des données:', error);
+      return {
+        formData: {
+          civilite: "",
+          nom: "",
+          telephone: "",
+          email: "",
+          adresse: "",
+          codePostal: "",
+          ville: "",
+          object: "",
+          property: "",
+          motif: "",
+          category: "",
+          vitrage: "",
+          largeur: "",
+          hauteur: "",
+          quantite: "1",
+          assurance: "",
+          photo: null as File | null
+        },
+        currentStep: 1
+      };
+    }
+  };
+
+  const { formData: initialFormData, currentStep: initialStep } = loadSavedData();
+  
+  const [currentStep, setCurrentStep] = useState(initialStep);
+  const [formData, setFormData] = useState(initialFormData);
+
+  // Sauvegarder les données à chaque modification
+  useEffect(() => {
+    try {
+      localStorage.setItem('quote-form-data', JSON.stringify(formData));
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde des données:', error);
+    }
+  }, [formData]);
+
+  // Sauvegarder l'étape actuelle
+  useEffect(() => {
+    try {
+      localStorage.setItem('quote-current-step', currentStep.toString());
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde de l\'étape:', error);
+    }
+  }, [currentStep]);
+
+  // Fonction pour vider le cache (appelée après soumission finale)
+  const clearSavedData = () => {
+    try {
+      localStorage.removeItem('quote-form-data');
+      localStorage.removeItem('quote-current-step');
+    } catch (error) {
+      console.error('Erreur lors de la suppression des données:', error);
+    }
+  };
 
   const totalSteps = 4; // Simplified to 4 steps for demo
   const progress = (currentStep / totalSteps) * 100;
@@ -88,7 +155,11 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         return (
           <QuoteSummary 
             data={formData} 
-            onNavigate={onNavigate}
+            onNavigate={(route) => {
+              clearSavedData();
+              onNavigate(route);
+            }}
+            onComplete={clearSavedData}
           />
         );
       default:

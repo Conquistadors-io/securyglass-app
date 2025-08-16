@@ -5,10 +5,12 @@ import { CheckCircle, Download, Calendar, CreditCard, FileText } from "lucide-re
 interface QuoteSummaryProps {
   data: any;
   onNavigate: (route: string) => void;
+  onComplete?: () => void;
 }
 export const QuoteSummary = ({
   data,
-  onNavigate
+  onNavigate,
+  onComplete
 }: QuoteSummaryProps) => {
   // Calculate estimated price based on form data
   const calculatePrice = () => {
@@ -104,18 +106,27 @@ export const QuoteSummary = ({
         </Button>
 
         <div className="grid grid-cols-2 gap-3">
-          <Button variant="outline" onClick={() => {/* Handle payment */}}>
+          <Button variant="outline" onClick={() => {
+            onComplete?.();
+            // Handle validation
+          }}>
             <CreditCard className="h-4 w-4 mr-2" />
             Valider
           </Button>
           
-          <Button variant="outline" onClick={() => {/* Handle insurance */}}>
+          <Button variant="outline" onClick={() => {
+            onComplete?.();
+            // Handle payment
+          }}>
             <CreditCard className="h-4 w-4 mr-2" />
             Payer
           </Button>
         </div>
 
-        <Button variant="secondary" size="lg" className="w-full" onClick={() => {/* Handle appointment booking */}}>
+        <Button variant="secondary" size="lg" className="w-full" onClick={() => {
+          onComplete?.();
+          // Handle appointment booking
+        }}>
           <Calendar className="h-5 w-5 mr-2" />
           Prendre RDV
         </Button>
