@@ -107,14 +107,7 @@ export function InsuranceSelect({
                     className="w-4 h-4 object-contain"
                   />
                 )}
-                <div 
-                  className="w-2 h-2 rounded-full shrink-0" 
-                  style={{ backgroundColor: selectedInsurance.color }}
-                />
               </>
-            )}
-            {isCustomValue && (
-              <div className="w-2 h-2 rounded-full shrink-0 bg-gray-400" />
             )}
             <span className="truncate">
               {selectedInsurance ? selectedInsurance.name : (isCustomValue ? value : placeholder)}
@@ -156,10 +149,6 @@ export function InsuranceSelect({
                       className="w-4 h-4 object-contain mr-2"
                     />
                   )}
-                  <div 
-                    className="w-2 h-2 rounded-full mr-2 shrink-0" 
-                    style={{ backgroundColor: insurance.color }}
-                  />
                   {insurance.name}
                 </CommandItem>
               ))}
@@ -169,7 +158,6 @@ export function InsuranceSelect({
                   onSelect={() => handleSelect("custom")}
                 >
                   <Plus className="mr-2 h-4 w-4" />
-                  <div className="w-2 h-2 rounded-full mr-2 shrink-0 bg-gray-400" />
                   Ajouter "{searchValue}"
                 </CommandItem>
               )}
