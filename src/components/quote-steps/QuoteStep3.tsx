@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Camera, Ruler, Shield, MoveVertical } from "lucide-react";
+import { Camera, Shield, MoveVertical, MoveHorizontal } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 interface QuoteStep3Props {
   data: any;
@@ -113,7 +113,7 @@ export const QuoteStep3 = ({
             <div>
               <Label htmlFor="largeur">Largeur (cm) *</Label>
               <div className="relative mt-1">
-                <Ruler className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <MoveHorizontal className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input id="largeur" type="number" placeholder="100" className="pl-10" value={formData.largeur} onChange={e => setFormData(prev => ({
                 ...prev,
                 largeur: e.target.value
