@@ -8,6 +8,7 @@ import { User, Phone, Mail, MapPin, Hash, Shield } from "lucide-react";
 import { DepartmentSelect } from "@/components/ui/department-select";
 import { CitySelect } from "@/components/ui/city-select";
 import { AddressSelect } from "@/components/ui/address-select";
+import { InsuranceSelect } from "@/components/ui/insurance-select";
 interface QuoteStep1Props {
   data: any;
   onComplete: (data: any) => void;
@@ -142,12 +143,15 @@ export const QuoteStep1 = ({
 
           <div>
             <Label htmlFor="assurance">Assurance (facultatif)</Label>
-            <div className="relative mt-1">
-              <Shield className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input id="assurance" placeholder="Nom de votre assurance" className="pl-10" value={formData.assurance} onChange={e => setFormData(prev => ({
-              ...prev,
-              assurance: e.target.value
-            }))} />
+            <div className="mt-1">
+              <InsuranceSelect 
+                value={formData.assurance} 
+                onValueChange={(value) => setFormData(prev => ({
+                  ...prev,
+                  assurance: value
+                }))}
+                placeholder="Sélectionnez votre assurance"
+              />
             </div>
           </div>
 
