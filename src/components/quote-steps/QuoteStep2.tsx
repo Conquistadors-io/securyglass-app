@@ -98,6 +98,9 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
                 <SelectItem value="choc-thermique">Choc thermique</SelectItem>
                 <SelectItem value="vandalisme">Vandalisme</SelectItem>
                 <SelectItem value="usure">Usure normale</SelectItem>
+                <SelectItem value="effraction">Effraction ( ou tentative )</SelectItem>
+                <SelectItem value="pompiers">Intervention des pompiers</SelectItem>
+                <SelectItem value="projectiles">Projectiles</SelectItem>
                 <SelectItem value="autre">Autre</SelectItem>
               </SelectContent>
             </Select>
