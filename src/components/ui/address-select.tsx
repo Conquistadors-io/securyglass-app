@@ -179,7 +179,7 @@ export function AddressSelect({
           disabled={disabled}
         >
           <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-          {displayText}
+          <span className="truncate pr-2">{displayText}</span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
