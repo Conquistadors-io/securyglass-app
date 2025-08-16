@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useState } from "react"
-import { Check, ChevronsUpDown, Shield } from "lucide-react"
+import { Check, ChevronsUpDown, Shield, Plus } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -28,26 +28,25 @@ interface Insurance {
   name: string
   value: string
   color: string
-  logo?: string
+  logo: string
 }
 
 const insurances: Insurance[] = [
-  { name: "AXA", value: "axa", color: "#00008F" },
-  { name: "Allianz", value: "allianz", color: "#003781" },
-  { name: "Generali", value: "generali", color: "#B31B34" },
-  { name: "MAIF", value: "maif", color: "#E60012" },
-  { name: "MACIF", value: "macif", color: "#004B87" },
-  { name: "MAAF", value: "maaf", color: "#E30613" },
-  { name: "MMA", value: "mma", color: "#0066CC" },
-  { name: "Groupama", value: "groupama", color: "#ED1C24" },
-  { name: "MATMUT", value: "matmut", color: "#00A651" },
-  { name: "GMF", value: "gmf", color: "#0066CC" },
-  { name: "SMACL", value: "smacl", color: "#00A0B0" },
-  { name: "Crédit Agricole Assurances", value: "credit-agricole", color: "#00A651" },
-  { name: "BNP Paribas Cardif", value: "bnp-cardif", color: "#009639" },
-  { name: "Société Générale Assurances", value: "societe-generale", color: "#E2001A" },
-  { name: "LCL Assurances", value: "lcl", color: "#0066CC" },
-  { name: "Autre", value: "autre", color: "#6B7280" }
+  { name: "AXA", value: "axa", color: "#00008F", logo: "🅰️" },
+  { name: "Allianz", value: "allianz", color: "#003781", logo: "🔷" },
+  { name: "Generali", value: "generali", color: "#B31B34", logo: "🦁" },
+  { name: "MAIF", value: "maif", color: "#E60012", logo: "🏠" },
+  { name: "MACIF", value: "macif", color: "#004B87", logo: "🛡️" },
+  { name: "MAAF", value: "maaf", color: "#E30613", logo: "🚗" },
+  { name: "MMA", value: "mma", color: "#0066CC", logo: "Ⓜ️" },
+  { name: "Groupama", value: "groupama", color: "#ED1C24", logo: "🔺" },
+  { name: "MATMUT", value: "matmut", color: "#00A651", logo: "🐕" },
+  { name: "GMF", value: "gmf", color: "#0066CC", logo: "🏛️" },
+  { name: "SMACL", value: "smacl", color: "#00A0B0", logo: "💼" },
+  { name: "Crédit Agricole Assurances", value: "credit-agricole", color: "#00A651", logo: "🏦" },
+  { name: "BNP Paribas Cardif", value: "bnp-cardif", color: "#009639", logo: "🏪" },
+  { name: "Société Générale Assurances", value: "societe-generale", color: "#E2001A", logo: "🏢" },
+  { name: "LCL Assurances", value: "lcl", color: "#0066CC", logo: "🏛️" }
 ]
 
 export function InsuranceSelect({ 
@@ -57,8 +56,29 @@ export function InsuranceSelect({
   disabled = false 
 }: InsuranceSelectProps) {
   const [open, setOpen] = useState(false)
+  const [searchValue, setSearchValue] = useState("")
 
   const selectedInsurance = insurances.find(insurance => insurance.value === value)
+  const isCustomValue = value && !selectedInsurance
+
+  const handleSelect = (selectedValue: string) => {
+    if (selectedValue === "custom") {
+      onValueChange?.(searchValue)
+    } else {
+      const insurance = insurances.find(ins => ins.name.toLowerCase() === selectedValue.toLowerCase())
+      onValueChange?.(insurance?.value || selectedValue)
+    }
+    setOpen(false)
+    setSearchValue("")
+  }
+
+  const filteredInsurances = insurances.filter(insurance =>
+    insurance.name.toLowerCase().includes(searchValue.toLowerCase())
+  )
+
+  const showCustomOption = searchValue && 
+    !insurances.some(ins => ins.name.toLowerCase() === searchValue.toLowerCase()) &&
+    searchValue.length > 2
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -73,32 +93,41 @@ export function InsuranceSelect({
           <Shield className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <div className="flex items-center gap-2 truncate pr-2">
             {selectedInsurance && (
-              <div 
-                className="w-3 h-3 rounded-full shrink-0" 
-                style={{ backgroundColor: selectedInsurance.color }}
-              />
+              <>
+                <span className="text-sm">{selectedInsurance.logo}</span>
+                <div 
+                  className="w-2 h-2 rounded-full shrink-0" 
+                  style={{ backgroundColor: selectedInsurance.color }}
+                />
+              </>
+            )}
+            {isCustomValue && (
+              <div className="w-2 h-2 rounded-full shrink-0 bg-gray-400" />
             )}
             <span className="truncate">
-              {selectedInsurance ? selectedInsurance.name : placeholder}
+              {selectedInsurance ? selectedInsurance.name : (isCustomValue ? value : placeholder)}
             </span>
           </div>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0" align="start" side="bottom" sideOffset={4}>
-        <Command>
-          <CommandInput placeholder="Rechercher une assurance..." />
+        <Command shouldFilter={false}>
+          <CommandInput 
+            placeholder="Rechercher une assurance..." 
+            value={searchValue}
+            onValueChange={setSearchValue}
+          />
           <CommandList>
-            <CommandEmpty>Aucune assurance trouvée.</CommandEmpty>
+            <CommandEmpty>
+              {searchValue ? "Tapez pour ajouter votre assurance" : "Aucune assurance trouvée."}
+            </CommandEmpty>
             <CommandGroup>
-              {insurances.map((insurance) => (
+              {filteredInsurances.map((insurance) => (
                 <CommandItem
                   key={insurance.value}
                   value={insurance.name}
-                  onSelect={() => {
-                    onValueChange?.(insurance.value)
-                    setOpen(false)
-                  }}
+                  onSelect={() => handleSelect(insurance.name)}
                 >
                   <Check
                     className={cn(
@@ -106,13 +135,24 @@ export function InsuranceSelect({
                       value === insurance.value ? "opacity-100" : "opacity-0"
                     )}
                   />
+                  <span className="text-sm mr-2">{insurance.logo}</span>
                   <div 
-                    className="w-3 h-3 rounded-full mr-2 shrink-0" 
+                    className="w-2 h-2 rounded-full mr-2 shrink-0" 
                     style={{ backgroundColor: insurance.color }}
                   />
                   {insurance.name}
                 </CommandItem>
               ))}
+              {showCustomOption && (
+                <CommandItem
+                  value="custom"
+                  onSelect={() => handleSelect("custom")}
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  <div className="w-2 h-2 rounded-full mr-2 shrink-0 bg-gray-400" />
+                  Ajouter "{searchValue}"
+                </CommandItem>
+              )}
             </CommandGroup>
           </CommandList>
         </Command>
