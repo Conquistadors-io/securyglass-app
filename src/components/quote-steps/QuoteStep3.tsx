@@ -100,16 +100,16 @@ export const QuoteStep3 = ({
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="hauteur">Hauteur (cm) *</Label>
-              <Input id="hauteur" type="number" placeholder="150" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" value={formData.hauteur} onChange={e => setFormData(prev => ({
+              <Label htmlFor="hauteur">Hauteur *</Label>
+              <Input id="hauteur" type="number" placeholder="150 cm" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" value={formData.hauteur} onChange={e => setFormData(prev => ({
                 ...prev,
                 hauteur: e.target.value
               }))} required />
             </div>
 
             <div>
-              <Label htmlFor="largeur">Largeur (cm) *</Label>
-              <Input id="largeur" type="number" placeholder="100" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" value={formData.largeur} onChange={e => setFormData(prev => ({
+              <Label htmlFor="largeur">Largeur *</Label>
+              <Input id="largeur" type="number" placeholder="100 cm" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" value={formData.largeur} onChange={e => setFormData(prev => ({
                 ...prev,
                 largeur: e.target.value
               }))} required />
