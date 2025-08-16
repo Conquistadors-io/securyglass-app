@@ -112,7 +112,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
               <Glasses className="h-5 w-5 text-primary" />
               <div className="text-sm">
                 <p className="font-medium text-foreground">Information</p>
-                <p className="text-muted-foreground">
+                <p className="text-foreground">
                   Ces informations ne seront pas mentionnées sur le devis
                 </p>
               </div>
