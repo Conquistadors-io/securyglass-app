@@ -66,8 +66,13 @@ export const QuoteStep3 = ({
               <SelectContent>
                 <SelectItem value="fenetre">Fenêtre</SelectItem>
                 <SelectItem value="porte-vitree">Porte vitrée</SelectItem>
+                <SelectItem value="porte-entree">Porte d'entrée</SelectItem>
+                <SelectItem value="porte-fenetre">Porte-fenêtre</SelectItem>
                 <SelectItem value="vitrine">Vitrine</SelectItem>
                 <SelectItem value="baie-vitree">Baie vitrée</SelectItem>
+                <SelectItem value="marquise">Marquise</SelectItem>
+                <SelectItem value="fenetre-toit">Fenêtre de toit</SelectItem>
+                <SelectItem value="velux">VELUX</SelectItem>
                 <SelectItem value="cloison">Cloison vitrée</SelectItem>
                 <SelectItem value="autre">Autre</SelectItem>
               </SelectContent>
