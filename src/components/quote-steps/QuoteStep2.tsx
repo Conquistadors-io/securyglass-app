@@ -27,15 +27,6 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
   return (
     <Card className="shadow-card border-0">
       <div className="p-6">
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-foreground mb-2">
-            Type d'intervention
-          </h2>
-          <p className="text-muted-foreground">
-            Décrivez le type de vitrage concerné
-          </p>
-        </div>
-
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <Label htmlFor="object">Objet de l'intervention *</Label>
