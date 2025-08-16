@@ -92,7 +92,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
               onValueChange={(value) => setFormData(prev => ({...prev, motif: value}))}
             >
               <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Cause du problème" />
+                <SelectValue placeholder="Accident" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="accident">Accident</SelectItem>
