@@ -129,16 +129,30 @@ export const QuoteStep3 = ({
 
           <div>
             <Label htmlFor="photo">Photo (optionnel)</Label>
-            <div className="mt-1">
-              <label htmlFor="photo-upload" className="flex items-center justify-center w-full h-24 border-2 border-dashed border-border rounded-lg cursor-pointer hover:bg-accent transition-colors">
-                <div className="text-center">
-                  <Camera className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">
-                    {formData.photo ? formData.photo.name || "Photo ajoutée" : "Ajouter une photo du vitrage"}
+            <div className="mt-1 space-y-3">
+              {formData.photo && (
+                <div className="p-3 bg-accent rounded-lg">
+                  <p className="text-sm text-foreground">
+                    Photo ajoutée: {formData.photo.name || "Photo sélectionnée"}
                   </p>
                 </div>
-                <input id="photo-upload" type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
-              </label>
+              )}
+              
+              <div className="grid grid-cols-2 gap-3">
+                <label htmlFor="camera-upload" className="flex flex-col items-center justify-center h-20 border border-border rounded-lg cursor-pointer hover:bg-accent transition-colors">
+                  <Camera className="h-5 w-5 text-muted-foreground mb-1" />
+                  <span className="text-sm text-muted-foreground">Prendre une photo</span>
+                  <input id="camera-upload" type="file" accept="image/*" capture="environment" className="hidden" onChange={handlePhotoUpload} />
+                </label>
+                
+                <label htmlFor="gallery-upload" className="flex flex-col items-center justify-center h-20 border border-border rounded-lg cursor-pointer hover:bg-accent transition-colors">
+                  <div className="h-5 w-5 mb-1 flex items-center justify-center">
+                    <div className="w-4 h-3 border border-muted-foreground rounded-sm"></div>
+                  </div>
+                  <span className="text-sm text-muted-foreground">Mes photos</span>
+                  <input id="gallery-upload" type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
+                </label>
+              </div>
             </div>
           </div>
 
