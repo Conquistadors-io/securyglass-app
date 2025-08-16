@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Camera, Ruler, Shield } from "lucide-react";
+import { Camera, Ruler, Shield, ArrowUpDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 interface QuoteStep3Props {
   data: any;
@@ -102,7 +102,7 @@ export const QuoteStep3 = ({
             <div>
               <Label htmlFor="hauteur">Hauteur (cm) *</Label>
               <div className="relative mt-1">
-                <Ruler className="absolute left-3 top-3 h-4 w-4 text-muted-foreground rotate-90" />
+                <ArrowUpDown className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input id="hauteur" type="number" placeholder="150" className="pl-10" value={formData.hauteur} onChange={e => setFormData(prev => ({
                 ...prev,
                 hauteur: e.target.value
@@ -113,7 +113,7 @@ export const QuoteStep3 = ({
             <div>
               <Label htmlFor="largeur">Largeur (cm) *</Label>
               <div className="relative mt-1">
-                <Ruler className="absolute left-3 top-3 h-4 w-4 text-muted-foreground rotate-90" />
+                <Ruler className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input id="largeur" type="number" placeholder="100" className="pl-10" value={formData.largeur} onChange={e => setFormData(prev => ({
                 ...prev,
                 largeur: e.target.value
