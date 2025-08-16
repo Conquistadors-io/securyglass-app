@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Check, ChevronsUpDown, MapPin } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -133,6 +133,13 @@ export function CitySelect({
 
   const availableCities = departmentCode ? CITIES_BY_DEPARTMENT[departmentCode] || [] : []
   const hasNoCities = !departmentCode || availableCities.length === 0
+
+  // Sélection automatique si une seule ville disponible
+  useEffect(() => {
+    if (availableCities.length === 1 && !value && onValueChange) {
+      onValueChange(availableCities[0])
+    }
+  }, [availableCities, value, onValueChange])
 
   const displayText = hasNoCities 
     ? "Sélectionnez d'abord un département"
