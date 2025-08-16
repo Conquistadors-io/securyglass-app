@@ -28,13 +28,17 @@ interface Insurance {
   name: string
   value: string
   color: string
-  logo: string
+  logo: string | { src: string; alt: string }
 }
+
+// Import logos
+import allianzLogo from "@/assets/insurance-logos/allianz.png"
+import generaliLogo from "@/assets/insurance-logos/generali.png"
 
 const insurances: Insurance[] = [
   { name: "AXA", value: "axa", color: "#00008F", logo: "🅰️" },
-  { name: "Allianz", value: "allianz", color: "#003781", logo: "🔷" },
-  { name: "Generali", value: "generali", color: "#B31B34", logo: "🦁" },
+  { name: "Allianz", value: "allianz", color: "#003781", logo: { src: allianzLogo, alt: "Allianz" } },
+  { name: "Generali", value: "generali", color: "#B31B34", logo: { src: generaliLogo, alt: "Generali" } },
   { name: "MAIF", value: "maif", color: "#E60012", logo: "🏠" },
   { name: "MACIF", value: "macif", color: "#004B87", logo: "🛡️" },
   { name: "MAAF", value: "maaf", color: "#E30613", logo: "🚗" },
@@ -94,7 +98,15 @@ export function InsuranceSelect({
           <div className="flex items-center gap-2 truncate pr-2">
             {selectedInsurance && (
               <>
-                <span className="text-sm">{selectedInsurance.logo}</span>
+                {typeof selectedInsurance.logo === 'string' ? (
+                  <span className="text-sm">{selectedInsurance.logo}</span>
+                ) : (
+                  <img 
+                    src={selectedInsurance.logo.src} 
+                    alt={selectedInsurance.logo.alt}
+                    className="w-4 h-4 object-contain"
+                  />
+                )}
                 <div 
                   className="w-2 h-2 rounded-full shrink-0" 
                   style={{ backgroundColor: selectedInsurance.color }}
@@ -135,7 +147,15 @@ export function InsuranceSelect({
                       value === insurance.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  <span className="text-sm mr-2">{insurance.logo}</span>
+                  {typeof insurance.logo === 'string' ? (
+                    <span className="text-sm mr-2">{insurance.logo}</span>
+                  ) : (
+                    <img 
+                      src={insurance.logo.src} 
+                      alt={insurance.logo.alt}
+                      className="w-4 h-4 object-contain mr-2"
+                    />
+                  )}
                   <div 
                     className="w-2 h-2 rounded-full mr-2 shrink-0" 
                     style={{ backgroundColor: insurance.color }}
