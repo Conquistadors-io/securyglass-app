@@ -102,7 +102,7 @@ export const QuoteStep3 = ({
             <div>
               <Label htmlFor="hauteur">Hauteur (cm) *</Label>
               <div className="relative mt-1">
-                <Ruler className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Ruler className="absolute left-3 top-3 h-4 w-4 text-muted-foreground rotate-90" />
                 <Input id="hauteur" type="number" placeholder="150" className="pl-10" value={formData.hauteur} onChange={e => setFormData(prev => ({
                 ...prev,
                 hauteur: e.target.value
@@ -113,7 +113,7 @@ export const QuoteStep3 = ({
             <div>
               <Label htmlFor="largeur">Largeur (cm) *</Label>
               <div className="relative mt-1">
-                <Ruler className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Ruler className="absolute left-3 top-3 h-4 w-4 text-muted-foreground rotate-90" />
                 <Input id="largeur" type="number" placeholder="100" className="pl-10" value={formData.largeur} onChange={e => setFormData(prev => ({
                 ...prev,
                 largeur: e.target.value
