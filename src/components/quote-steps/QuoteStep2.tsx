@@ -32,7 +32,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
       <div className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label htmlFor="object">Objet de l'intervention *</Label>
+            <Label htmlFor="object">Objet :</Label>
             <Select 
               value={formData.object}
               onValueChange={(value) => setFormData(prev => ({...prev, object: value}))}
@@ -56,7 +56,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
           </div>
 
           <div>
-            <Label htmlFor="property">Type de propriété *</Label>
+            <Label htmlFor="property">Lieu *</Label>
             <Select 
               value={formData.property}
               onValueChange={(value) => setFormData(prev => ({...prev, property: value, propertyOther: ""}))}
@@ -86,7 +86,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
           </div>
 
           <div>
-            <Label htmlFor="motif">Motif de l'intervention *</Label>
+            <Label htmlFor="motif">Motif :</Label>
             <Select 
               value={formData.motif}
               onValueChange={(value) => setFormData(prev => ({...prev, motif: value}))}
