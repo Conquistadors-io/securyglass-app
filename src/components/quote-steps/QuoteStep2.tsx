@@ -13,10 +13,10 @@ interface QuoteStep2Props {
 
 export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
   const [formData, setFormData] = useState({
-    object: data.object || "",
-    property: data.property || "",
+    object: data.object || "vitre-cassee",
+    property: data.property || "appartement",
     propertyOther: data.propertyOther || "",
-    motif: data.motif || ""
+    motif: data.motif || "accident"
   });
 
   const handleSubmit = (e: React.FormEvent) => {
