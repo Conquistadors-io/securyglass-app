@@ -63,6 +63,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
               <SelectContent>
                 <SelectItem value="appartement">Appartement</SelectItem>
                 <SelectItem value="maison">Maison</SelectItem>
+                <SelectItem value="immeuble">Immeuble ( ou parties communes )</SelectItem>
                 <SelectItem value="bureau">Bureau</SelectItem>
                 <SelectItem value="commerce">Magasin</SelectItem>
               </SelectContent>
