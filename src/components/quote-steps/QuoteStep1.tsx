@@ -62,7 +62,7 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="nom">Nom complet *</Label>
+            <Label htmlFor="nom">Prénom *</Label>
             <div className="relative mt-1">
               <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input id="nom" placeholder="Nom et prénom" className="pl-10" value={formData.nom} onChange={e => setFormData(prev => ({
