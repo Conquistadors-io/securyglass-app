@@ -89,7 +89,7 @@ export const QuoteStep3 = ({
                 <SelectValue placeholder="Sélectionnez le type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="simple">Vitrage simple</SelectItem>
+                <SelectItem value="simple">Simple vitrage</SelectItem>
                 <SelectItem value="double">Double vitrage</SelectItem>
                 <SelectItem value="trempe">Verre trempé</SelectItem>
                 <SelectItem value="feuillete">Verre feuilleté</SelectItem>
