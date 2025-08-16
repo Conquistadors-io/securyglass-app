@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Glasses } from "lucide-react";
 
@@ -14,6 +15,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
   const [formData, setFormData] = useState({
     object: data.object || "",
     property: data.property || "",
+    propertyOther: data.propertyOther || "",
     motif: data.motif || ""
   });
 
@@ -22,7 +24,8 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
     onComplete(formData);
   };
 
-  const isValid = formData.object && formData.property && formData.motif;
+  const isValid = formData.object && formData.property && formData.motif && 
+    (formData.property !== "autre" || formData.propertyOther.trim() !== "");
 
   return (
     <Card className="shadow-card border-0">
@@ -55,7 +58,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
             <Label htmlFor="property">Type de propriété *</Label>
             <Select 
               value={formData.property}
-              onValueChange={(value) => setFormData(prev => ({...prev, property: value}))}
+              onValueChange={(value) => setFormData(prev => ({...prev, property: value, propertyOther: ""}))}
             >
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Sélectionnez le type" />
@@ -69,6 +72,16 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
                 <SelectItem value="autre">Autre : préciser ...</SelectItem>
               </SelectContent>
             </Select>
+            
+            {formData.property === "autre" && (
+              <div className="mt-3">
+                <Input
+                  placeholder="Précisez le type de propriété..."
+                  value={formData.propertyOther}
+                  onChange={(e) => setFormData(prev => ({...prev, propertyOther: e.target.value}))}
+                />
+              </div>
+            )}
           </div>
 
           <div>
