@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ArrowLeft, Send, Printer, Copy, FileText, Euro, Calendar, User, Phone, Mail, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import securyglassLogo from "@/assets/securyglass-logo.png";
 
 interface QuoteDetailProps {
@@ -91,34 +92,43 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
 
   const handleSendQuote = async () => {
     try {
-      // Simulation d'envoi d'email
-      const emailData = {
-        to: clientEmail,
-        subject: `Devis ${quote.id} - Securyglass`,
-        body: message,
-        attachments: [`devis_${quote.id}.pdf`]
+      // Préparer les données du devis
+      const quoteData = {
+        id: quote.id,
+        date: quote.date,
+        client: quote.client,
+        company: quote.company,
+        items: quote.items,
+        subtotal,
+        vat: vatAmount,
+        total
       };
 
-      // Simulation d'envoi de SMS
-      const smsData = {
-        to: clientPhone,
-        message: `Securyglass: Votre devis ${quote.id} a été envoyé par email. Montant: ${total.toFixed(2)} €`
-      };
+      // Appeler l'edge function Supabase pour envoyer l'email
+      const { data, error } = await supabase.functions.invoke('send-quote', {
+        body: {
+          email: clientEmail,
+          clientName: quote.client.name,
+          quoteData
+        }
+      });
 
-      // Ici on simule les appels API
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      if (error) {
+        throw error;
+      }
 
       setStatus("sent");
       setShowSendDialog(false);
       
       toast({
         title: "Devis envoyé avec succès",
-        description: `Email envoyé à ${clientEmail} et SMS envoyé au ${clientPhone}`,
+        description: `Email envoyé à ${clientEmail}`,
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Erreur envoi devis:', error);
       toast({
         title: "Erreur d'envoi",
-        description: "Une erreur s'est produite lors de l'envoi du devis",
+        description: error.message || "Une erreur s'est produite lors de l'envoi du devis",
         variant: "destructive",
       });
     }
@@ -358,7 +368,7 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
                 onClick={handleSendQuote}
               >
                 <Send className="h-4 w-4 mr-2" />
-                Envoyer Email + SMS
+                Envoyer Email
               </Button>
             </div>
           </div>
@@ -375,7 +385,7 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
             onClick={handleSend}
           >
             <Send className="h-5 w-5 mr-2" />
-            Envoyer par Email + SMS
+            Envoyer par Email
           </Button>
         ) : status === "sent" ? (
           <Button 
