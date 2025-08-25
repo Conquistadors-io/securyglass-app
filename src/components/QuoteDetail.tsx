@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Send, Printer, Copy, FileText, Euro, Calendar, User, Phone, Mail } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ArrowLeft, Send, Printer, Copy, FileText, Euro, Calendar, User, Phone, Mail, MessageSquare } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import securyglassLogo from "@/assets/securyglass-logo.png";
 
 interface QuoteDetailProps {
@@ -12,6 +16,11 @@ interface QuoteDetailProps {
 
 export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
   const [status, setStatus] = useState<"pending" | "sent" | "accepted" | "converted">("pending");
+  const [showSendDialog, setShowSendDialog] = useState(false);
+  const [clientEmail, setClientEmail] = useState("");
+  const [clientPhone, setClientPhone] = useState("");
+  const [message, setMessage] = useState("");
+  const { toast } = useToast();
 
   const quote = {
     id: "DV212200",
@@ -74,7 +83,45 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
   };
 
   const handleSend = () => {
-    setStatus("sent");
+    setShowSendDialog(true);
+    setClientEmail(quote.client.email);
+    setClientPhone(quote.client.phone);
+    setMessage(`Voici votre devis ${quote.id} pour vos travaux de vitrage. Montant: ${total.toFixed(2)} €`);
+  };
+
+  const handleSendQuote = async () => {
+    try {
+      // Simulation d'envoi d'email
+      const emailData = {
+        to: clientEmail,
+        subject: `Devis ${quote.id} - Securyglass`,
+        body: message,
+        attachments: [`devis_${quote.id}.pdf`]
+      };
+
+      // Simulation d'envoi de SMS
+      const smsData = {
+        to: clientPhone,
+        message: `Securyglass: Votre devis ${quote.id} a été envoyé par email. Montant: ${total.toFixed(2)} €`
+      };
+
+      // Ici on simule les appels API
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setStatus("sent");
+      setShowSendDialog(false);
+      
+      toast({
+        title: "Devis envoyé avec succès",
+        description: `Email envoyé à ${clientEmail} et SMS envoyé au ${clientPhone}`,
+      });
+    } catch (error) {
+      toast({
+        title: "Erreur d'envoi",
+        description: "Une erreur s'est produite lors de l'envoi du devis",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleConvertToInvoice = () => {
@@ -260,6 +307,64 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
         </Card>
       </div>
 
+      {/* Send Dialog */}
+      <Dialog open={showSendDialog} onOpenChange={setShowSendDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Envoyer le devis</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email du client</Label>
+              <Input
+                id="email"
+                type="email"
+                value={clientEmail}
+                onChange={(e) => setClientEmail(e.target.value)}
+                placeholder="email@example.com"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">Téléphone du client (SMS)</Label>
+              <Input
+                id="phone"
+                type="tel"
+                value={clientPhone}
+                onChange={(e) => setClientPhone(e.target.value)}
+                placeholder="06 XX XX XX XX"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="message">Message</Label>
+              <textarea
+                id="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="Votre message..."
+              />
+            </div>
+            <div className="flex space-x-2">
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => setShowSendDialog(false)}
+              >
+                Annuler
+              </Button>
+              <Button
+                variant="default"
+                className="flex-1"
+                onClick={handleSendQuote}
+              >
+                <Send className="h-4 w-4 mr-2" />
+                Envoyer Email + SMS
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Bottom Actions */}
       <div className="fixed bottom-4 left-4 right-4 space-y-2">
         {status === "pending" ? (
@@ -270,13 +375,14 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
             onClick={handleSend}
           >
             <Send className="h-5 w-5 mr-2" />
-            Envoyer
+            Envoyer par Email + SMS
           </Button>
         ) : status === "sent" ? (
           <Button 
             variant="secondary" 
             size="lg" 
             className="w-full"
+            onClick={handleSend}
           >
             <Send className="h-5 w-5 mr-2" />
             Renvoyer
@@ -287,6 +393,7 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
               variant="outline" 
               size="lg" 
               className="flex-1"
+              onClick={handleSend}
             >
               <Send className="h-5 w-5 mr-2" />
               Renvoyer
