@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { QuoteStep0 } from "./quote-steps/QuoteStep0";
 import { QuoteStep1 } from "./quote-steps/QuoteStep1";
 import { QuoteStep2 } from "./quote-steps/QuoteStep2";
 import { QuoteStep3 } from "./quote-steps/QuoteStep3";
@@ -21,6 +22,9 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
       
       return {
         formData: savedData ? JSON.parse(savedData) : {
+          // Step 0: Service type
+          serviceType: "",
+          
           // Step 1: Personal info
           civilite: "",
           nom: "",
@@ -44,12 +48,13 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
           assurance: "",
           photo: null as File | null
         },
-        currentStep: savedStep ? parseInt(savedStep) : 1
+        currentStep: savedStep ? parseInt(savedStep) : 0
       };
     } catch (error) {
       console.error('Erreur lors du chargement des données:', error);
       return {
         formData: {
+          serviceType: "",
           civilite: "",
           nom: "",
           telephone: "",
@@ -68,7 +73,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
           assurance: "",
           photo: null as File | null
         },
-        currentStep: 1
+        currentStep: 0
       };
     }
   };
@@ -106,8 +111,8 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
     }
   };
 
-  const totalSteps = 4; // Simplified to 4 steps for demo
-  const progress = (currentStep / totalSteps) * 100;
+  const totalSteps = 5; // Updated to 5 steps
+  const progress = ((currentStep + 1) / totalSteps) * 100;
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
@@ -116,7 +121,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
   };
 
   const handlePrevious = () => {
-    if (currentStep > 1) {
+    if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -130,6 +135,13 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
 
   const renderStep = () => {
     switch (currentStep) {
+      case 0:
+        return (
+          <QuoteStep0 
+            data={formData} 
+            onComplete={handleStepComplete}
+          />
+        );
       case 1:
         return (
           <QuoteStep2 
@@ -177,14 +189,14 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
               variant="ghost" 
               size="icon" 
               className="text-white hover:bg-white/20 mr-3"
-              onClick={() => currentStep === 1 ? onNavigate('welcome') : handlePrevious()}
+              onClick={() => currentStep === 0 ? onNavigate('welcome') : handlePrevious()}
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <h1 className="text-xl font-semibold">Devis en Ligne</h1>
           </div>
           <span className="text-sm">
-            {currentStep}/{totalSteps}
+            {currentStep + 1}/{totalSteps}
           </span>
         </div>
         
