@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Glasses } from "lucide-react";
 
 interface QuoteStep2Props {
@@ -32,27 +33,32 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
       <div className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label htmlFor="object">Objet : *</Label>
-            <Select 
-              value={formData.object}
-              onValueChange={(value) => setFormData(prev => ({...prev, object: value}))}
+            <Label className="text-lg font-medium mb-6 block">Objet de l'intervention :</Label>
+            <RadioGroup 
+              value={formData.object} 
+              onValueChange={value => setFormData(prev => ({...prev, object: value}))}
+              className="space-y-4"
             >
-              <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Vitre cassée" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="vitre-cassee">Vitre cassée</SelectItem>
-                <SelectItem value="miroir">Miroir</SelectItem>
-                <SelectItem value="chatiere">Chatière</SelectItem>
-                <SelectItem value="decoupe-aeration">Découpe Aération</SelectItem>
-                <SelectItem value="verre-anti-bruit">Verre Anti-Bruit</SelectItem>
-                <SelectItem value="renovation">Rénovation</SelectItem>
-                <SelectItem value="verre-anti-effraction">Verre Anti-effraction</SelectItem>
-                <SelectItem value="mise-conformite-erp">Mise en conformité ERP</SelectItem>
-                <SelectItem value="defaut-etancheite">Défaut d'étanchéité ( traces, buées )</SelectItem>
-                <SelectItem value="autre">Autre</SelectItem>
-              </SelectContent>
-            </Select>
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
+                <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer flex-1">Vitre cassée</Label>
+              </div>
+              
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value="miroir" id="miroir" className="w-6 h-6" />
+                <Label htmlFor="miroir" className="text-lg cursor-pointer flex-1">Miroir</Label>
+              </div>
+              
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value="mise-securite" id="mise-securite" className="w-6 h-6" />
+                <Label htmlFor="mise-securite" className="text-lg cursor-pointer flex-1">Mise en sécurité</Label>
+              </div>
+              
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" />
+                <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">Autre</Label>
+              </div>
+            </RadioGroup>
           </div>
 
           <div>
