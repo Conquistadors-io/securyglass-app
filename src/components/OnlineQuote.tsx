@@ -14,74 +14,35 @@ interface OnlineQuoteProps {
 }
 
 export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
-  // Charger les données sauvegardées depuis localStorage
-  const loadSavedData = () => {
-    try {
-      const savedData = localStorage.getItem('quote-form-data');
-      const savedStep = localStorage.getItem('quote-current-step');
-      
-      return {
-        formData: savedData ? JSON.parse(savedData) : {
-          // Step 0: Service type
-          serviceType: "",
-          
-          // Step 1: Personal info
-          civilite: "",
-          nom: "",
-          telephone: "",
-          email: "",
-          adresse: "",
-          codePostal: "",
-          ville: "",
-          
-          // Step 2: Object
-          object: "",
-          property: "",
-          motif: "",
-          
-          // Step 3: Property details
-          category: "",
-          vitrage: "",
-          largeur: "",
-          hauteur: "",
-          quantite: "1",
-          assurance: "",
-          photo: null as File | null
-        },
-        currentStep: savedStep ? parseInt(savedStep) : 0
-      };
-    } catch (error) {
-      console.error('Erreur lors du chargement des données:', error);
-      return {
-        formData: {
-          serviceType: "",
-          civilite: "",
-          nom: "",
-          telephone: "",
-          email: "",
-          adresse: "",
-          codePostal: "",
-          ville: "",
-          object: "",
-          property: "",
-          motif: "",
-          category: "",
-          vitrage: "",
-          largeur: "",
-          hauteur: "",
-          quantite: "1",
-          assurance: "",
-          photo: null as File | null
-        },
-        currentStep: 0
-      };
-    }
-  };
-
-  const { formData: initialFormData, currentStep: initialStep } = loadSavedData();
-  
-  const [currentStep, setCurrentStep] = useState(initialStep);
-  const [formData, setFormData] = useState(initialFormData);
+  // Forcer le redémarrage à l'étape 0 pour tous les nouveaux devis
+  const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState({
+    // Step 0: Service type
+    serviceType: "",
+    
+    // Step 1: Personal info
+    civilite: "",
+    nom: "",
+    telephone: "",
+    email: "",
+    adresse: "",
+    codePostal: "",
+    ville: "",
+    
+    // Step 2: Object
+    object: "",
+    property: "",
+    motif: "",
+    
+    // Step 3: Property details
+    category: "",
+    vitrage: "",
+    largeur: "",
+    hauteur: "",
+    quantite: "1",
+    assurance: "",
+    photo: null as File | null
+  });
 
   // Sauvegarder les données à chaque modification
   useEffect(() => {
@@ -144,7 +105,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         );
       case 1:
         return (
-          <QuoteStep2 
+          <QuoteStep1 
             data={formData} 
             onComplete={handleStepComplete}
             onBack={handlePrevious}
@@ -152,7 +113,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         );
       case 2:
         return (
-          <QuoteStep3 
+          <QuoteStep2 
             data={formData} 
             onComplete={handleStepComplete}
             onBack={handlePrevious}
@@ -160,7 +121,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         );
       case 3:
         return (
-          <QuoteStep1 
+          <QuoteStep3 
             data={formData} 
             onComplete={handleStepComplete}
             onBack={handlePrevious}
