@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Camera, Upload, X, Check } from "lucide-react";
+import { Camera, Images, X, Check } from "lucide-react";
 
 interface PhotoCaptureProps {
   onPhotoSelect: (file: File, previewUrl: string) => void;
@@ -147,8 +147,8 @@ export const PhotoCapture = ({ onPhotoSelect, children, maxSizeMB = 5 }: PhotoCa
                   className="w-full h-20 flex-col space-y-2"
                   onClick={() => fileInputRef.current?.click()}
                 >
-                  <Upload className="h-8 w-8 text-primary" />
-                  <span className="text-sm">Choisir depuis la galerie</span>
+                  <Images className="h-8 w-8 text-primary" />
+                  <span className="text-sm">Mes photos</span>
                 </Button>
                 <input
                   ref={fileInputRef}
