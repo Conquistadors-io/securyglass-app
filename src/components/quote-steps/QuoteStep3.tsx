@@ -21,6 +21,7 @@ export const QuoteStep3 = ({
 }: QuoteStep3Props) => {
   const [formData, setFormData] = useState({
     category: data.category || "fenetre",
+    subcategory: data.subcategory || "",
     vitrage: data.vitrage || "simple",
     largeur: data.largeur || "",
     hauteur: data.hauteur || "",
@@ -80,7 +81,8 @@ export const QuoteStep3 = ({
       description: "La photo a été supprimée"
     });
   };
-  const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur;
+  const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur && 
+    (formData.category !== "baie-vitree" || formData.subcategory);
   return <Card className="shadow-card border-0">
       <div className="p-6">
 
@@ -93,7 +95,8 @@ export const QuoteStep3 = ({
                <Select value={formData.category} onValueChange={value => {
                 setFormData(prev => ({
                   ...prev,
-                  category: value
+                  category: value,
+                  subcategory: value === "baie-vitree" ? "" : prev.subcategory
                 }));
                 setValidationErrors(prev => ({...prev, category: false}));
               }}>
@@ -116,7 +119,30 @@ export const QuoteStep3 = ({
               </Select>
             </div>
             
-            <RadioGroup 
+            {formData.category === "baie-vitree" && (
+              <div className="mb-4">
+                <Label htmlFor="subcategory">Type de baie vitrée <span className="text-destructive">*</span></Label>
+                <RadioGroup 
+                  value={formData.subcategory} 
+                  onValueChange={value => {
+                    setFormData(prev => ({...prev, subcategory: value}));
+                  }}
+                  className="space-y-3 mt-2"
+                >
+                  <div className="flex items-center space-x-3 p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="fixe" id="fixe" className="w-6 h-6" />
+                    <Label htmlFor="fixe" className="text-base cursor-pointer flex-1">Fixe</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="coulissante" id="coulissante" className="w-6 h-6" />
+                    <Label htmlFor="coulissante" className="text-base cursor-pointer flex-1">Coulissante</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+            )}
+            
+            <RadioGroup
               value={formData.vitrage} 
               onValueChange={value => {
                 setFormData(prev => ({...prev, vitrage: value}));
