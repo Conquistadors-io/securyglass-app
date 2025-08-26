@@ -14,34 +14,75 @@ interface OnlineQuoteProps {
 }
 
 export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
-  // Forcer le redémarrage à l'étape 0 pour tous les nouveaux devis
-  const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({
-    // Step 0: Service type
-    serviceType: "",
-    
-    // Step 1: Personal info
-    civilite: "",
-    nom: "",
-    telephone: "",
-    email: "",
-    adresse: "",
-    codePostal: "",
-    ville: "",
-    
-    // Step 2: Object
-    object: "",
-    property: "",
-    motif: "",
-    
-    // Step 3: Property details
-    category: "",
-    vitrage: "",
-    largeur: "",
-    hauteur: "",
-    quantite: "1",
-    assurance: "",
-    photo: null as File | null
+  // Initialisation des données depuis localStorage ou valeurs par défaut
+  const [currentStep, setCurrentStep] = useState(() => {
+    try {
+      const saved = localStorage.getItem('quote-current-step');
+      return saved ? parseInt(saved, 10) : 0;
+    } catch {
+      return 0;
+    }
+  });
+  
+  const [formData, setFormData] = useState(() => {
+    try {
+      const saved = localStorage.getItem('quote-form-data');
+      return saved ? JSON.parse(saved) : {
+        // Step 0: Service type
+        serviceType: "",
+        
+        // Step 1: Personal info
+        civilite: "",
+        nom: "",
+        telephone: "",
+        email: "",
+        adresse: "",
+        codePostal: "",
+        ville: "",
+        
+        // Step 2: Object
+        object: "",
+        property: "",
+        motif: "",
+        
+        // Step 3: Property details
+        category: "",
+        vitrage: "",
+        largeur: "",
+        hauteur: "",
+        quantite: "1",
+        assurance: "",
+        photo: null as File | null
+      };
+    } catch {
+      return {
+        // Step 0: Service type
+        serviceType: "",
+        
+        // Step 1: Personal info
+        civilite: "",
+        nom: "",
+        telephone: "",
+        email: "",
+        adresse: "",
+        codePostal: "",
+        ville: "",
+        
+        // Step 2: Object
+        object: "",
+        property: "",
+        motif: "",
+        
+        // Step 3: Property details
+        category: "",
+        vitrage: "",
+        largeur: "",
+        hauteur: "",
+        quantite: "1",
+        assurance: "",
+        photo: null as File | null
+      };
+    }
   });
 
   // Sauvegarder les données à chaque modification
