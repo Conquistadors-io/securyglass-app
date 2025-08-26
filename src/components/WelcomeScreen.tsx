@@ -37,9 +37,7 @@ export const WelcomeScreen = ({
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-gray-900">CLIENTS</h3>
-                <p className="text-sm text-gray-600">
-                  Commencer un devis automatique
-                </p>
+                <p className="text-sm text-gray-600">Devis automatique</p>
               </div>
             </div>
           </Card>
