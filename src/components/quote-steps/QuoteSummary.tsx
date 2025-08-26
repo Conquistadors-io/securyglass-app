@@ -14,20 +14,74 @@ export const QuoteSummary = ({
 }: QuoteSummaryProps) => {
   // Calculate estimated price based on form data
   const calculatePrice = () => {
-    const basePrice = 150;
-    const area = parseInt(data.largeur) * parseInt(data.hauteur) / 10000; // m²
-    const typeMultiplier = {
-      'simple': 1,
-      'double': 1.5,
-      'trempe': 2,
-      'feuillete': 2.2,
-      'anti-bruit': 2.5
-    }[data.vitrage] || 1;
-    const pricePerM2 = 80;
-    const totalPrice = basePrice + area * pricePerM2 * typeMultiplier;
-    return Math.round(totalPrice * parseInt(data.quantite));
+    const largeur = parseFloat(data.largeur) || 0;
+    const hauteur = parseFloat(data.hauteur) || 0;
+    const quantite = parseInt(data.quantite) || 1;
+    
+    // Convertir dimensions en m²
+    const area = (largeur * hauteur) / 10000; // cm² vers m²
+    const areaMinimum = Math.max(area, 0.5); // Quantité minimum 0,5 m²
+    
+    // Prix vitrage selon le type
+    let pricePerM2 = 0;
+    
+    switch(data.vitrage) {
+      case 'simple':
+        pricePerM2 = data.category === 'autre' ? 167.31 : 97.19;
+        break;
+      case 'double':
+        pricePerM2 = data.category === 'autre' ? 348.31 : 297.31;
+        break;
+      case 'trempe':
+        pricePerM2 = 399;
+        break;
+      case 'feuillete':
+        pricePerM2 = 299;
+        break;
+      case 'anti-bruit':
+        pricePerM2 = 399;
+        break;
+      default:
+        pricePerM2 = 97.19;
+    }
+    
+    // Calcul des coûts
+    const vitragePrice = areaMinimum * pricePerM2;
+    const mainOeuvrePrice = areaMinimum * 178.18; // Main d'œuvre par m²
+    
+    // Approvisionnement + Livraison
+    let livraison = 79;
+    if (area > 1.5) livraison = 141.17;
+    else if (area > 0.5) livraison = 94.11;
+    
+    // Déplacement (non facturé si mise en sécurité)
+    const deplacement = data.object?.includes('sécurité') ? 0 : 62.73;
+    
+    // Mise en sécurité si applicable
+    let miseEnSecurite = 0;
+    if (data.object?.includes('sécurité')) {
+      miseEnSecurite = data.typeClient === 'entreprise' ? 150 * areaMinimum : 135.45;
+    }
+    
+    const subtotal = (vitragePrice + mainOeuvrePrice + livraison + deplacement + miseEnSecurite) * quantite;
+    const tva = subtotal * 0.2; // TVA 20%
+    const total = subtotal + tva;
+    
+    return {
+      subtotal: Math.round(subtotal * 100) / 100,
+      tva: Math.round(tva * 100) / 100,
+      total: Math.round(total * 100) / 100,
+      details: {
+        vitrage: Math.round(vitragePrice * quantite * 100) / 100,
+        mainOeuvre: Math.round(mainOeuvrePrice * quantite * 100) / 100,
+        livraison: Math.round(livraison * quantite * 100) / 100,
+        deplacement: Math.round(deplacement * quantite * 100) / 100,
+        miseEnSecurite: Math.round(miseEnSecurite * quantite * 100) / 100,
+        area: areaMinimum
+      }
+    };
   };
-  const estimatedPrice = calculatePrice();
+  const priceCalculation = calculatePrice();
   const quoteNumber = `DEV-${Date.now().toString().slice(-8)}`;
   return <div className="space-y-6">
       {/* Header Card */}
@@ -71,10 +125,53 @@ export const QuoteSummary = ({
 
           <Separator className="my-4" />
 
+          {/* Détail des coûts */}
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span>Vitrage ({priceCalculation.details.area.toFixed(2)} m²):</span>
+              <span>{priceCalculation.details.vitrage}€</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Main d'œuvre:</span>
+              <span>{priceCalculation.details.mainOeuvre}€</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Livraison:</span>
+              <span>{priceCalculation.details.livraison}€</span>
+            </div>
+            {priceCalculation.details.deplacement > 0 && (
+              <div className="flex justify-between">
+                <span>Déplacement:</span>
+                <span>{priceCalculation.details.deplacement}€</span>
+              </div>
+            )}
+            {priceCalculation.details.miseEnSecurite > 0 && (
+              <div className="flex justify-between">
+                <span>Mise en sécurité:</span>
+                <span>{priceCalculation.details.miseEnSecurite}€</span>
+              </div>
+            )}
+          </div>
+
+          <Separator className="my-3" />
+
+          <div className="space-y-1">
+            <div className="flex justify-between">
+              <span>Sous-total HT:</span>
+              <span>{priceCalculation.subtotal}€</span>
+            </div>
+            <div className="flex justify-between">
+              <span>TVA (20%):</span>
+              <span>{priceCalculation.tva}€</span>
+            </div>
+          </div>
+
+          <Separator className="my-3" />
+
           <div className="flex justify-between items-center">
-            <span className="text-lg font-semibold">Prix estimé:</span>
+            <span className="text-lg font-semibold">Total TTC:</span>
             <span className="text-2xl font-bold text-primary">
-              {estimatedPrice}€ TTC
+              {priceCalculation.total}€
             </span>
           </div>
 
