@@ -28,24 +28,30 @@ export const QuoteStep3 = ({
     photo: data.photo || null,
     photoPreview: data.photoPreview || null
   });
+
+  const [validationErrors, setValidationErrors] = useState({
+    category: false,
+    vitrage: false,
+    largeur: false,
+    hauteur: false
+  });
   const {
     toast
   } = useToast();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const missingFields = [];
-    if (!formData.category) missingFields.push("Catégorie");
-    if (!formData.vitrage) missingFields.push("Type de vitrage");
-    if (!formData.largeur) missingFields.push("Largeur");
-    if (!formData.hauteur) missingFields.push("Hauteur");
+    const errors = {
+      category: !formData.category,
+      vitrage: !formData.vitrage,
+      largeur: !formData.largeur,
+      hauteur: !formData.hauteur
+    };
     
-    if (missingFields.length > 0) {
-      toast({
-        title: "Champs manquants",
-        description: `Veuillez remplir: ${missingFields.join(", ")}`,
-        variant: "destructive"
-      });
+    setValidationErrors(errors);
+    
+    const hasErrors = Object.values(errors).some(error => error);
+    if (hasErrors) {
       return;
     }
     
@@ -84,11 +90,14 @@ export const QuoteStep3 = ({
             
             <div className="mb-4">
               <Label htmlFor="category">Catégorie <span className="text-destructive">*</span></Label>
-              <Select value={formData.category} onValueChange={value => setFormData(prev => ({
-              ...prev,
-              category: value
-            }))}>
-                <SelectTrigger className="mt-1">
+               <Select value={formData.category} onValueChange={value => {
+                setFormData(prev => ({
+                  ...prev,
+                  category: value
+                }));
+                setValidationErrors(prev => ({...prev, category: false}));
+              }}>
+                 <SelectTrigger className={`mt-1 ${validationErrors.category ? 'border-red-500 ring-red-500' : ''}`}>
                   <SelectValue placeholder="Précisez la catégorie" />
                 </SelectTrigger>
                 <SelectContent>
@@ -109,8 +118,11 @@ export const QuoteStep3 = ({
             
             <RadioGroup 
               value={formData.vitrage} 
-              onValueChange={value => setFormData(prev => ({...prev, vitrage: value}))}
-              className="space-y-4"
+              onValueChange={value => {
+                setFormData(prev => ({...prev, vitrage: value}));
+                setValidationErrors(prev => ({...prev, vitrage: false}));
+              }}
+              className={`space-y-4 ${validationErrors.vitrage ? 'ring-2 ring-red-500 rounded-lg p-2' : ''}`}
             >
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="simple" id="simple" className="w-6 h-6" />
@@ -132,18 +144,40 @@ export const QuoteStep3 = ({
           <div className="grid grid-cols-3 gap-4">
             <div>
               <Label htmlFor="hauteur">Hauteur <span className="text-destructive">*</span></Label>
-              <Input id="hauteur" type="number" placeholder="150 cm" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" value={formData.hauteur} onChange={e => setFormData(prev => ({
-                ...prev,
-                hauteur: e.target.value
-              }))} required />
+              <Input 
+                id="hauteur" 
+                type="number" 
+                placeholder="150 cm" 
+                className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.hauteur ? 'border-red-500 ring-red-500' : ''}`}
+                value={formData.hauteur} 
+                onChange={e => {
+                  setFormData(prev => ({
+                    ...prev,
+                    hauteur: e.target.value
+                  }));
+                  setValidationErrors(prev => ({...prev, hauteur: false}));
+                }}
+                required 
+              />
             </div>
 
             <div>
               <Label htmlFor="largeur">Largeur <span className="text-destructive">*</span></Label>
-              <Input id="largeur" type="number" placeholder="100 cm" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" value={formData.largeur} onChange={e => setFormData(prev => ({
-                ...prev,
-                largeur: e.target.value
-              }))} required />
+              <Input 
+                id="largeur" 
+                type="number" 
+                placeholder="100 cm" 
+                className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.largeur ? 'border-red-500 ring-red-500' : ''}`}
+                value={formData.largeur} 
+                onChange={e => {
+                  setFormData(prev => ({
+                    ...prev,
+                    largeur: e.target.value
+                  }));
+                  setValidationErrors(prev => ({...prev, largeur: false}));
+                }}
+                required 
+              />
             </div>
 
             <div>
