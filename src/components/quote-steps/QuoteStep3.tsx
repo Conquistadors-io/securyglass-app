@@ -214,7 +214,7 @@ export const QuoteStep3 = ({
               className="flex-1" 
               disabled={!isValid}
             >
-              Voir le devis
+              Continuer
             </Button>
           </div>
         </form>
