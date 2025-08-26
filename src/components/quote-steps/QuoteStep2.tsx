@@ -112,7 +112,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
             {formData.property === "autre" && (
               <div className="mt-3">
                 <Input
-                  placeholder="Précisez le type de propriété..."
+                  placeholder="Précisez ..."
                   value={formData.propertyOther}
                   onChange={(e) => setFormData(prev => ({...prev, propertyOther: e.target.value}))}
                 />
