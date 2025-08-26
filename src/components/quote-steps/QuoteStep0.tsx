@@ -24,14 +24,6 @@ export const QuoteStep0 = ({ data, onComplete }: QuoteStep0Props) => {
   return (
     <Card className="shadow-card border-0">
       <div className="p-6">
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-foreground mb-2">
-            Type de service
-          </h2>
-          <p className="text-muted-foreground">
-            Sélectionnez le type de service dont vous avez besoin
-          </p>
-        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
