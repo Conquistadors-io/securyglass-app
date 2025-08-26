@@ -92,6 +92,18 @@ export const QuoteStep2 = ({
           <div>
             <Label htmlFor="motif">Motif : <span className="text-destructive">*</span></Label>
             
+            <div className="p-4 bg-accent rounded-lg mt-2 mb-2">
+              <div className="flex items-center space-x-3">
+                <Glasses className="h-5 w-5 text-primary" />
+                <div className="text-sm">
+                  <p className="font-medium text-foreground">Information</p>
+                  <p className="text-foreground">
+                    Ces informations ne seront pas mentionnées sur le devis
+                  </p>
+                </div>
+              </div>
+            </div>
+            
             <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
             ...prev,
             motif: value
@@ -111,18 +123,6 @@ export const QuoteStep2 = ({
                 <SelectItem value="autre">Autre</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-
-          <div className="p-4 bg-accent rounded-lg">
-            <div className="flex items-center space-x-3">
-              <Glasses className="h-5 w-5 text-primary" />
-              <div className="text-sm">
-                <p className="font-medium text-foreground">Information</p>
-                <p className="text-foreground">
-                  Ces informations ne seront pas mentionnées sur le devis
-                </p>
-              </div>
-            </div>
           </div>
 
           <div>
