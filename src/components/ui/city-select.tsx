@@ -132,8 +132,10 @@ export function CitySelect({
   disabled = false 
 }: CitySelectProps) {
   const [open, setOpen] = useState(false)
+  const [fetchedCities, setFetchedCities] = useState<string[] | null>(null)
+  const [loading, setLoading] = useState(false)
 
-  // Déterminer le département à partir du code postal ou utiliser departmentCode
+  // Déterminer le département à partir du code postal ou utiliser departmentCode (fallback)
   const getDepartmentFromPostalCode = (postal: string): string => {
     if (!postal || postal.length < 2) return ""
     
@@ -158,20 +160,50 @@ export function CitySelect({
     return ""
   }
 
-  const determinedDepartment = postalCode ? getDepartmentFromPostalCode(postalCode) : departmentCode
-  const availableCities = determinedDepartment ? CITIES_BY_DEPARTMENT[determinedDepartment] || [] : []
-  const hasNoCities = !determinedDepartment || availableCities.length === 0
-
-  // Sélection automatique si une seule ville disponible
+  // Recherche des villes correspondant exactement au code postal via l'API officielle
   useEffect(() => {
-    if (availableCities.length === 1 && !value && onValueChange) {
+    setFetchedCities(null)
+    if (!postalCode || !/^\d{5}$/.test(postalCode)) return
+
+    const controller = new AbortController()
+    setLoading(true)
+
+    fetch(`https://geo.api.gouv.fr/communes?codePostal=${postalCode}&fields=nom&format=json`, { signal: controller.signal })
+      .then((res) => res.json())
+      .then((rows) => {
+        const names = Array.isArray(rows) ? rows.map((r: any) => r?.nom).filter(Boolean) : []
+        setFetchedCities(names)
+      })
+      .catch(() => {
+        // en cas d'erreur réseau, on laisse fetchedCities à [] pour que le fallback s'applique plus bas
+        setFetchedCities([])
+      })
+      .finally(() => setLoading(false))
+
+    return () => controller.abort()
+  }, [postalCode])
+
+  const determinedDepartment = postalCode ? getDepartmentFromPostalCode(postalCode) : departmentCode
+  const fallbackCities = determinedDepartment ? CITIES_BY_DEPARTMENT[determinedDepartment] || [] : []
+  const isPostalValid = !!postalCode && /^\d{5}$/.test(postalCode)
+  const availableCities = isPostalValid
+    ? (fetchedCities ?? [])
+    : []
+
+  const hasNoCities = isPostalValid ? (availableCities.length === 0 && !loading) : true
+
+  // Sélection automatique si une seule ville disponible (sur résultats exacts du code postal)
+  useEffect(() => {
+    if (isPostalValid && availableCities.length === 1 && !value && onValueChange) {
       onValueChange(availableCities[0])
     }
-  }, [availableCities, value, onValueChange])
+  }, [isPostalValid, availableCities, value, onValueChange])
 
-  const displayText = hasNoCities 
+  const displayText = !isPostalValid
     ? "Saisir d'abord un code postal"
-    : value || placeholder
+    : loading
+      ? "Recherche des villes..."
+      : (value || placeholder)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -181,7 +213,7 @@ export function CitySelect({
           role="combobox"
           aria-expanded={open}
           className="w-full justify-between pl-10 font-normal"
-          disabled={disabled || hasNoCities}
+          disabled={disabled || !isPostalValid || (loading && !value)}
         >
           <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           {displayText}
@@ -192,7 +224,7 @@ export function CitySelect({
         <Command>
           <CommandInput placeholder="Rechercher une ville..." />
           <CommandList>
-            <CommandEmpty>Aucune ville trouvée.</CommandEmpty>
+            <CommandEmpty>{loading ? "Chargement..." : "Aucune ville trouvée pour ce code postal."}</CommandEmpty>
             <CommandGroup>
               {availableCities.map((city) => (
                 <CommandItem
