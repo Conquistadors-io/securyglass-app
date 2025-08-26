@@ -119,6 +119,7 @@ interface CitySelectProps {
   onValueChange?: (value: string) => void
   placeholder?: string
   departmentCode?: string
+  postalCode?: string
   disabled?: boolean
 }
 
@@ -127,12 +128,39 @@ export function CitySelect({
   onValueChange, 
   placeholder = "Sélectionnez une ville", 
   departmentCode,
+  postalCode,
   disabled = false 
 }: CitySelectProps) {
   const [open, setOpen] = useState(false)
 
-  const availableCities = departmentCode ? CITIES_BY_DEPARTMENT[departmentCode] || [] : []
-  const hasNoCities = !departmentCode || availableCities.length === 0
+  // Déterminer le département à partir du code postal ou utiliser departmentCode
+  const getDepartmentFromPostalCode = (postal: string): string => {
+    if (!postal || postal.length < 2) return ""
+    
+    // Pour les codes postaux à 5 chiffres
+    if (postal.length >= 5) {
+      const firstTwo = postal.substring(0, 2)
+      
+      // Cas spéciaux pour la Corse
+      if (firstTwo === "20") {
+        const firstThree = postal.substring(0, 3)
+        if (parseInt(firstThree) <= 200) return "2A" // Corse-du-Sud
+        return "2B" // Haute-Corse
+      }
+      
+      // Cas spéciaux DOM-TOM
+      if (firstTwo === "97") return postal.substring(0, 3)
+      if (firstTwo === "98") return postal.substring(0, 3)
+      
+      return firstTwo
+    }
+    
+    return ""
+  }
+
+  const determinedDepartment = postalCode ? getDepartmentFromPostalCode(postalCode) : departmentCode
+  const availableCities = determinedDepartment ? CITIES_BY_DEPARTMENT[determinedDepartment] || [] : []
+  const hasNoCities = !determinedDepartment || availableCities.length === 0
 
   // Sélection automatique si une seule ville disponible
   useEffect(() => {
@@ -142,7 +170,7 @@ export function CitySelect({
   }, [availableCities, value, onValueChange])
 
   const displayText = hasNoCities 
-    ? "Sélectionnez d'abord un département"
+    ? "Saisir d'abord un code postal"
     : value || placeholder
 
   return (

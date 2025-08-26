@@ -123,7 +123,7 @@ export const QuoteStep1 = ({
                   ...prev,
                   ville: value
                 }))}
-                departmentCode={formData.codePostal}
+                postalCode={formData.codePostal}
                 placeholder="Sélectionnez une ville"
               />
             </div>
