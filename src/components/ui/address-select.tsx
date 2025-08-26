@@ -30,6 +30,7 @@ export function AddressSelect({
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const [isAddressComplete, setIsAddressComplete] = useState(false)
 
   // Suggestions d'adresses communes basées sur le type de ville
   const commonAddresses = useMemo(() => {
@@ -142,6 +143,12 @@ export function AddressSelect({
 
   // Recherche avec debounce
   useEffect(() => {
+    // Ne pas afficher les suggestions si l'adresse est déjà complète
+    if (isAddressComplete) {
+      setShowSuggestions(false)
+      return
+    }
+
     const timeoutId = setTimeout(() => {
       if (searchTerm && searchTerm.length >= 2) {
         searchAddresses(searchTerm)
@@ -153,18 +160,22 @@ export function AddressSelect({
     }, 300)
 
     return () => clearTimeout(timeoutId)
-  }, [searchTerm, commonAddresses])
+  }, [searchTerm, commonAddresses, isAddressComplete])
 
   // Synchroniser searchTerm avec value
   useEffect(() => {
     if (value !== searchTerm) {
       setSearchTerm(value || "")
+      // Vérifier si l'adresse semble complète (contient au moins un numéro et du texte)
+      const addressComplete = value && value.trim().length > 5 && /\d/.test(value)
+      setIsAddressComplete(!!addressComplete)
     }
   }, [value])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
     setSearchTerm(newValue)
+    setIsAddressComplete(false) // Réinitialiser quand l'utilisateur tape
     onValueChange?.(newValue)
   }
 
@@ -172,10 +183,12 @@ export function AddressSelect({
     setSearchTerm(suggestion.value)
     onValueChange?.(suggestion.value)
     setShowSuggestions(false)
+    setIsAddressComplete(true) // Marquer comme complète après sélection
   }
 
   const handleInputFocus = () => {
-    if (searchTerm.length >= 2) {
+    // Seulement afficher les suggestions si l'adresse n'est pas complète
+    if (searchTerm.length >= 2 && !isAddressComplete) {
       setShowSuggestions(true)
     }
   }
@@ -200,7 +213,7 @@ export function AddressSelect({
         />
       </div>
       
-      {showSuggestions && suggestions.length > 0 && (
+      {showSuggestions && suggestions.length > 0 && !isAddressComplete && (
         <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-background border border-border rounded-md shadow-md max-h-60 overflow-y-auto">
           {isLoading && (
             <div className="px-3 py-2 text-sm text-muted-foreground">
