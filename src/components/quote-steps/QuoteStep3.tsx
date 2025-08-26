@@ -158,6 +158,20 @@ export const QuoteStep3 = ({
             </div>
           </div>
 
+          <Button 
+            type="button" 
+            variant="outline" 
+            className="w-full"
+            onClick={() => {
+              toast({
+                title: "Article ajouté",
+                description: "Un nouvel article a été ajouté à votre devis"
+              });
+            }}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Ajouter un article
+          </Button>
 
           <div>
             <Label htmlFor="photo">Photos (optionnel)</Label>
