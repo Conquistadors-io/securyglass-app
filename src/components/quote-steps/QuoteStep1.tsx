@@ -66,7 +66,7 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="nom">Nom Prénom *</Label>
+            <Label htmlFor="nom">Nom Prénom <span className="text-destructive">*</span></Label>
             <div className="relative mt-1">
               <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input id="nom" placeholder="Nom et prénom" className="pl-10" value={formData.nom} onChange={e => setFormData(prev => ({
@@ -77,7 +77,7 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="telephone">Téléphone *</Label>
+            <Label htmlFor="telephone">Téléphone <span className="text-destructive">*</span></Label>
             <div className="relative mt-1">
               <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input id="telephone" type="tel" placeholder="06 12 34 56 78" className="pl-10" value={formData.telephone} onChange={e => setFormData(prev => ({
@@ -88,7 +88,7 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="email">Email *</Label>
+            <Label htmlFor="email">Email <span className="text-destructive">*</span></Label>
             <div className="relative mt-1">
               <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input id="email" type="email" placeholder="votre@email.com" className="pl-10" value={formData.email} onChange={e => setFormData(prev => ({
@@ -99,7 +99,7 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="codePostal">Département *</Label>
+            <Label htmlFor="codePostal">Département <span className="text-destructive">*</span></Label>
             <div className="mt-1">
               <DepartmentSelect 
                 value={formData.codePostal} 
@@ -114,7 +114,7 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="ville">Ville *</Label>
+            <Label htmlFor="ville">Ville <span className="text-destructive">*</span></Label>
             <div className="mt-1">
               <CitySelect 
                 value={formData.ville} 

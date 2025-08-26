@@ -70,7 +70,7 @@ export const QuoteStep2 = ({ data, onComplete, onBack }: QuoteStep2Props) => {
           </div>
 
           <div>
-            <Label htmlFor="motif">Motif : *</Label>
+            <Label htmlFor="motif">Motif : <span className="text-destructive">*</span></Label>
             <Select 
               value={formData.motif}
               onValueChange={(value) => setFormData(prev => ({...prev, motif: value}))}
@@ -93,7 +93,7 @@ export const QuoteStep2 = ({ data, onComplete, onBack }: QuoteStep2Props) => {
           </div>
 
           <div>
-            <Label htmlFor="property">Lieu *</Label>
+            <Label htmlFor="property">Lieu <span className="text-destructive">*</span></Label>
             <Select 
               value={formData.property}
               onValueChange={(value) => setFormData(prev => ({...prev, property: value, propertyOther: ""}))}

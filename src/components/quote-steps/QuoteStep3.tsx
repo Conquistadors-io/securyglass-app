@@ -70,7 +70,7 @@ export const QuoteStep3 = ({
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label htmlFor="category">Catégorie *</Label>
+            <Label htmlFor="category">Catégorie <span className="text-destructive">*</span></Label>
             <Select value={formData.category} onValueChange={value => setFormData(prev => ({
             ...prev,
             category: value
@@ -120,7 +120,7 @@ export const QuoteStep3 = ({
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="hauteur">Hauteur *</Label>
+              <Label htmlFor="hauteur">Hauteur <span className="text-destructive">*</span></Label>
               <Input id="hauteur" type="number" placeholder="150 cm" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" value={formData.hauteur} onChange={e => setFormData(prev => ({
                 ...prev,
                 hauteur: e.target.value
@@ -128,7 +128,7 @@ export const QuoteStep3 = ({
             </div>
 
             <div>
-              <Label htmlFor="largeur">Largeur *</Label>
+              <Label htmlFor="largeur">Largeur <span className="text-destructive">*</span></Label>
               <Input id="largeur" type="number" placeholder="100 cm" className="mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" value={formData.largeur} onChange={e => setFormData(prev => ({
                 ...prev,
                 largeur: e.target.value

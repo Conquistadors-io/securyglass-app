@@ -80,7 +80,7 @@ export const TechnicianOnboarding = ({ onComplete, onNavigate }: TechnicianOnboa
 
           <div className="space-y-4">
             <div>
-              <Label htmlFor="name">Nom complet *</Label>
+              <Label htmlFor="name">Nom complet <span className="text-destructive">*</span></Label>
               <Input
                 id="name"
                 placeholder="Thomas Carpentier"
@@ -90,7 +90,7 @@ export const TechnicianOnboarding = ({ onComplete, onNavigate }: TechnicianOnboa
             </div>
             
             <div>
-              <Label htmlFor="phone">Téléphone *</Label>
+              <Label htmlFor="phone">Téléphone <span className="text-destructive">*</span></Label>
               <Input
                 id="phone"
                 placeholder="06 12 34 56 78"
@@ -110,7 +110,7 @@ export const TechnicianOnboarding = ({ onComplete, onNavigate }: TechnicianOnboa
             </div>
             
             <div>
-              <Label htmlFor="zone">Zone d'intervention *</Label>
+              <Label htmlFor="zone">Zone d'intervention <span className="text-destructive">*</span></Label>
               <Input
                 id="zone"
                 placeholder="Paris 1er-8e"

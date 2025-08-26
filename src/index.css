@@ -126,3 +126,17 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  /* Red asterisk utility */
+  .required-asterisk {
+    color: hsl(0 84% 60%) !important;
+  }
+}
+
+/* Make asterisks red in all text content */
+@layer components {
+  label:after {
+    color: inherit;
+  }
+}

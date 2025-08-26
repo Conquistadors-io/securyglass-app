@@ -113,7 +113,7 @@ export const UrgentIntervention = ({ onNavigate }: UrgentInterventionProps) => {
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             <div className="space-y-4">
               <div>
-                <Label htmlFor="name">Nom complet *</Label>
+                <Label htmlFor="name">Nom complet <span className="text-destructive">*</span></Label>
                 <div className="relative mt-1">
                   <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -128,7 +128,7 @@ export const UrgentIntervention = ({ onNavigate }: UrgentInterventionProps) => {
               </div>
 
               <div>
-                <Label htmlFor="phone">Téléphone *</Label>
+                <Label htmlFor="phone">Téléphone <span className="text-destructive">*</span></Label>
                 <div className="relative mt-1">
                   <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -144,7 +144,7 @@ export const UrgentIntervention = ({ onNavigate }: UrgentInterventionProps) => {
               </div>
 
               <div>
-                <Label htmlFor="zipCode">Code postal *</Label>
+                <Label htmlFor="zipCode">Code postal <span className="text-destructive">*</span></Label>
                 <div className="relative mt-1">
                   <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -159,7 +159,7 @@ export const UrgentIntervention = ({ onNavigate }: UrgentInterventionProps) => {
               </div>
 
               <div>
-                <Label htmlFor="damageType">Type de dégât *</Label>
+                <Label htmlFor="damageType">Type de dégât <span className="text-destructive">*</span></Label>
                 <Select onValueChange={(value) => setFormData(prev => ({...prev, damageType: value}))}>
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Sélectionnez le type" />
