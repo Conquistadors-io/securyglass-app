@@ -122,15 +122,15 @@ export const QuoteStep3 = ({
                 ...prev,
                 subcategory: value
               }));
-            }} className="space-y-3 mt-2">
-                  <div className="flex items-center space-x-3 p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                    <RadioGroupItem value="fixe" id="fixe" className="w-6 h-6" />
-                    <Label htmlFor="fixe" className="text-base cursor-pointer flex-1">Fixe</Label>
+            }} className="flex gap-6 mt-2">
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="fixe" id="fixe" className="w-4 h-4" />
+                    <Label htmlFor="fixe" className="text-sm cursor-pointer">Fixe</Label>
                   </div>
                   
-                  <div className="flex items-center space-x-3 p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                    <RadioGroupItem value="coulissante" id="coulissante" className="w-6 h-6" />
-                    <Label htmlFor="coulissante" className="text-base cursor-pointer flex-1">Coulissante</Label>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="coulissante" id="coulissante" className="w-4 h-4" />
+                    <Label htmlFor="coulissante" className="text-sm cursor-pointer">Coulissante</Label>
                   </div>
                 </RadioGroup>
               </div>}
