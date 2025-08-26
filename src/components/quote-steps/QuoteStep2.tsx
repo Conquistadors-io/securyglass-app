@@ -116,7 +116,7 @@ export const QuoteStep2 = ({
                 <SelectItem value="effraction">Effraction ( ou tentative )</SelectItem>
                 <SelectItem value="pompiers">Intervention des pompiers</SelectItem>
                 <SelectItem value="projectiles">Projectiles</SelectItem>
-                <SelectItem value="autre">Autre</SelectItem>
+                <SelectItem value="autre">Autres</SelectItem>
               </SelectContent>
             </Select>
             
