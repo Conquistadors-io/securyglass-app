@@ -33,6 +33,22 @@ export const QuoteStep3 = ({
   } = useToast();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const missingFields = [];
+    if (!formData.category) missingFields.push("Catégorie");
+    if (!formData.vitrage) missingFields.push("Type de vitrage");
+    if (!formData.largeur) missingFields.push("Largeur");
+    if (!formData.hauteur) missingFields.push("Hauteur");
+    
+    if (missingFields.length > 0) {
+      toast({
+        title: "Champs manquants",
+        description: `Veuillez remplir: ${missingFields.join(", ")}`,
+        variant: "destructive"
+      });
+      return;
+    }
+    
     onComplete(formData);
   };
   const handlePhotoSelect = (file: File, preview: string) => {
