@@ -65,6 +65,32 @@ export const QuoteStep3 = ({
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <Label className="text-lg font-medium mb-6 block">Quel type de vitrage souhaitez-vous ?</Label>
+            
+            <div className="mb-4">
+              <Label htmlFor="category">Catégorie <span className="text-destructive">*</span></Label>
+              <Select value={formData.category} onValueChange={value => setFormData(prev => ({
+              ...prev,
+              category: value
+            }))}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Précisez la catégorie" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="fenetre">Fenêtre</SelectItem>
+                  <SelectItem value="porte-vitree">Porte vitrée</SelectItem>
+                  <SelectItem value="porte-entree">Porte d'entrée</SelectItem>
+                  <SelectItem value="porte-fenetre">Porte-fenêtre</SelectItem>
+                  <SelectItem value="vitrine">Vitrine</SelectItem>
+                  <SelectItem value="baie-vitree">Baie vitrée</SelectItem>
+                  <SelectItem value="marquise">Marquise</SelectItem>
+                  <SelectItem value="fenetre-toit">Fenêtre de toit</SelectItem>
+                  <SelectItem value="velux">VELUX</SelectItem>
+                  <SelectItem value="cloison">Cloison vitrée</SelectItem>
+                  <SelectItem value="autre">Autre</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
             <RadioGroup 
               value={formData.vitrage} 
               onValueChange={value => setFormData(prev => ({...prev, vitrage: value}))}
@@ -85,31 +111,6 @@ export const QuoteStep3 = ({
                 <Label htmlFor="autre" className="text-lg cursor-pointer flex-1">Autre</Label>
               </div>
             </RadioGroup>
-          </div>
-
-          <div>
-            <Label htmlFor="category">Catégorie <span className="text-destructive">*</span></Label>
-            <Select value={formData.category} onValueChange={value => setFormData(prev => ({
-            ...prev,
-            category: value
-          }))}>
-              <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Précisez la catégorie" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="fenetre">Fenêtre</SelectItem>
-                <SelectItem value="porte-vitree">Porte vitrée</SelectItem>
-                <SelectItem value="porte-entree">Porte d'entrée</SelectItem>
-                <SelectItem value="porte-fenetre">Porte-fenêtre</SelectItem>
-                <SelectItem value="vitrine">Vitrine</SelectItem>
-                <SelectItem value="baie-vitree">Baie vitrée</SelectItem>
-                <SelectItem value="marquise">Marquise</SelectItem>
-                <SelectItem value="fenetre-toit">Fenêtre de toit</SelectItem>
-                <SelectItem value="velux">VELUX</SelectItem>
-                <SelectItem value="cloison">Cloison vitrée</SelectItem>
-                <SelectItem value="autre">Autre</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
