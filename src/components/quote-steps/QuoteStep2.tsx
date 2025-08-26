@@ -79,6 +79,7 @@ export const QuoteStep2 = ({ data, onComplete, onBack }: QuoteStep2Props) => {
                 <SelectValue placeholder="Accident" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="ne-sais-pas">Je ne sais pas</SelectItem>
                 <SelectItem value="accident">Accident</SelectItem>
                 <SelectItem value="choc-thermique">Choc thermique</SelectItem>
                 <SelectItem value="vandalisme">Vandalisme</SelectItem>
