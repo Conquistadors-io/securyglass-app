@@ -4,9 +4,10 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Shield, MoveVertical, MoveHorizontal, Plus } from "lucide-react";
+import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 interface QuoteStep3Props {
   data: any;
   onComplete: (data: any) => void;
@@ -21,7 +22,8 @@ export const QuoteStep3 = ({
     largeur: data.largeur || "",
     hauteur: data.hauteur || "",
     quantite: data.quantite || "1",
-    photo: data.photo || null
+    photo: data.photo || null,
+    photoPreview: data.photoPreview || null
   });
   const {
     toast
@@ -33,11 +35,24 @@ export const QuoteStep3 = ({
   const handlePhotoSelect = (file: File, preview: string) => {
     setFormData(prev => ({
       ...prev,
-      photo: file
+      photo: file,
+      photoPreview: preview
     }));
     toast({
       title: "Photo ajoutée",
       description: "Votre photo a été téléchargée avec succès"
+    });
+  };
+
+  const handlePhotoDelete = () => {
+    setFormData(prev => ({
+      ...prev,
+      photo: null,
+      photoPreview: null
+    }));
+    toast({
+      title: "Photo supprimée",
+      description: "La photo a été supprimée"
     });
   };
   const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur;
@@ -130,9 +145,37 @@ export const QuoteStep3 = ({
             <div className="mt-1 space-y-3">
               {formData.photo && (
                 <div className="p-3 bg-accent rounded-lg">
-                  <p className="text-sm text-foreground">
-                    Photo ajoutée: {formData.photo.name || "Photo sélectionnée"}
-                  </p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-foreground">
+                      Photo ajoutée: {formData.photo.name || "Photo sélectionnée"}
+                    </p>
+                    <div className="flex gap-2">
+                      {formData.photoPreview && (
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button size="sm" variant="outline">
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-lg">
+                            <img 
+                              src={formData.photoPreview} 
+                              alt="Photo prévisualisée" 
+                              className="w-full h-auto rounded-lg"
+                            />
+                          </DialogContent>
+                        </Dialog>
+                      )}
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        onClick={handlePhotoDelete}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               )}
               
