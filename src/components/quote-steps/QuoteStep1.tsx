@@ -130,7 +130,7 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="adresse">Adresse (facultatif)</Label>
+            <Label htmlFor="adresse">Adresse ( facultatif )</Label>
             <div className="mt-1">
               <AddressSelect 
                 value={formData.adresse} 
