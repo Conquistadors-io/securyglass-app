@@ -121,22 +121,22 @@ export const QuoteStep3 = ({
             
             {formData.category === "baie-vitree" && (
               <div className="mb-4">
-                <Label htmlFor="subcategory">Type de baie vitrée <span className="text-destructive">*</span></Label>
+                <Label htmlFor="subcategory" className="text-sm">Type de baie vitrée <span className="text-destructive">*</span></Label>
                 <RadioGroup 
                   value={formData.subcategory} 
                   onValueChange={value => {
                     setFormData(prev => ({...prev, subcategory: value}));
                   }}
-                  className="space-y-3 mt-2"
+                  className="flex gap-4 mt-2"
                 >
-                  <div className="flex items-center space-x-3 p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                    <RadioGroupItem value="fixe" id="fixe" className="w-6 h-6" />
-                    <Label htmlFor="fixe" className="text-base cursor-pointer flex-1">Fixe</Label>
+                  <div className="flex items-center space-x-2 p-2 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="fixe" id="fixe" className="w-4 h-4" />
+                    <Label htmlFor="fixe" className="text-sm cursor-pointer">Fixe</Label>
                   </div>
                   
-                  <div className="flex items-center space-x-3 p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                    <RadioGroupItem value="coulissante" id="coulissante" className="w-6 h-6" />
-                    <Label htmlFor="coulissante" className="text-base cursor-pointer flex-1">Coulissante</Label>
+                  <div className="flex items-center space-x-2 p-2 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="coulissante" id="coulissante" className="w-4 h-4" />
+                    <Label htmlFor="coulissante" className="text-sm cursor-pointer">Coulissante</Label>
                   </div>
                 </RadioGroup>
               </div>
