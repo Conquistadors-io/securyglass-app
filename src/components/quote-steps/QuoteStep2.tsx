@@ -6,40 +6,36 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Glasses } from "lucide-react";
-
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
   onBack?: () => void;
 }
-
-export const QuoteStep2 = ({ data, onComplete, onBack }: QuoteStep2Props) => {
+export const QuoteStep2 = ({
+  data,
+  onComplete,
+  onBack
+}: QuoteStep2Props) => {
   const [formData, setFormData] = useState({
     object: data.object || "vitre-cassee",
     property: data.property || "appartement",
     propertyOther: data.propertyOther || "",
     motif: data.motif || "accident"
   });
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onComplete(formData);
   };
-
-  const isValid = formData.object && formData.property && formData.motif && 
-    (formData.property !== "autre" || formData.propertyOther.trim() !== "");
-
-  return (
-    <Card className="shadow-card border-0">
+  const isValid = formData.object && formData.property && formData.motif && (formData.property !== "autre" || formData.propertyOther.trim() !== "");
+  return <Card className="shadow-card border-0">
       <div className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <Label className="text-lg font-medium mb-6 block">Objet de la demande :</Label>
-            <RadioGroup 
-              value={formData.object} 
-              onValueChange={value => setFormData(prev => ({...prev, object: value}))}
-              className="space-y-4"
-            >
+            <RadioGroup value={formData.object} onValueChange={value => setFormData(prev => ({
+            ...prev,
+            object: value
+          }))} className="space-y-4">
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
                 <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer flex-1">Vitre cassée</Label>
@@ -71,11 +67,11 @@ export const QuoteStep2 = ({ data, onComplete, onBack }: QuoteStep2Props) => {
 
           <div>
             <Label htmlFor="motif">Motif : <span className="text-destructive">*</span></Label>
-            <p className="text-sm text-muted-foreground mt-1 mb-2">Ces informations ne seront pas mentionnées sur le devis !</p>
-            <Select 
-              value={formData.motif}
-              onValueChange={(value) => setFormData(prev => ({...prev, motif: value}))}
-            >
+            
+            <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
+            ...prev,
+            motif: value
+          }))}>
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Accident" />
               </SelectTrigger>
@@ -95,10 +91,11 @@ export const QuoteStep2 = ({ data, onComplete, onBack }: QuoteStep2Props) => {
 
           <div>
             <Label htmlFor="property">Lieu <span className="text-destructive">*</span></Label>
-            <Select 
-              value={formData.property}
-              onValueChange={(value) => setFormData(prev => ({...prev, property: value, propertyOther: ""}))}
-            >
+            <Select value={formData.property} onValueChange={value => setFormData(prev => ({
+            ...prev,
+            property: value,
+            propertyOther: ""
+          }))}>
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Appartement" />
               </SelectTrigger>
@@ -112,15 +109,12 @@ export const QuoteStep2 = ({ data, onComplete, onBack }: QuoteStep2Props) => {
               </SelectContent>
             </Select>
             
-            {formData.property === "autre" && (
-              <div className="mt-3">
-                <Input
-                  placeholder="Précisez ..."
-                  value={formData.propertyOther}
-                  onChange={(e) => setFormData(prev => ({...prev, propertyOther: e.target.value}))}
-                />
-              </div>
-            )}
+            {formData.property === "autre" && <div className="mt-3">
+                <Input placeholder="Précisez ..." value={formData.propertyOther} onChange={e => setFormData(prev => ({
+              ...prev,
+              propertyOther: e.target.value
+            }))} />
+              </div>}
           </div>
 
           <div className="p-4 bg-accent rounded-lg">
@@ -136,29 +130,14 @@ export const QuoteStep2 = ({ data, onComplete, onBack }: QuoteStep2Props) => {
           </div>
 
           <div className="flex gap-4">
-            {onBack && (
-              <Button 
-                type="button"
-                variant="outline" 
-                size="lg" 
-                className="flex-1"
-                onClick={onBack}
-              >
+            {onBack && <Button type="button" variant="outline" size="lg" className="flex-1" onClick={onBack}>
                 Retour
-              </Button>
-            )}
-            <Button 
-              type="submit" 
-              variant="default" 
-              size="lg" 
-              className="flex-1"
-              disabled={!isValid}
-            >
+              </Button>}
+            <Button type="submit" variant="default" size="lg" className="flex-1" disabled={!isValid}>
               Continuer
             </Button>
           </div>
         </form>
       </div>
-    </Card>
-  );
+    </Card>;
 };
