@@ -43,12 +43,18 @@ export const QuoteStep0 = ({ data, onComplete }: QuoteStep0Props) => {
             >
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="vitrerie" id="vitrerie" className="w-6 h-6" />
-                <Label htmlFor="vitrerie" className="text-lg cursor-pointer flex-1">Vitrerie</Label>
+                <div className="flex-1">
+                  <Label htmlFor="vitrerie" className="text-lg cursor-pointer">Vitrerie</Label>
+                  <p className="text-sm text-muted-foreground mt-1">Tous types de verres</p>
+                </div>
               </div>
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="miroiterie" id="miroiterie" className="w-6 h-6" />
-                <Label htmlFor="miroiterie" className="text-lg cursor-pointer flex-1">Miroiterie</Label>
+                <div className="flex-1">
+                  <Label htmlFor="miroiterie" className="text-lg cursor-pointer">Miroiterie</Label>
+                  <p className="text-sm text-muted-foreground mt-1">Tous types de miroirs</p>
+                </div>
               </div>
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
