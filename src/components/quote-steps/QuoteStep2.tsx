@@ -20,7 +20,8 @@ export const QuoteStep2 = ({
     object: data.object || "vitre-cassee",
     property: data.property || "appartement",
     propertyOther: data.propertyOther || "",
-    motif: data.motif || "accident"
+    motif: data.motif || "accident",
+    motifOther: data.motifOther || ""
   });
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,7 +101,8 @@ export const QuoteStep2 = ({
             
             <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
             ...prev,
-            motif: value
+            motif: value,
+            motifOther: ""
           }))}>
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Accident" />
@@ -117,6 +119,19 @@ export const QuoteStep2 = ({
                 <SelectItem value="autre">Autre</SelectItem>
               </SelectContent>
             </Select>
+            
+            {formData.motif === "autre" && (
+              <div className="mt-3">
+                <Input 
+                  placeholder="Précisez ..." 
+                  value={formData.motifOther} 
+                  onChange={e => setFormData(prev => ({
+                    ...prev,
+                    motifOther: e.target.value
+                  }))} 
+                />
+              </div>
+            )}
           </div>
 
           <div>
