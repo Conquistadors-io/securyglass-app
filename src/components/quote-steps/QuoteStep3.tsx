@@ -12,10 +12,12 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 interface QuoteStep3Props {
   data: any;
   onComplete: (data: any) => void;
+  onBack?: () => void;
 }
 export const QuoteStep3 = ({
   data,
-  onComplete
+  onComplete,
+  onBack
 }: QuoteStep3Props) => {
   const [formData, setFormData] = useState({
     category: data.category || "fenetre",
@@ -198,9 +200,28 @@ export const QuoteStep3 = ({
             </div>
           </div>
 
-          <Button type="submit" variant="default" size="lg" className="w-full" disabled={!isValid}>
-            Voir le devis
-          </Button>
+          <div className="flex gap-4">
+            {onBack && (
+              <Button 
+                type="button"
+                variant="outline" 
+                size="lg" 
+                className="flex-1"
+                onClick={onBack}
+              >
+                Retour
+              </Button>
+            )}
+            <Button 
+              type="submit" 
+              variant="default" 
+              size="lg" 
+              className="flex-1" 
+              disabled={!isValid}
+            >
+              Voir le devis
+            </Button>
+          </div>
         </form>
       </div>
     </Card>;

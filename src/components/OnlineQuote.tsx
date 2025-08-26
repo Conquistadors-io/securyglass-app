@@ -147,6 +147,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
           <QuoteStep2 
             data={formData} 
             onComplete={handleStepComplete}
+            onBack={handlePrevious}
           />
         );
       case 2:
@@ -154,6 +155,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
           <QuoteStep3 
             data={formData} 
             onComplete={handleStepComplete}
+            onBack={handlePrevious}
           />
         );
       case 3:
@@ -161,6 +163,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
           <QuoteStep1 
             data={formData} 
             onComplete={handleStepComplete}
+            onBack={handlePrevious}
           />
         );
       case 4:

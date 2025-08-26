@@ -10,9 +10,10 @@ import { Glasses } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
+  onBack?: () => void;
 }
 
-export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
+export const QuoteStep2 = ({ data, onComplete, onBack }: QuoteStep2Props) => {
   const [formData, setFormData] = useState({
     object: data.object || "vitre-cassee",
     property: data.property || "appartement",
@@ -132,15 +133,28 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
             </div>
           </div>
 
-          <Button 
-            type="submit" 
-            variant="default" 
-            size="lg" 
-            className="w-full"
-            disabled={!isValid}
-          >
-            Continuer
-          </Button>
+          <div className="flex gap-4">
+            {onBack && (
+              <Button 
+                type="button"
+                variant="outline" 
+                size="lg" 
+                className="flex-1"
+                onClick={onBack}
+              >
+                Retour
+              </Button>
+            )}
+            <Button 
+              type="submit" 
+              variant="default" 
+              size="lg" 
+              className="flex-1"
+              disabled={!isValid}
+            >
+              Continuer
+            </Button>
+          </div>
         </form>
       </div>
     </Card>
