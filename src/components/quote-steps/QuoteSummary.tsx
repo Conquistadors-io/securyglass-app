@@ -238,9 +238,14 @@ export const QuoteSummary = ({
         </p>
       </Card>
 
-      {/* Back to Home */}
-      <Button variant="ghost" className="w-full" onClick={() => onNavigate('welcome')}>
-        Retour à l'accueil
-      </Button>
+      {/* Action buttons */}
+      <div className="grid grid-cols-2 gap-2">
+        <Button variant="outline" onClick={() => onNavigate("modify-quote")}>
+          Modifier
+        </Button>
+        <Button variant="outline" onClick={() => onNavigate("new-quote")}>
+          Nouveau Devis
+        </Button>
+      </div>
     </div>;
 };
