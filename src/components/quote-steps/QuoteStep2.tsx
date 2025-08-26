@@ -94,7 +94,7 @@ export const QuoteStep2 = ({
             
             <div className="p-4 bg-accent rounded-lg mt-2 mb-2">
               <p className="text-foreground text-sm">
-                Ces informations ne seront pas mentionnées sur le devis
+                Le motif ne sera pas mentionné sur le devis
               </p>
             </div>
             
