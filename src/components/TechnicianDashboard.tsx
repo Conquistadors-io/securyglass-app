@@ -548,9 +548,14 @@ Travaux</div>
           Voir le planning
         </Button>
         
-        <Button variant="outline" size="lg" className="w-full" onClick={() => onNavigate("welcome")}>
-          Retour accueil
-        </Button>
+        <div className="grid grid-cols-2 gap-2">
+          <Button variant="outline" size="lg" onClick={() => onNavigate("modify-quote")}>
+            Modifier
+          </Button>
+          <Button variant="outline" size="lg" onClick={() => onNavigate("new-quote")}>
+            Nouveau Devis
+          </Button>
+        </div>
       </div>
     </div>;
 };
