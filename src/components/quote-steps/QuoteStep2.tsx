@@ -56,6 +56,28 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
           </div>
 
           <div>
+            <Label htmlFor="motif">Motif : *</Label>
+            <Select 
+              value={formData.motif}
+              onValueChange={(value) => setFormData(prev => ({...prev, motif: value}))}
+            >
+              <SelectTrigger className="mt-1">
+                <SelectValue placeholder="Accident" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="accident">Accident</SelectItem>
+                <SelectItem value="choc-thermique">Choc thermique</SelectItem>
+                <SelectItem value="vandalisme">Vandalisme</SelectItem>
+                <SelectItem value="usure">Usure normale</SelectItem>
+                <SelectItem value="effraction">Effraction ( ou tentative )</SelectItem>
+                <SelectItem value="pompiers">Intervention des pompiers</SelectItem>
+                <SelectItem value="projectiles">Projectiles</SelectItem>
+                <SelectItem value="autre">Autre</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
             <Label htmlFor="property">Lieu *</Label>
             <Select 
               value={formData.property}
@@ -83,28 +105,6 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
                 />
               </div>
             )}
-          </div>
-
-          <div>
-            <Label htmlFor="motif">Motif : *</Label>
-            <Select 
-              value={formData.motif}
-              onValueChange={(value) => setFormData(prev => ({...prev, motif: value}))}
-            >
-              <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Accident" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="accident">Accident</SelectItem>
-                <SelectItem value="choc-thermique">Choc thermique</SelectItem>
-                <SelectItem value="vandalisme">Vandalisme</SelectItem>
-                <SelectItem value="usure">Usure normale</SelectItem>
-                <SelectItem value="effraction">Effraction ( ou tentative )</SelectItem>
-                <SelectItem value="pompiers">Intervention des pompiers</SelectItem>
-                <SelectItem value="projectiles">Projectiles</SelectItem>
-                <SelectItem value="autre">Autre</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="p-4 bg-accent rounded-lg">
