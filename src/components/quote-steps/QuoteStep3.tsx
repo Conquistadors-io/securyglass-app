@@ -4,8 +4,9 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Camera, Shield, MoveVertical, MoveHorizontal, Images } from "lucide-react";
+import { Shield, MoveVertical, MoveHorizontal, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { PhotoCapture } from "@/components/ui/photo-capture";
 interface QuoteStep3Props {
   data: any;
   onComplete: (data: any) => void;
@@ -29,18 +30,15 @@ export const QuoteStep3 = ({
     e.preventDefault();
     onComplete(formData);
   };
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setFormData(prev => ({
-        ...prev,
-        photo: file
-      }));
-      toast({
-        title: "Photo ajoutée",
-        description: "Votre photo a été téléchargée avec succès"
-      });
-    }
+  const handlePhotoSelect = (file: File, preview: string) => {
+    setFormData(prev => ({
+      ...prev,
+      photo: file
+    }));
+    toast({
+      title: "Photo ajoutée",
+      description: "Votre photo a été téléchargée avec succès"
+    });
   };
   const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur;
   return <Card className="shadow-card border-0">
@@ -138,19 +136,16 @@ export const QuoteStep3 = ({
                 </div>
               )}
               
-              <div className="grid grid-cols-2 gap-3">
-                <label htmlFor="camera-upload" className="flex flex-col items-center justify-center h-20 border border-border rounded-lg cursor-pointer hover:bg-accent transition-colors">
-                  <Camera className="h-5 w-5 text-muted-foreground mb-1" />
-                  <span className="text-sm text-muted-foreground">Prendre une photo</span>
-                  <input id="camera-upload" type="file" accept="image/*" capture="environment" className="hidden" onChange={handlePhotoUpload} />
-                </label>
-                
-                <label htmlFor="gallery-upload" className="flex flex-col items-center justify-center h-20 border border-border rounded-lg cursor-pointer hover:bg-accent transition-colors">
-                  <Images className="h-5 w-5 text-muted-foreground mb-1" />
-                  <span className="text-sm text-muted-foreground">Mes photos</span>
-                  <input id="gallery-upload" type="file" accept="image/*" className="hidden" onChange={handlePhotoUpload} />
-                </label>
-              </div>
+              <PhotoCapture onPhotoSelect={handlePhotoSelect}>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="w-full h-20 border-dashed"
+                >
+                  <Plus className="h-5 w-5 mr-2" />
+                  Ajouter une photo
+                </Button>
+              </PhotoCapture>
             </div>
           </div>
 
