@@ -99,16 +99,20 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="codePostal">Département <span className="text-destructive">*</span></Label>
-            <div className="mt-1">
-              <DepartmentSelect 
+            <Label htmlFor="codePostal">Code postal <span className="text-destructive">*</span></Label>
+            <div className="relative mt-1">
+              <Hash className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input 
+                id="codePostal" 
+                placeholder="75001" 
+                className="pl-10" 
                 value={formData.codePostal} 
-                onValueChange={(value) => setFormData(prev => ({
+                onChange={e => setFormData(prev => ({
                   ...prev,
-                  codePostal: value,
-                  ville: "" // Réinitialiser la ville quand on change de département
-                }))}
-                placeholder="75 Paris"
+                  codePostal: e.target.value,
+                  ville: "" // Réinitialiser la ville quand on change de code postal
+                }))} 
+                required 
               />
             </div>
           </div>
