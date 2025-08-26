@@ -53,7 +53,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="mise-securite" id="mise-securite" className="w-6 h-6" />
-                <Label htmlFor="mise-securite" className="text-lg cursor-pointer flex-1">Mise en sécurité</Label>
+                <Label htmlFor="mise-securite" className="text-lg cursor-pointer flex-1">Rénovation</Label>
               </div>
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">

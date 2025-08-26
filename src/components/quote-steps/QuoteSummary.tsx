@@ -147,7 +147,7 @@ export const QuoteSummary = ({
             )}
             {priceCalculation.details.miseEnSecurite > 0 && (
               <div className="flex justify-between">
-                <span>Mise en sécurité:</span>
+                <span>Rénovation:</span>
                 <span>{priceCalculation.details.miseEnSecurite}€</span>
               </div>
             )}
