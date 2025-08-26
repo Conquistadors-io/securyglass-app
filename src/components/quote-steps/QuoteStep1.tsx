@@ -100,12 +100,9 @@ export const QuoteStep1 = ({
 
           <div>
             <Label htmlFor="codePostal">Code postal <span className="text-destructive">*</span></Label>
-            <div className="relative mt-1">
-              <Hash className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <div className="mt-1">
               <Input 
                 id="codePostal" 
-                placeholder="75001" 
-                className="pl-10" 
                 value={formData.codePostal} 
                 onChange={e => setFormData(prev => ({
                   ...prev,
