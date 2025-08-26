@@ -113,6 +113,18 @@ export const QuoteStep2 = ({
             </Select>
           </div>
 
+          <div className="p-4 bg-accent rounded-lg">
+            <div className="flex items-center space-x-3">
+              <Glasses className="h-5 w-5 text-primary" />
+              <div className="text-sm">
+                <p className="font-medium text-foreground">Information</p>
+                <p className="text-foreground">
+                  Ces informations ne seront pas mentionnées sur le devis
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div>
             <Label htmlFor="property">Lieu <span className="text-destructive">*</span></Label>
             <Select value={formData.property} onValueChange={value => setFormData(prev => ({
@@ -139,18 +151,6 @@ export const QuoteStep2 = ({
               propertyOther: e.target.value
             }))} />
               </div>}
-          </div>
-
-          <div className="p-4 bg-accent rounded-lg">
-            <div className="flex items-center space-x-3">
-              <Glasses className="h-5 w-5 text-primary" />
-              <div className="text-sm">
-                <p className="font-medium text-foreground">Information</p>
-                <p className="text-foreground">
-                  Ces informations ne seront pas mentionnées sur le devis
-                </p>
-              </div>
-            </div>
           </div>
 
           <div className="flex gap-4">
