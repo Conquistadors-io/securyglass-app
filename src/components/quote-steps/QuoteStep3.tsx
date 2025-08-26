@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
@@ -92,22 +93,27 @@ export const QuoteStep3 = ({
           </div>
 
           <div>
-            <Label htmlFor="vitrage">Type de vitrage *</Label>
-            <Select value={formData.vitrage} onValueChange={value => setFormData(prev => ({
-            ...prev,
-            vitrage: value
-          }))}>
-              <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Sélectionnez le type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="simple">Simple vitrage</SelectItem>
-                <SelectItem value="double">Double vitrage</SelectItem>
-                <SelectItem value="trempe">Verre trempé</SelectItem>
-                <SelectItem value="feuillete">Verre feuilleté</SelectItem>
-                <SelectItem value="anti-bruit">Anti-bruit</SelectItem>
-              </SelectContent>
-            </Select>
+            <Label className="text-lg font-medium mb-6 block">Quel type de vitrage souhaitez-vous ?</Label>
+            <RadioGroup 
+              value={formData.vitrage} 
+              onValueChange={value => setFormData(prev => ({...prev, vitrage: value}))}
+              className="space-y-4"
+            >
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value="simple" id="simple" className="w-6 h-6" />
+                <Label htmlFor="simple" className="text-lg cursor-pointer flex-1">Simple</Label>
+              </div>
+              
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value="double" id="double" className="w-6 h-6" />
+                <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double</Label>
+              </div>
+              
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value="autre" id="autre" className="w-6 h-6" />
+                <Label htmlFor="autre" className="text-lg cursor-pointer flex-1">Autre</Label>
+              </div>
+            </RadioGroup>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
