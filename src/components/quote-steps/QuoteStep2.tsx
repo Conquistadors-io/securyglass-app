@@ -60,7 +60,7 @@ export const QuoteStep2 = ({
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" />
-                <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">Autre</Label>
+                <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">Autres</Label>
               </div>
             </RadioGroup>
             
