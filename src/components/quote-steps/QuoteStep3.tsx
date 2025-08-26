@@ -61,12 +61,6 @@ export const QuoteStep3 = ({
   const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur;
   return <Card className="shadow-card border-0">
       <div className="p-6">
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-foreground mb-2">Description</h2>
-          <p className="text-muted-foreground">
-            Spécifications pour calculer votre devis
-          </p>
-        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
