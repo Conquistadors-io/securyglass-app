@@ -9,11 +9,13 @@ import { DepartmentSelect } from "@/components/ui/department-select";
 import { CitySelect } from "@/components/ui/city-select";
 import { AddressSelect } from "@/components/ui/address-select";
 import { InsuranceSelect } from "@/components/ui/insurance-select";
+
 interface QuoteStep1Props {
   data: any;
   onComplete: (data: any) => void;
   onBack?: () => void;
 }
+
 export const QuoteStep1 = ({
   data,
   onComplete,
@@ -30,11 +32,14 @@ export const QuoteStep1 = ({
     priseEnChargeAssurance: data.priseEnChargeAssurance || "",
     assurance: data.assurance || ""
   });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onComplete(formData);
   };
+
   const isValid = formData.nom && formData.telephone && formData.email;
+
   return <Card className="shadow-card border-0">
       <div className="p-6">
         <div className="mb-6">
@@ -59,7 +64,7 @@ export const QuoteStep1 = ({
               <SelectContent>
                 <SelectItem value="madame">Madame</SelectItem>
                 <SelectItem value="monsieur">Monsieur</SelectItem>
-                <SelectItem value="societe">Société ( ou Association )</SelectItem>
+                <SelectItem value="societe">Société (Entreprise ou Association)</SelectItem>
                 <SelectItem value="entreprise-btp">Entreprise BTP</SelectItem>
               </SelectContent>
             </Select>
@@ -144,7 +149,6 @@ export const QuoteStep1 = ({
               />
             </div>
           </div>
-
 
           <div>
             <Label htmlFor="assurance">Assurance (facultatif)</Label>
