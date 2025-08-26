@@ -64,7 +64,7 @@ export const QuoteStep3 = ({
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label className="text-lg font-medium mb-6 block">Quel type de vitrage souhaitez-vous ?</Label>
+            <Label className="text-lg font-medium mb-6 block">Type de vitrage ?</Label>
             
             <div className="mb-4">
               <Label htmlFor="category">Catégorie <span className="text-destructive">*</span></Label>
