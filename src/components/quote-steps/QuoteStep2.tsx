@@ -71,6 +71,7 @@ export const QuoteStep2 = ({ data, onComplete, onBack }: QuoteStep2Props) => {
 
           <div>
             <Label htmlFor="motif">Motif : <span className="text-destructive">*</span></Label>
+            <p className="text-sm text-muted-foreground mt-1 mb-2">Ces informations ne seront pas mentionnées sur le devis !</p>
             <Select 
               value={formData.motif}
               onValueChange={(value) => setFormData(prev => ({...prev, motif: value}))}
