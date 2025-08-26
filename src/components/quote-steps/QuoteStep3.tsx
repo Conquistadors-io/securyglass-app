@@ -64,6 +64,30 @@ export const QuoteStep3 = ({
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
+            <Label className="text-lg font-medium mb-6 block">Quel type de vitrage souhaitez-vous ?</Label>
+            <RadioGroup 
+              value={formData.vitrage} 
+              onValueChange={value => setFormData(prev => ({...prev, vitrage: value}))}
+              className="space-y-4"
+            >
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value="simple" id="simple" className="w-6 h-6" />
+                <Label htmlFor="simple" className="text-lg cursor-pointer flex-1">Simple</Label>
+              </div>
+              
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value="double" id="double" className="w-6 h-6" />
+                <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double</Label>
+              </div>
+              
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value="autre" id="autre" className="w-6 h-6" />
+                <Label htmlFor="autre" className="text-lg cursor-pointer flex-1">Autre</Label>
+              </div>
+            </RadioGroup>
+          </div>
+
+          <div>
             <Label htmlFor="category">Catégorie <span className="text-destructive">*</span></Label>
             <Select value={formData.category} onValueChange={value => setFormData(prev => ({
             ...prev,
@@ -86,30 +110,6 @@ export const QuoteStep3 = ({
                 <SelectItem value="autre">Autre</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-
-          <div>
-            <Label className="text-lg font-medium mb-6 block">Quel type de vitrage souhaitez-vous ?</Label>
-            <RadioGroup 
-              value={formData.vitrage} 
-              onValueChange={value => setFormData(prev => ({...prev, vitrage: value}))}
-              className="space-y-4"
-            >
-              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                <RadioGroupItem value="simple" id="simple" className="w-6 h-6" />
-                <Label htmlFor="simple" className="text-lg cursor-pointer flex-1">Simple</Label>
-              </div>
-              
-              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                <RadioGroupItem value="double" id="double" className="w-6 h-6" />
-                <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double</Label>
-              </div>
-              
-              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                <RadioGroupItem value="autre" id="autre" className="w-6 h-6" />
-                <Label htmlFor="autre" className="text-lg cursor-pointer flex-1">Autre</Label>
-              </div>
-            </RadioGroup>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
