@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -65,7 +66,7 @@ export const QuoteStep1 = ({
                 <SelectItem value="madame">Madame</SelectItem>
                 <SelectItem value="monsieur">Monsieur</SelectItem>
                 <SelectItem value="societe">Société (Entreprise ou Association)</SelectItem>
-                <SelectItem value="entreprise-btp">Entreprise BTP</SelectItem>
+                <SelectItem value="entreprise-btp">Professionnel du BTP</SelectItem>
               </SelectContent>
             </Select>
           </div>
