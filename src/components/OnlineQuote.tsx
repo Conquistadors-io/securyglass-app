@@ -132,21 +132,21 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
     switch (currentStep) {
       case 1:
         return (
-          <QuoteStep1 
+          <QuoteStep2 
             data={formData} 
             onComplete={handleStepComplete}
           />
         );
       case 2:
         return (
-          <QuoteStep2 
+          <QuoteStep3 
             data={formData} 
             onComplete={handleStepComplete}
           />
         );
       case 3:
         return (
-          <QuoteStep3 
+          <QuoteStep1 
             data={formData} 
             onComplete={handleStepComplete}
           />
