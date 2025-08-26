@@ -33,7 +33,7 @@ export const QuoteStep2 = ({ data, onComplete }: QuoteStep2Props) => {
       <div className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label className="text-lg font-medium mb-6 block">Objet de l'intervention :</Label>
+            <Label className="text-lg font-medium mb-6 block">Objet de la demande :</Label>
             <RadioGroup 
               value={formData.object} 
               onValueChange={value => setFormData(prev => ({...prev, object: value}))}
