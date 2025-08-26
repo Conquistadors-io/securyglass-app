@@ -53,10 +53,7 @@ export const QuoteStep2 = ({
                 <Label htmlFor="mise-securite" className="text-lg cursor-pointer flex-1">Verre sur mesure</Label>
               </div>
               
-              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                <RadioGroupItem value="decoupe-chatiere" id="decoupe-chatiere" className="w-6 h-6" />
-                <Label htmlFor="decoupe-chatiere" className="text-lg cursor-pointer flex-1">Découpe chatière</Label>
-              </div>
+              
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" />
@@ -64,9 +61,11 @@ export const QuoteStep2 = ({
               </div>
             </RadioGroup>
             
-            {formData.object === "autre" && (
-              <div className="mt-4 pl-6 space-y-3">
-                <RadioGroup value={formData.object} onValueChange={(value) => setFormData(prev => ({ ...prev, object: value }))}>
+            {formData.object === "autre" && <div className="mt-4 pl-6 space-y-3">
+                <RadioGroup value={formData.object} onValueChange={value => setFormData(prev => ({
+              ...prev,
+              object: value
+            }))}>
                   <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
                     <RadioGroupItem value="chatiere" id="chatiere" className="w-5 h-5" />
                     <Label htmlFor="chatiere" className="cursor-pointer flex-1">Chatière</Label>
@@ -87,8 +86,7 @@ export const QuoteStep2 = ({
                     <Label htmlFor="verre-anti-effraction" className="cursor-pointer flex-1">Verre Anti-effraction</Label>
                   </div>
                 </RadioGroup>
-              </div>
-            )}
+              </div>}
           </div>
 
           <div>
