@@ -1,21 +1,8 @@
 import * as React from "react"
 import { useState, useEffect, useMemo } from "react"
-import { Check, ChevronsUpDown, MapPin } from "lucide-react"
+import { MapPin } from "lucide-react"
+import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
 
 interface AddressSelectProps {
   value?: string
@@ -39,10 +26,10 @@ export function AddressSelect({
   city,
   disabled = false 
 }: AddressSelectProps) {
-  const [open, setOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState(value || "")
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [showSuggestions, setShowSuggestions] = useState(false)
 
   // Suggestions d'adresses communes basées sur le type de ville
   const commonAddresses = useMemo(() => {
@@ -156,68 +143,81 @@ export function AddressSelect({
   // Recherche avec debounce
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (searchTerm) {
+      if (searchTerm && searchTerm.length >= 2) {
         searchAddresses(searchTerm)
+        setShowSuggestions(true)
       } else {
         setSuggestions(commonAddresses.slice(0, 10))
+        setShowSuggestions(searchTerm.length > 0)
       }
     }, 300)
 
     return () => clearTimeout(timeoutId)
   }, [searchTerm, commonAddresses])
 
-  const displayText = value || placeholder
+  // Synchroniser searchTerm avec value
+  useEffect(() => {
+    if (value !== searchTerm) {
+      setSearchTerm(value || "")
+    }
+  }, [value])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value
+    setSearchTerm(newValue)
+    onValueChange?.(newValue)
+  }
+
+  const handleSuggestionClick = (suggestion: AddressSuggestion) => {
+    setSearchTerm(suggestion.value)
+    onValueChange?.(suggestion.value)
+    setShowSuggestions(false)
+  }
+
+  const handleInputFocus = () => {
+    if (searchTerm.length >= 2) {
+      setShowSuggestions(true)
+    }
+  }
+
+  const handleInputBlur = () => {
+    // Délai pour permettre le clic sur une suggestion
+    setTimeout(() => setShowSuggestions(false), 200)
+  }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between pl-10 font-normal"
+    <div className="relative">
+      <div className="relative">
+        <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+        <Input
+          value={searchTerm}
+          onChange={handleInputChange}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+          placeholder={placeholder}
           disabled={disabled}
-        >
-          <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-          <span className="truncate pr-2">{displayText}</span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-full p-0" align="start" side="bottom" sideOffset={4}>
-        <Command shouldFilter={false}>
-          <CommandInput 
-            placeholder="Rechercher une adresse..." 
-            value={searchTerm}
-            onValueChange={setSearchTerm}
-          />
-          <CommandList>
-            <CommandEmpty>
-              {isLoading ? "Recherche en cours..." : "Aucune adresse trouvée."}
-            </CommandEmpty>
-            <CommandGroup>
-              {suggestions.map((suggestion, index) => (
-                <CommandItem
-                  key={`${suggestion.value}-${index}`}
-                  value={suggestion.label}
-                  onSelect={() => {
-                    onValueChange?.(suggestion.value)
-                    setOpen(false)
-                    setSearchTerm("")
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === suggestion.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {suggestion.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+          className="pl-10"
+        />
+      </div>
+      
+      {showSuggestions && suggestions.length > 0 && (
+        <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-background border border-border rounded-md shadow-md max-h-60 overflow-y-auto">
+          {isLoading && (
+            <div className="px-3 py-2 text-sm text-muted-foreground">
+              Recherche en cours...
+            </div>
+          )}
+          {suggestions.map((suggestion, index) => (
+            <div
+              key={`${suggestion.value}-${index}`}
+              className="px-3 py-2 text-sm cursor-pointer hover:bg-muted"
+              onClick={() => handleSuggestionClick(suggestion)}
+            >
+              {suggestion.label}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
