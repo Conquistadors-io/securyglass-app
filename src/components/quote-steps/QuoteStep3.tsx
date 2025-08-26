@@ -29,7 +29,6 @@ export const QuoteStep3 = ({
     photo: data.photo || null,
     photoPreview: data.photoPreview || null
   });
-
   const [validationErrors, setValidationErrors] = useState({
     category: false,
     vitrage: false,
@@ -41,21 +40,17 @@ export const QuoteStep3 = ({
   } = useToast();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     const errors = {
       category: !formData.category,
       vitrage: !formData.vitrage,
       largeur: !formData.largeur,
       hauteur: !formData.hauteur
     };
-    
     setValidationErrors(errors);
-    
     const hasErrors = Object.values(errors).some(error => error);
     if (hasErrors) {
       return;
     }
-    
     onComplete(formData);
   };
   const handlePhotoSelect = (file: File, preview: string) => {
@@ -69,7 +64,6 @@ export const QuoteStep3 = ({
       description: "Votre photo a été téléchargée avec succès"
     });
   };
-
   const handlePhotoDelete = () => {
     setFormData(prev => ({
       ...prev,
@@ -81,8 +75,7 @@ export const QuoteStep3 = ({
       description: "La photo a été supprimée"
     });
   };
-  const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur && 
-    (formData.category !== "baie-vitree" || formData.subcategory);
+  const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur && (formData.category !== "baie-vitree" || formData.subcategory);
   return <Card className="shadow-card border-0">
       <div className="p-6">
 
@@ -93,13 +86,16 @@ export const QuoteStep3 = ({
             <div className="mb-4">
               <Label htmlFor="category">Catégorie <span className="text-destructive">*</span></Label>
                <Select value={formData.category} onValueChange={value => {
-                setFormData(prev => ({
-                  ...prev,
-                  category: value,
-                  subcategory: value === "baie-vitree" ? "" : prev.subcategory
-                }));
-                setValidationErrors(prev => ({...prev, category: false}));
-              }}>
+              setFormData(prev => ({
+                ...prev,
+                category: value,
+                subcategory: value === "baie-vitree" ? "" : prev.subcategory
+              }));
+              setValidationErrors(prev => ({
+                ...prev,
+                category: false
+              }));
+            }}>
                  <SelectTrigger className={`mt-1 ${validationErrors.category ? 'border-red-500 ring-red-500' : ''}`}>
                   <SelectValue placeholder="Précisez la catégorie" />
                 </SelectTrigger>
@@ -119,45 +115,44 @@ export const QuoteStep3 = ({
               </Select>
             </div>
             
-            {formData.category === "baie-vitree" && (
-              <div className="mb-4">
-                <Label htmlFor="subcategory" className="text-sm">Type de baie vitrée <span className="text-destructive">*</span></Label>
-                <RadioGroup 
-                  value={formData.subcategory} 
-                  onValueChange={value => {
-                    setFormData(prev => ({...prev, subcategory: value}));
-                  }}
-                  className="flex gap-4 mt-2"
-                >
-                  <div className="flex items-center space-x-2 p-2 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                    <RadioGroupItem value="fixe" id="fixe" className="w-4 h-4" />
-                    <Label htmlFor="fixe" className="text-sm cursor-pointer">Fixe</Label>
+            {formData.category === "baie-vitree" && <div className="mb-4">
+                
+                <RadioGroup value={formData.subcategory} onValueChange={value => {
+              setFormData(prev => ({
+                ...prev,
+                subcategory: value
+              }));
+            }} className="space-y-3 mt-2">
+                  <div className="flex items-center space-x-3 p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="fixe" id="fixe" className="w-6 h-6" />
+                    <Label htmlFor="fixe" className="text-base cursor-pointer flex-1">Fixe</Label>
                   </div>
                   
-                  <div className="flex items-center space-x-2 p-2 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                    <RadioGroupItem value="coulissante" id="coulissante" className="w-4 h-4" />
-                    <Label htmlFor="coulissante" className="text-sm cursor-pointer">Coulissante</Label>
+                  <div className="flex items-center space-x-3 p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="coulissante" id="coulissante" className="w-6 h-6" />
+                    <Label htmlFor="coulissante" className="text-base cursor-pointer flex-1">Coulissante</Label>
                   </div>
                 </RadioGroup>
-              </div>
-            )}
+              </div>}
             
-            <RadioGroup
-              value={formData.vitrage} 
-              onValueChange={value => {
-                setFormData(prev => ({...prev, vitrage: value}));
-                setValidationErrors(prev => ({...prev, vitrage: false}));
-              }}
-              className={`space-y-4 ${validationErrors.vitrage ? 'ring-2 ring-red-500 rounded-lg p-2' : ''}`}
-            >
+            <RadioGroup value={formData.vitrage} onValueChange={value => {
+            setFormData(prev => ({
+              ...prev,
+              vitrage: value
+            }));
+            setValidationErrors(prev => ({
+              ...prev,
+              vitrage: false
+            }));
+          }} className={`space-y-4 ${validationErrors.vitrage ? 'ring-2 ring-red-500 rounded-lg p-2' : ''}`}>
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="simple" id="simple" className="w-6 h-6" />
-                <Label htmlFor="simple" className="text-lg cursor-pointer flex-1">Simple Vitrage</Label>
+                <Label htmlFor="simple" className="text-lg cursor-pointer flex-1">Simple</Label>
               </div>
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="double" id="double" className="w-6 h-6" />
-                <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double Vitrage</Label>
+                <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double</Label>
               </div>
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
@@ -170,40 +165,30 @@ export const QuoteStep3 = ({
           <div className="grid grid-cols-3 gap-4">
             <div>
               <Label htmlFor="hauteur">Hauteur <span className="text-destructive">*</span></Label>
-              <Input 
-                id="hauteur" 
-                type="number" 
-                placeholder="150 cm" 
-                className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.hauteur ? 'border-red-500 ring-red-500' : ''}`}
-                value={formData.hauteur} 
-                onChange={e => {
-                  setFormData(prev => ({
-                    ...prev,
-                    hauteur: e.target.value
-                  }));
-                  setValidationErrors(prev => ({...prev, hauteur: false}));
-                }}
-                required 
-              />
+              <Input id="hauteur" type="number" placeholder="150 cm" className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.hauteur ? 'border-red-500 ring-red-500' : ''}`} value={formData.hauteur} onChange={e => {
+              setFormData(prev => ({
+                ...prev,
+                hauteur: e.target.value
+              }));
+              setValidationErrors(prev => ({
+                ...prev,
+                hauteur: false
+              }));
+            }} required />
             </div>
 
             <div>
               <Label htmlFor="largeur">Largeur <span className="text-destructive">*</span></Label>
-              <Input 
-                id="largeur" 
-                type="number" 
-                placeholder="100 cm" 
-                className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.largeur ? 'border-red-500 ring-red-500' : ''}`}
-                value={formData.largeur} 
-                onChange={e => {
-                  setFormData(prev => ({
-                    ...prev,
-                    largeur: e.target.value
-                  }));
-                  setValidationErrors(prev => ({...prev, largeur: false}));
-                }}
-                required 
-              />
+              <Input id="largeur" type="number" placeholder="100 cm" className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.largeur ? 'border-red-500 ring-red-500' : ''}`} value={formData.largeur} onChange={e => {
+              setFormData(prev => ({
+                ...prev,
+                largeur: e.target.value
+              }));
+              setValidationErrors(prev => ({
+                ...prev,
+                largeur: false
+              }));
+            }} required />
             </div>
 
             <div>
@@ -218,17 +203,12 @@ export const QuoteStep3 = ({
             </div>
           </div>
 
-          <Button 
-            type="button" 
-            variant="outline" 
-            className="w-full"
-            onClick={() => {
-              toast({
-                title: "Article ajouté",
-                description: "Un nouvel article a été ajouté à votre devis"
-              });
-            }}
-          >
+          <Button type="button" variant="outline" className="w-full" onClick={() => {
+          toast({
+            title: "Article ajouté",
+            description: "Un nouvel article a été ajouté à votre devis"
+          });
+        }}>
             <Plus className="h-4 w-4 mr-2" />
             Ajouter un article
           </Button>
@@ -236,48 +216,31 @@ export const QuoteStep3 = ({
           <div>
             <Label htmlFor="photo">Photos (optionnel)</Label>
             <div className="mt-1 space-y-3">
-              {formData.photo && (
-                <div className="p-3 bg-accent rounded-lg">
+              {formData.photo && <div className="p-3 bg-accent rounded-lg">
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-foreground">
                       Photo ajoutée: {formData.photo.name || "Photo sélectionnée"}
                     </p>
                     <div className="flex gap-2">
-                      {formData.photoPreview && (
-                        <Dialog>
+                      {formData.photoPreview && <Dialog>
                           <DialogTrigger asChild>
                             <Button size="sm" variant="outline">
                               <Eye className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
                           <DialogContent className="max-w-lg">
-                            <img 
-                              src={formData.photoPreview} 
-                              alt="Photo prévisualisée" 
-                              className="w-full h-auto rounded-lg"
-                            />
+                            <img src={formData.photoPreview} alt="Photo prévisualisée" className="w-full h-auto rounded-lg" />
                           </DialogContent>
-                        </Dialog>
-                      )}
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        onClick={handlePhotoDelete}
-                        className="text-red-600 hover:text-red-700"
-                      >
+                        </Dialog>}
+                      <Button size="sm" variant="outline" onClick={handlePhotoDelete} className="text-red-600 hover:text-red-700">
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
-                </div>
-              )}
+                </div>}
               
               <PhotoCapture onPhotoSelect={handlePhotoSelect}>
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="w-full h-20 border-dashed"
-                >
+                <Button type="button" variant="outline" className="w-full h-20 border-dashed">
                   <Plus className="h-5 w-5 mr-2" />
                   Ajouter une photo
                 </Button>
@@ -286,24 +249,10 @@ export const QuoteStep3 = ({
           </div>
 
           <div className="flex gap-4">
-            {onBack && (
-              <Button 
-                type="button"
-                variant="outline" 
-                size="lg" 
-                className="flex-1"
-                onClick={onBack}
-              >
+            {onBack && <Button type="button" variant="outline" size="lg" className="flex-1" onClick={onBack}>
                 Retour
-              </Button>
-            )}
-            <Button 
-              type="submit" 
-              variant="default" 
-              size="lg" 
-              className="flex-1" 
-              disabled={!isValid}
-            >
+              </Button>}
+            <Button type="submit" variant="default" size="lg" className="flex-1" disabled={!isValid}>
               Continuer
             </Button>
           </div>
