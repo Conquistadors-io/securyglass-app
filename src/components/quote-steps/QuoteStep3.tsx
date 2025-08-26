@@ -9,11 +9,13 @@ import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2 } from "lucide-
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+
 interface QuoteStep3Props {
   data: any;
   onComplete: (data: any) => void;
   onBack?: () => void;
 }
+
 export const QuoteStep3 = ({
   data,
   onComplete,
@@ -29,15 +31,18 @@ export const QuoteStep3 = ({
     photo: data.photo || null,
     photoPreview: data.photoPreview || null
   });
+
   const [validationErrors, setValidationErrors] = useState({
     category: false,
     vitrage: false,
     largeur: false,
     hauteur: false
   });
+
   const {
     toast
   } = useToast();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errors = {
@@ -53,6 +58,7 @@ export const QuoteStep3 = ({
     }
     onComplete(formData);
   };
+
   const handlePhotoSelect = (file: File, preview: string) => {
     setFormData(prev => ({
       ...prev,
@@ -64,6 +70,7 @@ export const QuoteStep3 = ({
       description: "Votre photo a été téléchargée avec succès"
     });
   };
+
   const handlePhotoDelete = () => {
     setFormData(prev => ({
       ...prev,
@@ -75,7 +82,9 @@ export const QuoteStep3 = ({
       description: "La photo a été supprimée"
     });
   };
+
   const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur && (formData.category !== "baie-vitree" || formData.subcategory);
+
   return <Card className="shadow-card border-0">
       <div className="p-6">
 
@@ -147,12 +156,12 @@ export const QuoteStep3 = ({
           }} className={`space-y-4 ${validationErrors.vitrage ? 'ring-2 ring-red-500 rounded-lg p-2' : ''}`}>
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="simple" id="simple" className="w-6 h-6" />
-                <Label htmlFor="simple" className="text-lg cursor-pointer flex-1">Simple</Label>
+                <Label htmlFor="simple" className="text-lg cursor-pointer flex-1">Simple Vitrage</Label>
               </div>
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="double" id="double" className="w-6 h-6" />
-                <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double</Label>
+                <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double Vitrage</Label>
               </div>
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
