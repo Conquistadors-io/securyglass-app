@@ -18,9 +18,9 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
   const [currentStep, setCurrentStep] = useState(() => {
     try {
       const saved = localStorage.getItem('quote-current-step');
-      return saved ? parseInt(saved, 10) : 0;
+      return saved ? parseInt(saved, 10) : 1;
     } catch {
-      return 0;
+      return 1;
     }
   });
   
