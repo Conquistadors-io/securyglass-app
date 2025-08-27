@@ -154,19 +154,19 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
 
       <div className="flex flex-col sm:flex-row gap-4 pt-6">
         <Button
+          onClick={onValidate}
+          className="flex-1 h-12"
+        >
+          <CheckCircle2 className="h-4 w-4 mr-2" />
+          Valider et obtenir le devis
+        </Button>
+        <Button
           onClick={onModify}
           variant="outline"
           className="flex-1 h-12"
         >
           <Edit3 className="h-4 w-4 mr-2" />
           Modifier
-        </Button>
-        <Button
-          onClick={onValidate}
-          className="flex-1 h-12"
-        >
-          <CheckCircle2 className="h-4 w-4 mr-2" />
-          Valider et obtenir le devis
         </Button>
       </div>
     </div>
