@@ -79,14 +79,14 @@ export function AddressSelect({
     const isBoulevardText = (text: string) => /\bboulevard\b/i.test(text) || /\bbd\b/i.test(text) || /\bblvd\b/i.test(text) || /\bboul\.?\b/i.test(text)
     const isResidenceText = (text: string) => /\brésidence\b/i.test(text) || /\bresidence\b/i.test(text)
 
-    // Filtrer les adresses communes selon la recherche
+    // Préparer les suggestions filtrées selon le type recherché
     let filteredCommon = commonAddresses.slice(0, 10)
     if (wantsBoulevard) {
       filteredCommon = filteredCommon.filter((s) => isBoulevardText(s.label))
     } else if (wantsResidence) {
       filteredCommon = filteredCommon.filter((s) => isResidenceText(s.label))
     }
-    
+
     if (query.length < 3) {
       setSuggestions(filteredCommon)
       return
