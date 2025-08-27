@@ -8,6 +8,7 @@ import { QuoteStep1 } from "./quote-steps/QuoteStep1";
 import { QuoteStep2 } from "./quote-steps/QuoteStep2";
 import { QuoteStep3 } from "./quote-steps/QuoteStep3";
 import { QuoteSummary } from "./quote-steps/QuoteSummary";
+import { QuoteStep4 } from "./quote-steps/QuoteStep4";
 
 interface OnlineQuoteProps {
   onNavigate: (route: string) => void;
@@ -113,7 +114,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
     }
   };
 
-  const totalSteps = 5; // Updated to 5 steps
+  const totalSteps = 6; // Updated to 6 steps
   const progress = ((currentStep + 1) / totalSteps) * 100;
 
   const handleNext = () => {
@@ -169,6 +170,14 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
           />
         );
       case 4:
+        return (
+          <QuoteStep4 
+            data={formData} 
+            onValidate={handleNext}
+            onModify={() => setCurrentStep(0)}
+          />
+        );
+      case 5:
         return (
           <QuoteSummary 
             data={formData} 
