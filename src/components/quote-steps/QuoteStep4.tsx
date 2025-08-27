@@ -118,7 +118,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
           </div>
           <div className="space-y-2">
             <div className="text-sm font-medium text-muted-foreground">PARTICULIER</div>
-            <div className="text-foreground">{data.civilite === "m" ? "Monsieur" : data.civilite === "mme" ? "Madame" : data.civilite} {data.nom}</div>
+            <div className="text-foreground">{data.civilite === "monsieur" ? "Monsieur" : data.civilite === "madame" ? "Madame" : data.civilite === "societe" ? "Société" : data.civilite === "entreprise-btp" ? "Professionnel du BTP" : data.civilite} {data.nom ? data.nom.toUpperCase() : ""}</div>
             <div className="text-foreground">{data.email}</div>
             <div className="text-foreground">{data.telephone}</div>
             <div className="text-foreground">{data.adresse}</div>
