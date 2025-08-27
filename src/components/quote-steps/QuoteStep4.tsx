@@ -109,48 +109,54 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
         </p>
       </div>
 
-      <div className="space-y-6">
-        {infoSections.map((section, sectionIndex) => (
-          <Card key={sectionIndex}>
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center">
-                <CheckCircle2 className="h-5 w-5 text-primary mr-2" />
-                {section.title}
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {section.items
-                  .filter(item => item.value)
-                  .map((item, itemIndex) => (
-                    <div key={itemIndex} className="space-y-1">
-                      <label className="text-sm font-medium text-muted-foreground">
-                        {item.label}
-                      </label>
-                      <div className="flex items-center">
-                        <Badge variant="outline" className="text-foreground">
-                          {getDisplayValue(item.key, item.value)}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      {/* Section Client */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center mb-4">
+            <CheckCircle2 className="h-5 w-5 text-primary mr-2" />
+            <span className="text-lg font-semibold">Client</span>
+          </div>
+          <div className="space-y-2">
+            <div className="text-sm font-medium text-muted-foreground">PARTICULIER</div>
+            <div className="text-foreground">{getDisplayValue("civilite", data.civilite)} {data.nom}</div>
+            <div className="text-foreground">{data.email}</div>
+            <div className="text-foreground">{data.telephone}</div>
+            <div className="text-foreground">{data.adresse}</div>
+            <div className="text-foreground">{data.codePostal} {data.ville}</div>
+            <div className="text-foreground">Motif : {data.motif}</div>
+            {data.assurance && <div className="text-foreground">Assurance : {data.assurance}</div>}
+          </div>
+        </CardContent>
+      </Card>
 
-        {data.photo && (
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center">
-                <CheckCircle2 className="h-5 w-5 text-primary mr-2" />
-                Photo jointe
-              </h3>
-              <Badge variant="outline" className="text-foreground">
-                Photo téléchargée ({data.photo.name})
-              </Badge>
-            </CardContent>
-          </Card>
-        )}
-      </div>
+      {/* Section Interventions */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center mb-4">
+            <CheckCircle2 className="h-5 w-5 text-primary mr-2" />
+            <span className="text-lg font-semibold">Interventions</span>
+          </div>
+          <div className="space-y-2">
+            <div className="text-foreground font-medium">{getDisplayValue("vitrage", data.vitrage).toUpperCase()}</div>
+            <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L)</div>
+            <div className="text-foreground">Quantité : {data.quantite}</div>
+            {data.category && <div className="text-foreground">Type : {getDisplayValue("category", data.category)}</div>}
+            {data.subcategory && <div className="text-foreground">Sous-type : {getDisplayValue("subcategory", data.subcategory)}</div>}
+          </div>
+        </CardContent>
+      </Card>
+
+      {data.photo && (
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center mb-4">
+              <CheckCircle2 className="h-5 w-5 text-primary mr-2" />
+              <span className="text-lg font-semibold">Photo jointe</span>
+            </div>
+            <div className="text-foreground">Photo téléchargée ({data.photo.name})</div>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="flex flex-col sm:flex-row gap-4 pt-6">
         <Button
