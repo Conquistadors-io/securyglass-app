@@ -10,6 +10,29 @@ interface QuoteStep4Props {
 }
 
 export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
+  // Helper function to escape regex special characters
+  const escapeRegExp = (string: string) => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  };
+
+  // Helper function to clean street name by removing duplicate postal code and city
+  const cleanStreet = (address: string, codePostal: string, ville: string) => {
+    if (!address) return "";
+    
+    let cleanedAddress = address;
+    
+    // Remove postal code and city if they appear in the address
+    if (codePostal && ville) {
+      const postalCityPattern = new RegExp(`\\s*${escapeRegExp(codePostal)}\\s*${escapeRegExp(ville)}\\s*`, 'gi');
+      cleanedAddress = cleanedAddress.replace(postalCityPattern, '');
+    }
+    
+    // Clean up any trailing commas or spaces
+    cleanedAddress = cleanedAddress.replace(/,\s*$/, '').trim();
+    
+    return cleanedAddress;
+  };
+
   const getDisplayValue = (key: string, value: any) => {
     const displayMap: { [key: string]: { [value: string]: string } } = {
       serviceType: {
@@ -124,7 +147,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
             <div
               className="text-foreground"
               dangerouslySetInnerHTML={{
-                __html: `${data.adresse || ""}${data.adresse ? "<br/>" : ""}${[data.codePostal, data.ville].filter(Boolean).join(" ")}`,
+                __html: `${cleanStreet(data.adresse, data.codePostal, data.ville)}<br/>${[data.codePostal, data.ville].filter(Boolean).join(" ")}`,
               }}
             ></div>
             <div className="text-foreground">Motif : {data.motif}</div>
