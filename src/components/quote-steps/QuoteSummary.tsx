@@ -2,6 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CheckCircle, Download, Calendar, CreditCard, FileText } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { useState, useEffect } from "react";
 interface QuoteSummaryProps {
   data: any;
   onNavigate: (route: string) => void;
@@ -12,6 +15,9 @@ export const QuoteSummary = ({
   onNavigate,
   onComplete
 }: QuoteSummaryProps) => {
+  const { toast } = useToast();
+  const [emailSent, setEmailSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   // Calculate estimated price based on form data
   const calculatePrice = () => {
     const largeur = parseFloat(data.largeur) || 0;
@@ -220,14 +226,95 @@ export const QuoteSummary = ({
     URL.revokeObjectURL(url);
   };
 
+  const sendQuoteEmail = async () => {
+    if (isLoading || emailSent) return;
+    
+    setIsLoading(true);
+    console.log("Sending quote email to:", data.email);
+
+    try {
+      const quoteData = {
+        id: quoteNumber,
+        date: new Date().toLocaleDateString('fr-FR'),
+        client: {
+          name: `${data.civilite} ${data.nom}`,
+          email: data.email,
+          phone: data.telephone,
+          address: data.adresse || ""
+        },
+        company: {
+          name: "Securyglass France",
+          email: "contact@securyglass.fr",
+          phone: "09 70 144 344",
+          address: "France"
+        },
+        items: [
+          {
+            designation: data.object,
+            quantity: parseInt(data.quantite || 1),
+            unitPrice: priceCalculation.details.vitrage / parseInt(data.quantite || 1),
+            total: priceCalculation.details.vitrage
+          }
+        ],
+        subtotal: priceCalculation.subtotal,
+        vat: priceCalculation.tva,
+        total: priceCalculation.total
+      };
+
+      const { data: result, error } = await supabase.functions.invoke('send-quote', {
+        body: {
+          email: data.email,
+          clientName: `${data.civilite} ${data.nom}`,
+          message: `Merci pour votre demande de devis. Veuillez trouver ci-joint votre devis pour ${data.object}.`,
+          ccInternal: true,
+          quoteData
+        }
+      });
+
+      if (error) {
+        console.error("Erreur lors de l'envoi du devis:", error);
+        toast({
+          title: "Erreur",
+          description: "Impossible d'envoyer le devis par email. Veuillez réessayer.",
+          variant: "destructive",
+        });
+      } else {
+        console.log("Devis envoyé avec succès:", result);
+        setEmailSent(true);
+        toast({
+          title: "Devis envoyé",
+          description: `Le devis a été envoyé avec succès à ${data.email}`,
+        });
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du devis:", error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur s'est produite lors de l'envoi du devis.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Envoyer l'email automatiquement au chargement du composant
+  useEffect(() => {
+    if (data.email && !emailSent && !isLoading) {
+      sendQuoteEmail();
+    }
+  }, [data.email]);
+
   return <div className="space-y-6">
       {/* Header Card */}
       <Card className="p-6 shadow-card border-0 bg-gradient-card">
         <div className="text-center">
           <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-foreground mb-2">Devis envoyé !</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-2">
+            {isLoading ? "Envoi en cours..." : emailSent ? "Devis envoyé !" : "Préparation du devis..."}
+          </h2>
           <p className="text-muted-foreground">
-            à : yves@securyglass.fr
+            {emailSent ? `à : ${data.email}` : isLoading ? "Veuillez patienter..." : ""}
           </p>
         </div>
       </Card>
