@@ -6,7 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Calendar, MapPin, Euro, Star, Phone, Clock, Award, Target, Zap, Timer, Menu, User, FileText, Shield, Car, TrendingUp, CreditCard, AlertTriangle, X, Users, Edit3, Save, XCircle } from "lucide-react";
+import { Calendar, MapPin, Euro, Star, Phone, Clock, Award, Target, Zap, Timer, Menu, User, FileText, Shield, Car, TrendingUp, CreditCard, AlertTriangle, X, Users, Edit3, Save, XCircle, Settings } from "lucide-react";
 interface TechnicianDashboardProps {
   onNavigate: (route: string) => void;
 }
@@ -538,6 +538,18 @@ Travaux</div>
         <Button variant="outline" className="h-16 flex-col space-y-1" onClick={() => onNavigate("technician-profile")}>
           <Star className="h-5 w-5" />
           <span className="text-xs">Profil</span>
+        </Button>
+      </div>
+
+      {/* Admin Button */}
+      <div className="mb-6">
+        <Button 
+          variant="outline" 
+          className="w-full h-12 flex items-center justify-center space-x-2"
+          onClick={() => window.location.href = '/admin'}
+        >
+          <Settings className="h-5 w-5" />
+          <span>Configuration Gmail (Admin)</span>
         </Button>
       </div>
 

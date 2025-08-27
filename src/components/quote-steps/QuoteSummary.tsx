@@ -5,7 +5,6 @@ import { CheckCircle, Download, Calendar, CreditCard, FileText, Mail } from "luc
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
-import { GmailConnection } from "@/components/GmailConnection";
 interface QuoteSummaryProps {
   data: any;
   onNavigate: (route: string) => void;
@@ -19,8 +18,8 @@ export const QuoteSummary = ({
   const { toast } = useToast();
   const [emailSent, setEmailSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [gmailConnected, setGmailConnected] = useState(false);
-  const [gmailEmail, setGmailEmail] = useState<string>('');
+  const [gmailConfigured, setGmailConfigured] = useState(false);
+  const [adminEmail, setAdminEmail] = useState<string>('');
   // Calculate estimated price based on form data
   const calculatePrice = () => {
     const largeur = parseFloat(data.largeur) || 0;
@@ -229,8 +228,35 @@ export const QuoteSummary = ({
     URL.revokeObjectURL(url);
   };
 
+  // Check if Gmail is configured by admin
+  const checkGmailConfiguration = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('gmail_credentials')
+        .select('user_email, expires_at')
+        .gte('expires_at', new Date().toISOString())
+        .single();
+
+      if (data && !error) {
+        setGmailConfigured(true);
+        setAdminEmail(data.user_email);
+      } else {
+        setGmailConfigured(false);
+        setAdminEmail('');
+      }
+    } catch (error) {
+      console.log('No Gmail configuration found');
+      setGmailConfigured(false);
+      setAdminEmail('');
+    }
+  };
+
+  useEffect(() => {
+    checkGmailConfiguration();
+  }, []);
+
   const sendQuoteEmailViaGmail = async () => {
-    if (isLoading || emailSent || !gmailConnected) return;
+    if (isLoading || emailSent || !gmailConfigured) return;
     
     setIsLoading(true);
     console.log("Sending quote email via Gmail to:", data.email);
@@ -269,7 +295,7 @@ export const QuoteSummary = ({
           email: data.email,
           clientName: `${data.civilite} ${data.nom}`,
           message: `Merci pour votre demande de devis. Veuillez trouver ci-joint votre devis pour ${data.object}.`,
-          senderEmail: gmailEmail,
+          senderEmail: adminEmail,
           quoteData
         }
       });
@@ -279,8 +305,8 @@ export const QuoteSummary = ({
         
         if (error.message?.includes('needsAuth')) {
           toast({
-            title: "Gmail non connecté",
-            description: "Veuillez connecter votre compte Gmail pour envoyer le devis.",
+            title: "Gmail non configuré",
+            description: "L'administrateur doit configurer Gmail pour l'envoi automatique des devis.",
             variant: "destructive",
           });
         } else {
@@ -295,7 +321,7 @@ export const QuoteSummary = ({
         setEmailSent(true);
         toast({
           title: "Devis envoyé",
-          description: `Le devis a été envoyé avec succès à ${data.email} via Gmail`,
+          description: `Le devis a été envoyé avec succès à ${data.email}`,
         });
       }
     } catch (error) {
@@ -310,24 +336,12 @@ export const QuoteSummary = ({
     }
   };
 
-  const handleSendEmail = () => {
-    if (gmailConnected) {
-      sendQuoteEmailViaGmail();
-    } else {
-      toast({
-        title: "Gmail requis",
-        description: "Veuillez connecter votre compte Gmail pour envoyer le devis.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  // Auto-send email when Gmail is connected
+  // Auto-send email when component loads if Gmail is configured
   useEffect(() => {
-    if (data.email && !emailSent && !isLoading && gmailConnected) {
+    if (data.email && !emailSent && !isLoading && gmailConfigured) {
       sendQuoteEmailViaGmail();
     }
-  }, [data.email, gmailConnected]);
+  }, [data.email, gmailConfigured]);
 
   return <div className="space-y-6">
       {/* Header Card */}
@@ -443,25 +457,33 @@ export const QuoteSummary = ({
         </div>
       </Card>
 
-      {/* Gmail Connection */}
-      <GmailConnection 
-        onConnectionChange={(isConnected, email) => {
-          setGmailConnected(isConnected);
-          setGmailEmail(email || '');
-        }}
-      />
+      {/* Gmail Status Info */}
+      {!gmailConfigured && (
+        <Card className="p-4 bg-orange-50 dark:bg-orange-950/20 border-orange-200 dark:border-orange-800">
+          <div className="flex items-center gap-3">
+            <Mail className="h-5 w-5 text-orange-600" />
+            <div>
+              <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
+                Configuration Gmail requise
+              </p>
+              <p className="text-xs text-orange-700 dark:text-orange-300">
+                L'administrateur doit configurer Gmail pour l'envoi automatique des devis.
+              </p>
+            </div>
+          </div>
+        </Card>
+      )}
 
-      {/* Email Send Button */}
-      {gmailConnected && !emailSent && (
+      {/* Manual Send Button if not auto-sent */}
+      {gmailConfigured && !emailSent && !isLoading && (
         <Button 
           variant="default" 
           size="lg" 
           className="w-full" 
-          onClick={handleSendEmail}
-          disabled={isLoading}
+          onClick={sendQuoteEmailViaGmail}
         >
           <Mail className="h-5 w-5 mr-2" />
-          {isLoading ? "Envoi en cours..." : "Envoyer le devis par email"}
+          Envoyer le devis par email
         </Button>
       )}
 
