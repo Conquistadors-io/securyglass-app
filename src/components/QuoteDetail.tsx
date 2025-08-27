@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ArrowLeft, Send, Printer, Copy, FileText, Euro, Calendar, User, Phone, Mail, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -21,6 +22,7 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
   const [clientEmail, setClientEmail] = useState("");
   const [clientPhone, setClientPhone] = useState("");
   const [message, setMessage] = useState("");
+  const [ccInternal, setCcInternal] = useState(true);
   const { toast } = useToast();
 
   const quote = {
@@ -104,11 +106,15 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
         total
       };
 
+      console.log('Envoi du devis vers:', clientEmail);
+
       // Appeler l'edge function Supabase pour envoyer l'email
       const { data, error } = await supabase.functions.invoke('send-quote', {
         body: {
           email: clientEmail,
           clientName: quote.client.name,
+          message,
+          ccInternal,
           quoteData
         }
       });
@@ -119,10 +125,12 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
 
       setStatus("sent");
       setShowSendDialog(false);
+
+      const ccInfo = data?.cc ? ` (copie envoyée à ${data.cc.join(', ')})` : "";
       
       toast({
         title: "Devis envoyé avec succès",
-        description: `Email envoyé à ${clientEmail}`,
+        description: `Email envoyé à ${clientEmail}${ccInfo}. ID: ${data?.messageId}`,
       });
     } catch (error: any) {
       console.error('Erreur envoi devis:', error);
@@ -353,6 +361,16 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
                 className="min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Votre message..."
               />
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="ccInternal"
+                checked={ccInternal}
+                onCheckedChange={(checked) => setCcInternal(checked === true)}
+              />
+              <Label htmlFor="ccInternal" className="text-sm">
+                Envoyer une copie à contact@securyglass.fr
+              </Label>
             </div>
             <div className="flex space-x-2">
               <Button

@@ -12,6 +12,8 @@ const corsHeaders = {
 interface QuoteEmailRequest {
   email: string;
   clientName: string;
+  message?: string;
+  ccInternal?: boolean;
   quoteData: {
     id: string;
     date: string;
@@ -116,19 +118,30 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email, clientName, quoteData }: QuoteEmailRequest = await req.json();
+    const { email, clientName, message = "", ccInternal = false, quoteData }: QuoteEmailRequest = await req.json();
 
     console.log("Sending quote email to:", email);
+    console.log("Quote ID:", quoteData.id);
+    console.log("CC Internal:", ccInternal);
+
+    // Préparer la liste des destinataires
+    const recipients = [email];
+    const ccList = ccInternal ? ["contact@securyglass.fr"] : undefined;
 
     // Générer le HTML du devis
     const quoteHTML = generateQuotePDF(quoteData);
 
+    // Préparer le message personnalisé
+    const customMessage = message ? `<p>${message.replace(/\n/g, '<br>')}</p>` : "";
+
     const emailResponse = await resend.emails.send({
-      from: "SecuryGlass <onboarding@resend.dev>",
-      to: [email],
+      from: "SecuryGlass <contact@securyglass.fr>",
+      to: recipients,
+      cc: ccList,
       subject: `Devis ${quoteData.id} - SecuryGlass`,
       html: `
         <h2>Bonjour ${clientName},</h2>
+        ${customMessage}
         <p>Veuillez trouver ci-joint votre devis pour les travaux de vitrerie.</p>
         <p>N'hésitez pas à nous contacter pour toute question.</p>
         <p>Cordialement,<br>L'équipe SecuryGlass</p>
@@ -138,10 +151,13 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
     console.log("Email sent successfully:", emailResponse);
+    console.log("Message ID:", emailResponse.data?.id);
 
     return new Response(JSON.stringify({ 
       success: true, 
-      messageId: emailResponse.data?.id 
+      messageId: emailResponse.data?.id,
+      to: recipients,
+      cc: ccList
     }), {
       status: 200,
       headers: {
