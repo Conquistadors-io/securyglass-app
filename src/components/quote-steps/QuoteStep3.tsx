@@ -23,7 +23,7 @@ export const QuoteStep3 = ({
 }: QuoteStep3Props) => {
   const [formData, setFormData] = useState({
     category: data.category || "fenetre",
-    subcategory: data.subcategory || "",
+    subcategory: data.subcategory || "coulissante",
     vitrage: data.vitrage || "simple",
     largeur: data.largeur || "",
     hauteur: data.hauteur || "",
@@ -133,13 +133,13 @@ export const QuoteStep3 = ({
               }));
             }} className="flex gap-6 mt-2">
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="fixe" id="fixe" className="w-4 h-4" />
-                    <Label htmlFor="fixe" className="text-sm cursor-pointer">Fixe</Label>
+                    <RadioGroupItem value="coulissante" id="coulissante" className="w-4 h-4" />
+                    <Label htmlFor="coulissante" className="text-sm cursor-pointer">Coulissante</Label>
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="coulissante" id="coulissante" className="w-4 h-4" />
-                    <Label htmlFor="coulissante" className="text-sm cursor-pointer">Coulissante</Label>
+                    <RadioGroupItem value="fixe" id="fixe" className="w-4 h-4" />
+                    <Label htmlFor="fixe" className="text-sm cursor-pointer">Fixe</Label>
                   </div>
                 </RadioGroup>
               </div>}
