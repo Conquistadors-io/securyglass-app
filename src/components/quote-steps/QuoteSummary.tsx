@@ -88,6 +88,138 @@ export const QuoteSummary = ({
   };
   const priceCalculation = calculatePrice();
   const quoteNumber = `DEV-${Date.now().toString().slice(-8)}`;
+
+  const generateQuoteHTML = () => {
+    return `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>Devis ${quoteNumber}</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+          .header { text-align: center; margin-bottom: 30px; }
+          .company-info { margin-bottom: 20px; }
+          .client-info { margin-bottom: 20px; }
+          .quote-details { margin-bottom: 20px; }
+          table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+          th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+          th { background-color: #f5f5f5; }
+          .totals { text-align: right; margin-top: 20px; }
+          .total-line { margin-bottom: 5px; }
+          .final-total { font-weight: bold; font-size: 1.2em; color: #2563eb; }
+          .logo { width: 80px; height: 80px; margin: 0 auto 20px; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>DEVIS</h1>
+          <h2>SecuryGlass</h2>
+          <p style="font-style: italic; color: #666;">Glass for your security</p>
+        </div>
+        
+        <div class="quote-details">
+          <p><strong>Numéro de devis:</strong> ${quoteNumber}</p>
+          <p><strong>Date:</strong> ${new Date().toLocaleDateString('fr-FR')}</p>
+        </div>
+        
+        <div class="client-info">
+          <h3>Client</h3>
+          <p><strong>${data.civilite} ${data.nom}</strong></p>
+          <p>${data.telephone}</p>
+          <p>${data.email}</p>
+          ${data.adresse ? `<p>${data.adresse}</p>` : ''}
+        </div>
+        
+        <div class="company-info">
+          <h3>Entreprise</h3>
+          <p><strong>Securyglass France</strong></p>
+          <p>contact@securyglass.fr</p>
+          <p>09 70 144 344</p>
+        </div>
+        
+        <table>
+          <thead>
+            <tr>
+              <th>Désignation</th>
+              <th>Dimensions</th>
+              <th>Quantité</th>
+              <th>Prix unitaire</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>${data.object}</td>
+              <td>${data.largeur} × ${data.hauteur} cm</td>
+              <td>${data.quantite}</td>
+              <td>Vitrage ${data.vitrage}</td>
+              <td>${priceCalculation.details.vitrage}€</td>
+            </tr>
+            <tr>
+              <td>Main d'œuvre</td>
+              <td>${priceCalculation.details.area.toFixed(2)} m²</td>
+              <td>1</td>
+              <td>${(priceCalculation.details.mainOeuvre / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation.details.mainOeuvre}€</td>
+            </tr>
+            <tr>
+              <td>Livraison</td>
+              <td>-</td>
+              <td>1</td>
+              <td>${(priceCalculation.details.livraison / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation.details.livraison}€</td>
+            </tr>
+            ${priceCalculation.details.deplacement > 0 ? `
+            <tr>
+              <td>Déplacement</td>
+              <td>-</td>
+              <td>1</td>
+              <td>${(priceCalculation.details.deplacement / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation.details.deplacement}€</td>
+            </tr>
+            ` : ''}
+            ${priceCalculation.details.miseEnSecurite > 0 ? `
+            <tr>
+              <td>Mise en sécurité</td>
+              <td>-</td>
+              <td>1</td>
+              <td>${(priceCalculation.details.miseEnSecurite / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation.details.miseEnSecurite}€</td>
+            </tr>
+            ` : ''}
+          </tbody>
+        </table>
+        
+        <div class="totals">
+          <div class="total-line">Sous-total HT: ${priceCalculation.subtotal}€</div>
+          <div class="total-line">TVA (${Math.round(priceCalculation.tvaRate * 100)}%): ${priceCalculation.tva}€</div>
+          <div class="total-line final-total">Total TTC: ${priceCalculation.total}€</div>
+        </div>
+        
+        <div style="margin-top: 40px; font-size: 0.9em; color: #666;">
+          <p>* Prix indicatif, devis définitif après visite technique</p>
+          <p>Ce devis est valable 30 jours à compter de la date d'émission.</p>
+          <p>Merci de votre confiance.</p>
+        </div>
+      </body>
+      </html>
+    `;
+  };
+
+  const handleDownloadPDF = () => {
+    const htmlContent = generateQuoteHTML();
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `devis-${quoteNumber}.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return <div className="space-y-6">
       {/* Header Card */}
       <Card className="p-6 shadow-card border-0 bg-gradient-card">
@@ -202,7 +334,7 @@ export const QuoteSummary = ({
 
       {/* Action Buttons */}
       <div className="space-y-4">
-        <Button variant="default" size="lg" className="w-full" onClick={() => {/* Handle PDF download */}}>
+        <Button variant="default" size="lg" className="w-full" onClick={handleDownloadPDF}>
           <Download className="h-5 w-5 mr-2" />
           Télécharger le devis PDF
         </Button>
