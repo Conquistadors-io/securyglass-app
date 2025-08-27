@@ -108,8 +108,8 @@ export const QuoteStep2 = ({
                 <SelectValue placeholder="Accident" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="usure">Sans motif apparent</SelectItem>
                 <SelectItem value="accident">Accident</SelectItem>
+                <SelectItem value="usure">Sans motif apparent</SelectItem>
                 <SelectItem value="choc-thermique">Choc thermique</SelectItem>
                 <SelectItem value="vandalisme">Vandalisme</SelectItem>
                 <SelectItem value="effraction">Effraction ( ou tentative )</SelectItem>
