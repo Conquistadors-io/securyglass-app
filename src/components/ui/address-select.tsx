@@ -170,7 +170,7 @@ export function AddressSelect({
       const addressComplete = value && value.trim().length > 5 && /\d/.test(value)
       setIsAddressComplete(!!addressComplete)
     }
-  }, [value])
+  }, [value, searchTerm])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
