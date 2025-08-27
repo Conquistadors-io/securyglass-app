@@ -64,12 +64,17 @@ export const QuoteSummary = ({
     }
     
     const subtotal = (vitragePrice + mainOeuvrePrice + livraison + deplacement + miseEnSecurite) * quantite;
-    const tva = subtotal * 0.2; // TVA 20%
+    
+    // TVA différente selon le type de client
+    const isParticulier = data.civilite === 'madame' || data.civilite === 'monsieur';
+    const tvaRate = isParticulier ? 0.1 : 0.2; // 10% pour particuliers, 20% pour entreprises
+    const tva = subtotal * tvaRate;
     const total = subtotal + tva;
     
     return {
       subtotal: Math.round(subtotal * 100) / 100,
       tva: Math.round(tva * 100) / 100,
+      tvaRate: tvaRate,
       total: Math.round(total * 100) / 100,
       details: {
         vitrage: Math.round(vitragePrice * quantite * 100) / 100,
@@ -161,7 +166,7 @@ export const QuoteSummary = ({
               <span>{priceCalculation.subtotal}€</span>
             </div>
             <div className="flex justify-between">
-              <span>TVA (20%):</span>
+              <span>TVA ({Math.round(priceCalculation.tvaRate * 100)}%):</span>
               <span>{priceCalculation.tva}€</span>
             </div>
           </div>
