@@ -20,7 +20,7 @@ export const QuoteStep2 = ({
     object: data.object || "vitre-cassee",
     property: data.property || "appartement",
     propertyOther: data.propertyOther || "",
-    motif: data.motif || "accident",
+    motif: data.motif || "usure",
     motifOther: data.motifOther || ""
   });
   const handleSubmit = (e: React.FormEvent) => {
@@ -105,7 +105,7 @@ export const QuoteStep2 = ({
             motifOther: ""
           }))}>
               <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Accident" />
+                <SelectValue placeholder="Sans motif apparent" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="usure">Sans motif apparent</SelectItem>
