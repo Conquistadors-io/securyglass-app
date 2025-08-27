@@ -37,6 +37,12 @@ export function AddressSelect({
     if (!city) return []
     
     const baseAddresses = [
+      "1 Résidence des Rosiers",
+      "2 Résidence du Parc",
+      "3 Résidence des Jardins",
+      "1 Résidence du Centre",
+      "2 Résidence de la Gare",
+      "1 Résidence Belle Vue",
       "Avenue de la République",
       "Rue de la Paix", 
       "Boulevard Saint-Michel",
@@ -68,15 +74,21 @@ export function AddressSelect({
     const tokens = afterNumber.trim()
     const boulevardPrefixes = ["bd", "bld", "b", "bou", "boul", "boulev", "boulevard", "blvd", "bvd", "boul."]
     const wantsBoulevard = boulevardPrefixes.some((p) => tokens.startsWith(p))
+    const wantsResidence = tokens.includes("res") || tokens.includes("residence") || tokens.includes("résidence")
 
     const isBoulevardText = (text: string) => /\bboulevard\b/i.test(text) || /\bbd\b/i.test(text) || /\bblvd\b/i.test(text) || /\bboul\.?\b/i.test(text)
+    const isResidenceText = (text: string) => /\brésidence\b/i.test(text) || /\bresidence\b/i.test(text)
 
+    // Filtrer les adresses communes selon la recherche
+    let filteredCommon = commonAddresses.slice(0, 10)
+    if (wantsBoulevard) {
+      filteredCommon = filteredCommon.filter((s) => isBoulevardText(s.label))
+    } else if (wantsResidence) {
+      filteredCommon = filteredCommon.filter((s) => isResidenceText(s.label))
+    }
+    
     if (query.length < 3) {
-      const base = commonAddresses.slice(0, 10)
-      const baseFiltered = wantsBoulevard
-        ? base.filter((s) => isBoulevardText(s.label))
-        : base
-      setSuggestions(baseFiltered)
+      setSuggestions(filteredCommon)
       return
     }
 
@@ -131,11 +143,11 @@ export function AddressSelect({
         })
         setSuggestions(addressSuggestions)
       } else {
-        setSuggestions(commonAddresses.slice(0, 10))
+        setSuggestions(filteredCommon)
       }
     } catch (error) {
       console.error("Erreur lors de la recherche d'adresses:", error)
-      setSuggestions(commonAddresses.slice(0, 10))
+      setSuggestions(filteredCommon)
     } finally {
       setIsLoading(false)
     }
