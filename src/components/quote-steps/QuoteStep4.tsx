@@ -121,7 +121,9 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
             <div className="text-foreground">{data.civilite === "monsieur" ? "Monsieur" : data.civilite === "madame" ? "Madame" : data.civilite === "societe" ? "Société" : data.civilite === "entreprise-btp" ? "Professionnel du BTP" : data.civilite} {data.nom ? data.nom.toUpperCase() : ""}</div>
             <div className="text-foreground">{data.email}</div>
             <div className="text-foreground">{data.telephone}</div>
-            <div className="text-foreground">{data.adresse}</div>
+            <div className="text-foreground" dangerouslySetInnerHTML={{
+              __html: data.adresse ? data.adresse.replace(/^([^,]+)/, '$1<br/>') : ''
+            }}></div>
             <div className="text-foreground">{data.codePostal} {data.ville}</div>
             <div className="text-foreground">Motif : {data.motif}</div>
             {data.assurance && <div className="text-foreground">Assurance : {data.assurance}</div>}
