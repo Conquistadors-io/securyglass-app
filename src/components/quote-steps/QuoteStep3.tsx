@@ -98,7 +98,7 @@ export const QuoteStep3 = ({
               setFormData(prev => ({
                 ...prev,
                 category: value,
-                subcategory: value === "baie-vitree" ? "" : prev.subcategory
+                subcategory: value === "baie-vitree" ? "coulissante" : prev.subcategory
               }));
               setValidationErrors(prev => ({
                 ...prev,
