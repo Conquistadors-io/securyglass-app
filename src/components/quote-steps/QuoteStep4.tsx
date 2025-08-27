@@ -114,7 +114,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
         <CardContent className="p-6">
           <div className="flex items-center mb-4">
             <CheckCircle2 className="h-5 w-5 text-primary mr-2" />
-            <span className="text-lg font-semibold">Client</span>
+            <span className="text-lg font-semibold">Vos informations</span>
           </div>
           <div className="space-y-2">
             <div className="text-sm font-medium text-muted-foreground">PARTICULIER</div>
