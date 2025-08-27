@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle, Download, Calendar, CreditCard, FileText } from "lucide-react";
+import { CheckCircle, Download, Calendar, CreditCard, FileText, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
+import { GmailConnection } from "@/components/GmailConnection";
 interface QuoteSummaryProps {
   data: any;
   onNavigate: (route: string) => void;
@@ -18,6 +19,8 @@ export const QuoteSummary = ({
   const { toast } = useToast();
   const [emailSent, setEmailSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [gmailConnected, setGmailConnected] = useState(false);
+  const [gmailEmail, setGmailEmail] = useState<string>('');
   // Calculate estimated price based on form data
   const calculatePrice = () => {
     const largeur = parseFloat(data.largeur) || 0;
@@ -226,11 +229,11 @@ export const QuoteSummary = ({
     URL.revokeObjectURL(url);
   };
 
-  const sendQuoteEmail = async () => {
-    if (isLoading || emailSent) return;
+  const sendQuoteEmailViaGmail = async () => {
+    if (isLoading || emailSent || !gmailConnected) return;
     
     setIsLoading(true);
-    console.log("Sending quote email to:", data.email);
+    console.log("Sending quote email via Gmail to:", data.email);
 
     try {
       const quoteData = {
@@ -261,29 +264,38 @@ export const QuoteSummary = ({
         total: priceCalculation.total
       };
 
-      const { data: result, error } = await supabase.functions.invoke('send-quote', {
+      const { data: result, error } = await supabase.functions.invoke('send-quote-gmail', {
         body: {
           email: data.email,
           clientName: `${data.civilite} ${data.nom}`,
           message: `Merci pour votre demande de devis. Veuillez trouver ci-joint votre devis pour ${data.object}.`,
-          ccInternal: true,
+          senderEmail: gmailEmail,
           quoteData
         }
       });
 
       if (error) {
         console.error("Erreur lors de l'envoi du devis:", error);
-        toast({
-          title: "Erreur",
-          description: "Impossible d'envoyer le devis par email. Veuillez réessayer.",
-          variant: "destructive",
-        });
+        
+        if (error.message?.includes('needsAuth')) {
+          toast({
+            title: "Gmail non connecté",
+            description: "Veuillez connecter votre compte Gmail pour envoyer le devis.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Erreur",
+            description: "Impossible d'envoyer le devis par email. Veuillez réessayer.",
+            variant: "destructive",
+          });
+        }
       } else {
-        console.log("Devis envoyé avec succès:", result);
+        console.log("Devis envoyé avec succès via Gmail:", result);
         setEmailSent(true);
         toast({
           title: "Devis envoyé",
-          description: `Le devis a été envoyé avec succès à ${data.email}`,
+          description: `Le devis a été envoyé avec succès à ${data.email} via Gmail`,
         });
       }
     } catch (error) {
@@ -298,12 +310,24 @@ export const QuoteSummary = ({
     }
   };
 
-  // Envoyer l'email automatiquement au chargement du composant
-  useEffect(() => {
-    if (data.email && !emailSent && !isLoading) {
-      sendQuoteEmail();
+  const handleSendEmail = () => {
+    if (gmailConnected) {
+      sendQuoteEmailViaGmail();
+    } else {
+      toast({
+        title: "Gmail requis",
+        description: "Veuillez connecter votre compte Gmail pour envoyer le devis.",
+        variant: "destructive",
+      });
     }
-  }, [data.email]);
+  };
+
+  // Auto-send email when Gmail is connected
+  useEffect(() => {
+    if (data.email && !emailSent && !isLoading && gmailConnected) {
+      sendQuoteEmailViaGmail();
+    }
+  }, [data.email, gmailConnected]);
 
   return <div className="space-y-6">
       {/* Header Card */}
@@ -418,6 +442,28 @@ export const QuoteSummary = ({
           </div>
         </div>
       </Card>
+
+      {/* Gmail Connection */}
+      <GmailConnection 
+        onConnectionChange={(isConnected, email) => {
+          setGmailConnected(isConnected);
+          setGmailEmail(email || '');
+        }}
+      />
+
+      {/* Email Send Button */}
+      {gmailConnected && !emailSent && (
+        <Button 
+          variant="default" 
+          size="lg" 
+          className="w-full" 
+          onClick={handleSendEmail}
+          disabled={isLoading}
+        >
+          <Mail className="h-5 w-5 mr-2" />
+          {isLoading ? "Envoi en cours..." : "Envoyer le devis par email"}
+        </Button>
+      )}
 
       {/* Action Buttons */}
       <div className="space-y-4">

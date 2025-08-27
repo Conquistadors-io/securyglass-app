@@ -2,3 +2,9 @@ project_id = "kmeyrlplsvdjxowxmzan"
 
 [functions.send-quote]
 verify_jwt = false
+
+[functions.gmail-oauth]
+verify_jwt = false
+
+[functions.send-quote-gmail]
+verify_jwt = false
