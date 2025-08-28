@@ -219,13 +219,12 @@ export const QuoteSummary = ({
     const htmlContent = generateQuoteHTML();
     const blob = new Blob([htmlContent], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `devis-${quoteNumber}.html`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    window.open(url, '_blank');
+    
+    // Clean up the URL after a short delay
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+    }, 1000);
   };
 
   // Check if Gmail is configured by admin
