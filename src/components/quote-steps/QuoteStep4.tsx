@@ -130,15 +130,11 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       <div className="bg-gradient-to-r from-teal-50 to-blue-50 p-6 rounded-t-lg border border-gray-200">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-teal-500 rounded-lg flex items-center justify-center">
-              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
-              </svg>
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-800">securyglass</h1>
-              <p className="text-gray-600 text-sm">Glass for your security</p>
-            </div>
+            <img 
+              src="/lovable-uploads/d6787f4d-7397-478e-8b09-479b1e10f1b3.png" 
+              alt="SecuryGlass Logo" 
+              className="h-16 w-auto"
+            />
           </div>
           <div className="w-20 h-12 bg-red-600 rounded flex items-center justify-center">
             <span className="text-white text-xs font-bold">RGE</span>
