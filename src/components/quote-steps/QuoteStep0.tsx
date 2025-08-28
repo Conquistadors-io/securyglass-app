@@ -36,6 +36,9 @@ export const QuoteStep0 = ({
     // Ouvrir automatiquement la section "Autres" si on sélectionne une sous-option
     if (value === "autres" || value === "renovation") {
       setShowAutresOptions(true);
+    } else {
+      // Fermer la section "Autres" si on sélectionne vitrerie ou miroiterie
+      setShowAutresOptions(false);
     }
   };
   
