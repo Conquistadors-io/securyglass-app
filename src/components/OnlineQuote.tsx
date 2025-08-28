@@ -1,231 +1,232 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { toast } from "sonner";
-import { saveQuote } from "@/services/quoteService";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { QuoteStep0 } from "./quote-steps/QuoteStep0";
 import { QuoteStep1 } from "./quote-steps/QuoteStep1";
 import { QuoteStep2 } from "./quote-steps/QuoteStep2";
 import { QuoteStep3 } from "./quote-steps/QuoteStep3";
-import { QuoteStep4 } from "./quote-steps/QuoteStep4";
 import { QuoteSummary } from "./quote-steps/QuoteSummary";
+import { QuoteStep4 } from "./quote-steps/QuoteStep4";
 
-interface FormData {
-  civilite: string;
-  nom: string;
-  nomSociete: string;
-  email: string;
-  telephone: string;
-  adresse: string;
-  codePostal: string;
-  ville: string;
-  serviceType: string;
-  object: string;
-  property: string;
-  propertyOther: string;
-  motif: string;
-  motifOther: string;
-  category: string;
-  subcategory: string;
-  vitrage: string;
-  largeur: string;
-  hauteur: string;
-  quantite: string;
-  assurance: string;
-  differentAddress: boolean;
-  interventionCodePostal: string;
-  interventionVille: string;
-  interventionAdresse: string;
-  photoUrl: string;
-  notes: string;
+interface OnlineQuoteProps {
+  onNavigate: (route: string) => void;
 }
 
-const initialFormData: FormData = {
-  civilite: "",
-  nom: "",
-  nomSociete: "",
-  email: "",
-  telephone: "",
-  adresse: "",
-  codePostal: "",
-  ville: "",
-  serviceType: "",
-  object: "",
-  property: "",
-  propertyOther: "",
-  motif: "",
-  motifOther: "",
-  category: "",
-  subcategory: "",
-  vitrage: "",
-  largeur: "",
-  hauteur: "",
-  quantite: "",
-  assurance: "",
-  differentAddress: false,
-  interventionCodePostal: "",
-  interventionVille: "",
-  interventionAdresse: "",
-  photoUrl: "",
-  notes: "",
-};
+export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
+  // Initialisation des données depuis localStorage ou valeurs par défaut
+  const [currentStep, setCurrentStep] = useState(() => {
+    try {
+      const saved = localStorage.getItem('quote-current-step');
+      return saved ? parseInt(saved, 10) : 1;
+    } catch {
+      return 1;
+    }
+  });
+  
+  const [formData, setFormData] = useState(() => {
+    try {
+      const saved = localStorage.getItem('quote-form-data');
+      return saved ? JSON.parse(saved) : {
+        // Step 0: Service type
+        serviceType: "",
+        
+        // Step 1: Personal info
+        civilite: "",
+        nom: "",
+        telephone: "",
+        email: "",
+        adresse: "",
+        codePostal: "",
+        ville: "",
+        
+        // Step 2: Object
+        object: "",
+        property: "",
+        motif: "",
+        
+        // Step 3: Property details
+        category: "",
+        vitrage: "",
+        largeur: "",
+        hauteur: "",
+        quantite: "1",
+        assurance: "",
+        photo: null as File | null
+      };
+    } catch {
+      return {
+        // Step 0: Service type
+        serviceType: "",
+        
+        // Step 1: Personal info
+        civilite: "",
+        nom: "",
+        telephone: "",
+        email: "",
+        adresse: "",
+        codePostal: "",
+        ville: "",
+        
+        // Step 2: Object
+        object: "",
+        property: "",
+        motif: "",
+        
+        // Step 3: Property details
+        category: "",
+        vitrage: "",
+        largeur: "",
+        hauteur: "",
+        quantite: "1",
+        assurance: "",
+        photo: null as File | null
+      };
+    }
+  });
 
-const OnlineQuote = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState(initialFormData);
-  const [isLoading, setIsLoading] = useState(false);
+  // Sauvegarder les données à chaque modification
+  useEffect(() => {
+    try {
+      localStorage.setItem('quote-form-data', JSON.stringify(formData));
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde des données:', error);
+    }
+  }, [formData]);
+
+  // Sauvegarder l'étape actuelle
+  useEffect(() => {
+    try {
+      localStorage.setItem('quote-current-step', currentStep.toString());
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde de l\'étape:', error);
+    }
+  }, [currentStep]);
+
+  // Fonction pour vider le cache (appelée après soumission finale)
+  const clearSavedData = () => {
+    try {
+      localStorage.removeItem('quote-form-data');
+      localStorage.removeItem('quote-current-step');
+    } catch (error) {
+      console.error('Erreur lors de la suppression des données:', error);
+    }
+  };
+
+  const totalSteps = 6; // Updated to 6 steps
+  const progress = ((currentStep + 1) / totalSteps) * 100;
 
   const handleNext = () => {
-    setCurrentStep((prevStep) => prevStep + 1);
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
-  const handlePrev = () => {
-    setCurrentStep((prevStep) => prevStep - 1);
+  const handlePrevious = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target;
-    const checked = (e.target as HTMLInputElement).checked;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  const handleStepComplete = (stepData: any) => {
+    setFormData(prev => ({ ...prev, ...stepData }));
+    if (currentStep < totalSteps) {
+      handleNext();
+    }
   };
 
-  const handlePhotoUpload = (url: string) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      photoUrl: url,
-    }));
-  };
-
-  const steps = [
-    "Informations",
-    "Type de service",
-    "Détails",
-    "Adresse",
-    "Récapitulatif",
-  ];
-
-  const progress = ((currentStep + 1) / steps.length) * 100;
-
-  const handleSubmit = async () => {
-    if (currentStep < 4) return;
-    
-    setIsLoading(true);
-    
-    try {
-      // Préparer les données client
-      const clientData = {
-        email: formData.email,
-        civilite: formData.civilite,
-        nom: formData.nom,
-        nom_societe: formData.nomSociete,
-        telephone: formData.telephone,
-        adresse: formData.adresse,
-        code_postal: formData.codePostal,
-        ville: formData.ville
-      };
-
-      // Préparer les données du devis
-      const devisData = {
-        service_type: formData.serviceType,
-        object: formData.object,
-        property: formData.property,
-        property_other: formData.propertyOther,
-        motif: formData.motif,
-        motif_other: formData.motifOther,
-        category: formData.category,
-        subcategory: formData.subcategory,
-        vitrage: formData.vitrage,
-        largeur_cm: formData.largeur ? parseFloat(formData.largeur) : undefined,
-        hauteur_cm: formData.hauteur ? parseFloat(formData.hauteur) : undefined,
-        quantite: parseInt(formData.quantite) || 1,
-        assurance: formData.assurance,
-        different_intervention_address: formData.differentAddress,
-        intervention_code_postal: formData.differentAddress ? formData.interventionCodePostal : formData.codePostal,
-        intervention_ville: formData.differentAddress ? formData.interventionVille : formData.ville,
-        intervention_adresse: formData.differentAddress ? formData.interventionAdresse : formData.adresse,
-        photo_url: formData.photoUrl,
-        notes: formData.notes
-      };
-
-      console.log('Submitting quote with data:', { clientData, devisData });
-
-      const result = await saveQuote(clientData, devisData);
-      
-      if (result.success) {
-        toast.success(`Devis envoyé avec succès ! Votre devis ${result.devis.quote_number} a été créé. Nous vous contacterons sous 24h.`);
-        
-        // Réinitialiser le formulaire après succès
-        setFormData(initialFormData);
-        setCurrentStep(0);
-      } else {
-        console.error('Quote submission failed:', result.error);
-        toast.error(result.message || "Une erreur est survenue. Veuillez réessayer.");
-      }
-    } catch (error: any) {
-      console.error('Error submitting quote:', error);
-      toast.error("Une erreur est survenue. Veuillez réessayer.");
-    } finally {
-      setIsLoading(false);
+  const renderStep = () => {
+    switch (currentStep) {
+      case 0:
+        return (
+          <QuoteStep0 
+            data={formData} 
+            onComplete={handleStepComplete}
+          />
+        );
+      case 1:
+        return (
+          <QuoteStep2 
+            data={formData} 
+            onComplete={handleStepComplete}
+            onBack={handlePrevious}
+          />
+        );
+      case 2:
+        return (
+          <QuoteStep3 
+            data={formData} 
+            onComplete={handleStepComplete}
+            onBack={handlePrevious}
+          />
+        );
+      case 3:
+        return (
+          <QuoteStep1 
+            data={formData} 
+            onComplete={handleStepComplete}
+            onBack={handlePrevious}
+          />
+        );
+      case 4:
+        return (
+          <QuoteStep4 
+            data={formData} 
+            onValidate={handleNext}
+            onModify={() => setCurrentStep(0)}
+          />
+        );
+      case 5:
+        return (
+          <QuoteSummary 
+            data={formData} 
+            onNavigate={(route) => {
+              clearSavedData();
+              onNavigate(route);
+            }}
+            onComplete={clearSavedData}
+          />
+        );
+      default:
+        return null;
     }
   };
 
   return (
-    <Card className="container max-w-4xl mt-12">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold">Demander un devis en ligne</CardTitle>
-        <p className="text-sm text-muted-foreground">
-          Remplissez le formulaire ci-dessous pour obtenir un devis personnalisé.
-        </p>
-      </CardHeader>
-      <CardContent className="grid gap-6">
-        <div className="space-y-4">
-          <Progress value={progress} />
-          <p className="text-sm text-muted-foreground">
-            Étape {currentStep + 1} sur {steps.length}
-          </p>
-        </div>
-
-        {currentStep === 0 && (
-          <QuoteStep0 data={formData} onComplete={(data) => { setFormData(prev => ({ ...prev, ...data })); handleNext(); }} />
-        )}
-        {currentStep === 1 && (
-          <QuoteStep1 data={formData} onComplete={(data) => { setFormData(prev => ({ ...prev, ...data })); handleNext(); }} onBack={handlePrev} />
-        )}
-        {currentStep === 2 && (
-          <QuoteStep2 data={formData} onComplete={(data) => { setFormData(prev => ({ ...prev, ...data })); handleNext(); }} onBack={handlePrev} />
-        )}
-        {currentStep === 3 && (
-          <QuoteStep3 data={formData} onComplete={(data) => { setFormData(prev => ({ ...prev, ...data })); handleNext(); }} onBack={handlePrev} />
-        )}
-        {currentStep === 4 && (
-          <QuoteSummary data={formData} onNavigate={() => {}} />
-        )}
-
-        <div className="flex justify-between">
-          <Button
-            variant="outline"
-            onClick={handlePrev}
-            disabled={currentStep === 0 || isLoading}
-          >
-            Précédent
-          </Button>
-          {currentStep < steps.length - 1 ? (
-            <Button onClick={handleNext} disabled={isLoading}>
-              Suivant
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <div className="bg-gradient-primary px-6 py-4 text-white">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-white hover:bg-white/20 mr-3"
+              onClick={() => currentStep === 0 ? onNavigate('welcome') : handlePrevious()}
+            >
+              <ArrowLeft className="h-5 w-5" />
             </Button>
-          ) : (
-            <Button onClick={handleSubmit} disabled={isLoading}>
-              {isLoading ? "Envoi..." : "Envoyer"}
-            </Button>
-          )}
+            <h1 className="text-xl font-semibold">Devis en Ligne</h1>
+          </div>
+          <span className="text-sm">
+            {currentStep + 1}/{totalSteps}
+          </span>
         </div>
-      </CardContent>
-    </Card>
+        
+        {/* Progress Bar */}
+        <div className="mt-4">
+          <Progress 
+            value={progress} 
+            className="h-2 bg-white/20"
+          />
+        </div>
+      </div>
+
+      {/* Step Content */}
+      <div className="px-6 py-8">
+        {renderStep()}
+      </div>
+    </div>
   );
 };
-
-export default OnlineQuote;

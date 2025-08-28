@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { UrgentIntervention } from "@/components/UrgentIntervention";
-import OnlineQuote from "@/components/OnlineQuote";
+import { OnlineQuote } from "@/components/OnlineQuote";
 import { TechnicianDashboard } from "@/components/TechnicianDashboard";
 import { TechnicianIntervention } from "@/components/TechnicianIntervention";
 import { TechnicianAppointment } from "@/components/TechnicianAppointment";
@@ -32,7 +32,7 @@ const Index = () => {
       case "urgent-intervention":
         return <UrgentIntervention onNavigate={handleNavigate} />;
       case "online-quote":
-        return <OnlineQuote />;
+        return <OnlineQuote onNavigate={handleNavigate} />;
       case "technician-dashboard":
         return <TechnicianDashboard onNavigate={handleNavigate} />;
       case "technician-intervention":
