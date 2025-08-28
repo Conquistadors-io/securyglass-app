@@ -143,8 +143,11 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
             <span className="text-lg font-semibold">Vos informations</span>
           </div>
           <div className="space-y-2">
-            <div className="text-sm font-medium text-muted-foreground">PARTICULIER</div>
+            <div className="text-sm font-medium text-muted-foreground">
+              {(data.civilite === "societe" || data.civilite === "entreprise-btp") ? "ENTREPRISE" : "PARTICULIER"}
+            </div>
             <div className="text-foreground">{data.civilite === "monsieur" ? "Monsieur" : data.civilite === "madame" ? "Madame" : data.civilite === "societe" ? "Société" : data.civilite === "entreprise-btp" ? "Professionnel du BTP" : data.civilite} {data.nom ? data.nom.toUpperCase() : ""}</div>
+            {data.nomSociete && <div className="text-foreground font-medium">{data.nomSociete}</div>}
             <div className="text-foreground">{data.email}</div>
             <div className="text-foreground">{data.telephone}</div>
             <div
@@ -153,6 +156,20 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
                 __html: `${cleanStreet(data.adresse, data.codePostal, data.ville)}<br/>${[data.codePostal, data.ville].filter(Boolean).join(" ")}`,
               }}
             ></div>
+            
+            {/* Adresse d'intervention si différente */}
+            {data.differentInterventionAddress && (
+              <div className="mt-3 pt-3 border-t border-muted">
+                <div className="text-sm font-medium text-muted-foreground mb-1">ADRESSE D'INTERVENTION</div>
+                <div
+                  className="text-foreground"
+                  dangerouslySetInnerHTML={{
+                    __html: `${cleanStreet(data.interventionAdresse, data.interventionCodePostal, data.interventionVille)}<br/>${[data.interventionCodePostal, data.interventionVille].filter(Boolean).join(" ")}`,
+                  }}
+                ></div>
+              </div>
+            )}
+            
             <div className="text-foreground">Motif : {data.motif}</div>
             {data.assurance && <div className="text-foreground">Assurance : {data.assurance}</div>}
           </div>

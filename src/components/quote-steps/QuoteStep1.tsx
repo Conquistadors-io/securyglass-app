@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { User, Phone, Mail, MapPin, Hash, Shield } from "lucide-react";
 import { DepartmentSelect } from "@/components/ui/department-select";
 import { CitySelect } from "@/components/ui/city-select";
@@ -32,7 +33,11 @@ export const QuoteStep1 = ({
     codePostal: data.codePostal || "",
     ville: data.ville || "",
     priseEnChargeAssurance: data.priseEnChargeAssurance || "",
-    assurance: data.assurance || ""
+    assurance: data.assurance || "",
+    differentInterventionAddress: data.differentInterventionAddress || false,
+    interventionCodePostal: data.interventionCodePostal || "",
+    interventionVille: data.interventionVille || "",
+    interventionAdresse: data.interventionAdresse || ""
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -40,7 +45,14 @@ export const QuoteStep1 = ({
     onComplete(formData);
   };
 
-  const isValid = formData.nom && formData.telephone && formData.email;
+  const isCompanyOrBTP = formData.civilite === "societe" || formData.civilite === "entreprise-btp";
+  const interventionFieldsRequired = isCompanyOrBTP && formData.differentInterventionAddress;
+  const interventionFieldsValid = !interventionFieldsRequired || 
+    (formData.interventionCodePostal && formData.interventionVille);
+  const companyNameRequired = isCompanyOrBTP && !formData.nomSociete;
+  
+  const isValid = formData.nom && formData.telephone && formData.email && 
+    !companyNameRequired && interventionFieldsValid;
 
   return <Card className="shadow-card border-0">
       <div className="p-6">
@@ -170,6 +182,79 @@ export const QuoteStep1 = ({
               />
             </div>
           </div>
+
+          {/* Adresse d'intervention différente pour les sociétés/BTP */}
+          {isCompanyOrBTP && (
+            <div className="space-y-4 p-4 border rounded-lg bg-muted/50">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="differentInterventionAddress"
+                  checked={formData.differentInterventionAddress}
+                  onCheckedChange={(checked) => setFormData(prev => ({
+                    ...prev,
+                    differentInterventionAddress: checked as boolean,
+                    // Reset intervention fields if unchecked
+                    interventionCodePostal: checked ? prev.interventionCodePostal : "",
+                    interventionVille: checked ? prev.interventionVille : "",
+                    interventionAdresse: checked ? prev.interventionAdresse : ""
+                  }))}
+                />
+                <Label htmlFor="differentInterventionAddress" className="text-sm font-medium">
+                  Adresse d'intervention différente de l'adresse de facturation ?
+                </Label>
+              </div>
+
+              {formData.differentInterventionAddress && (
+                <div className="space-y-4 ml-6">
+                  <div>
+                    <Label htmlFor="interventionCodePostal">Code postal d'intervention <span className="text-destructive">*</span></Label>
+                    <div className="mt-1">
+                      <Input 
+                        id="interventionCodePostal" 
+                        value={formData.interventionCodePostal} 
+                        onChange={e => setFormData(prev => ({
+                          ...prev,
+                          interventionCodePostal: e.target.value
+                        }))} 
+                        required 
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="interventionVille">Ville d'intervention <span className="text-destructive">*</span></Label>
+                    <div className="mt-1">
+                      <CitySelect 
+                        value={formData.interventionVille} 
+                        onValueChange={(value) => setFormData(prev => ({
+                          ...prev,
+                          interventionVille: value
+                        }))}
+                        postalCode={formData.interventionCodePostal}
+                        placeholder="Sélectionnez une ville"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="interventionAdresse">Adresse d'intervention (facultatif)</Label>
+                    <div className="mt-1">
+                      <AddressSelect 
+                        value={formData.interventionAdresse} 
+                        onValueChange={(value) => setFormData(prev => ({
+                          ...prev,
+                          interventionAdresse: value
+                        }))}
+                        departmentCode={formData.interventionCodePostal}
+                        city={formData.interventionVille}
+                        placeholder="Tapez votre adresse d'intervention"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
           <div>
             <Label htmlFor="assurance">Assurance (facultatif)</Label>

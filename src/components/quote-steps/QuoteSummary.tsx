@@ -134,9 +134,19 @@ export const QuoteSummary = ({
         <div class="client-info">
           <h3>Client</h3>
           <p><strong>${data.civilite} ${data.nom}</strong></p>
+          ${data.nomSociete ? `<p><strong>${data.nomSociete}</strong></p>` : ''}
           <p>${data.telephone}</p>
           <p>${data.email}</p>
           ${data.adresse ? `<p>${data.adresse}</p>` : ''}
+          ${data.codePostal && data.ville ? `<p>${data.codePostal} ${data.ville}</p>` : ''}
+          
+          ${data.differentInterventionAddress ? `
+          <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">
+            <h4>Adresse d'intervention</h4>
+            ${data.interventionAdresse ? `<p>${data.interventionAdresse}</p>` : ''}
+            ${data.interventionCodePostal && data.interventionVille ? `<p>${data.interventionCodePostal} ${data.interventionVille}</p>` : ''}
+          </div>
+          ` : ''}
         </div>
         
         <div class="company-info">
@@ -449,9 +459,22 @@ export const QuoteSummary = ({
           
           <div className="space-y-2 text-sm">
             <p><strong>{data.civilite} {data.nom}</strong></p>
+            {data.nomSociete && <p><strong>{data.nomSociete}</strong></p>}
             <p>{data.telephone}</p>
             <p>{data.email}</p>
             {data.adresse && <p>{data.adresse}</p>}
+            {data.codePostal && data.ville && <p>{data.codePostal} {data.ville}</p>}
+            
+            {/* Adresse d'intervention si différente */}
+            {data.differentInterventionAddress && (
+              <div className="mt-3 pt-3 border-t border-muted">
+                <p className="text-xs font-medium text-muted-foreground mb-1">ADRESSE D'INTERVENTION</p>
+                {data.interventionAdresse && <p>{data.interventionAdresse}</p>}
+                {data.interventionCodePostal && data.interventionVille && (
+                  <p>{data.interventionCodePostal} {data.interventionVille}</p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </Card>
