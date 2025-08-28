@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -15,11 +16,29 @@ export const QuoteStep0 = ({
   const [formData, setFormData] = useState({
     serviceType: data.serviceType || "vitrerie"
   });
-  const [showAutresOptions, setShowAutresOptions] = useState(false);
+  
+  // La section "Autres" reste ouverte si on a sélectionné "autres" ou une de ses sous-options
+  const [showAutresOptions, setShowAutresOptions] = useState(
+    formData.serviceType === "autres" || formData.serviceType === "renovation"
+  );
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onComplete(formData);
   };
+  
+  const handleServiceTypeChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      serviceType: value
+    }));
+    
+    // Ouvrir automatiquement la section "Autres" si on sélectionne une sous-option
+    if (value === "autres" || value === "renovation") {
+      setShowAutresOptions(true);
+    }
+  };
+  
   const isValid = formData.serviceType;
   return <Card className="shadow-card border-0">
       <div className="p-6">
@@ -27,10 +46,7 @@ export const QuoteStep0 = ({
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <Label className="text-lg font-medium mb-6 block">Quel type de service souhaitez-vous ?</Label>
-            <RadioGroup value={formData.serviceType} onValueChange={value => setFormData(prev => ({
-            ...prev,
-            serviceType: value
-          }))} className="space-y-4">
+            <RadioGroup value={formData.serviceType} onValueChange={handleServiceTypeChange} className="space-y-4">
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="vitrerie" id="vitrerie" className="w-6 h-6" />
                 <div className="flex-1">
