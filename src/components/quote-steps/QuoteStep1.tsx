@@ -257,7 +257,7 @@ export const QuoteStep1 = ({
           )}
 
           <div>
-            <Label htmlFor="assurance">Assurance (facultatif)</Label>
+            <Label htmlFor="assurance">Assurance ( optionnel )</Label>
             <div className="mt-1">
               <InsuranceSelect 
                 value={formData.assurance} 
