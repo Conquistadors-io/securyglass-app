@@ -43,10 +43,51 @@ export const QuoteStep2 = ({
               </div>
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value={data.serviceType === "vitrerie" ? "verre-sur-mesure" : "miroir"} id={data.serviceType === "vitrerie" ? "verre-sur-mesure" : "miroir"} className="w-6 h-6" />
+                <Label htmlFor={data.serviceType === "vitrerie" ? "verre-sur-mesure" : "miroir"} className="text-lg cursor-pointer flex-1">
+                  {data.serviceType === "vitrerie" ? "Verre sur mesure" : "Miroir"}
+                </Label>
+              </div>
+              
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <RadioGroupItem value="mise-securite" id="mise-securite" className="w-6 h-6" />
+                <Label htmlFor="mise-securite" className="text-lg cursor-pointer flex-1">Rénovation</Label>
+              </div>
+              
+              
+              
+              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" />
                 <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">Autres</Label>
               </div>
             </RadioGroup>
+            
+            {formData.object === "autre" && <div className="mt-4 pl-6 space-y-3">
+                <RadioGroup value={formData.object} onValueChange={value => setFormData(prev => ({
+              ...prev,
+              object: value
+            }))}>
+                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="chatiere" id="chatiere" className="w-5 h-5" />
+                    <Label htmlFor="chatiere" className="cursor-pointer flex-1">Chatière</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="decoupe-aeration" id="decoupe-aeration" className="w-5 h-5" />
+                    <Label htmlFor="decoupe-aeration" className="cursor-pointer flex-1">Découpe aération</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="verre-anti-bruit" id="verre-anti-bruit" className="w-5 h-5" />
+                    <Label htmlFor="verre-anti-bruit" className="cursor-pointer flex-1">Verre Anti-Bruit</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="verre-anti-effraction" id="verre-anti-effraction" className="w-5 h-5" />
+                    <Label htmlFor="verre-anti-effraction" className="cursor-pointer flex-1">Verre Anti-effraction</Label>
+                  </div>
+                </RadioGroup>
+              </div>}
           </div>
 
           <div>
