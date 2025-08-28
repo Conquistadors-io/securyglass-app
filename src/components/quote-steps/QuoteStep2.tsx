@@ -16,8 +16,11 @@ export const QuoteStep2 = ({
   onComplete,
   onBack
 }: QuoteStep2Props) => {
+  // Vérifier si c'est un service miroiterie
+  const isMiroiterie = data.serviceType === "miroiterie";
+  
   const [formData, setFormData] = useState({
-    object: data.object || "vitre-cassee",
+    object: data.object || (isMiroiterie ? "miroir-casse" : "vitre-cassee"),
     property: data.property || "appartement",
     propertyOther: data.propertyOther || "",
     motif: data.motif || "usure",
@@ -37,18 +40,34 @@ export const QuoteStep2 = ({
             ...prev,
             object: value
           }))} className="space-y-4">
-              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
-                <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer flex-1">Vitre cassée</Label>
-              </div>
-              
-              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" />
-                <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">Autres</Label>
-              </div>
+              {isMiroiterie ? (
+                <>
+                  <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="miroir-casse" id="miroir-casse" className="w-6 h-6" />
+                    <Label htmlFor="miroir-casse" className="text-lg cursor-pointer flex-1">Miroir cassé</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="miroir-sur-mesure" id="miroir-sur-mesure" className="w-6 h-6" />
+                    <Label htmlFor="miroir-sur-mesure" className="text-lg cursor-pointer flex-1">Miroir sur mesure</Label>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
+                    <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer flex-1">Vitre cassée</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" />
+                    <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">Autres</Label>
+                  </div>
+                </>
+              )}
             </RadioGroup>
             
-            {formData.object === "autre" && <div className="mt-4 pl-6 space-y-3">
+            {!isMiroiterie && formData.object === "autre" && <div className="mt-4 pl-6 space-y-3">
                 <RadioGroup value={formData.object} onValueChange={value => setFormData(prev => ({
               ...prev,
               object: value
