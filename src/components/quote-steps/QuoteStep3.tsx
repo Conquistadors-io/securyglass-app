@@ -9,13 +9,11 @@ import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2 } from "lucide-
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-
 interface QuoteStep3Props {
   data: any;
   onComplete: (data: any) => void;
   onBack?: () => void;
 }
-
 export const QuoteStep3 = ({
   data,
   onComplete,
@@ -31,18 +29,15 @@ export const QuoteStep3 = ({
     photo: data.photo || null,
     photoPreview: data.photoPreview || null
   });
-
   const [validationErrors, setValidationErrors] = useState({
     category: false,
     vitrage: false,
     largeur: false,
     hauteur: false
   });
-
   const {
     toast
   } = useToast();
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errors = {
@@ -58,7 +53,6 @@ export const QuoteStep3 = ({
     }
     onComplete(formData);
   };
-
   const handlePhotoSelect = (file: File, preview: string) => {
     setFormData(prev => ({
       ...prev,
@@ -70,7 +64,6 @@ export const QuoteStep3 = ({
       description: "Votre photo a été téléchargée avec succès"
     });
   };
-
   const handlePhotoDelete = () => {
     setFormData(prev => ({
       ...prev,
@@ -82,9 +75,7 @@ export const QuoteStep3 = ({
       description: "La photo a été supprimée"
     });
   };
-
   const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur && (formData.category !== "baie-vitree" || formData.subcategory);
-
   return <Card className="shadow-card border-0">
       <div className="p-6">
 
@@ -224,7 +215,7 @@ export const QuoteStep3 = ({
           </Button>
 
           <div>
-            <Label htmlFor="photo">Photos (optionnel)</Label>
+            <Label htmlFor="photo">Photos ( optionnel )</Label>
             <div className="mt-1 space-y-3">
               {formData.photo && <div className="p-3 bg-accent rounded-lg">
                   <div className="flex items-center justify-between">
