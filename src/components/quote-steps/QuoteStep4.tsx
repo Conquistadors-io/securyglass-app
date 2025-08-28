@@ -165,8 +165,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
           </div>
           <div className="space-y-2">
             <div className="text-foreground font-medium">{getDisplayValue("vitrage", data.vitrage).toUpperCase()}</div>
-            <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L)</div>
-            <div className="text-foreground">Quantité : {data.quantite}</div>
+            <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L) x {data.quantite}</div>
             {data.category && <div className="text-foreground">Type : {getDisplayValue("category", data.category)}</div>}
             {data.subcategory && <div className="text-foreground">Sous-type : {getDisplayValue("subcategory", data.subcategory)}</div>}
           </div>
