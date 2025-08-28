@@ -54,6 +54,16 @@ export const QuoteStep2 = ({
               object: value
             }))}>
                   <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="verre-sur-mesure" id="verre-sur-mesure" className="w-5 h-5" />
+                    <Label htmlFor="verre-sur-mesure" className="cursor-pointer flex-1">Verre sur mesure</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                    <RadioGroupItem value="renovation" id="renovation" className="w-5 h-5" />
+                    <Label htmlFor="renovation" className="cursor-pointer flex-1">Rénovation</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
                     <RadioGroupItem value="chatiere" id="chatiere" className="w-5 h-5" />
                     <Label htmlFor="chatiere" className="cursor-pointer flex-1">Chatière</Label>
                   </div>
