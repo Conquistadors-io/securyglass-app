@@ -5,6 +5,7 @@ import { CheckCircle, Download, Calendar, CreditCard, FileText, Mail } from "luc
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
+import { saveDevis } from "@/services/devis";
 interface QuoteSummaryProps {
   data: any;
   onNavigate: (route: string) => void;
@@ -20,6 +21,7 @@ export const QuoteSummary = ({
   const [isLoading, setIsLoading] = useState(false);
   const [gmailConfigured, setGmailConfigured] = useState(false);
   const [adminEmail, setAdminEmail] = useState<string>('');
+  const [devisSaved, setDevisSaved] = useState(false);
   // Calculate estimated price based on form data
   const calculatePrice = () => {
     const largeur = parseFloat(data.largeur) || 0;
@@ -269,6 +271,26 @@ export const QuoteSummary = ({
     
     setIsLoading(true);
     console.log("Sending quote email via Gmail to:", data.email);
+
+    // Save devis to database first if not already saved
+    if (!devisSaved) {
+      try {
+        const result = await saveDevis(data, priceCalculation);
+        if (result.success) {
+          setDevisSaved(true);
+          console.log("Devis saved successfully with ID:", result.devisId);
+        } else {
+          console.error("Failed to save devis:", result.error);
+          toast({
+            title: "Erreur",
+            description: "Erreur lors de la sauvegarde du devis: " + result.error,
+            variant: "destructive",
+          });
+        }
+      } catch (error) {
+        console.error("Error saving devis:", error);
+      }
+    }
 
     try {
       const quoteData = {
