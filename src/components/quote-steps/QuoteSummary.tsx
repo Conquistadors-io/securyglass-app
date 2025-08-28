@@ -491,7 +491,7 @@ export const QuoteSummary = ({
       <div className="space-y-4">
         <Button variant="default" size="lg" className="w-full" onClick={handleDownloadPDF}>
           <Download className="h-5 w-5 mr-2" />
-          Télécharger le devis PDF
+          Voir le Devis
         </Button>
 
         <div className="grid grid-cols-2 gap-3">
