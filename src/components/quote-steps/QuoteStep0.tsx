@@ -4,37 +4,33 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ChevronDown } from "lucide-react";
-
 interface QuoteStep0Props {
   data: any;
   onComplete: (data: any) => void;
 }
-
-export const QuoteStep0 = ({ data, onComplete }: QuoteStep0Props) => {
+export const QuoteStep0 = ({
+  data,
+  onComplete
+}: QuoteStep0Props) => {
   const [formData, setFormData] = useState({
     serviceType: data.serviceType || "vitrerie"
   });
   const [showAutresOptions, setShowAutresOptions] = useState(false);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onComplete(formData);
   };
-
   const isValid = formData.serviceType;
-
-  return (
-    <Card className="shadow-card border-0">
+  return <Card className="shadow-card border-0">
       <div className="p-6">
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <Label className="text-lg font-medium mb-6 block">Quel type de service souhaitez-vous ?</Label>
-            <RadioGroup 
-              value={formData.serviceType} 
-              onValueChange={value => setFormData(prev => ({...prev, serviceType: value}))}
-              className="space-y-4"
-            >
+            <RadioGroup value={formData.serviceType} onValueChange={value => setFormData(prev => ({
+            ...prev,
+            serviceType: value
+          }))} className="space-y-4">
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="vitrerie" id="vitrerie" className="w-6 h-6" />
                 <div className="flex-1">
@@ -52,42 +48,30 @@ export const QuoteStep0 = ({ data, onComplete }: QuoteStep0Props) => {
               </div>
               
               <div className="space-y-2">
-                <div 
-                  className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer"
-                  onClick={() => setShowAutresOptions(!showAutresOptions)}
-                >
+                <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer" onClick={() => setShowAutresOptions(!showAutresOptions)}>
                   <RadioGroupItem value="autres" id="autres" className="w-6 h-6" />
                   <Label htmlFor="autres" className="text-lg cursor-pointer flex-1">Autres</Label>
                   <ChevronDown className={`w-5 h-5 transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
                 </div>
                 
-                {showAutresOptions && (
-                  <div className="ml-6 space-y-2">
+                {showAutresOptions && <div className="ml-6 space-y-2">
                     <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
                       <RadioGroupItem value="verre-sur-mesure" id="verre-sur-mesure" className="w-5 h-5" />
-                      <Label htmlFor="verre-sur-mesure" className="cursor-pointer flex-1">Verre sur mesure</Label>
+                      <Label htmlFor="verre-sur-mesure" className="cursor-pointer flex-1">Serrurerie</Label>
                     </div>
                     <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
                       <RadioGroupItem value="renovation" id="renovation" className="w-5 h-5" />
                       <Label htmlFor="renovation" className="cursor-pointer flex-1">Rénovation</Label>
                     </div>
-                  </div>
-                )}
+                  </div>}
               </div>
             </RadioGroup>
           </div>
 
-          <Button 
-            type="submit" 
-            variant="default" 
-            size="lg" 
-            className="w-full"
-            disabled={!isValid}
-          >
+          <Button type="submit" variant="default" size="lg" className="w-full" disabled={!isValid}>
             Continuer
           </Button>
         </form>
       </div>
-    </Card>
-  );
+    </Card>;
 };
