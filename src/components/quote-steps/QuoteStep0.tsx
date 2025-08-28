@@ -64,10 +64,30 @@ export const QuoteStep0 = ({
               </div>
               
               <div className="space-y-2">
-                <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer" onClick={() => setShowAutresOptions(!showAutresOptions)}>
-                  <RadioGroupItem value="autres" id="autres" className="w-6 h-6" />
-                  <Label htmlFor="autres" className="text-lg cursor-pointer flex-1">Autres</Label>
-                  <ChevronDown className={`w-5 h-5 transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
+                <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                  <RadioGroupItem 
+                    value="autres" 
+                    id="autres" 
+                    className="w-6 h-6" 
+                    onClick={() => setShowAutresOptions(true)}
+                  />
+                  <Label 
+                    htmlFor="autres" 
+                    className="text-lg cursor-pointer flex-1"
+                    onClick={() => setShowAutresOptions(true)}
+                  >
+                    Autres
+                  </Label>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowAutresOptions(!showAutresOptions);
+                    }}
+                    className="p-1 hover:bg-accent rounded transition-colors"
+                  >
+                    <ChevronDown className={`w-5 h-5 transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
+                  </button>
                 </div>
                 
                 {showAutresOptions && <div className="ml-6 space-y-2">
