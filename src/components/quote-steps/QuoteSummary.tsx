@@ -275,47 +275,67 @@ export const QuoteSummary = ({
       setDevisSaved(true);
       setSavedQuoteNumber(quoteNumber);
       console.log('Found existing devis:', { devisId, quoteNumber });
+      return;
+    }
+
+    // Save devis immediately if not already saved
+    if (data && !devisSaved) {
+      saveDevisToDatabase();
     }
   }, []);
 
+  const saveDevisToDatabase = async () => {
+    if (devisSaved) return;
+
+    try {
+      console.log('Saving devis to database...');
+      const result = await saveDevis(data, priceCalculation);
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Erreur lors de la sauvegarde du devis');
+      }
+
+      if (!result.devisId || !result.quoteNumber) {
+        throw new Error('ID ou numéro de devis manquant après sauvegarde');
+      }
+
+      console.log('Devis saved with ID:', result.devisId, 'Quote number:', result.quoteNumber);
+      setDevisSaved(true);
+      setSavedQuoteNumber(result.quoteNumber);
+      
+      // Save to localStorage to prevent duplicate submissions
+      const sessionKey = `devis_session_${data.email}_${JSON.stringify(data).substring(0, 50)}`;
+      localStorage.setItem(sessionKey, JSON.stringify({
+        devisId: result.devisId,
+        quoteNumber: result.quoteNumber
+      }));
+
+      if (gmailConfigured) {
+        toast({
+          title: "Devis enregistré",
+          description: "Devis enregistré avec succès!",
+        });
+      } else {
+        toast({
+          title: "Devis enregistré",
+          description: "Devis enregistré avec succès! L'envoi par email n'est pas configuré.",
+        });
+      }
+    } catch (error) {
+      console.error('Error saving devis:', error);
+      toast({
+        title: "Erreur",
+        description: error instanceof Error ? error.message : 'Erreur lors de la sauvegarde du devis',
+        variant: "destructive",
+      });
+    }
+  };
+
   const sendQuoteEmailViaGmail = async () => {
-    if (isLoading || emailSent || !gmailConfigured) return;
+    if (isLoading || emailSent || !gmailConfigured || !devisSaved || !savedQuoteNumber) return;
     
     setIsLoading(true);
     console.log("Sending quote email via Gmail to:", data.email);
-
-    // Save devis to database first if not already saved
-    if (!devisSaved) {
-      try {
-        const result = await saveDevis(data, priceCalculation);
-        if (result.success && result.quoteNumber) {
-          setDevisSaved(true);
-          setSavedQuoteNumber(result.quoteNumber);
-          
-          // Store in localStorage to prevent duplicates on refresh
-          const sessionKey = `devis_session_${data.email}_${JSON.stringify(data).substring(0, 50)}`;
-          localStorage.setItem(sessionKey, JSON.stringify({
-            devisId: result.devisId,
-            quoteNumber: result.quoteNumber
-          }));
-          
-          console.log("Devis saved successfully:", { devisId: result.devisId, quoteNumber: result.quoteNumber });
-        } else {
-          console.error("Failed to save devis:", result.error);
-          toast({
-            title: "Erreur",
-            description: "Erreur lors de la sauvegarde du devis: " + result.error,
-            variant: "destructive",
-          });
-          setIsLoading(false);
-          return;
-        }
-      } catch (error) {
-        console.error("Error saving devis:", error);
-        setIsLoading(false);
-        return;
-      }
-    }
 
     try {
       const displayQuoteNumber = savedQuoteNumber || quoteNumber;
@@ -393,12 +413,12 @@ export const QuoteSummary = ({
     }
   };
 
-  // Auto-send email when component loads if Gmail is configured
+  // Auto-send email when component loads if Gmail is configured and devis is saved
   useEffect(() => {
-    if (data.email && !emailSent && !isLoading && gmailConfigured) {
+    if (data.email && !emailSent && !isLoading && gmailConfigured && devisSaved && savedQuoteNumber) {
       sendQuoteEmailViaGmail();
     }
-  }, [data.email, gmailConfigured]);
+  }, [data.email, gmailConfigured, devisSaved, savedQuoteNumber]);
 
   return <div className="space-y-6">
       {/* Header Card */}
@@ -528,16 +548,16 @@ export const QuoteSummary = ({
       </Card>
 
       {/* Gmail Status Info */}
-      {!gmailConfigured && (
-        <Card className="p-4 bg-orange-50 dark:bg-orange-950/20 border-orange-200 dark:border-orange-800">
+      {!gmailConfigured && devisSaved && (
+        <Card className="p-4 bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800">
           <div className="flex items-center gap-3">
-            <Mail className="h-5 w-5 text-orange-600" />
+            <CheckCircle className="h-5 w-5 text-green-600" />
             <div>
-              <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
-                Configuration Gmail requise
+              <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                ✅ Devis enregistré avec succès!
               </p>
-              <p className="text-xs text-orange-700 dark:text-orange-300">
-                L'administrateur doit configurer Gmail pour l'envoi automatique des devis.
+              <p className="text-xs text-green-700 dark:text-green-300">
+                L'envoi automatique par email n'est pas configuré. Vous pouvez télécharger le devis ci-dessous.
               </p>
             </div>
           </div>

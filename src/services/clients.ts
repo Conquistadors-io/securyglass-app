@@ -35,13 +35,17 @@ export const saveClient = async (data: {
 
     const { error } = await supabase
       .from('clients' as any)
-      .insert(clientData);
+      .upsert(clientData, {
+        onConflict: 'email',
+        ignoreDuplicates: false
+      });
 
     if (error) {
       console.error('Error saving client:', error);
       return { success: false, error: error.message };
     }
 
+    console.log('Client saved/updated successfully for email:', data.email);
     return { success: true };
   } catch (err) {
     console.error('Unexpected error saving client:', err);
