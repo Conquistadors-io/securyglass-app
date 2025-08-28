@@ -112,8 +112,7 @@ export const QuoteStep1 = ({
                 value={formData.codePostal} 
                 onChange={e => setFormData(prev => ({
                   ...prev,
-                  codePostal: e.target.value,
-                  ville: "" // Réinitialiser la ville quand on change de code postal
+                  codePostal: e.target.value
                 }))} 
                 required 
               />
