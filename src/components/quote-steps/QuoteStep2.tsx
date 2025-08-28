@@ -18,7 +18,6 @@ export const QuoteStep2 = ({
 }: QuoteStep2Props) => {
   // Vérifier si c'est un service miroiterie
   const isMiroiterie = data.serviceType === "miroiterie";
-  
   const [formData, setFormData] = useState({
     object: data.object || (isMiroiterie ? "miroir-casse" : "vitre-cassee"),
     property: data.property || "appartement",
@@ -40,8 +39,7 @@ export const QuoteStep2 = ({
             ...prev,
             object: value
           }))} className="space-y-4">
-              {isMiroiterie ? (
-                <>
+              {isMiroiterie ? <>
                   <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                     <RadioGroupItem value="miroir-casse" id="miroir-casse" className="w-6 h-6" />
                     <Label htmlFor="miroir-casse" className="text-lg cursor-pointer flex-1">Miroir cassé</Label>
@@ -51,9 +49,7 @@ export const QuoteStep2 = ({
                     <RadioGroupItem value="miroir-sur-mesure" id="miroir-sur-mesure" className="w-6 h-6" />
                     <Label htmlFor="miroir-sur-mesure" className="text-lg cursor-pointer flex-1">Miroir sur mesure</Label>
                   </div>
-                </>
-              ) : (
-                <>
+                </> : <>
                   <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
                     <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer flex-1">Vitre cassée</Label>
@@ -63,8 +59,7 @@ export const QuoteStep2 = ({
                     <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" />
                     <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">Autres</Label>
                   </div>
-                </>
-              )}
+                </>}
             </RadioGroup>
             
             {!isMiroiterie && formData.object === "autre" && <div className="mt-4 pl-6 space-y-3">
@@ -77,10 +72,7 @@ export const QuoteStep2 = ({
                     <Label htmlFor="verre-sur-mesure" className="cursor-pointer flex-1">Verre sur mesure</Label>
                   </div>
                   
-                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                    <RadioGroupItem value="renovation" id="renovation" className="w-5 h-5" />
-                    <Label htmlFor="renovation" className="cursor-pointer flex-1">Rénovation</Label>
-                  </div>
+                  
                   
                   <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
                     <RadioGroupItem value="chatiere" id="chatiere" className="w-5 h-5" />
@@ -135,18 +127,12 @@ export const QuoteStep2 = ({
               </SelectContent>
             </Select>
             
-            {formData.motif === "autre" && (
-              <div className="mt-3">
-                <Input 
-                  placeholder="Précisez ..." 
-                  value={formData.motifOther} 
-                  onChange={e => setFormData(prev => ({
-                    ...prev,
-                    motifOther: e.target.value
-                  }))} 
-                />
-              </div>
-            )}
+            {formData.motif === "autre" && <div className="mt-3">
+                <Input placeholder="Précisez ..." value={formData.motifOther} onChange={e => setFormData(prev => ({
+              ...prev,
+              motifOther: e.target.value
+            }))} />
+              </div>}
           </div>
 
           <div>
