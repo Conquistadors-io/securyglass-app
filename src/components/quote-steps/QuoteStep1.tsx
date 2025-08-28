@@ -11,6 +11,8 @@ import { DepartmentSelect } from "@/components/ui/department-select";
 import { CitySelect } from "@/components/ui/city-select";
 import { AddressSelect } from "@/components/ui/address-select";
 import { InsuranceSelect } from "@/components/ui/insurance-select";
+import { saveClient } from "@/services/clients";
+import { toast } from "sonner";
 
 interface QuoteStep1Props {
   data: any;
@@ -40,8 +42,37 @@ export const QuoteStep1 = ({
     interventionAdresse: data.interventionAdresse || ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      const result = await saveClient({
+        civilite: formData.civilite,
+        nom: formData.nom,
+        nomSociete: formData.nomSociete,
+        telephone: formData.telephone,
+        email: formData.email,
+        adresse: formData.adresse,
+        codePostal: formData.codePostal,
+        ville: formData.ville,
+      });
+
+      if (result.success) {
+        toast.success("Informations sauvegardées avec succès");
+      } else {
+        toast.error("Erreur lors de la sauvegarde : " + (result.error || "Erreur inconnue"));
+      }
+    } catch (error) {
+      console.error('Error in handleSubmit:', error);
+      toast.error("Erreur lors de la sauvegarde");
+    } finally {
+      setIsSubmitting(false);
+    }
+
+    // Always proceed to next step regardless of save result
     onComplete(formData);
   };
 
@@ -287,9 +318,9 @@ export const QuoteStep1 = ({
               variant="default" 
               size="lg" 
               className="flex-1" 
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
             >
-              Continuer
+              {isSubmitting ? "Sauvegarde..." : "Continuer"}
             </Button>
           </div>
         </form>
