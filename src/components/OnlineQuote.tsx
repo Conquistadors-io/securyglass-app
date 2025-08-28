@@ -4,12 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { saveQuote } from "@/services/quoteService";
-import QuoteStep0 from "./quote-steps/QuoteStep0";
-import QuoteStep1 from "./quote-steps/QuoteStep1";
-import QuoteStep2 from "./quote-steps/QuoteStep2";
-import QuoteStep3 from "./quote-steps/QuoteStep3";
-import QuoteStep4 from "./quote-steps/QuoteStep4";
-import QuoteSummary from "./quote-steps/QuoteSummary";
+import { QuoteStep0 } from "./quote-steps/QuoteStep0";
+import { QuoteStep1 } from "./quote-steps/QuoteStep1";
+import { QuoteStep2 } from "./quote-steps/QuoteStep2";
+import { QuoteStep3 } from "./quote-steps/QuoteStep3";
+import { QuoteStep4 } from "./quote-steps/QuoteStep4";
+import { QuoteSummary } from "./quote-steps/QuoteSummary";
 
 interface FormData {
   civilite: string;
@@ -85,7 +85,8 @@ const OnlineQuote = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
@@ -155,29 +156,18 @@ const OnlineQuote = () => {
       const result = await saveQuote(clientData, devisData);
       
       if (result.success) {
-        toast({
-          title: "Devis envoyé avec succès !",
-          description: `Votre devis ${result.devis.quote_number} a été créé. Nous vous contacterons sous 24h.`,
-        });
+        toast.success(`Devis envoyé avec succès ! Votre devis ${result.devis.quote_number} a été créé. Nous vous contacterons sous 24h.`);
         
         // Réinitialiser le formulaire après succès
         setFormData(initialFormData);
         setCurrentStep(0);
       } else {
         console.error('Quote submission failed:', result.error);
-        toast({
-          title: "Erreur lors de l'envoi",
-          description: result.message || "Une erreur est survenue. Veuillez réessayer.",
-          variant: "destructive",
-        });
+        toast.error(result.message || "Une erreur est survenue. Veuillez réessayer.");
       }
     } catch (error: any) {
       console.error('Error submitting quote:', error);
-      toast({
-        title: "Erreur lors de l'envoi",
-        description: "Une erreur est survenue. Veuillez réessayer.",
-        variant: "destructive",
-      });
+      toast.error("Une erreur est survenue. Veuillez réessayer.");
     } finally {
       setIsLoading(false);
     }
@@ -200,19 +190,19 @@ const OnlineQuote = () => {
         </div>
 
         {currentStep === 0 && (
-          <QuoteStep0 formData={formData} handleChange={handleChange} />
+          <QuoteStep0 data={formData} onComplete={(data) => { setFormData(prev => ({ ...prev, ...data })); handleNext(); }} />
         )}
         {currentStep === 1 && (
-          <QuoteStep1 formData={formData} handleChange={handleChange} />
+          <QuoteStep1 data={formData} onComplete={(data) => { setFormData(prev => ({ ...prev, ...data })); handleNext(); }} onBack={handlePrev} />
         )}
         {currentStep === 2 && (
-          <QuoteStep2 formData={formData} handleChange={handleChange} handlePhotoUpload={handlePhotoUpload} />
+          <QuoteStep2 data={formData} onComplete={(data) => { setFormData(prev => ({ ...prev, ...data })); handleNext(); }} onBack={handlePrev} />
         )}
         {currentStep === 3 && (
-          <QuoteStep3 formData={formData} handleChange={handleChange} />
+          <QuoteStep3 data={formData} onComplete={(data) => { setFormData(prev => ({ ...prev, ...data })); handleNext(); }} onBack={handlePrev} />
         )}
         {currentStep === 4 && (
-          <QuoteSummary formData={formData} />
+          <QuoteSummary data={formData} onNavigate={() => {}} />
         )}
 
         <div className="flex justify-between">
@@ -228,8 +218,8 @@ const OnlineQuote = () => {
               Suivant
             </Button>
           ) : (
-            <Button onClick={handleSubmit} disabled={isLoading} loading={isLoading}>
-              Envoyer
+            <Button onClick={handleSubmit} disabled={isLoading}>
+              {isLoading ? "Envoi..." : "Envoyer"}
             </Button>
           )}
         </div>
