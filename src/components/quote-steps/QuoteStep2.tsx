@@ -43,20 +43,6 @@ export const QuoteStep2 = ({
               </div>
               
               <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                <RadioGroupItem value={data.serviceType === "vitrerie" ? "verre-sur-mesure" : "miroir"} id={data.serviceType === "vitrerie" ? "verre-sur-mesure" : "miroir"} className="w-6 h-6" />
-                <Label htmlFor={data.serviceType === "vitrerie" ? "verre-sur-mesure" : "miroir"} className="text-lg cursor-pointer flex-1">
-                  {data.serviceType === "vitrerie" ? "Verre sur mesure" : "Miroir"}
-                </Label>
-              </div>
-              
-              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                <RadioGroupItem value="mise-securite" id="mise-securite" className="w-6 h-6" />
-                <Label htmlFor="mise-securite" className="text-lg cursor-pointer flex-1">Rénovation</Label>
-              </div>
-              
-              
-              
-              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
                 <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" />
                 <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">Autres</Label>
               </div>
