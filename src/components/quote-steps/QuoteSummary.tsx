@@ -348,10 +348,10 @@ export const QuoteSummary = ({
         <div className="text-center">
           <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-foreground mb-2">
-            {isLoading ? "Envoi en cours..." : emailSent ? "Devis envoyé !" : "Préparation du devis..."}
+            {isLoading ? "Envoi en cours..." : emailSent ? `Devis envoyé à : ${data.email}` : "Préparation du devis..."}
           </h2>
           <p className="text-muted-foreground">
-            {emailSent ? `à : ${data.email}` : isLoading ? "Veuillez patienter..." : ""}
+            {isLoading ? "Veuillez patienter..." : ""}
           </p>
         </div>
       </Card>
