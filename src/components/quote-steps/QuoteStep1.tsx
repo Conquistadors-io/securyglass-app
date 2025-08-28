@@ -25,6 +25,7 @@ export const QuoteStep1 = ({
   const [formData, setFormData] = useState({
     civilite: data.civilite || "",
     nom: data.nom || "",
+    nomSociete: data.nomSociete || "",
     telephone: data.telephone || "",
     email: data.email || "",
     adresse: data.adresse || "",
@@ -81,6 +82,26 @@ export const QuoteStep1 = ({
             }))} required />
             </div>
           </div>
+
+          {(formData.civilite === "societe" || formData.civilite === "entreprise-btp") && (
+            <div>
+              <Label htmlFor="nomSociete">Nom de la société <span className="text-destructive">*</span></Label>
+              <div className="relative mt-1">
+                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  id="nomSociete" 
+                  placeholder="Nom de la société" 
+                  className="pl-10" 
+                  value={formData.nomSociete} 
+                  onChange={e => setFormData(prev => ({
+                    ...prev,
+                    nomSociete: e.target.value
+                  }))} 
+                  required 
+                />
+              </div>
+            </div>
+          )}
 
           <div>
             <Label htmlFor="telephone">Téléphone <span className="text-destructive">*</span></Label>
