@@ -58,7 +58,7 @@ export const QuoteStep1 = ({
       <div className="p-6">
         <div className="mb-6">
           <h2 className="text-xl font-semibold text-foreground mb-2">
-            Message
+            Vos informations
           </h2>
           <p className="text-muted-foreground">
             Nous avons besoin de vos coordonnées pour établir votre devis
