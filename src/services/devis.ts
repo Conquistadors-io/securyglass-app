@@ -40,7 +40,7 @@ const generateQuoteNumber = (): string => {
   return `DEV-${year}${month}${day}-${random}`;
 };
 
-export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{ success: boolean; error?: string; devisId?: string }> => {
+export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{ success: boolean; error?: string; devisId?: string; quoteNumber?: string }> => {
   try {
     // Generate unique quote number
     const quoteNumber = generateQuoteNumber();
@@ -78,14 +78,27 @@ export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{
 
     const { data, error } = await supabase
       .from('devis' as any)
-      .insert(devisData);
+      .insert(devisData)
+      .select('id, quote_number')
+      .single();
 
     if (error) {
       console.error('Error saving devis:', error);
       return { success: false, error: error.message };
     }
 
-    return { success: true };
+    if (!data) {
+      console.error('No data returned from insert');
+      return { success: false, error: 'Aucune donnée retournée' };
+    }
+
+    const savedData = data as any;
+    console.log('Devis saved successfully:', { id: savedData.id, quote_number: savedData.quote_number });
+    return { 
+      success: true, 
+      devisId: savedData.id, 
+      quoteNumber: savedData.quote_number 
+    };
   } catch (err) {
     console.error('Unexpected error saving devis:', err);
     return { success: false, error: 'Une erreur inattendue s\'est produite' };

@@ -22,6 +22,7 @@ export const QuoteSummary = ({
   const [gmailConfigured, setGmailConfigured] = useState(false);
   const [adminEmail, setAdminEmail] = useState<string>('');
   const [devisSaved, setDevisSaved] = useState(false);
+  const [savedQuoteNumber, setSavedQuoteNumber] = useState<string>('');
   // Calculate estimated price based on form data
   const calculatePrice = () => {
     const largeur = parseFloat(data.largeur) || 0;
@@ -100,12 +101,13 @@ export const QuoteSummary = ({
   const quoteNumber = `DEV-${Date.now().toString().slice(-8)}`;
 
   const generateQuoteHTML = () => {
+    const displayQuoteNumber = savedQuoteNumber || quoteNumber;
     return `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="UTF-8">
-        <title>Devis ${quoteNumber}</title>
+        <title>Devis ${displayQuoteNumber}</title>
         <style>
           body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
           .header { text-align: center; margin-bottom: 30px; }
@@ -129,7 +131,7 @@ export const QuoteSummary = ({
         </div>
         
         <div class="quote-details">
-          <p><strong>Numéro de devis:</strong> ${quoteNumber}</p>
+          <p><strong>Numéro de devis:</strong> ${displayQuoteNumber}</p>
           <p><strong>Date:</strong> ${new Date().toLocaleDateString('fr-FR')}</p>
         </div>
         
@@ -264,6 +266,16 @@ export const QuoteSummary = ({
 
   useEffect(() => {
     checkGmailConfiguration();
+    
+    // Check if there's already a saved devis for this session
+    const sessionKey = `devis_session_${data.email}_${JSON.stringify(data).substring(0, 50)}`;
+    const savedDevisInfo = localStorage.getItem(sessionKey);
+    if (savedDevisInfo) {
+      const { devisId, quoteNumber } = JSON.parse(savedDevisInfo);
+      setDevisSaved(true);
+      setSavedQuoteNumber(quoteNumber);
+      console.log('Found existing devis:', { devisId, quoteNumber });
+    }
   }, []);
 
   const sendQuoteEmailViaGmail = async () => {
@@ -276,9 +288,18 @@ export const QuoteSummary = ({
     if (!devisSaved) {
       try {
         const result = await saveDevis(data, priceCalculation);
-        if (result.success) {
+        if (result.success && result.quoteNumber) {
           setDevisSaved(true);
-          console.log("Devis saved successfully with ID:", result.devisId);
+          setSavedQuoteNumber(result.quoteNumber);
+          
+          // Store in localStorage to prevent duplicates on refresh
+          const sessionKey = `devis_session_${data.email}_${JSON.stringify(data).substring(0, 50)}`;
+          localStorage.setItem(sessionKey, JSON.stringify({
+            devisId: result.devisId,
+            quoteNumber: result.quoteNumber
+          }));
+          
+          console.log("Devis saved successfully:", { devisId: result.devisId, quoteNumber: result.quoteNumber });
         } else {
           console.error("Failed to save devis:", result.error);
           toast({
@@ -286,15 +307,20 @@ export const QuoteSummary = ({
             description: "Erreur lors de la sauvegarde du devis: " + result.error,
             variant: "destructive",
           });
+          setIsLoading(false);
+          return;
         }
       } catch (error) {
         console.error("Error saving devis:", error);
+        setIsLoading(false);
+        return;
       }
     }
 
     try {
+      const displayQuoteNumber = savedQuoteNumber || quoteNumber;
       const quoteData = {
-        id: quoteNumber,
+        id: displayQuoteNumber,
         date: new Date().toLocaleDateString('fr-FR'),
         client: {
           name: `${data.civilite} ${data.nom}`,
