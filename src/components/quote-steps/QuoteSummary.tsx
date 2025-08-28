@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import { saveDevis } from "@/services/devis";
+import { generatePDFFromHTML } from "@/lib/pdf-generator";
 interface QuoteSummaryProps {
   data: any;
   onNavigate: (route: string) => void;
@@ -229,16 +230,23 @@ export const QuoteSummary = ({
     `;
   };
 
-  const handleDownloadPDF = () => {
-    const htmlContent = generateQuoteHTML();
-    const blob = new Blob([htmlContent], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
-    
-    // Clean up the URL after a short delay
-    setTimeout(() => {
-      URL.revokeObjectURL(url);
-    }, 1000);
+  const handleDownloadPDF = async () => {
+    try {
+      const quoteHTML = generateQuoteHTML();
+      const filename = `devis-${savedQuoteNumber || quoteNumber}.pdf`;
+      await generatePDFFromHTML(quoteHTML, filename);
+      toast({
+        title: "PDF téléchargé",
+        description: "Le PDF a été téléchargé avec succès",
+      });
+    } catch (error) {
+      console.error('Erreur lors de la génération du PDF:', error);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la génération du PDF",
+        variant: "destructive",
+      });
+    }
   };
 
   // Check if Gmail is configured by admin
@@ -580,8 +588,8 @@ export const QuoteSummary = ({
       {/* Action Buttons */}
       <div className="space-y-4">
         <Button variant="default" size="lg" className="w-full" onClick={handleDownloadPDF}>
-          <FileText className="h-5 w-5 mr-2" />
-          Voir le Devis
+          <Download className="h-5 w-5 mr-2" />
+          Télécharger le PDF
         </Button>
 
         <div className="grid grid-cols-2 gap-3">
