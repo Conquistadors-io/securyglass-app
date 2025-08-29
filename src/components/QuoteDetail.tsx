@@ -194,6 +194,18 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
       // Import here to avoid build issues
       const { generatePDFFromHTMLBase64 } = await import("@/lib/pdf-generator");
       const pdfBase64 = await generatePDFFromHTMLBase64(quoteHTML);
+      console.log('PDF generated, size:', pdfBase64.length, 'characters');
+      
+      // Check if PDF was generated properly (minimum size check)
+      if (pdfBase64.length < 50000) {
+        console.error('PDF appears to be empty or too small:', pdfBase64.length);
+        toast({
+          title: "Erreur PDF",
+          description: "Le PDF généré semble vide. Impossible d'envoyer l'email.",
+          variant: "destructive",
+        });
+        return;
+      }
 
       // Appeler l'edge function SendGrid pour envoyer l'email avec pièce jointe
       const { data, error } = await supabase.functions.invoke('send-quote-sendgrid', {

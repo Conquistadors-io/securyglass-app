@@ -343,6 +343,18 @@ export const QuoteSummary = ({
       
       // Generate PDF as base64 for attachment
       const pdfBase64 = await generatePDFFromHTMLBase64(quoteHTML);
+      console.log('PDF generated, size:', pdfBase64.length, 'characters');
+      
+      // Check if PDF was generated properly (minimum size check)
+      if (pdfBase64.length < 50000) {
+        console.error('PDF appears to be empty or too small:', pdfBase64.length);
+        toast({
+          title: "Erreur PDF",
+          description: "Le PDF généré semble vide. Impossible d'envoyer l'email.",
+          variant: "destructive",
+        });
+        return;
+      }
       
       const quoteData = {
         id: displayQuoteNumber,

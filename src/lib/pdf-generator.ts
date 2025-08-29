@@ -35,13 +35,21 @@ export const generatePDFFromHTML = async (htmlContent: string, filename: string)
 };
 
 export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<string> => {
-  // Create a temporary container
+  // Create a temporary container with body content only
   const tempContainer = document.createElement('div');
-  tempContainer.innerHTML = htmlContent;
+  
+  // Extract only the body content from the full HTML document
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlContent, 'text/html');
+  const bodyContent = doc.body?.innerHTML || htmlContent;
+  
+  tempContainer.innerHTML = bodyContent;
   tempContainer.style.position = 'absolute';
   tempContainer.style.left = '-9999px';
   tempContainer.style.top = '-9999px';
   tempContainer.style.width = '210mm'; // A4 width
+  tempContainer.style.backgroundColor = 'white';
+  tempContainer.style.padding = '20px';
   document.body.appendChild(tempContainer);
 
   try {
@@ -51,7 +59,8 @@ export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<st
       html2canvas: { 
         scale: 2,
         useCORS: true,
-        letterRendering: true
+        letterRendering: true,
+        backgroundColor: '#ffffff'
       },
       jsPDF: { 
         unit: 'mm', 
@@ -60,9 +69,11 @@ export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<st
       }
     };
 
-    const pdfDataUri = await html2pdf().set(options).from(tempContainer).toPdf().output('datauristring');
-    // Extract base64 from data URI (remove "data:application/pdf;base64,")
-    const base64Data = pdfDataUri.split(',')[1];
+    // Use worker method for proper PDF generation
+    const worker = html2pdf().set(options).from(tempContainer);
+    const pdf = await worker.get('pdf');
+    const base64Data = pdf.output('datauristring').split(',')[1];
+    
     return base64Data;
   } finally {
     // Clean up
