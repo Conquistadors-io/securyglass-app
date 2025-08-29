@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.send-quote-gmail]
 verify_jwt = false
+
+[functions.send-quote-sendgrid]
+verify_jwt = false
