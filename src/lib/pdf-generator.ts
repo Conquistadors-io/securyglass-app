@@ -37,25 +37,49 @@ export const generatePDFFromHTML = async (htmlContent: string, filename: string)
 export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<string> => {
   console.log('Starting PDF generation...');
   
-  // Create a temporary container with body content only
+  // Create a temporary container
   const tempContainer = document.createElement('div');
   
   try {
-    // Extract only the body content from the full HTML document
+    // Parse the full HTML document and preserve styles
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
+    
+    // Extract styles from head
+    const styles = doc.querySelectorAll('style');
+    let combinedStyles = '';
+    styles.forEach(style => {
+      combinedStyles += style.textContent || '';
+    });
+    
+    // Get body content
     const bodyContent = doc.body?.innerHTML || htmlContent;
     
+    // Create a style element and inject combined styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = combinedStyles;
+    
+    // Set up the container with preserved styles
     tempContainer.innerHTML = bodyContent;
+    tempContainer.insertBefore(styleElement, tempContainer.firstChild);
     tempContainer.style.position = 'absolute';
     tempContainer.style.left = '-9999px';
     tempContainer.style.top = '-9999px';
     tempContainer.style.width = '210mm'; // A4 width
     tempContainer.style.backgroundColor = 'white';
     tempContainer.style.padding = '20px';
+    tempContainer.style.fontFamily = 'Arial, sans-serif';
     document.body.appendChild(tempContainer);
     
-    console.log('Temp container created and added to DOM');
+    console.log('Temp container created with styles, HTML length:', htmlContent.length);
+
+    // Force reflow and wait for rendering
+    await new Promise(resolve => {
+      tempContainer.offsetHeight; // Force reflow
+      requestAnimationFrame(() => {
+        requestAnimationFrame(resolve); // Wait two frames
+      });
+    });
 
     const options = {
       margin: 1,
@@ -73,18 +97,26 @@ export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<st
       }
     };
 
-    console.log('Starting html2pdf conversion...');
-    // Use worker method for proper PDF generation
+    console.log('Starting html2pdf conversion with full sequence...');
+    // Use complete sequence: from -> toPdf -> output
     const worker = html2pdf().set(options).from(tempContainer);
-    const dataUri = await worker.output('datauristring');
+    const dataUri = await worker.toPdf().output('datauristring');
     
     if (!dataUri || dataUri.indexOf(',') === -1) {
+      console.error('Invalid PDF data URI generated');
       throw new Error('Invalid PDF data URI generated');
     }
     
     const base64Data = dataUri.split(',')[1];
     
     console.log('PDF conversion completed, base64 length:', base64Data.length);
+    
+    // Safety check for minimum PDF size
+    if (base64Data.length < 30000) {
+      console.error('Generated PDF appears to be too small (likely empty), base64 length:', base64Data.length);
+      throw new Error('Generated PDF appears to be empty or corrupted');
+    }
+    
     return base64Data;
   } catch (error) {
     console.error('Error in PDF generation:', error);
