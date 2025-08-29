@@ -86,6 +86,11 @@ export const QuoteSummary = ({
 
   const generateQuoteHTML = () => {
     const displayQuoteNumber = savedQuoteNumber || quoteNumber;
+    const subtotal = priceCalculation?.subtotal ?? 0;
+    const tva = priceCalculation?.tva ?? 0;
+    const total = priceCalculation?.total ?? 0;
+    const tvaRate = priceCalculation?.tvaRate ?? 0.2;
+    
     return `
       <!DOCTYPE html>
       <html>
@@ -160,47 +165,47 @@ export const QuoteSummary = ({
               <td>${data.largeur} × ${data.hauteur} cm</td>
               <td>${data.quantite}</td>
               <td>Vitrage ${data.vitrage}</td>
-              <td>${priceCalculation?.details?.vitrage?.total || 0}€</td>
+              <td>${priceCalculation?.details?.vitrage?.total ?? 0}€</td>
             </tr>
             <tr>
               <td>Main d'œuvre</td>
-              <td>${priceCalculation?.details?.surface?.totale?.toFixed(2) || '0'} m²</td>
+              <td>${priceCalculation?.details?.surface?.totale?.toFixed(2) ?? '0'} m²</td>
               <td>1</td>
-              <td>${(priceCalculation?.details?.main_oeuvre?.total / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation?.details?.main_oeuvre?.total || 0}€</td>
+              <td>${((priceCalculation?.details?.main_oeuvre?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation?.details?.main_oeuvre?.total ?? 0}€</td>
             </tr>
             <tr>
               <td>Livraison</td>
               <td>-</td>
               <td>1</td>
-              <td>${(priceCalculation?.details?.livraison?.total / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation?.details?.livraison?.total || 0}€</td>
+              <td>${((priceCalculation?.details?.livraison?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation?.details?.livraison?.total ?? 0}€</td>
             </tr>
-            ${priceCalculation?.details?.deplacement?.total > 0 ? `
+            ${(priceCalculation?.details?.deplacement?.total ?? 0) > 0 ? `
             <tr>
               <td>Déplacement</td>
               <td>-</td>
               <td>1</td>
-              <td>${(priceCalculation.details.deplacement.total / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation.details.deplacement.total}€</td>
+              <td>${((priceCalculation?.details?.deplacement?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation?.details?.deplacement?.total ?? 0}€</td>
             </tr>
             ` : ''}
-            ${priceCalculation?.details?.securite?.total > 0 ? `
+            ${(priceCalculation?.details?.securite?.total ?? 0) > 0 ? `
             <tr>
               <td>Mise en sécurité</td>
               <td>-</td>
               <td>1</td>
-              <td>${(priceCalculation.details.securite.total / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation.details.securite.total}€</td>
+              <td>${((priceCalculation?.details?.securite?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation?.details?.securite?.total ?? 0}€</td>
             </tr>
             ` : ''}
           </tbody>
         </table>
         
         <div class="totals">
-          <div class="total-line">Sous-total HT: ${priceCalculation.subtotal}€</div>
-          <div class="total-line">TVA (${Math.round(priceCalculation.tvaRate * 100)}%): ${priceCalculation.tva}€</div>
-          <div class="total-line final-total">Total TTC: ${priceCalculation.total}€</div>
+          <div class="total-line">Sous-total HT: ${subtotal}€</div>
+          <div class="total-line">TVA (${Math.round(tvaRate * 100)}%): ${tva}€</div>
+          <div class="total-line final-total">Total TTC: ${total}€</div>
         </div>
         
         <div style="margin-top: 40px; font-size: 0.9em; color: #666;">
@@ -327,7 +332,7 @@ export const QuoteSummary = ({
   };
 
   const sendQuoteEmailViaSendGrid = async () => {
-    if (isLoading || emailSent || !devisSaved || !savedQuoteNumber) return;
+    if (isLoading || emailSent || !devisSaved || !savedQuoteNumber || !priceCalculation || calculationLoading) return;
     
     setIsLoading(true);
     console.log("Sending quote email via SendGrid to:", data.email);
@@ -358,13 +363,13 @@ export const QuoteSummary = ({
           {
             designation: data.object,
             quantity: parseInt(data.quantite || 1),
-            unitPrice: (priceCalculation.details.vitrage?.total || 0) / parseInt(data.quantite || 1),
-            total: priceCalculation.details.vitrage?.total || 0
+            unitPrice: (priceCalculation?.details?.vitrage?.total ?? 0) / parseInt(data.quantite || 1),
+            total: priceCalculation?.details?.vitrage?.total ?? 0
           }
         ],
-        subtotal: priceCalculation.subtotal,
-        vat: priceCalculation.tva,
-        total: priceCalculation.total
+        subtotal: priceCalculation?.subtotal ?? 0,
+        vat: priceCalculation?.tva ?? 0,
+        total: priceCalculation?.total ?? 0
       };
 
       const { data: result, error } = await supabase.functions.invoke('send-quote-sendgrid', {
@@ -411,10 +416,10 @@ export const QuoteSummary = ({
 
   // Auto-send email when component loads and devis is saved
   useEffect(() => {
-    if (data.email && !emailSent && !isLoading && devisSaved && savedQuoteNumber) {
+    if (data.email && !emailSent && !isLoading && devisSaved && savedQuoteNumber && priceCalculation && !calculationLoading) {
       sendQuoteEmailViaSendGrid();
     }
-  }, [data.email, devisSaved, savedQuoteNumber]);
+  }, [data.email, devisSaved, savedQuoteNumber, priceCalculation, calculationLoading]);
 
   return <div className="space-y-6">
       {/* Header Card */}
