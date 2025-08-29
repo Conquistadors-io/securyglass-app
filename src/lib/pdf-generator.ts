@@ -65,22 +65,28 @@ export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<st
     tempContainer.style.position = 'fixed';
     tempContainer.style.left = '0';
     tempContainer.style.top = '0';
-    tempContainer.style.visibility = 'hidden';
+    tempContainer.style.opacity = '0'; // Use opacity instead of visibility
+    tempContainer.style.pointerEvents = 'none';
     tempContainer.style.zIndex = '-1';
     tempContainer.style.width = '210mm'; // A4 width
+    tempContainer.style.minHeight = '297mm'; // A4 height to ensure content
     tempContainer.style.backgroundColor = 'white';
     tempContainer.style.padding = '20px';
     tempContainer.style.fontFamily = 'Arial, sans-serif';
     document.body.appendChild(tempContainer);
     
     console.log('Temp container created with styles, HTML length:', htmlContent.length);
+    
+    // Log container dimensions for debugging
+    const rect = tempContainer.getBoundingClientRect();
+    console.log('Container dimensions:', { width: rect.width, height: rect.height });
 
     // Force reflow and wait for rendering (added extra delay)
     await new Promise(resolve => {
       tempContainer.offsetHeight; // Force reflow
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          setTimeout(resolve, 100); // Extra delay for DOM to fully render
+          setTimeout(resolve, 200); // Increased delay for DOM to fully render
         });
       });
     });
@@ -104,16 +110,36 @@ export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<st
     console.log('Starting html2pdf conversion with full sequence...');
     // Use complete sequence: from -> toPdf -> output
     const worker = html2pdf().set(options).from(tempContainer);
-    const dataUri = await worker.toPdf().output('datauristring');
+    let dataUri = await worker.toPdf().output('datauristring');
     
     if (!dataUri || dataUri.indexOf(',') === -1) {
       console.error('Invalid PDF data URI generated');
       throw new Error('Invalid PDF data URI generated');
     }
     
-    const base64Data = dataUri.split(',')[1];
+    let base64Data = dataUri.split(',')[1];
     
     console.log('PDF conversion completed, base64 length:', base64Data.length);
+    
+    // If PDF is too small, try fallback method with direct HTML
+    if (base64Data.length < 8000) {
+      console.warn('PDF appears small, trying fallback method...');
+      
+      try {
+        const fallbackWorker = html2pdf().set(options).from(htmlContent);
+        const fallbackDataUri = await fallbackWorker.toPdf().output('datauristring');
+        
+        if (fallbackDataUri && fallbackDataUri.indexOf(',') !== -1) {
+          const fallbackBase64 = fallbackDataUri.split(',')[1];
+          if (fallbackBase64.length > base64Data.length) {
+            console.log('Fallback method successful, base64 length:', fallbackBase64.length);
+            base64Data = fallbackBase64;
+          }
+        }
+      } catch (fallbackError) {
+        console.warn('Fallback method failed:', fallbackError);
+      }
+    }
     
     // Warning for small PDF size (don't block anymore)
     if (base64Data.length < 10000) {
