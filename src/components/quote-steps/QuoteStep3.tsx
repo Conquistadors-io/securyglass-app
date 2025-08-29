@@ -203,7 +203,7 @@ export const QuoteStep3 = ({
               <Label htmlFor="quantite">Qté</Label>
               <div className="relative mt-1">
                 <span className="absolute left-3 top-3 text-sm text-muted-foreground">x</span>
-                <Input id="quantite" type="number" min="1" value={formData.quantite} onChange={e => setFormData(prev => ({
+                <Input id="quantite" type="number" min="1" max="99" value={formData.quantite} onChange={e => setFormData(prev => ({
                 ...prev,
                 quantite: e.target.value
               }))} className="pl-8" />
