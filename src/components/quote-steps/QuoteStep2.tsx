@@ -101,7 +101,7 @@ export const QuoteStep2 = ({
             <Label htmlFor="motif">Motif : <span className="text-destructive">*</span></Label>
             
             <div className="p-4 bg-accent rounded-lg mt-2 mb-2">
-              <p className="text-foreground text-sm">
+              <p className="text-white text-sm">
                 Le motif ne sera pas mentionné sur le devis
               </p>
             </div>
