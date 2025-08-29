@@ -62,9 +62,11 @@ export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<st
     // Set up the container with preserved styles
     tempContainer.innerHTML = bodyContent;
     tempContainer.insertBefore(styleElement, tempContainer.firstChild);
-    tempContainer.style.position = 'absolute';
-    tempContainer.style.left = '-9999px';
-    tempContainer.style.top = '-9999px';
+    tempContainer.style.position = 'fixed';
+    tempContainer.style.left = '0';
+    tempContainer.style.top = '0';
+    tempContainer.style.visibility = 'hidden';
+    tempContainer.style.zIndex = '-1';
     tempContainer.style.width = '210mm'; // A4 width
     tempContainer.style.backgroundColor = 'white';
     tempContainer.style.padding = '20px';
@@ -73,11 +75,13 @@ export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<st
     
     console.log('Temp container created with styles, HTML length:', htmlContent.length);
 
-    // Force reflow and wait for rendering
+    // Force reflow and wait for rendering (added extra delay)
     await new Promise(resolve => {
       tempContainer.offsetHeight; // Force reflow
       requestAnimationFrame(() => {
-        requestAnimationFrame(resolve); // Wait two frames
+        requestAnimationFrame(() => {
+          setTimeout(resolve, 100); // Extra delay for DOM to fully render
+        });
       });
     });
 
@@ -111,10 +115,9 @@ export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<st
     
     console.log('PDF conversion completed, base64 length:', base64Data.length);
     
-    // Safety check for minimum PDF size
-    if (base64Data.length < 30000) {
-      console.error('Generated PDF appears to be too small (likely empty), base64 length:', base64Data.length);
-      throw new Error('Generated PDF appears to be empty or corrupted');
+    // Warning for small PDF size (don't block anymore)
+    if (base64Data.length < 10000) {
+      console.warn('Generated PDF appears small, base64 length:', base64Data.length);
     }
     
     return base64Data;

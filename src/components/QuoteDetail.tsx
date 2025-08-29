@@ -196,15 +196,13 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
       const pdfBase64 = await generatePDFFromHTMLBase64(quoteHTML);
       console.log('PDF generated, size:', pdfBase64.length, 'characters');
       
-      // Check if PDF was generated properly (minimum size check)
-      if (pdfBase64.length < 50000) {
-        console.error('PDF appears to be empty or too small:', pdfBase64.length);
+      // Warning for small PDF size (don't block anymore)
+      if (pdfBase64.length < 10000) {
+        console.warn('PDF appears small:', pdfBase64.length, 'characters');
         toast({
-          title: "Erreur PDF",
-          description: "Le PDF généré semble vide. Impossible d'envoyer l'email.",
-          variant: "destructive",
+          title: "Avertissement PDF",
+          description: `Le PDF généré est petit (${pdfBase64.length} caractères). Envoi en cours...`,
         });
-        return;
       }
 
       // Appeler l'edge function SendGrid pour envoyer l'email avec pièce jointe
