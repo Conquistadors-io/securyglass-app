@@ -66,7 +66,6 @@ export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<st
     tempContainer.style.left = '0';
     tempContainer.style.top = '0';
     tempContainer.style.opacity = '0'; // Use opacity instead of visibility
-    tempContainer.style.pointerEvents = 'none';
     tempContainer.style.zIndex = '-1';
     tempContainer.style.width = '210mm'; // A4 width
     tempContainer.style.minHeight = '297mm'; // A4 height to ensure content
