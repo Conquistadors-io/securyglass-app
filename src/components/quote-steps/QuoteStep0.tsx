@@ -50,28 +50,28 @@ export const QuoteStep0 = ({
           <div>
             <Label className="text-lg font-medium mb-6 block">Quel type de service souhaitez-vous ?</Label>
             <RadioGroup value={formData.serviceType} onValueChange={handleServiceTypeChange} className="space-y-4">
-              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                <RadioGroupItem value="vitrerie" id="vitrerie" className="w-6 h-6" />
+              <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'vitrerie' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
+                <RadioGroupItem value="vitrerie" id="vitrerie" className={`w-6 h-6 ${formData.serviceType === 'vitrerie' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
                 <div className="flex-1">
                   <Label htmlFor="vitrerie" className="text-lg cursor-pointer">Vitrerie</Label>
-                  <p className="text-sm text-muted-foreground mt-1">Tous types de verres</p>
+                  <p className="text-sm opacity-70 mt-1">Tous types de verres</p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                <RadioGroupItem value="miroiterie" id="miroiterie" className="w-6 h-6" />
+              <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'miroiterie' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
+                <RadioGroupItem value="miroiterie" id="miroiterie" className={`w-6 h-6 ${formData.serviceType === 'miroiterie' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
                 <div className="flex-1">
                   <Label htmlFor="miroiterie" className="text-lg cursor-pointer">Miroiterie</Label>
-                  <p className="text-sm text-muted-foreground mt-1">Tous types de miroirs</p>
+                  <p className="text-sm opacity-70 mt-1">Tous types de miroirs</p>
                 </div>
               </div>
               
               <div className="space-y-2">
-                <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'autres' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
                   <RadioGroupItem 
                     value="autres" 
                     id="autres" 
-                    className="w-6 h-6" 
+                    className={`w-6 h-6 ${formData.serviceType === 'autres' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`}
                     onClick={() => setShowAutresOptions(true)}
                   />
                   <Label 
@@ -95,8 +95,8 @@ export const QuoteStep0 = ({
                 
                 {showAutresOptions && <div className="ml-6 space-y-2">
                     
-                    <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
-                      <RadioGroupItem value="renovation" id="renovation" className="w-5 h-5" />
+                    <div className={`flex items-center space-x-3 p-3 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'renovation' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
+                      <RadioGroupItem value="renovation" id="renovation" className={`w-5 h-5 ${formData.serviceType === 'renovation' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
                       <Label htmlFor="renovation" className="cursor-pointer flex-1">Rénovation</Label>
                     </div>
                   </div>}
