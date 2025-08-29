@@ -199,7 +199,7 @@ export const QuoteStep3 = ({
             }} required />
             </div>
 
-            <div className="w-20">
+            <div className="w-16">
               <Label htmlFor="quantite">Qté</Label>
               <div className="relative mt-1">
                 <span className="absolute left-3 top-3 text-sm text-muted-foreground">x</span>
