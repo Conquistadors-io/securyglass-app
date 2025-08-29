@@ -76,8 +76,13 @@ export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<st
     console.log('Starting html2pdf conversion...');
     // Use worker method for proper PDF generation
     const worker = html2pdf().set(options).from(tempContainer);
-    const pdf = await worker.get('pdf');
-    const base64Data = pdf.output('datauristring').split(',')[1];
+    const dataUri = await worker.output('datauristring');
+    
+    if (!dataUri || dataUri.indexOf(',') === -1) {
+      throw new Error('Invalid PDF data URI generated');
+    }
+    
+    const base64Data = dataUri.split(',')[1];
     
     console.log('PDF conversion completed, base64 length:', base64Data.length);
     return base64Data;
