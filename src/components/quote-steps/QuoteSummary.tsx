@@ -24,81 +24,64 @@ export const QuoteSummary = ({
   const [adminEmail, setAdminEmail] = useState<string>('');
   const [devisSaved, setDevisSaved] = useState(false);
   const [savedQuoteNumber, setSavedQuoteNumber] = useState<string>('');
-  // Calculate estimated price based on form data
-  const calculatePrice = () => {
-    const largeur = parseFloat(data.largeur) || 0;
-    const hauteur = parseFloat(data.hauteur) || 0;
-    const quantite = parseInt(data.quantite) || 1;
-    
-    // Convertir dimensions en m²
-    const area = (largeur * hauteur) / 10000; // cm² vers m²
-    const areaMinimum = Math.max(area, 0.5); // Quantité minimum 0,5 m²
-    
-    // Prix vitrage selon le type
-    let pricePerM2 = 0;
-    
-    switch(data.vitrage) {
-      case 'simple':
-        pricePerM2 = data.category === 'autre' ? 167.31 : 97.19;
-        break;
-      case 'double':
-        pricePerM2 = data.category === 'autre' ? 348.31 : 297.31;
-        break;
-      case 'trempe':
-        pricePerM2 = 399;
-        break;
-      case 'feuillete':
-        pricePerM2 = 299;
-        break;
-      case 'anti-bruit':
-        pricePerM2 = 399;
-        break;
-      default:
-        pricePerM2 = 97.19;
-    }
-    
-    // Calcul des coûts
-    const vitragePrice = areaMinimum * pricePerM2;
-    const mainOeuvrePrice = areaMinimum * 178.18; // Main d'œuvre par m²
-    
-    // Approvisionnement + Livraison
-    let livraison = 79;
-    if (area > 1.5) livraison = 141.17;
-    else if (area > 0.5) livraison = 94.11;
-    
-    // Déplacement (non facturé si mise en sécurité)
-    const deplacement = data.object?.includes('sécurité') ? 0 : 62.73;
-    
-    // Mise en sécurité si applicable
-    let miseEnSecurite = 0;
-    if (data.object?.includes('sécurité')) {
-      miseEnSecurite = data.typeClient === 'entreprise' ? 150 * areaMinimum : 135.45;
-    }
-    
-    const subtotal = (vitragePrice + mainOeuvrePrice + livraison + deplacement + miseEnSecurite) * quantite;
-    
-    // TVA différente selon le type de client
-    const isParticulier = data.civilite === 'madame' || data.civilite === 'monsieur';
-    const tvaRate = isParticulier ? 0.1 : 0.2; // 10% pour particuliers, 20% pour entreprises
-    const tva = subtotal * tvaRate;
-    const total = subtotal + tva;
-    
-    return {
-      subtotal: Math.round(subtotal * 100) / 100,
-      tva: Math.round(tva * 100) / 100,
-      tvaRate: tvaRate,
-      total: Math.round(total * 100) / 100,
-      details: {
-        vitrage: Math.round(vitragePrice * quantite * 100) / 100,
-        mainOeuvre: Math.round(mainOeuvrePrice * quantite * 100) / 100,
-        livraison: Math.round(livraison * quantite * 100) / 100,
-        deplacement: Math.round(deplacement * quantite * 100) / 100,
-        miseEnSecurite: Math.round(miseEnSecurite * quantite * 100) / 100,
-        area: areaMinimum
+  // Calculate price using centralized backend calculation
+  const [priceCalculation, setPriceCalculation] = useState(null);
+  const [calculationLoading, setCalculationLoading] = useState(true);
+
+  const calculatePrice = async () => {
+    try {
+      setCalculationLoading(true);
+      console.log('Calling compute-quote function with data:', data);
+      
+      // Determine client type
+      const clientType = (data.civilite === 'madame' || data.civilite === 'monsieur') ? 'particulier' : 'professionnel';
+      
+      const { data: result, error } = await supabase.functions.invoke('compute-quote', {
+        body: {
+          vitrage: data.vitrage,
+          largeur: data.largeur,
+          hauteur: data.hauteur,
+          quantite: parseInt(data.quantite) || 1,
+          clientType,
+          address: data.adresse,
+          interventionAddress: data.differentInterventionAddress ? data.interventionAdresse : data.adresse
+        }
+      });
+
+      if (error) {
+        console.error('Error calling compute-quote:', error);
+        throw new Error('Erreur lors du calcul du prix');
       }
-    };
+
+      console.log('Price calculation result:', result);
+      setPriceCalculation(result);
+      return result;
+    } catch (error) {
+      console.error('Error calculating price:', error);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors du calcul du prix. Veuillez réessayer.",
+        variant: "destructive",
+      });
+      
+      // Fallback to default values
+      const fallbackResult = {
+        subtotal: 0,
+        tva: 0,
+        tvaRate: 0.2,
+        total: 0,
+        details: {}
+      };
+      setPriceCalculation(fallbackResult);
+      return fallbackResult;
+    } finally {
+      setCalculationLoading(false);
+    }
   };
-  const priceCalculation = calculatePrice();
+  // Initialize calculation on component mount
+  useEffect(() => {
+    calculatePrice();
+  }, []);
   const quoteNumber = `DEV-${Date.now().toString().slice(-8)}`;
 
   const generateQuoteHTML = () => {
@@ -177,38 +160,38 @@ export const QuoteSummary = ({
               <td>${data.largeur} × ${data.hauteur} cm</td>
               <td>${data.quantite}</td>
               <td>Vitrage ${data.vitrage}</td>
-              <td>${priceCalculation.details.vitrage}€</td>
+              <td>${priceCalculation?.details?.vitrage?.total || 0}€</td>
             </tr>
             <tr>
               <td>Main d'œuvre</td>
-              <td>${priceCalculation.details.area.toFixed(2)} m²</td>
+              <td>${priceCalculation?.details?.surface?.totale?.toFixed(2) || '0'} m²</td>
               <td>1</td>
-              <td>${(priceCalculation.details.mainOeuvre / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation.details.mainOeuvre}€</td>
+              <td>${(priceCalculation?.details?.main_oeuvre?.total / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation?.details?.main_oeuvre?.total || 0}€</td>
             </tr>
             <tr>
               <td>Livraison</td>
               <td>-</td>
               <td>1</td>
-              <td>${(priceCalculation.details.livraison / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation.details.livraison}€</td>
+              <td>${(priceCalculation?.details?.livraison?.total / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation?.details?.livraison?.total || 0}€</td>
             </tr>
-            ${priceCalculation.details.deplacement > 0 ? `
+            ${priceCalculation?.details?.deplacement?.total > 0 ? `
             <tr>
               <td>Déplacement</td>
               <td>-</td>
               <td>1</td>
-              <td>${(priceCalculation.details.deplacement / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation.details.deplacement}€</td>
+              <td>${(priceCalculation.details.deplacement.total / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation.details.deplacement.total}€</td>
             </tr>
             ` : ''}
-            ${priceCalculation.details.miseEnSecurite > 0 ? `
+            ${priceCalculation?.details?.securite?.total > 0 ? `
             <tr>
               <td>Mise en sécurité</td>
               <td>-</td>
               <td>1</td>
-              <td>${(priceCalculation.details.miseEnSecurite / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation.details.miseEnSecurite}€</td>
+              <td>${(priceCalculation.details.securite.total / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${priceCalculation.details.securite.total}€</td>
             </tr>
             ` : ''}
           </tbody>
@@ -286,14 +269,18 @@ export const QuoteSummary = ({
       return;
     }
 
-    // Save devis immediately if not already saved
-    if (data && !devisSaved) {
-      saveDevisToDatabase();
-    }
+    // Auto-save devis when price calculation completes
   }, []);
 
+  // Trigger save when price calculation is complete
+  useEffect(() => {
+    if (priceCalculation && !devisSaved && !calculationLoading) {
+      saveDevisToDatabase();
+    }
+  }, [priceCalculation, devisSaved, calculationLoading]);
+
   const saveDevisToDatabase = async () => {
-    if (devisSaved) return;
+    if (devisSaved || !priceCalculation) return;
 
     try {
       console.log('Saving devis to database...');
@@ -371,8 +358,8 @@ export const QuoteSummary = ({
           {
             designation: data.object,
             quantity: parseInt(data.quantite || 1),
-            unitPrice: priceCalculation.details.vitrage / parseInt(data.quantite || 1),
-            total: priceCalculation.details.vitrage
+            unitPrice: (priceCalculation.details.vitrage?.total || 0) / parseInt(data.quantite || 1),
+            total: priceCalculation.details.vitrage?.total || 0
           }
         ],
         subtotal: priceCalculation.subtotal,
@@ -473,55 +460,68 @@ export const QuoteSummary = ({
 
           <Separator className="my-4" />
 
-          {/* Détail des coûts */}
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span>Vitrage ({priceCalculation.details.area.toFixed(2)} m²):</span>
-              <span>{priceCalculation.details.vitrage}€</span>
+          {/* Loading or error state */}
+          {calculationLoading ? (
+            <div className="text-center py-4">
+              <p className="text-muted-foreground">Calcul en cours...</p>
             </div>
-            <div className="flex justify-between">
-              <span>Main d'œuvre:</span>
-              <span>{priceCalculation.details.mainOeuvre}€</span>
+          ) : !priceCalculation ? (
+            <div className="text-center py-4">
+              <p className="text-muted-foreground">Erreur lors du calcul</p>
             </div>
-            <div className="flex justify-between">
-              <span>Livraison:</span>
-              <span>{priceCalculation.details.livraison}€</span>
-            </div>
-            {priceCalculation.details.deplacement > 0 && (
-              <div className="flex justify-between">
-                <span>Déplacement:</span>
-                <span>{priceCalculation.details.deplacement}€</span>
+          ) : (
+            <>
+              {/* Détail des coûts */}
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span>Vitrage ({priceCalculation.details.surface?.totale?.toFixed(2) || '0'} m²):</span>
+                  <span>{priceCalculation.details.vitrage?.total || 0}€</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Main d'œuvre:</span>
+                  <span>{priceCalculation.details.main_oeuvre?.total || 0}€</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Livraison:</span>
+                  <span>{priceCalculation.details.livraison?.total || 0}€</span>
+                </div>
+                {priceCalculation.details.deplacement?.total > 0 && (
+                  <div className="flex justify-between">
+                    <span>Déplacement:</span>
+                    <span>{priceCalculation.details.deplacement.total}€</span>
+                  </div>
+                )}
+                {priceCalculation.details.securite?.total > 0 && (
+                  <div className="flex justify-between">
+                    <span>Mise en sécurité:</span>
+                    <span>{priceCalculation.details.securite.total}€</span>
+                  </div>
+                )}
               </div>
-            )}
-            {priceCalculation.details.miseEnSecurite > 0 && (
-              <div className="flex justify-between">
-                <span>Rénovation:</span>
-                <span>{priceCalculation.details.miseEnSecurite}€</span>
+
+              <Separator className="my-3" />
+
+              <div className="space-y-1">
+                <div className="flex justify-between">
+                  <span>Sous-total HT:</span>
+                  <span>{priceCalculation.subtotal}€</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>TVA ({Math.round(priceCalculation.tvaRate * 100)}%):</span>
+                  <span>{priceCalculation.tva}€</span>
+                </div>
               </div>
-            )}
-          </div>
 
-          <Separator className="my-3" />
+              <Separator className="my-3" />
 
-          <div className="space-y-1">
-            <div className="flex justify-between">
-              <span>Sous-total HT:</span>
-              <span>{priceCalculation.subtotal}€</span>
-            </div>
-            <div className="flex justify-between">
-              <span>TVA ({Math.round(priceCalculation.tvaRate * 100)}%):</span>
-              <span>{priceCalculation.tva}€</span>
-            </div>
-          </div>
-
-          <Separator className="my-3" />
-
-          <div className="flex justify-between items-center">
-            <span className="text-lg font-semibold">Total TTC:</span>
-            <span className="text-2xl font-bold text-primary">
-              {priceCalculation.total}€
-            </span>
-          </div>
+              <div className="flex justify-between items-center">
+                <span className="text-lg font-semibold">Total TTC:</span>
+                <span className="text-2xl font-bold text-primary">
+                  {priceCalculation.total}€
+                </span>
+              </div>
+            </>
+          )}
 
           <p className="text-xs text-muted-foreground mt-2">
             * Prix indicatif, devis définitif après visite technique
