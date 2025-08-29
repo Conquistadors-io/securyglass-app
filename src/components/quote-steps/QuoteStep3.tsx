@@ -170,7 +170,7 @@ export const QuoteStep3 = ({
             </RadioGroup>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-[1fr_1fr_auto] gap-4">
             <div>
               <Label htmlFor="hauteur">Hauteur (cm) <span className="text-destructive">*</span></Label>
               <Input id="hauteur" type="number" placeholder="150" className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.hauteur ? 'border-red-500 ring-red-500' : ''}`} value={formData.hauteur} onChange={e => {
@@ -199,7 +199,7 @@ export const QuoteStep3 = ({
             }} required />
             </div>
 
-            <div>
+            <div className="w-20">
               <Label htmlFor="quantite">Qté</Label>
               <div className="relative mt-1">
                 <span className="absolute left-3 top-3 text-sm text-muted-foreground">x</span>
