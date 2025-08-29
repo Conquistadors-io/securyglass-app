@@ -8,62 +8,62 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* HEETCH-INSPIRED Design System - Purple/Pink/Violet Theme */
-    --background: 235 45% 22%;
-    --foreground: 0 0% 100%;
+    /* Clean Business Design System - Based on Screenshot */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 9%;
 
-    --card: 235 40% 25%;
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
 
-    --popover: 235 40% 25%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
 
-    /* Primary: Heetch Purple */
-    --primary: 267 85% 65%;
+    /* Primary: Professional Blue */
+    --primary: 228 94% 54%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 267 80% 75%;
-    --primary-dark: 267 90% 55%;
+    --primary-light: 228 94% 64%;
+    --primary-dark: 228 94% 44%;
 
-    /* Secondary: Hot Pink */
-    --secondary: 315 85% 65%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-light: 315 80% 75%;
+    /* Secondary: Light Gray */
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 9%;
+    --secondary-light: 0 0% 97%;
 
-    /* Accent: Electric Blue */
-    --accent: 215 85% 65%;
+    /* Accent: Professional Blue */
+    --accent: 228 94% 54%;
     --accent-foreground: 0 0% 100%;
 
-    /* Muted: Dark grays */
-    --muted: 245 15% 20%;
-    --muted-foreground: 245 10% 70%;
+    /* Muted: Light grays */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 245 20% 25%;
-    --input: 245 20% 18%;
-    --ring: 267 85% 65%;
+    --border: 0 0% 89%;
+    --input: 0 0% 100%;
+    --ring: 228 94% 54%;
 
-    /* Success: Electric Green */
-    --success: 145 85% 55%;
+    /* Success: Green */
+    --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
 
-    /* Warning: Electric Orange */
-    --warning: 35 85% 65%;
+    /* Warning: Orange */
+    --warning: 32 95% 44%;
     --warning-foreground: 0 0% 100%;
 
-    /* Gradients - Heetch Style */
-    --gradient-primary: linear-gradient(135deg, hsl(267 85% 65%), hsl(315 85% 65%));
-    --gradient-secondary: linear-gradient(135deg, hsl(315 85% 65%), hsl(35 85% 65%));
-    --gradient-hero: linear-gradient(135deg, hsl(267 60% 75%), hsl(315 60% 75%), hsl(215 60% 80%));
-    --gradient-card: linear-gradient(135deg, hsl(245 20% 12%), hsl(245 25% 15%));
-    --gradient-glow: linear-gradient(135deg, hsl(267 85% 65% / 0.3), hsl(315 85% 65% / 0.3));
+    /* Gradients - Clean and subtle */
+    --gradient-primary: linear-gradient(135deg, hsl(228 94% 54%), hsl(228 94% 64%));
+    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 95%), hsl(0 0% 97%));
+    --gradient-hero: linear-gradient(135deg, hsl(228 94% 54%), hsl(228 94% 64%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 98%));
+    --gradient-glow: linear-gradient(135deg, hsl(228 94% 54% / 0.1), hsl(228 94% 64% / 0.1));
 
-    /* Shadows - Colorful glows */
-    --shadow-card: 0 8px 32px -8px hsl(267 85% 65% / 0.3);
-    --shadow-button: 0 4px 16px -4px hsl(267 85% 65% / 0.4);
-    --shadow-emergency: 0 8px 32px -4px hsl(0 84% 60% / 0.3);
-    --shadow-glow: 0 0 40px hsl(267 85% 65% / 0.4);
+    /* Shadows - Clean and professional */
+    --shadow-card: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
+    --shadow-button: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-emergency: 0 4px 6px -1px hsl(0 84% 60% / 0.1);
+    --shadow-glow: 0 0 15px hsl(228 94% 54% / 0.15);
 
     --radius: 1rem;
 
@@ -78,33 +78,33 @@ All colors MUST be HSL.
   }
 
   .light {
-    --background: 0 0% 100%;
-    --foreground: 245 25% 8%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 245 25% 8%;
+    --card-foreground: 0 0% 9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 245 25% 8%;
+    --popover-foreground: 0 0% 9%;
 
-    --primary: 267 85% 65%;
+    --primary: 228 94% 54%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 315 85% 65%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 9%;
 
-    --muted: 245 5% 95%;
-    --muted-foreground: 245 10% 40%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 245 5% 95%;
-    --accent-foreground: 245 25% 8%;
+    --accent: 228 94% 54%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 245 10% 90%;
-    --input: 245 10% 95%;
-    --ring: 267 85% 65%;
+    --border: 0 0% 89%;
+    --input: 0 0% 100%;
+    --ring: 228 94% 54%;
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 245 25% 8%;
