@@ -35,24 +35,28 @@ export const generatePDFFromHTML = async (htmlContent: string, filename: string)
 };
 
 export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<string> => {
+  console.log('Starting PDF generation...');
+  
   // Create a temporary container with body content only
   const tempContainer = document.createElement('div');
   
-  // Extract only the body content from the full HTML document
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(htmlContent, 'text/html');
-  const bodyContent = doc.body?.innerHTML || htmlContent;
-  
-  tempContainer.innerHTML = bodyContent;
-  tempContainer.style.position = 'absolute';
-  tempContainer.style.left = '-9999px';
-  tempContainer.style.top = '-9999px';
-  tempContainer.style.width = '210mm'; // A4 width
-  tempContainer.style.backgroundColor = 'white';
-  tempContainer.style.padding = '20px';
-  document.body.appendChild(tempContainer);
-
   try {
+    // Extract only the body content from the full HTML document
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const bodyContent = doc.body?.innerHTML || htmlContent;
+    
+    tempContainer.innerHTML = bodyContent;
+    tempContainer.style.position = 'absolute';
+    tempContainer.style.left = '-9999px';
+    tempContainer.style.top = '-9999px';
+    tempContainer.style.width = '210mm'; // A4 width
+    tempContainer.style.backgroundColor = 'white';
+    tempContainer.style.padding = '20px';
+    document.body.appendChild(tempContainer);
+    
+    console.log('Temp container created and added to DOM');
+
     const options = {
       margin: 1,
       image: { type: 'jpeg', quality: 0.98 },
@@ -69,14 +73,22 @@ export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<st
       }
     };
 
+    console.log('Starting html2pdf conversion...');
     // Use worker method for proper PDF generation
     const worker = html2pdf().set(options).from(tempContainer);
     const pdf = await worker.get('pdf');
     const base64Data = pdf.output('datauristring').split(',')[1];
     
+    console.log('PDF conversion completed, base64 length:', base64Data.length);
     return base64Data;
+  } catch (error) {
+    console.error('Error in PDF generation:', error);
+    throw error;
   } finally {
     // Clean up
-    document.body.removeChild(tempContainer);
+    if (tempContainer.parentNode) {
+      document.body.removeChild(tempContainer);
+      console.log('Temp container cleaned up');
+    }
   }
 };

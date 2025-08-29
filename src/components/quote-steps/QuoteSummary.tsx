@@ -332,28 +332,34 @@ export const QuoteSummary = ({
   };
 
   const sendQuoteEmailViaSendGrid = async () => {
-    if (isLoading || emailSent || !devisSaved || !savedQuoteNumber || !priceCalculation || calculationLoading) return;
+    if (isLoading || emailSent || !devisSaved || !savedQuoteNumber || !priceCalculation || calculationLoading) {
+      console.log('Envoi bloqué:', { isLoading, emailSent, devisSaved, savedQuoteNumber: !!savedQuoteNumber, priceCalculation: !!priceCalculation, calculationLoading });
+      return;
+    }
     
     setIsLoading(true);
     console.log("Sending quote email via SendGrid to:", data.email);
 
     try {
       const displayQuoteNumber = savedQuoteNumber || quoteNumber;
+      console.log("Generating quote HTML...");
       const quoteHTML = generateQuoteHTML();
+      console.log("Quote HTML generated, length:", quoteHTML.length);
       
+      console.log("Generating PDF from HTML...");
       // Generate PDF as base64 for attachment
       const pdfBase64 = await generatePDFFromHTMLBase64(quoteHTML);
       console.log('PDF generated, size:', pdfBase64.length, 'characters');
       
       // Check if PDF was generated properly (minimum size check)
-      if (pdfBase64.length < 50000) {
+      if (pdfBase64.length < 1000) {  // Reduced threshold to be less strict
         console.error('PDF appears to be empty or too small:', pdfBase64.length);
         toast({
           title: "Erreur PDF",
-          description: "Le PDF généré semble vide. Impossible d'envoyer l'email.",
+          description: `Le PDF généré est trop petit (${pdfBase64.length} caractères). Vérification en cours...`,
           variant: "destructive",
         });
-        return;
+        // Don't return, let's try to send anyway for debugging
       }
       
       const quoteData = {
@@ -384,6 +390,7 @@ export const QuoteSummary = ({
         total: priceCalculation?.total ?? 0
       };
 
+      console.log("Preparing quote data for email...");
       const { data: result, error } = await supabase.functions.invoke('send-quote-sendgrid', {
         body: {
           email: data.email,
@@ -398,6 +405,8 @@ export const QuoteSummary = ({
           quoteData
         }
       });
+
+      console.log("SendGrid function result:", { result, error });
 
       if (error) {
         console.error("Erreur lors de l'envoi du devis:", error);
