@@ -153,18 +153,18 @@ export const QuoteStep3 = ({
               vitrage: false
             }));
           }} className={`space-y-4 ${validationErrors.vitrage ? 'ring-2 ring-red-500 rounded-lg p-2' : ''}`}>
-              <div className="flex items-center space-x-3 p-4 border border-primary bg-background text-primary hover:bg-primary hover:text-primary-foreground rounded-lg transition-colors cursor-pointer">
-                <RadioGroupItem value="simple" id="simple" className="w-6 h-6" />
+              <div className="flex items-center space-x-3 p-4 border border-primary bg-background text-primary hover:bg-primary hover:text-primary-foreground rounded-lg transition-colors cursor-pointer group">
+                <RadioGroupItem value="simple" id="simple" className="w-6 h-6 group-hover:border-primary-foreground group-hover:text-primary-foreground" />
                 <Label htmlFor="simple" className="text-lg cursor-pointer flex-1">Simple Vitrage</Label>
               </div>
               
-              <div className="flex items-center space-x-3 p-4 border border-primary bg-background text-primary hover:bg-primary hover:text-primary-foreground rounded-lg transition-colors cursor-pointer">
-                <RadioGroupItem value="double" id="double" className="w-6 h-6" />
+              <div className="flex items-center space-x-3 p-4 border border-primary bg-background text-primary hover:bg-primary hover:text-primary-foreground rounded-lg transition-colors cursor-pointer group">
+                <RadioGroupItem value="double" id="double" className="w-6 h-6 group-hover:border-primary-foreground group-hover:text-primary-foreground" />
                 <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double Vitrage</Label>
               </div>
               
-              <div className="flex items-center space-x-3 p-4 border border-primary bg-background text-primary hover:bg-primary hover:text-primary-foreground rounded-lg transition-colors cursor-pointer">
-                <RadioGroupItem value="autre" id="autre" className="w-6 h-6" />
+              <div className="flex items-center space-x-3 p-4 border border-primary bg-background text-primary hover:bg-primary hover:text-primary-foreground rounded-lg transition-colors cursor-pointer group">
+                <RadioGroupItem value="autre" id="autre" className="w-6 h-6 group-hover:border-primary-foreground group-hover:text-primary-foreground" />
                 <Label htmlFor="autre" className="text-lg cursor-pointer flex-1">Autres</Label>
               </div>
             </RadioGroup>
