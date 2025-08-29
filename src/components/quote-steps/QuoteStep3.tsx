@@ -153,18 +153,18 @@ export const QuoteStep3 = ({
               vitrage: false
             }));
           }} className={`space-y-4 ${validationErrors.vitrage ? 'ring-2 ring-red-500 rounded-lg p-2' : ''}`}>
-              <div className="flex items-center space-x-3 p-4 border border-primary bg-background text-primary hover:bg-primary hover:text-primary-foreground rounded-lg transition-colors cursor-pointer group">
-                <RadioGroupItem value="simple" id="simple" className="w-6 h-6 group-hover:border-primary-foreground group-hover:text-primary-foreground" />
+              <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'simple' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
+                <RadioGroupItem value="simple" id="simple" className={`w-6 h-6 ${formData.vitrage === 'simple' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
                 <Label htmlFor="simple" className="text-lg cursor-pointer flex-1">Simple Vitrage</Label>
               </div>
               
-              <div className="flex items-center space-x-3 p-4 border border-primary bg-background text-primary hover:bg-primary hover:text-primary-foreground rounded-lg transition-colors cursor-pointer group">
-                <RadioGroupItem value="double" id="double" className="w-6 h-6 group-hover:border-primary-foreground group-hover:text-primary-foreground" />
+              <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'double' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
+                <RadioGroupItem value="double" id="double" className={`w-6 h-6 ${formData.vitrage === 'double' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
                 <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double Vitrage</Label>
               </div>
               
-              <div className="flex items-center space-x-3 p-4 border border-primary bg-background text-primary hover:bg-primary hover:text-primary-foreground rounded-lg transition-colors cursor-pointer group">
-                <RadioGroupItem value="autre" id="autre" className="w-6 h-6 group-hover:border-primary-foreground group-hover:text-primary-foreground" />
+              <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'autre' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
+                <RadioGroupItem value="autre" id="autre" className={`w-6 h-6 ${formData.vitrage === 'autre' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
                 <Label htmlFor="autre" className="text-lg cursor-pointer flex-1">Autres</Label>
               </div>
             </RadioGroup>
