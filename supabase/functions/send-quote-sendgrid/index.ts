@@ -11,6 +11,11 @@ interface QuoteEmailRequest {
   clientName: string;
   message?: string;
   ccInternal?: boolean;
+  attachment?: {
+    filename: string;
+    contentBase64: string;
+    type?: string;
+  };
   quoteData: {
     id: string;
     date: string;
@@ -115,7 +120,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email, clientName, message = "", ccInternal = false, quoteData }: QuoteEmailRequest = await req.json();
+    const { email, clientName, message = "", ccInternal = false, attachment, quoteData }: QuoteEmailRequest = await req.json();
 
     console.log("Sending quote email via SendGrid to:", email);
     console.log("Quote ID:", quoteData.id);
@@ -150,7 +155,15 @@ const handler = async (req: Request): Promise<Response> => {
       content: [{ 
         type: "text/html", 
         value: emailContent 
-      }]
+      }],
+      ...(attachment ? {
+        attachments: [{
+          content: attachment.contentBase64,
+          filename: attachment.filename,
+          type: attachment.type || "application/pdf",
+          disposition: "attachment"
+        }]
+      } : {})
     };
 
     console.log("SendGrid payload:", JSON.stringify(sendGridPayload, null, 2));

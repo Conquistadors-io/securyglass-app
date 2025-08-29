@@ -108,13 +108,105 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
 
       console.log('Envoi du devis vers:', clientEmail);
 
-      // Appeler l'edge function Supabase pour envoyer l'email
-      const { data, error } = await supabase.functions.invoke('send-quote', {
+      // Generate HTML and PDF for attachment
+      const quoteHTML = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>Devis ${quote.id}</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .company-info { margin-bottom: 20px; }
+            .client-info { margin-bottom: 20px; }
+            .quote-details { margin-bottom: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+            th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+            th { background-color: #f5f5f5; }
+            .totals { text-align: right; margin-top: 20px; }
+            .total-line { margin-bottom: 5px; }
+            .final-total { font-weight: bold; font-size: 1.2em; color: #2563eb; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>DEVIS</h1>
+            <h2>SecuryGlass</h2>
+          </div>
+          
+          <div class="quote-details">
+            <p><strong>Numéro de devis:</strong> ${quote.id}</p>
+            <p><strong>Date:</strong> ${quote.date}</p>
+          </div>
+          
+          <div class="client-info">
+            <h3>Client</h3>
+            <p><strong>${quote.client.name}</strong></p>
+            <p>${quote.client.address}</p>
+            <p>${quote.client.postalCode} ${quote.client.city}</p>
+            <p>${quote.client.phone}</p>
+            <p>${quote.client.email}</p>
+          </div>
+          
+          <div class="company-info">
+            <h3>Entreprise</h3>
+            <p><strong>${quote.company.name}</strong></p>
+            <p>${quote.company.email}</p>
+            <p>${quote.company.phone}</p>
+          </div>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>Désignation</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${quote.items.map((item: any) => `
+                <tr>
+                  <td>${item.designation}<br><small>${item.description}</small></td>
+                  <td>${item.quantity}</td>
+                  <td>${item.unitPrice.toFixed(2)} €</td>
+                  <td>${item.total.toFixed(2)} €</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          
+          <div class="totals">
+            <div class="total-line">Sous-total: ${subtotal.toFixed(2)} €</div>
+            <div class="total-line">TVA: ${vatAmount.toFixed(2)} €</div>
+            <div class="total-line final-total">Total TTC: ${total.toFixed(2)} €</div>
+          </div>
+          
+          <div style="margin-top: 40px; font-size: 0.9em; color: #666;">
+            <p>Ce devis est valable 30 jours à compter de la date d'émission.</p>
+            <p>Merci de votre confiance.</p>
+          </div>
+        </body>
+        </html>
+      `;
+
+      // Import here to avoid build issues
+      const { generatePDFFromHTMLBase64 } = await import("@/lib/pdf-generator");
+      const pdfBase64 = await generatePDFFromHTMLBase64(quoteHTML);
+
+      // Appeler l'edge function SendGrid pour envoyer l'email avec pièce jointe
+      const { data, error } = await supabase.functions.invoke('send-quote-sendgrid', {
         body: {
           email: clientEmail,
           clientName: quote.client.name,
           message,
           ccInternal,
+          attachment: {
+            filename: `Devis-${quote.id}.pdf`,
+            contentBase64: pdfBase64,
+            type: "application/pdf"
+          },
           quoteData
         }
       });

@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import { saveDevis } from "@/services/devis";
-import { generatePDFFromHTML } from "@/lib/pdf-generator";
+import { generatePDFFromHTML, generatePDFFromHTMLBase64 } from "@/lib/pdf-generator";
 interface QuoteSummaryProps {
   data: any;
   onNavigate: (route: string) => void;
@@ -339,14 +339,19 @@ export const QuoteSummary = ({
     }
   };
 
-  const sendQuoteEmailViaGmail = async () => {
-    if (isLoading || emailSent || !gmailConfigured || !devisSaved || !savedQuoteNumber) return;
+  const sendQuoteEmailViaSendGrid = async () => {
+    if (isLoading || emailSent || !devisSaved || !savedQuoteNumber) return;
     
     setIsLoading(true);
-    console.log("Sending quote email via Gmail to:", data.email);
+    console.log("Sending quote email via SendGrid to:", data.email);
 
     try {
       const displayQuoteNumber = savedQuoteNumber || quoteNumber;
+      const quoteHTML = generateQuoteHTML();
+      
+      // Generate PDF as base64 for attachment
+      const pdfBase64 = await generatePDFFromHTMLBase64(quoteHTML);
+      
       const quoteData = {
         id: displayQuoteNumber,
         date: new Date().toLocaleDateString('fr-FR'),
@@ -375,34 +380,30 @@ export const QuoteSummary = ({
         total: priceCalculation.total
       };
 
-      const { data: result, error } = await supabase.functions.invoke('send-quote-gmail', {
+      const { data: result, error } = await supabase.functions.invoke('send-quote-sendgrid', {
         body: {
           email: data.email,
           clientName: `${data.civilite} ${data.nom}`,
           message: `Merci pour votre demande de devis. Veuillez trouver ci-joint votre devis pour ${data.object}.`,
-          senderEmail: adminEmail,
+          ccInternal: true,
+          attachment: {
+            filename: `Devis-${displayQuoteNumber}.pdf`,
+            contentBase64: pdfBase64,
+            type: "application/pdf"
+          },
           quoteData
         }
       });
 
       if (error) {
         console.error("Erreur lors de l'envoi du devis:", error);
-        
-        if (error.message?.includes('needsAuth')) {
-          toast({
-            title: "Gmail non configuré",
-            description: "L'administrateur doit configurer Gmail pour l'envoi automatique des devis.",
-            variant: "destructive",
-          });
-        } else {
-          toast({
-            title: "Erreur",
-            description: "Impossible d'envoyer le devis par email. Veuillez réessayer.",
-            variant: "destructive",
-          });
-        }
+        toast({
+          title: "Erreur",
+          description: "Impossible d'envoyer le devis par email. Veuillez réessayer.",
+          variant: "destructive",
+        });
       } else {
-        console.log("Devis envoyé avec succès via Gmail:", result);
+        console.log("Devis envoyé avec succès via SendGrid:", result);
         setEmailSent(true);
         toast({
           title: "Devis envoyé",
@@ -421,12 +422,12 @@ export const QuoteSummary = ({
     }
   };
 
-  // Auto-send email when component loads if Gmail is configured and devis is saved
+  // Auto-send email when component loads and devis is saved
   useEffect(() => {
-    if (data.email && !emailSent && !isLoading && gmailConfigured && devisSaved && savedQuoteNumber) {
-      sendQuoteEmailViaGmail();
+    if (data.email && !emailSent && !isLoading && devisSaved && savedQuoteNumber) {
+      sendQuoteEmailViaSendGrid();
     }
-  }, [data.email, gmailConfigured, devisSaved, savedQuoteNumber]);
+  }, [data.email, devisSaved, savedQuoteNumber]);
 
   return <div className="space-y-6">
       {/* Header Card */}
@@ -578,7 +579,7 @@ export const QuoteSummary = ({
           variant="default" 
           size="lg" 
           className="w-full" 
-          onClick={sendQuoteEmailViaGmail}
+          onClick={sendQuoteEmailViaSendGrid}
         >
           <Mail className="h-5 w-5 mr-2" />
           Envoyer le devis par email
