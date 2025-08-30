@@ -40,22 +40,22 @@ export const QuoteStep2 = ({
             object: value
           }))} className="space-y-4">
               {isMiroiterie ? <>
-                  <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                  <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "miroir-casse" ? "bg-primary text-primary-foreground" : ""}`}>
                     <RadioGroupItem value="miroir-casse" id="miroir-casse" className="w-6 h-6" />
                     <Label htmlFor="miroir-casse" className="text-lg cursor-pointer flex-1">Miroir cassé</Label>
                   </div>
                   
-                  <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                  <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "miroir-sur-mesure" ? "bg-primary text-primary-foreground" : ""}`}>
                     <RadioGroupItem value="miroir-sur-mesure" id="miroir-sur-mesure" className="w-6 h-6" />
                     <Label htmlFor="miroir-sur-mesure" className="text-lg cursor-pointer flex-1">Miroir sur mesure</Label>
                   </div>
                 </> : <>
-                  <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                  <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "bg-primary text-primary-foreground" : ""}`}>
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
                     <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer flex-1">Vitre cassée</Label>
                   </div>
                   
-                  <div className="flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                  <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "autre" ? "bg-primary text-primary-foreground" : ""}`}>
                     <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" />
                     <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">Autres</Label>
                   </div>
