@@ -187,7 +187,14 @@ export function AddressSelect({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
     setSearchTerm(newValue)
-    setIsAddressComplete(false) // Réinitialiser quand l'utilisateur tape
+    // Si l'utilisateur efface complètement le champ, réinitialiser
+    if (newValue.trim() === "") {
+      setIsAddressComplete(false)
+    }
+    // Si l'utilisateur modifie une adresse existante, réinitialiser seulement si elle était complète
+    else if (isAddressComplete) {
+      setIsAddressComplete(false)
+    }
     onValueChange?.(newValue)
   }
 
