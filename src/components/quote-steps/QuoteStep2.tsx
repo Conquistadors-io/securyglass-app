@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Glasses } from "lucide-react";
+import { Glasses, ShieldX } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
@@ -50,9 +50,12 @@ export const QuoteStep2 = ({
                     <Label htmlFor="miroir-sur-mesure" className="text-lg cursor-pointer flex-1">Miroir sur mesure</Label>
                   </div>
                 </> : <>
-                  <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "bg-primary text-primary-foreground" : ""}`}>
+                  <div className={`flex items-center justify-between p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "bg-primary text-primary-foreground" : ""}`}>
+                    <div className="flex items-center space-x-3">
+                      <ShieldX className="w-6 h-6" />
+                      <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer">Vitre cassée</Label>
+                    </div>
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className={`w-6 h-6 ${formData.object === "vitre-cassee" ? "border-white text-white" : ""}`} />
-                    <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer flex-1">Vitre cassée</Label>
                   </div>
                   
                   <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "autre" ? "bg-primary text-primary-foreground" : ""}`}>
