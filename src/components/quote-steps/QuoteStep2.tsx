@@ -51,10 +51,7 @@ export const QuoteStep2 = ({
                   </div>
                 </> : <>
                   <div className={`flex items-center justify-between p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "bg-primary text-primary-foreground" : ""}`}>
-                    <div className="flex items-center space-x-3">
-                      <span className="text-2xl">🪟💥</span>
-                      <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer">Vitre cassée</Label>
-                    </div>
+                    <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer">Vitre cassée</Label>
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className={`w-6 h-6 ${formData.object === "vitre-cassee" ? "border-white text-white" : ""}`} />
                   </div>
                   
