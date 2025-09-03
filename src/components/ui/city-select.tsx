@@ -187,7 +187,7 @@ export function CitySelect({
   const fallbackCities = determinedDepartment ? CITIES_BY_DEPARTMENT[determinedDepartment] || [] : []
   const isPostalValid = !!postalCode && /^\d{5}$/.test(postalCode)
   const availableCities = isPostalValid
-    ? (fetchedCities ?? [])
+    ? (fetchedCities ?? fallbackCities)
     : []
 
   const hasNoCities = isPostalValid ? (availableCities.length === 0 && !loading) : true
