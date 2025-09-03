@@ -150,7 +150,7 @@ export const QuoteStep2 = ({
                 <SelectItem value="appartement">Appartement</SelectItem>
                 <SelectItem value="maison">Maison</SelectItem>
                 <SelectItem value="immeuble">Immeuble ( ou parties communes )</SelectItem>
-                <SelectItem value="bureau">Bureau</SelectItem>
+                <SelectItem value="bureau">Bureaux</SelectItem>
                 <SelectItem value="commerce">Magasin</SelectItem>
                 <SelectItem value="autre">Autres</SelectItem>
               </SelectContent>
