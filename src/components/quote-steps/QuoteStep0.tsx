@@ -52,7 +52,11 @@ export const QuoteStep0 = ({
             <RadioGroup value={formData.serviceType} onValueChange={handleServiceTypeChange} className="space-y-4">
               <div 
                 className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'vitrerie' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
-                onClick={() => handleServiceTypeChange('vitrerie')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleServiceTypeChange('vitrerie');
+                }}
               >
                 <RadioGroupItem value="vitrerie" id="vitrerie" className={`w-6 h-6 ${formData.serviceType === 'vitrerie' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
                 <div className="flex-1">
@@ -63,7 +67,11 @@ export const QuoteStep0 = ({
               
               <div 
                 className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'miroiterie' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
-                onClick={() => handleServiceTypeChange('miroiterie')}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleServiceTypeChange('miroiterie');
+                }}
               >
                 <RadioGroupItem value="miroiterie" id="miroiterie" className={`w-6 h-6 ${formData.serviceType === 'miroiterie' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
                 <div className="flex-1">
