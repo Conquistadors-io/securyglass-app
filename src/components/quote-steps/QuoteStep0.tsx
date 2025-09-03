@@ -52,14 +52,9 @@ export const QuoteStep0 = ({
             <RadioGroup value={formData.serviceType} onValueChange={handleServiceTypeChange} className="space-y-4">
               <div 
                 className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'vitrerie' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleServiceTypeChange('vitrerie');
-                }}
               >
                 <RadioGroupItem value="vitrerie" id="vitrerie" className={`w-6 h-6 ${formData.serviceType === 'vitrerie' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
-                <div className="flex-1">
+                <div className="flex-1" onClick={() => handleServiceTypeChange('vitrerie')}>
                   <Label htmlFor="vitrerie" className="text-lg cursor-pointer">Vitrerie</Label>
                   <p className="text-sm opacity-70 mt-1">Tous types de verres</p>
                 </div>
@@ -67,14 +62,9 @@ export const QuoteStep0 = ({
               
               <div 
                 className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'miroiterie' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleServiceTypeChange('miroiterie');
-                }}
               >
                 <RadioGroupItem value="miroiterie" id="miroiterie" className={`w-6 h-6 ${formData.serviceType === 'miroiterie' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
-                <div className="flex-1">
+                <div className="flex-1" onClick={() => handleServiceTypeChange('miroiterie')}>
                   <Label htmlFor="miroiterie" className="text-lg cursor-pointer">Miroiterie</Label>
                   <p className="text-sm opacity-70 mt-1">Tous types de miroirs</p>
                 </div>
