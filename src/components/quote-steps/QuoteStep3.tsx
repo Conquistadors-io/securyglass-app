@@ -8,7 +8,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
 
 interface QuoteStep3Props {
   data: any;
@@ -237,6 +237,7 @@ export const QuoteStep3 = ({
                             </Button>
                           </DialogTrigger>
                           <DialogContent className="max-w-lg">
+                            <DialogTitle>Aperçu de la photo</DialogTitle>
                             <img src={formData.photoPreview} alt="Photo prévisualisée" className="w-full h-auto rounded-lg" />
                           </DialogContent>
                         </Dialog>}
