@@ -28,13 +28,14 @@ export const QuoteStep1 = ({
   const [formData, setFormData] = useState({
     civilite: data.civilite || "",
     nom: data.nom || "",
-    nomSociete: data.nomSociete || "",
-    telephone: data.telephone || "",
+    prenom: data.prenom || "",
+    raison_sociale: data.raison_sociale || data.nomSociete || "",
+    mobile: data.mobile || data.telephone || "",
     email: data.email || "",
-    adresse: data.adresse || "",
+    email_facturation: data.email_facturation || "",
+    adresse_intervention: data.adresse_intervention || data.adresse || "",
     codePostal: data.codePostal || "",
     ville: data.ville || "",
-    priseEnChargeAssurance: data.priseEnChargeAssurance || "",
     assurance: data.assurance || "",
     differentInterventionAddress: data.differentInterventionAddress || false,
     interventionCodePostal: data.interventionCodePostal || "",
@@ -50,14 +51,13 @@ export const QuoteStep1 = ({
 
     try {
       const result = await saveClient({
-        civilite: formData.civilite,
         nom: formData.nom,
-        nomSociete: formData.nomSociete,
-        telephone: formData.telephone,
+        prenom: formData.prenom,
+        raison_sociale: formData.raison_sociale,
+        mobile: formData.mobile,
         email: formData.email,
-        adresse: formData.adresse,
-        codePostal: formData.codePostal,
-        ville: formData.ville,
+        email_facturation: formData.email_facturation,
+        adresse_intervention: formData.adresse_intervention || `${formData.ville} ${formData.codePostal}`,
       });
 
       if (result.success) {
@@ -80,9 +80,9 @@ export const QuoteStep1 = ({
   const interventionFieldsRequired = isCompanyOrBTP && formData.differentInterventionAddress;
   const interventionFieldsValid = !interventionFieldsRequired || 
     (formData.interventionCodePostal && formData.interventionVille);
-  const companyNameRequired = isCompanyOrBTP && !formData.nomSociete;
+  const companyNameRequired = isCompanyOrBTP && !formData.raison_sociale;
   
-  const isValid = formData.nom && formData.telephone && formData.email && 
+  const isValid = formData.nom && formData.mobile && formData.email && 
     !companyNameRequired && interventionFieldsValid;
 
   return <Card className="shadow-card border-0">
@@ -115,44 +115,76 @@ export const QuoteStep1 = ({
             </Select>
           </div>
 
-          <div>
-            <Label htmlFor="nom">Nom Prénom <span className="text-destructive">*</span></Label>
-            <div className="relative mt-1">
-              <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input id="nom" placeholder="Nom et prénom" className="pl-10" value={formData.nom} onChange={e => setFormData(prev => ({
-              ...prev,
-              nom: e.target.value
-            }))} required />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="nom">Nom <span className="text-destructive">*</span></Label>
+              <div className="relative mt-1">
+                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input id="nom" placeholder="Nom" className="pl-10" value={formData.nom} onChange={e => setFormData(prev => ({
+                ...prev,
+                nom: e.target.value
+              }))} required />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="prenom">Prénom</Label>
+              <div className="relative mt-1">
+                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input id="prenom" placeholder="Prénom" className="pl-10" value={formData.prenom} onChange={e => setFormData(prev => ({
+                ...prev,
+                prenom: e.target.value
+              }))} />
+              </div>
             </div>
           </div>
 
           {(formData.civilite === "societe" || formData.civilite === "entreprise-btp") && (
-            <div>
-              <Label htmlFor="nomSociete">Nom de la société <span className="text-destructive">*</span></Label>
-              <div className="relative mt-1">
-                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  id="nomSociete" 
-                  placeholder="Nom de la société" 
-                  className="pl-10" 
-                  value={formData.nomSociete} 
-                  onChange={e => setFormData(prev => ({
-                    ...prev,
-                    nomSociete: e.target.value
-                  }))} 
-                  required 
-                />
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="raison_sociale">Nom de la société <span className="text-destructive">*</span></Label>
+                <div className="relative mt-1">
+                  <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input 
+                    id="raison_sociale" 
+                    placeholder="Nom de la société" 
+                    className="pl-10" 
+                    value={formData.raison_sociale} 
+                    onChange={e => setFormData(prev => ({
+                      ...prev,
+                      raison_sociale: e.target.value
+                    }))} 
+                    required 
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="email_facturation">Email de facturation (optionnel)</Label>
+                <div className="relative mt-1">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input 
+                    id="email_facturation" 
+                    type="email"
+                    placeholder="email.facturation@entreprise.com" 
+                    className="pl-10" 
+                    value={formData.email_facturation} 
+                    onChange={e => setFormData(prev => ({
+                      ...prev,
+                      email_facturation: e.target.value
+                    }))} 
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">Si différent de l'email de contact</p>
               </div>
             </div>
           )}
 
           <div>
-            <Label htmlFor="telephone">Téléphone <span className="text-destructive">*</span></Label>
+            <Label htmlFor="mobile">Téléphone mobile <span className="text-destructive">*</span></Label>
             <div className="relative mt-1">
               <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input id="telephone" type="tel" placeholder="06 12 34 56 78" className="pl-10" value={formData.telephone} onChange={e => setFormData(prev => ({
+              <Input id="mobile" type="tel" placeholder="06 12 34 56 78" className="pl-10" value={formData.mobile} onChange={e => setFormData(prev => ({
               ...prev,
-              telephone: e.target.value
+              mobile: e.target.value
             }))} required />
             </div>
           </div>
@@ -199,19 +231,20 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="adresse">Adresse ( facultatif )</Label>
+            <Label htmlFor="adresse_intervention">Adresse d'intervention <span className="text-destructive">*</span></Label>
             <div className="mt-1">
               <AddressSelect 
-                value={formData.adresse} 
+                value={formData.adresse_intervention} 
                 onValueChange={(value) => setFormData(prev => ({
                   ...prev,
-                  adresse: value
+                  adresse_intervention: value
                 }))}
                 departmentCode={formData.codePostal}
                 city={formData.ville}
-                placeholder="Tapez votre adresse"
+                placeholder="Tapez votre adresse d'intervention"
               />
             </div>
+            <p className="text-xs text-muted-foreground mt-1">Adresse où aura lieu l'intervention</p>
           </div>
 
           {/* Adresse d'intervention différente pour les sociétés/BTP */}

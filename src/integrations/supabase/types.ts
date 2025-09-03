@@ -16,43 +16,40 @@ export type Database = {
     Tables: {
       clients: {
         Row: {
-          adresse: string | null
-          civilite: string | null
-          code_postal: string | null
+          adresse_intervention: string
           created_at: string
           email: string
+          email_facturation: string | null
           id: string
+          mobile: string
           nom: string | null
-          nom_societe: string | null
-          telephone: string | null
+          prenom: string | null
+          raison_sociale: string | null
           updated_at: string
-          ville: string | null
         }
         Insert: {
-          adresse?: string | null
-          civilite?: string | null
-          code_postal?: string | null
+          adresse_intervention: string
           created_at?: string
           email: string
+          email_facturation?: string | null
           id?: string
+          mobile: string
           nom?: string | null
-          nom_societe?: string | null
-          telephone?: string | null
+          prenom?: string | null
+          raison_sociale?: string | null
           updated_at?: string
-          ville?: string | null
         }
         Update: {
-          adresse?: string | null
-          civilite?: string | null
-          code_postal?: string | null
+          adresse_intervention?: string
           created_at?: string
           email?: string
+          email_facturation?: string | null
           id?: string
+          mobile?: string
           nom?: string | null
-          nom_societe?: string | null
-          telephone?: string | null
+          prenom?: string | null
+          raison_sociale?: string | null
           updated_at?: string
-          ville?: string | null
         }
         Relationships: []
       }

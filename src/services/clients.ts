@@ -1,42 +1,39 @@
 import { supabase } from "@/integrations/supabase/client";
 
 export interface ClientData {
-  civilite?: string | null;
-  nom?: string | null;
-  nom_societe?: string | null;
-  telephone?: string | null;
   email: string;
-  adresse?: string | null;
-  code_postal?: string | null;
-  ville?: string | null;
+  mobile: string;
+  nom: string;
+  prenom?: string | null;
+  raison_sociale?: string | null;
+  email_facturation?: string | null;
+  adresse_intervention: string;
 }
 
 export const saveClient = async (data: {
-  civilite: string;
   nom: string;
-  nomSociete: string;
-  telephone: string;
+  prenom?: string;
+  raison_sociale?: string;
+  mobile: string;
   email: string;
-  adresse: string;
-  codePostal: string;
-  ville: string;
+  email_facturation?: string;
+  adresse_intervention: string;
 }): Promise<{ success: boolean; error?: string }> => {
   try {
     const clientData: ClientData = {
-      civilite: data.civilite || null,
-      nom: data.nom || null,
-      nom_societe: data.nomSociete || null,
-      telephone: data.telephone || null,
       email: data.email,
-      adresse: data.adresse || null,
-      code_postal: data.codePostal || null,
-      ville: data.ville || null,
+      mobile: data.mobile,
+      nom: data.nom,
+      prenom: data.prenom || null,
+      raison_sociale: data.raison_sociale || null,
+      email_facturation: data.email_facturation || null,
+      adresse_intervention: data.adresse_intervention,
     };
 
     const { error } = await supabase
       .from('clients' as any)
       .upsert(clientData, {
-        onConflict: 'email',
+        onConflict: 'email,mobile',
         ignoreDuplicates: false
       });
 
