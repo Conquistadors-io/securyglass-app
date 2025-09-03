@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Glasses } from "lucide-react";
+import { Glasses, Info } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
@@ -100,12 +100,6 @@ export const QuoteStep2 = ({
           <div>
             <Label htmlFor="motif">Motif : <span className="text-destructive">*</span></Label>
             
-            <div className="p-4 bg-accent rounded-lg mt-2 mb-2">
-              <p className="text-white text-sm">
-                Le motif ne sera pas mentionné sur le devis
-              </p>
-            </div>
-            
             <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
             ...prev,
             motif: value,
@@ -126,6 +120,13 @@ export const QuoteStep2 = ({
                 <SelectItem value="autre">Autres</SelectItem>
               </SelectContent>
             </Select>
+            
+            <div className="p-4 bg-accent rounded-lg mt-2 mb-2 flex items-center gap-2">
+              <Info className="h-4 w-4 text-white" />
+              <p className="text-white text-sm">
+                Le motif ne sera pas mentionné sur le devis
+              </p>
+            </div>
             
             {formData.motif === "autre" && <div className="mt-3">
                 <Input placeholder="Précisez ..." value={formData.motifOther} onChange={e => setFormData(prev => ({
