@@ -167,10 +167,12 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
             {data.nomSociete && <div className="text-foreground font-medium">{data.nomSociete}</div>}
             <div className="text-foreground">{data.email}</div>
             <div className="text-foreground">{data.telephone}</div>
-            <div className="text-foreground">
-              {data.adresse_intervention}<br/>
-              {[data.codePostal, data.ville].filter(Boolean).join(" ")}
-            </div>
+            {!data.differentInterventionAddress && (
+              <div className="text-foreground">
+                {data.adresse_intervention}<br/>
+                {[data.codePostal, data.ville].filter(Boolean).join(" ")}
+              </div>
+            )}
             
             {/* Adresse d'intervention si différente */}
             {data.differentInterventionAddress && (
