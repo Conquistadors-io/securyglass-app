@@ -376,26 +376,8 @@ export const QuoteSummary = ({
           address: "France"
         },
         items: [
-          {
-            designation: data.object,
-            quantity: parseInt(data.quantite || 1),
-            unitPrice: (priceCalculation?.details?.vitrage?.total ?? 0) / parseInt(data.quantite || 1),
-            total: priceCalculation?.details?.vitrage?.total ?? 0
-          },
-          {
-            designation: "Main d'œuvre",
-            quantity: 1,
-            unitPrice: priceCalculation?.details?.main_oeuvre?.total ?? 0,
-            total: priceCalculation?.details?.main_oeuvre?.total ?? 0
-          },
-          {
-            designation: "Livraison",
-            quantity: 1,
-            unitPrice: priceCalculation?.details?.livraison?.total ?? 0,
-            total: priceCalculation?.details?.livraison?.total ?? 0
-          },
           ...(priceCalculation?.details?.deplacement?.total > 0 ? [{
-            designation: "Déplacement",
+            designation: "Frais de déplacement",
             quantity: 1,
             unitPrice: priceCalculation?.details?.deplacement?.total ?? 0,
             total: priceCalculation?.details?.deplacement?.total ?? 0
@@ -405,7 +387,31 @@ export const QuoteSummary = ({
             quantity: 1,
             unitPrice: priceCalculation?.details?.securite?.total ?? 0,
             total: priceCalculation?.details?.securite?.total ?? 0
-          }] : [])
+          }] : []),
+          {
+            designation: `${data.vitrage || 'Double vitrage'} (${data.largeur}x${data.hauteur} cm)`,
+            quantity: parseInt(data.quantite || 1),
+            unitPrice: (priceCalculation?.details?.vitrage?.total ?? 0) / parseInt(data.quantite || 1),
+            total: priceCalculation?.details?.vitrage?.total ?? 0
+          },
+          {
+            designation: "Frais de livraison",
+            quantity: 1,
+            unitPrice: priceCalculation?.details?.livraison?.total ?? 0,
+            total: priceCalculation?.details?.livraison?.total ?? 0
+          },
+          {
+            designation: "Main d'œuvre",
+            quantity: 1,
+            unitPrice: priceCalculation?.details?.main_oeuvre?.total ?? 0,
+            total: priceCalculation?.details?.main_oeuvre?.total ?? 0
+          },
+          {
+            designation: "SAVE PLANET : Éco-enlèvement - Tri-sélectif - Recyclage",
+            quantity: 1,
+            unitPrice: 0,
+            total: 0
+          }
         ],
         subtotal: priceCalculation?.subtotal ?? 0,
         vat: priceCalculation?.tva ?? 0,
