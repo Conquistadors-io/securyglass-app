@@ -163,23 +163,19 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
             {data.nomSociete && <div className="text-foreground font-medium">{data.nomSociete}</div>}
             <div className="text-foreground">{data.email}</div>
             <div className="text-foreground">{data.telephone}</div>
-            <div
-              className="text-foreground"
-              dangerouslySetInnerHTML={{
-                __html: `${cleanStreet(data.adresse, data.codePostal, data.ville)}<br/>${[data.codePostal, data.ville].filter(Boolean).join(" ")}`,
-              }}
-            ></div>
+            <div className="text-foreground">
+              {data.adresse}<br/>
+              {[data.codePostal, data.ville].filter(Boolean).join(" ")}
+            </div>
             
             {/* Adresse d'intervention si différente */}
             {data.differentInterventionAddress && (
               <div className="mt-3 pt-3 border-t border-muted">
                 <div className="text-sm font-medium text-muted-foreground mb-1">ADRESSE D'INTERVENTION</div>
-                <div
-                  className="text-foreground"
-                  dangerouslySetInnerHTML={{
-                    __html: `${cleanStreet(data.interventionAdresse, data.interventionCodePostal, data.interventionVille)}<br/>${[data.interventionCodePostal, data.interventionVille].filter(Boolean).join(" ")}`,
-                  }}
-                ></div>
+                <div className="text-foreground">
+                  {data.interventionAdresse}<br/>
+                  {[data.interventionCodePostal, data.interventionVille].filter(Boolean).join(" ")}
+                </div>
               </div>
             )}
             
