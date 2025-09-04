@@ -183,7 +183,6 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
               </div>
             )}
             
-            <div className="text-foreground">Motif : {getDisplayValue("motif", data.motif)}</div>
             {data.assurance && <div className="text-foreground">Assurance : {data.assurance}</div>}
           </div>
         </CardContent>
