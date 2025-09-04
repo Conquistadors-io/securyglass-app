@@ -381,7 +381,31 @@ export const QuoteSummary = ({
             quantity: parseInt(data.quantite || 1),
             unitPrice: (priceCalculation?.details?.vitrage?.total ?? 0) / parseInt(data.quantite || 1),
             total: priceCalculation?.details?.vitrage?.total ?? 0
-          }
+          },
+          {
+            designation: "Main d'œuvre",
+            quantity: 1,
+            unitPrice: priceCalculation?.details?.main_oeuvre?.total ?? 0,
+            total: priceCalculation?.details?.main_oeuvre?.total ?? 0
+          },
+          {
+            designation: "Livraison",
+            quantity: 1,
+            unitPrice: priceCalculation?.details?.livraison?.total ?? 0,
+            total: priceCalculation?.details?.livraison?.total ?? 0
+          },
+          ...(priceCalculation?.details?.deplacement?.total > 0 ? [{
+            designation: "Déplacement",
+            quantity: 1,
+            unitPrice: priceCalculation?.details?.deplacement?.total ?? 0,
+            total: priceCalculation?.details?.deplacement?.total ?? 0
+          }] : []),
+          ...(priceCalculation?.details?.securite?.total > 0 ? [{
+            designation: "Mise en sécurité",
+            quantity: 1,
+            unitPrice: priceCalculation?.details?.securite?.total ?? 0,
+            total: priceCalculation?.details?.securite?.total ?? 0
+          }] : [])
         ],
         subtotal: priceCalculation?.subtotal ?? 0,
         vat: priceCalculation?.tva ?? 0,
