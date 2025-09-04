@@ -146,7 +146,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
         <h2 className="text-2xl font-bold text-white mb-2">
           RÉCAPITULATIF
         </h2>
-        <p className="text-white/90">
+        <p className="text-gray-300">
           Veuillez vérifier vos informations avant de valider votre demande de devis
         </p>
       </div>
