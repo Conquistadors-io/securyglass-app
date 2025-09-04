@@ -51,6 +51,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
         "porte": "Porte",
         "cloison": "Cloison",
         "miroir": "Miroir",
+        "vitre-cassee": "Vitre-cassée",
         "autre": "Autre"
       },
       property: {
