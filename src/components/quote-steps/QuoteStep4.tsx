@@ -141,13 +141,13 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
   ];
 
   return (
-    <div className="min-h-screen bg-blue-600 py-8">
+    <div className="min-h-screen bg-white py-8">
       <div className="max-w-2xl mx-auto space-y-6 px-4">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-white mb-2">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
           RÉCAPITULATIF
         </h2>
-        <p className="text-gray-300">
+        <p className="text-gray-600">
           Veuillez vérifier vos informations avant de valider votre demande de devis
         </p>
       </div>
