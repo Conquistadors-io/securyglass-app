@@ -59,6 +59,21 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
         "local-commercial": "Local commercial",
         "bureau": "Bureau"
       },
+      motif: {
+        "casse-naturelle": "Casse naturelle",
+        "tentative-effraction": "Tentative d'effraction",
+        "vandalisme": "Vandalisme",
+        "bris-de-glace": "Bris de glace",
+        "choc-thermique": "Choc thermique",
+        "defaut-installation": "Défaut d'installation",
+        "usure": "Usure",
+        "remplacement-preventif": "Remplacement préventif",
+        "mise-aux-normes": "Mise aux normes",
+        "autre": "Autre",
+        "accident": "Accident",
+        "catastrophe-naturelle": "Catastrophe naturelle",
+        "pompiers": "Intervention des pompiers"
+      },
       category: {
         "baie-vitree": "Baie vitrée",
         "fenetre-standard": "Fenêtre standard",
@@ -170,7 +185,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
               </div>
             )}
             
-            <div className="text-foreground">Motif : {data.motif}</div>
+            <div className="text-foreground">Motif : {getDisplayValue("motif", data.motif)}</div>
             {data.assurance && <div className="text-foreground">Assurance : {data.assurance}</div>}
           </div>
         </CardContent>
@@ -186,8 +201,8 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
           <div className="space-y-2">
             <div className="text-foreground font-medium">{getDisplayValue("vitrage", data.vitrage).toUpperCase()}</div>
             <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L) x {data.quantite}</div>
-            {data.category && <div className="text-foreground">Type : {getDisplayValue("category", data.category)}</div>}
-            {data.subcategory && <div className="text-foreground">Sous-type : {getDisplayValue("subcategory", data.subcategory)}</div>}
+            {data.category && data.subcategory && <div className="text-foreground">{getDisplayValue("category", data.category)} {getDisplayValue("subcategory", data.subcategory)}</div>}
+            {data.category && !data.subcategory && <div className="text-foreground">{getDisplayValue("category", data.category)}</div>}
           </div>
         </CardContent>
       </Card>
