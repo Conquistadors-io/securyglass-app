@@ -31,6 +31,8 @@ export function AddressSelect({
   const [isLoading, setIsLoading] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [isAddressComplete, setIsAddressComplete] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
+  const inputRef = React.useRef<HTMLInputElement>(null)
 
   // Suggestions d'adresses communes basées sur le type de ville
   const commonAddresses = useMemo(() => {
@@ -201,11 +203,14 @@ export function AddressSelect({
   const handleSuggestionClick = (suggestion: AddressSuggestion) => {
     setSearchTerm(suggestion.value)
     onValueChange?.(suggestion.value)
+    setSuggestions([])
     setShowSuggestions(false)
     setIsAddressComplete(true) // Marquer comme complète après sélection
+    setIsFocused(false)
+    inputRef.current?.blur()
   }
-
   const handleInputFocus = () => {
+    setIsFocused(true)
     // Seulement afficher les suggestions si l'adresse n'est pas complète
     if (searchTerm.length >= 2 && !isAddressComplete) {
       setShowSuggestions(true)
@@ -214,7 +219,10 @@ export function AddressSelect({
 
   const handleInputBlur = () => {
     // Délai pour permettre le clic sur une suggestion
-    setTimeout(() => setShowSuggestions(false), 200)
+    setTimeout(() => { 
+      setShowSuggestions(false)
+      setIsFocused(false)
+    }, 200)
   }
 
   return (
@@ -222,6 +230,7 @@ export function AddressSelect({
       <div className="relative">
         <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
         <Input
+          ref={inputRef}
           value={searchTerm}
           onChange={handleInputChange}
           onFocus={handleInputFocus}
@@ -232,7 +241,7 @@ export function AddressSelect({
         />
       </div>
       
-      {showSuggestions && suggestions.length > 0 && !isAddressComplete && (
+      {showSuggestions && isFocused && suggestions.length > 0 && !isAddressComplete && (
         <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-background border border-border rounded-md shadow-md max-h-60 overflow-y-auto">
           {isLoading && (
             <div className="px-3 py-2 text-sm text-muted-foreground">
