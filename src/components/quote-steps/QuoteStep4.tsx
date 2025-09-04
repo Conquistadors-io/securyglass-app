@@ -169,9 +169,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
             <div className="text-foreground">{data.telephone}</div>
             {!data.differentInterventionAddress && (
               <div className="text-foreground">
-                {data.adresse_intervention}<br/>
-                {data.codePostal}<br/>
-                {data.ville}
+                {data.adresse_intervention}
               </div>
             )}
             
