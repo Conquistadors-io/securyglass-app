@@ -168,7 +168,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
             <div className="text-foreground">{data.email}</div>
             <div className="text-foreground">{data.telephone}</div>
             <div className="text-foreground">
-              {data.adresse}<br/>
+              {data.adresse_intervention}<br/>
               {[data.codePostal, data.ville].filter(Boolean).join(" ")}
             </div>
             
