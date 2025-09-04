@@ -165,21 +165,21 @@ export const QuoteSummary = ({
               <td>${data.largeur} × ${data.hauteur} cm</td>
               <td>${data.quantite}</td>
               <td>Vitrage ${data.vitrage}</td>
-              <td>${priceCalculation?.details?.vitrage?.total ?? 0}€</td>
+              <td>${(priceCalculation?.details?.vitrage?.total ?? 0).toFixed(2)}€</td>
             </tr>
             <tr>
               <td>Main d'œuvre</td>
-              <td>${priceCalculation?.details?.surface?.totale?.toFixed(2) ?? '0'} m²</td>
+              <td>${priceCalculation?.details?.surface?.totale?.toFixed(2) ?? '0.00'} m²</td>
               <td>1</td>
               <td>${((priceCalculation?.details?.main_oeuvre?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation?.details?.main_oeuvre?.total ?? 0}€</td>
+              <td>${(priceCalculation?.details?.main_oeuvre?.total ?? 0).toFixed(2)}€</td>
             </tr>
             <tr>
               <td>Livraison</td>
               <td>-</td>
               <td>1</td>
               <td>${((priceCalculation?.details?.livraison?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation?.details?.livraison?.total ?? 0}€</td>
+              <td>${(priceCalculation?.details?.livraison?.total ?? 0).toFixed(2)}€</td>
             </tr>
             ${(priceCalculation?.details?.deplacement?.total ?? 0) > 0 ? `
             <tr>
@@ -187,7 +187,7 @@ export const QuoteSummary = ({
               <td>-</td>
               <td>1</td>
               <td>${((priceCalculation?.details?.deplacement?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation?.details?.deplacement?.total ?? 0}€</td>
+              <td>${(priceCalculation?.details?.deplacement?.total ?? 0).toFixed(2)}€</td>
             </tr>
             ` : ''}
             ${(priceCalculation?.details?.securite?.total ?? 0) > 0 ? `
@@ -196,17 +196,17 @@ export const QuoteSummary = ({
               <td>-</td>
               <td>1</td>
               <td>${((priceCalculation?.details?.securite?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${priceCalculation?.details?.securite?.total ?? 0}€</td>
+              <td>${(priceCalculation?.details?.securite?.total ?? 0).toFixed(2)}€</td>
             </tr>
             ` : ''}
           </tbody>
         </table>
         
-        <div class="totals">
-          <div class="total-line">Sous-total HT: ${subtotal}€</div>
-          <div class="total-line">TVA (${Math.round(tvaRate * 100)}%): ${tva}€</div>
-          <div class="total-line final-total">Total TTC: ${total}€</div>
-        </div>
+         <div class="totals">
+           <div class="total-line">Sous-total HT: ${subtotal.toFixed(2)}€</div>
+           <div class="total-line">TVA (${Math.round(tvaRate * 100)}%): ${tva.toFixed(2)}€</div>
+           <div class="total-line final-total">Total TTC: ${total.toFixed(2)}€</div>
+         </div>
         
         <div style="margin-top: 40px; font-size: 0.9em; color: #666;">
           <p>* Prix indicatif, devis définitif après visite technique</p>
@@ -375,47 +375,47 @@ export const QuoteSummary = ({
           phone: "09 70 144 344",
           address: "France"
         },
-        items: [
-          ...(priceCalculation?.details?.deplacement?.total > 0 ? [{
-            designation: "Frais de déplacement",
-            quantity: 1,
-            unitPrice: priceCalculation?.details?.deplacement?.total ?? 0,
-            total: priceCalculation?.details?.deplacement?.total ?? 0
-          }] : []),
-          ...(priceCalculation?.details?.securite?.total > 0 ? [{
-            designation: "Mise en sécurité",
-            quantity: 1,
-            unitPrice: priceCalculation?.details?.securite?.total ?? 0,
-            total: priceCalculation?.details?.securite?.total ?? 0
-          }] : []),
-          {
-            designation: `${data.vitrage || 'Double vitrage'} (${data.largeur}x${data.hauteur} cm)`,
-            quantity: parseInt(data.quantite || 1),
-            unitPrice: (priceCalculation?.details?.vitrage?.total ?? 0) / parseInt(data.quantite || 1),
-            total: priceCalculation?.details?.vitrage?.total ?? 0
-          },
-          {
-            designation: "Frais de livraison",
-            quantity: 1,
-            unitPrice: priceCalculation?.details?.livraison?.total ?? 0,
-            total: priceCalculation?.details?.livraison?.total ?? 0
-          },
-          {
-            designation: "Main d'œuvre",
-            quantity: 1,
-            unitPrice: priceCalculation?.details?.main_oeuvre?.total ?? 0,
-            total: priceCalculation?.details?.main_oeuvre?.total ?? 0
-          },
-          {
-            designation: "SAVE PLANET : Éco-enlèvement - Tri-sélectif - Recyclage",
-            quantity: 1,
-            unitPrice: 0,
-            total: 0
-          }
-        ],
-        subtotal: priceCalculation?.subtotal ?? 0,
-        vat: priceCalculation?.tva ?? 0,
-        total: priceCalculation?.total ?? 0
+         items: [
+           ...(priceCalculation?.details?.deplacement?.total > 0 ? [{
+             designation: "Frais de déplacement",
+             quantity: 1,
+             unitPrice: parseFloat((priceCalculation?.details?.deplacement?.total ?? 0).toFixed(2)),
+             total: parseFloat((priceCalculation?.details?.deplacement?.total ?? 0).toFixed(2))
+           }] : []),
+           ...(priceCalculation?.details?.securite?.total > 0 ? [{
+             designation: "Mise en sécurité",
+             quantity: 1,
+             unitPrice: parseFloat((priceCalculation?.details?.securite?.total ?? 0).toFixed(2)),
+             total: parseFloat((priceCalculation?.details?.securite?.total ?? 0).toFixed(2))
+           }] : []),
+           {
+             designation: `${data.vitrage || 'Double vitrage'} (${data.largeur}x${data.hauteur} cm)`,
+             quantity: parseInt(data.quantite || 1),
+             unitPrice: parseFloat(((priceCalculation?.details?.vitrage?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)),
+             total: parseFloat((priceCalculation?.details?.vitrage?.total ?? 0).toFixed(2))
+           },
+           {
+             designation: "Frais de livraison",
+             quantity: 1,
+             unitPrice: parseFloat((priceCalculation?.details?.livraison?.total ?? 0).toFixed(2)),
+             total: parseFloat((priceCalculation?.details?.livraison?.total ?? 0).toFixed(2))
+           },
+           {
+             designation: "Main d'œuvre",
+             quantity: 1,
+             unitPrice: parseFloat((priceCalculation?.details?.main_oeuvre?.total ?? 0).toFixed(2)),
+             total: parseFloat((priceCalculation?.details?.main_oeuvre?.total ?? 0).toFixed(2))
+           },
+           {
+             designation: "SAVE PLANET : Éco-enlèvement - Tri-sélectif - Recyclage",
+             quantity: 1,
+             unitPrice: 0,
+             total: 0
+           }
+         ],
+         subtotal: parseFloat((priceCalculation?.subtotal ?? 0).toFixed(2)),
+         vat: parseFloat((priceCalculation?.tva ?? 0).toFixed(2)),
+         total: parseFloat((priceCalculation?.total ?? 0).toFixed(2))
       };
 
       console.log("Preparing quote data for email...");
@@ -527,53 +527,53 @@ export const QuoteSummary = ({
             <>
               {/* Détail des coûts */}
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span>Vitrage ({priceCalculation.details.surface?.totale?.toFixed(2) || '0'} m²):</span>
-                  <span>{priceCalculation.details.vitrage?.total || 0}€</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Main d'œuvre:</span>
-                  <span>{priceCalculation.details.main_oeuvre?.total || 0}€</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Livraison:</span>
-                  <span>{priceCalculation.details.livraison?.total || 0}€</span>
-                </div>
-                {priceCalculation.details.deplacement?.total > 0 && (
-                  <div className="flex justify-between">
-                    <span>Déplacement:</span>
-                    <span>{priceCalculation.details.deplacement.total}€</span>
-                  </div>
-                )}
-                {priceCalculation.details.securite?.total > 0 && (
-                  <div className="flex justify-between">
-                    <span>Mise en sécurité:</span>
-                    <span>{priceCalculation.details.securite.total}€</span>
-                  </div>
-                )}
-              </div>
+                 <div className="flex justify-between">
+                   <span>Vitrage ({priceCalculation.details.surface?.totale?.toFixed(2) || '0.00'} m²):</span>
+                   <span>{(priceCalculation.details.vitrage?.total || 0).toFixed(2)}€</span>
+                 </div>
+                 <div className="flex justify-between">
+                   <span>Main d'œuvre:</span>
+                   <span>{(priceCalculation.details.main_oeuvre?.total || 0).toFixed(2)}€</span>
+                 </div>
+                 <div className="flex justify-between">
+                   <span>Livraison:</span>
+                   <span>{(priceCalculation.details.livraison?.total || 0).toFixed(2)}€</span>
+                 </div>
+                 {priceCalculation.details.deplacement?.total > 0 && (
+                   <div className="flex justify-between">
+                     <span>Déplacement:</span>
+                     <span>{priceCalculation.details.deplacement.total.toFixed(2)}€</span>
+                   </div>
+                 )}
+                 {priceCalculation.details.securite?.total > 0 && (
+                   <div className="flex justify-between">
+                     <span>Mise en sécurité:</span>
+                     <span>{priceCalculation.details.securite.total.toFixed(2)}€</span>
+                   </div>
+                 )}
+               </div>
 
-              <Separator className="my-3" />
+               <Separator className="my-3" />
 
-              <div className="space-y-1">
-                <div className="flex justify-between">
-                  <span>Sous-total HT:</span>
-                  <span>{priceCalculation.subtotal}€</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>TVA ({Math.round(priceCalculation.tvaRate * 100)}%):</span>
-                  <span>{priceCalculation.tva}€</span>
-                </div>
-              </div>
+               <div className="space-y-1">
+                 <div className="flex justify-between">
+                   <span>Sous-total HT:</span>
+                   <span>{priceCalculation.subtotal.toFixed(2)}€</span>
+                 </div>
+                 <div className="flex justify-between">
+                   <span>TVA ({Math.round(priceCalculation.tvaRate * 100)}%):</span>
+                   <span>{priceCalculation.tva.toFixed(2)}€</span>
+                 </div>
+               </div>
 
-              <Separator className="my-3" />
+               <Separator className="my-3" />
 
-              <div className="flex justify-between items-center">
-                <span className="text-lg font-semibold">Total TTC:</span>
-                <span className="text-2xl font-bold text-primary">
-                  {priceCalculation.total}€
-                </span>
-              </div>
+               <div className="flex justify-between items-center">
+                 <span className="text-lg font-semibold">Total TTC:</span>
+                 <span className="text-2xl font-bold text-primary">
+                   {priceCalculation.total.toFixed(2)}€
+                 </span>
+               </div>
             </>
           )}
 
