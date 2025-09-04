@@ -118,9 +118,8 @@ export const QuoteStep1 = ({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="nom">Nom <span className="text-destructive">*</span></Label>
-              <div className="relative mt-1">
-                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input id="nom" placeholder="Nom" className="pl-10" value={formData.nom} onChange={e => setFormData(prev => ({
+              <div className="mt-1">
+                <Input id="nom" placeholder="Nom" value={formData.nom} onChange={e => setFormData(prev => ({
                 ...prev,
                 nom: e.target.value
               }))} required />
@@ -128,9 +127,8 @@ export const QuoteStep1 = ({
             </div>
             <div>
               <Label htmlFor="prenom">Prénom</Label>
-              <div className="relative mt-1">
-                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input id="prenom" placeholder="Prénom" className="pl-10" value={formData.prenom} onChange={e => setFormData(prev => ({
+              <div className="mt-1">
+                <Input id="prenom" placeholder="Prénom" value={formData.prenom} onChange={e => setFormData(prev => ({
                 ...prev,
                 prenom: e.target.value
               }))} />
