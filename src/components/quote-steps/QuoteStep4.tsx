@@ -196,10 +196,11 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
             <span className="text-lg font-semibold">Description</span>
           </div>
           <div className="space-y-2">
-            <div className="text-foreground font-medium">{getDisplayValue("vitrage", data.vitrage).toUpperCase()}</div>
-            <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L) x {data.quantite}</div>
+            <div className="text-foreground font-medium">{getDisplayValue("object", data.object).toUpperCase()}</div>
+            <div className="text-foreground">{getDisplayValue("vitrage", data.vitrage)}</div>
             {data.category && data.subcategory && <div className="text-foreground">{getDisplayValue("category", data.category)} {getDisplayValue("subcategory", data.subcategory)}</div>}
             {data.category && !data.subcategory && <div className="text-foreground">{getDisplayValue("category", data.category)}</div>}
+            <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L) x {data.quantite}</div>
           </div>
         </CardContent>
       </Card>
