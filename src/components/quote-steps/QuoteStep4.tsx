@@ -201,17 +201,6 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
         </CardContent>
       </Card>
 
-      {data.photo && (
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center mb-4">
-              <CheckCircle2 className="h-5 w-5 text-primary mr-2" />
-              <span className="text-lg font-semibold">Photo jointe</span>
-            </div>
-            <div className="text-foreground">Photo téléchargée ({data.photo.name})</div>
-          </CardContent>
-        </Card>
-      )}
 
       {/* Section Acceptation des conditions */}
       <Card>
