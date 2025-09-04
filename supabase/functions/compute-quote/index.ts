@@ -106,20 +106,24 @@ function calculateQuote(request: QuoteRequest, rules: PricingRules) {
   const laborPerM2 = rules.labor_costs.base_rate_per_m2;
   const laborCost = Math.max(surfaceTotale * laborPerM2, rules.labor_costs.minimum_charge);
 
-  // Security setup cost (if applicable)
-  const securityCost = rules.labor_costs.security_setup;
+  // Security setup cost (different for particulier vs professionnel)
+  const securityCost = rules.client_types[clientType].security_setup;
 
   // Base subtotal
   let subtotal = glassPrice + laborCost + securityCost;
 
-  // Delivery cost calculation
+  // Delivery cost calculation based on surface thresholds
   let deliveryCost = 0;
-  if (subtotal < rules.delivery_rules.free_threshold) {
-    deliveryCost = rules.delivery_rules.cost_under_threshold;
+  if (surfaceTotale < 0.5) {
+    deliveryCost = rules.delivery_rules.cost_under_0_5_m2;
+  } else if (surfaceTotale <= 2) {
+    deliveryCost = rules.delivery_rules.cost_0_5_to_2_m2;
+  } else {
+    deliveryCost = rules.delivery_rules.cost_over_2_m2;
   }
 
-  // Travel cost (basic calculation)
-  const travelCost = rules.delivery_rules.base_travel_cost;
+  // Travel cost (not charged if security setup is included)
+  const travelCost = securityCost > 0 ? 0 : rules.delivery_rules.base_travel_cost;
 
   // Apply client type multiplier
   const clientMultiplier = rules.client_types[clientType].multiplier;
