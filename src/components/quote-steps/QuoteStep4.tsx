@@ -140,9 +140,10 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
   ];
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="min-h-screen bg-blue-600 py-8">
+      <div className="max-w-2xl mx-auto space-y-6 px-4">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-foreground mb-2">
+        <h2 className="text-2xl font-bold text-white mb-2">
           RÉCAPITULATIF
         </h2>
       </div>
@@ -266,6 +267,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
           <Edit3 className="h-4 w-4 mr-2" />
           Modifier
         </Button>
+        </div>
       </div>
     </div>
   );
