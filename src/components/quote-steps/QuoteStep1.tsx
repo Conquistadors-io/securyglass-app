@@ -88,18 +88,14 @@ export const QuoteStep1 = ({
   return <Card className="shadow-card border-0">
       <div className="p-6">
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-foreground mb-2 flex items-center">
-            Vos informations
-            <Star className="ml-2 h-4 w-4 text-red-500 fill-red-500" />
+          <h2 className="text-xl font-semibold text-foreground mb-2">
+            Vos informations <span className="text-destructive">*</span>
           </h2>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label htmlFor="civilite" className="flex items-center">
-              Civilité
-              <Star className="ml-1 h-3 w-3 text-red-500 fill-red-500" />
-            </Label>
+            <Label htmlFor="civilite">Civilité <span className="text-destructive">*</span></Label>
             <Select value={formData.civilite} onValueChange={value => setFormData(prev => ({
             ...prev,
             civilite: value
