@@ -172,6 +172,11 @@ export const QuoteStep3 = ({
                 <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double Vitrage</Label>
               </div>
               
+              <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'verre-securit' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
+                <RadioGroupItem value="verre-securit" id="verre-securit" className={`w-6 h-6 ${formData.vitrage === 'verre-securit' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
+                <Label htmlFor="verre-securit" className="text-lg cursor-pointer flex-1">Verre Sécurit</Label>
+              </div>
+              
               <div className="space-y-2">
                 <div 
                   className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'autre' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
