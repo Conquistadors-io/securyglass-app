@@ -80,8 +80,10 @@ export const QuoteStep1 = ({
   const interventionFieldsRequired = isCompanyOrBTP && formData.differentInterventionAddress;
   const interventionFieldsValid = !interventionFieldsRequired || 
     (formData.interventionCodePostal && formData.interventionVille);
+  const companyNameRequired = isCompanyOrBTP && !formData.raison_sociale;
   
-  const isValid = formData.nom && formData.mobile && formData.email && interventionFieldsValid;
+  const isValid = formData.nom && formData.mobile && formData.email && 
+    !companyNameRequired && interventionFieldsValid;
 
   return <Card className="shadow-card border-0">
       <div className="p-6">
@@ -110,6 +112,25 @@ export const QuoteStep1 = ({
             </Select>
           </div>
 
+          {(formData.civilite === "societe" || formData.civilite === "entreprise-btp") && (
+            <div>
+              <Label htmlFor="raison_sociale">Nom de la société <span className="text-destructive">*</span></Label>
+              <div className="relative mt-1">
+                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Input 
+                  id="raison_sociale" 
+                  placeholder="Nom de la société" 
+                  className="pl-10" 
+                  value={formData.raison_sociale} 
+                  onChange={e => setFormData(prev => ({
+                    ...prev,
+                    raison_sociale: e.target.value
+                  }))} 
+                  required 
+                />
+              </div>
+            </div>
+          )}
 
           <div>
             <Label htmlFor="codePostal">Code postal <span className="text-destructive">*</span></Label>
