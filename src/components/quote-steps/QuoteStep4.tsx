@@ -286,7 +286,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
           className="flex-1 h-12"
         >
           <Edit3 className="h-4 w-4 mr-2" />
-          Retour au début
+          Modifier
         </Button>
         </div>
       </div>
