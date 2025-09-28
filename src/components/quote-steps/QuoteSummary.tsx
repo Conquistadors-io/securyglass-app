@@ -44,7 +44,8 @@ export const QuoteSummary = ({
           quantite: parseInt(data.quantite) || 1,
           clientType,
           address: data.adresse,
-          interventionAddress: data.differentInterventionAddress ? data.interventionAdresse : data.adresse
+          interventionAddress: data.differentInterventionAddress ? data.interventionAdresse : data.adresse,
+          miseEnSecurite: data.miseEnSecurite || 'oui'
         }
       });
 

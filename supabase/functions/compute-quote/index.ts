@@ -14,6 +14,7 @@ interface QuoteRequest {
   clientType?: 'particulier' | 'professionnel';
   address?: string;
   interventionAddress?: string;
+  miseEnSecurite?: 'oui' | 'non';
 }
 
 interface PricingRules {
@@ -76,7 +77,7 @@ serve(async (req) => {
 });
 
 function calculateQuote(request: QuoteRequest, rules: PricingRules) {
-  const { vitrage, largeur, hauteur, quantite, clientType = 'particulier' } = request;
+  const { vitrage, largeur, hauteur, quantite, clientType = 'particulier', miseEnSecurite = 'oui' } = request;
   
   // Parse dimensions
   const largeurM = parseFloat(largeur) / 100; // convert cm to m
@@ -106,15 +107,17 @@ function calculateQuote(request: QuoteRequest, rules: PricingRules) {
   const laborPerM2 = rules.labor_costs.base_rate_per_m2;
   const laborCost = Math.max(surfaceTotale * laborPerM2, rules.labor_costs.minimum_charge);
 
-  // Security setup cost calculation
+  // Security setup cost calculation - only if client wants it
   let securityCost = 0;
-  if (clientType === 'particulier') {
-    // Fixed cost for particuliers
-    securityCost = rules.client_types[clientType].security_setup || 0;
-  } else {
-    // Per m² cost for professionals
-    const securityPerM2 = rules.client_types[clientType].security_setup_per_m2 || 0;
-    securityCost = surfaceTotale * securityPerM2;
+  if (miseEnSecurite === 'oui') {
+    if (clientType === 'particulier') {
+      // Fixed cost for particuliers
+      securityCost = rules.client_types[clientType].security_setup || 0;
+    } else {
+      // Per m² cost for professionals
+      const securityPerM2 = rules.client_types[clientType].security_setup_per_m2 || 0;
+      securityCost = surfaceTotale * securityPerM2;
+    }
   }
 
   // Base subtotal
@@ -161,6 +164,7 @@ function calculateQuote(request: QuoteRequest, rules: PricingRules) {
     },
     securite: {
       total: securityCost,
+      incluse: miseEnSecurite === 'oui',
       type: clientType === 'particulier' ? 'fixe' : 'par_m2',
       prix_m2: clientType === 'professionnel' ? rules.client_types[clientType].security_setup_per_m2 : null
     },
