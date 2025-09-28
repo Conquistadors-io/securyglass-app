@@ -35,11 +35,19 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         // Step 1: Personal info
         civilite: "",
         nom: "",
-        telephone: "",
+        prenom: "",
+        raison_sociale: "",
+        mobile: "",
         email: "",
-        adresse: "",
+        email_facturation: "",
+        adresse_intervention: "",
         codePostal: "",
         ville: "",
+        assurance: "",
+        differentInterventionAddress: false,
+        interventionCodePostal: "",
+        interventionVille: "",
+        interventionAdresse: "",
         
         // Step 2: Object
         object: "",
@@ -48,11 +56,11 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         
         // Step 3: Property details
         category: "",
+        subcategory: "",
         vitrage: "",
         largeur: "",
         hauteur: "",
         quantite: "1",
-        assurance: "",
         photo: null as File | null
       };
     } catch {
@@ -63,11 +71,19 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         // Step 1: Personal info
         civilite: "",
         nom: "",
-        telephone: "",
+        prenom: "",
+        raison_sociale: "",
+        mobile: "",
         email: "",
-        adresse: "",
+        email_facturation: "",
+        adresse_intervention: "",
         codePostal: "",
         ville: "",
+        assurance: "",
+        differentInterventionAddress: false,
+        interventionCodePostal: "",
+        interventionVille: "",
+        interventionAdresse: "",
         
         // Step 2: Object
         object: "",
@@ -76,11 +92,11 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         
         // Step 3: Property details
         category: "",
+        subcategory: "",
         vitrage: "",
         largeur: "",
         hauteur: "",
         quantite: "1",
-        assurance: "",
         photo: null as File | null
       };
     }
