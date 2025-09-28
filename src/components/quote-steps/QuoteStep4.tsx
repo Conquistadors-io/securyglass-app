@@ -77,9 +77,16 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       },
       category: {
         "baie-vitree": "Baie vitrée",
-        "fenetre-standard": "Fenêtre standard",
+        "fenetre": "Fenêtre", 
         "porte-vitree": "Porte vitrée",
-        "vitrine": "Vitrine Magasin"
+        "porte-entree": "Porte d'entrée",
+        "porte-fenetre": "Porte-fenêtre",
+        "vitrine": "Vitrine Magasin",
+        "marquise": "Marquise",
+        "fenetre-toit": "Fenêtre de toit",
+        "velux": "VELUX",
+        "cloison": "Cloison vitrée",
+        "autre": "Autre"
       },
       subcategory: {
         "coulissante": "Coulissante",
@@ -92,7 +99,8 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
         "double": "Double vitrage",
         "triple": "Triple vitrage",
         "securit": "Verre sécurit",
-        "feuillete": "Verre feuilleté"
+        "feuillete": "Verre feuilleté",
+        "verre-feuillete": "Verre Feuilleté Sécurit"
       }
     };
 
