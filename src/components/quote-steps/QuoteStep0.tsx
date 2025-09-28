@@ -53,7 +53,7 @@ export const QuoteStep0 = ({
               <div 
                 className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'vitrerie' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
               >
-                <RadioGroupItem value="vitrerie" id="vitrerie" className={`w-6 h-6 ${formData.serviceType === 'vitrerie' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
+                <RadioGroupItem value="vitrerie" id="vitrerie" className={`w-6 h-6 ${formData.serviceType === 'vitrerie' ? 'border-primary-foreground text-primary-foreground' : 'border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
                 <div className="flex-1" onClick={() => handleServiceTypeChange('vitrerie')}>
                   <Label htmlFor="vitrerie" className="text-lg cursor-pointer">Vitrerie</Label>
                   <p className="text-sm opacity-70 mt-1">Tous types de verres</p>
@@ -63,7 +63,7 @@ export const QuoteStep0 = ({
               <div 
                 className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'miroiterie' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
               >
-                <RadioGroupItem value="miroiterie" id="miroiterie" className={`w-6 h-6 ${formData.serviceType === 'miroiterie' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
+                <RadioGroupItem value="miroiterie" id="miroiterie" className={`w-6 h-6 ${formData.serviceType === 'miroiterie' ? 'border-primary-foreground text-primary-foreground' : 'border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
                 <div className="flex-1" onClick={() => handleServiceTypeChange('miroiterie')}>
                   <Label htmlFor="miroiterie" className="text-lg cursor-pointer">Miroiterie</Label>
                   <p className="text-sm opacity-70 mt-1">Tous types de miroirs</p>
@@ -81,7 +81,7 @@ export const QuoteStep0 = ({
                   <RadioGroupItem 
                     value="autres" 
                     id="autres" 
-                    className={`w-6 h-6 ${formData.serviceType === 'autres' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`}
+                    className={`w-6 h-6 ${formData.serviceType === 'autres' ? 'border-primary-foreground text-primary-foreground' : 'border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground'}`}
                   />
                   <Label 
                     htmlFor="autres" 
@@ -107,7 +107,7 @@ export const QuoteStep0 = ({
                       className={`flex items-center space-x-3 p-3 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'renovation' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
                       onClick={() => handleServiceTypeChange('renovation')}
                     >
-                      <RadioGroupItem value="renovation" id="renovation" className={`w-5 h-5 ${formData.serviceType === 'renovation' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
+                      <RadioGroupItem value="renovation" id="renovation" className={`w-5 h-5 ${formData.serviceType === 'renovation' ? 'border-primary-foreground text-primary-foreground' : 'border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
                       <Label htmlFor="renovation" className="cursor-pointer flex-1">Rénovation</Label>
                     </div>
                   </div>}
