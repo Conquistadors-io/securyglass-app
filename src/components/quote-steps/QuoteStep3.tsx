@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2 } from "lucide-react";
+import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2, ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
@@ -31,6 +31,9 @@ export const QuoteStep3 = ({
     photo: data.photo || null,
     photoPreview: data.photoPreview || null
   });
+  const [showAutresOptions, setShowAutresOptions] = useState(
+    data.vitrage === "autre" || data.vitrage === "verre-feuillete" || data.vitrage === "verre-trempe"
+  );
   const [validationErrors, setValidationErrors] = useState({
     category: false,
     vitrage: false,
@@ -152,6 +155,12 @@ export const QuoteStep3 = ({
               ...prev,
               vitrage: false
             }));
+            // Ouvrir automatiquement la section "Autres" si on sélectionne une sous-option
+            if (value === "autre" || value === "verre-feuillete" || value === "verre-trempe") {
+              setShowAutresOptions(true);
+            } else {
+              setShowAutresOptions(false);
+            }
           }} className={`space-y-4 ${validationErrors.vitrage ? 'ring-2 ring-red-500 rounded-lg p-2' : ''}`}>
               <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'simple' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
                 <RadioGroupItem value="simple" id="simple" className={`w-6 h-6 ${formData.vitrage === 'simple' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
@@ -163,9 +172,56 @@ export const QuoteStep3 = ({
                 <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double Vitrage</Label>
               </div>
               
-              <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'autre' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
-                <RadioGroupItem value="autre" id="autre" className={`w-6 h-6 ${formData.vitrage === 'autre' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
-                <Label htmlFor="autre" className="text-lg cursor-pointer flex-1">Autres</Label>
+              <div className="space-y-2">
+                <div 
+                  className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'autre' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
+                  onClick={() => {
+                    setFormData(prev => ({ ...prev, vitrage: 'autre' }));
+                    setShowAutresOptions(true);
+                  }}
+                >
+                  <RadioGroupItem 
+                    value="autre" 
+                    id="autre" 
+                    className={`w-6 h-6 ${formData.vitrage === 'autre' ? 'border-primary-foreground text-primary-foreground' : 'border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground'}`}
+                  />
+                  <Label 
+                    htmlFor="autre" 
+                    className="text-lg cursor-pointer flex-1"
+                  >
+                    Autres
+                  </Label>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowAutresOptions(!showAutresOptions);
+                    }}
+                    className="p-1 hover:bg-accent rounded transition-colors"
+                  >
+                    <ChevronDown className={`w-5 h-5 transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
+                
+                {showAutresOptions && (
+                  <div className="ml-6 space-y-2">
+                    <div 
+                      className={`flex items-center space-x-3 p-3 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'verre-feuillete' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
+                      onClick={() => setFormData(prev => ({ ...prev, vitrage: 'verre-feuillete' }))}
+                    >
+                      <RadioGroupItem value="verre-feuillete" id="verre-feuillete" className={`w-5 h-5 ${formData.vitrage === 'verre-feuillete' ? 'border-primary-foreground text-primary-foreground' : 'border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
+                      <Label htmlFor="verre-feuillete" className="cursor-pointer flex-1">Verre Feuilleté Sécurit</Label>
+                    </div>
+                    
+                    <div 
+                      className={`flex items-center space-x-3 p-3 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'verre-trempe' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
+                      onClick={() => setFormData(prev => ({ ...prev, vitrage: 'verre-trempe' }))}
+                    >
+                      <RadioGroupItem value="verre-trempe" id="verre-trempe" className={`w-5 h-5 ${formData.vitrage === 'verre-trempe' ? 'border-primary-foreground text-primary-foreground' : 'border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
+                      <Label htmlFor="verre-trempe" className="cursor-pointer flex-1">Verre Trempé Sécurit</Label>
+                    </div>
+                  </div>
+                )}
               </div>
             </RadioGroup>
           </div>
