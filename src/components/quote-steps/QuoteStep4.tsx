@@ -163,20 +163,9 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       {/* Section Client */}
       <Card className="border-l-4 border-l-blue-500 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-blue-50 to-white">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center">
-              <CheckCircle2 className="h-6 w-6 text-blue-600 mr-3" />
-              <span className="text-lg font-semibold text-blue-800">Vos informations</span>
-            </div>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => onModify(3)}
-              className="text-blue-600 border-blue-300 hover:bg-blue-50"
-            >
-              <Edit3 className="h-4 w-4 mr-1" />
-              Modifier
-            </Button>
+          <div className="flex items-center mb-4">
+            <CheckCircle2 className="h-6 w-6 text-blue-600 mr-3" />
+            <span className="text-lg font-semibold text-blue-800">Vos informations</span>
           </div>
           <div className="space-y-2">
             <div className="text-sm font-medium text-muted-foreground">
@@ -205,17 +194,36 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
             
             {data.assurance && <div className="text-foreground">Assurance : {data.assurance}</div>}
           </div>
+          <div className="flex justify-center mt-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => onModify(3)}
+              className="text-blue-600 border-blue-300 hover:bg-blue-50"
+            >
+              <Edit3 className="h-4 w-4 mr-1" />
+              Modifier
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
       {/* Section Interventions */}
       <Card className="border-l-4 border-l-green-500 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-green-50 to-white">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center">
-              <CheckCircle2 className="h-6 w-6 text-green-600 mr-3" />
-              <span className="text-lg font-semibold text-green-800">Description</span>
-            </div>
+          <div className="flex items-center mb-4">
+            <CheckCircle2 className="h-6 w-6 text-green-600 mr-3" />
+            <span className="text-lg font-semibold text-green-800">Description</span>
+          </div>
+          <div className="space-y-2">
+            <div className="text-foreground font-medium">{getDisplayValue("object", data.object).toUpperCase()}</div>
+            <div className="text-foreground">Motif : {getDisplayValue("motif", data.motif)}</div>
+            <div className="text-foreground">{getDisplayValue("vitrage", data.vitrage)}</div>
+            {data.category && data.subcategory && <div className="text-foreground">{getDisplayValue("category", data.category)} {getDisplayValue("subcategory", data.subcategory)}</div>}
+            {data.category && !data.subcategory && <div className="text-foreground">{getDisplayValue("category", data.category)}</div>}
+            <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L) x {data.quantite}</div>
+          </div>
+          <div className="flex justify-center mt-4">
             <Button 
               variant="outline" 
               size="sm" 
@@ -225,14 +233,6 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
               <Edit3 className="h-4 w-4 mr-1" />
               Modifier
             </Button>
-          </div>
-          <div className="space-y-2">
-            <div className="text-foreground font-medium">{getDisplayValue("object", data.object).toUpperCase()}</div>
-            <div className="text-foreground">Motif : {getDisplayValue("motif", data.motif)}</div>
-            <div className="text-foreground">{getDisplayValue("vitrage", data.vitrage)}</div>
-            {data.category && data.subcategory && <div className="text-foreground">{getDisplayValue("category", data.category)} {getDisplayValue("subcategory", data.subcategory)}</div>}
-            {data.category && !data.subcategory && <div className="text-foreground">{getDisplayValue("category", data.category)}</div>}
-            <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L) x {data.quantite}</div>
           </div>
         </CardContent>
       </Card>
