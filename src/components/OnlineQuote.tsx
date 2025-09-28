@@ -190,7 +190,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
           <QuoteStep4 
             data={formData} 
             onValidate={handleNext}
-            onModify={() => setCurrentStep(0)}
+            onModify={(step: number) => setCurrentStep(step)}
           />
         );
       case 5:

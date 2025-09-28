@@ -8,7 +8,7 @@ import { useState } from "react";
 interface QuoteStep4Props {
   data: any;
   onValidate: () => void;
-  onModify: () => void;
+  onModify: (step: number) => void;
 }
 
 export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
@@ -163,9 +163,20 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       {/* Section Client */}
       <Card className="border-l-4 border-l-blue-500 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-blue-50 to-white">
-          <div className="flex items-center mb-4">
-            <CheckCircle2 className="h-6 w-6 text-blue-600 mr-3" />
-            <span className="text-lg font-semibold text-blue-800">Vos informations</span>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center">
+              <CheckCircle2 className="h-6 w-6 text-blue-600 mr-3" />
+              <span className="text-lg font-semibold text-blue-800">Vos informations</span>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => onModify(3)}
+              className="text-blue-600 border-blue-300 hover:bg-blue-50"
+            >
+              <Edit3 className="h-4 w-4 mr-1" />
+              Modifier
+            </Button>
           </div>
           <div className="space-y-2">
             <div className="text-sm font-medium text-muted-foreground">
@@ -200,9 +211,20 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       {/* Section Interventions */}
       <Card className="border-l-4 border-l-green-500 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-green-50 to-white">
-          <div className="flex items-center mb-4">
-            <CheckCircle2 className="h-6 w-6 text-green-600 mr-3" />
-            <span className="text-lg font-semibold text-green-800">Description</span>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center">
+              <CheckCircle2 className="h-6 w-6 text-green-600 mr-3" />
+              <span className="text-lg font-semibold text-green-800">Description</span>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => onModify(2)}
+              className="text-green-600 border-green-300 hover:bg-green-50"
+            >
+              <Edit3 className="h-4 w-4 mr-1" />
+              Modifier
+            </Button>
           </div>
           <div className="space-y-2">
             <div className="text-foreground font-medium">{getDisplayValue("object", data.object).toUpperCase()}</div>
@@ -259,12 +281,12 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
           Valider
         </Button>
         <Button
-          onClick={onModify}
+          onClick={() => onModify(0)}
           variant="outline"
           className="flex-1 h-12"
         >
           <Edit3 className="h-4 w-4 mr-2" />
-          Modifier
+          Retour au début
         </Button>
         </div>
       </div>
