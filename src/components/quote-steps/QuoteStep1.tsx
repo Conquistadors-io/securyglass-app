@@ -155,24 +155,6 @@ export const QuoteStep1 = ({
                   />
                 </div>
               </div>
-              <div>
-                <Label htmlFor="email_facturation">Email de facturation (optionnel)</Label>
-                <div className="relative mt-1">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input 
-                    id="email_facturation" 
-                    type="email"
-                    placeholder="email.facturation@entreprise.com" 
-                    className="pl-10" 
-                    value={formData.email_facturation} 
-                    onChange={e => setFormData(prev => ({
-                      ...prev,
-                      email_facturation: e.target.value
-                    }))} 
-                  />
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">Si différent de l'email de contact</p>
-              </div>
             </div>
           )}
 
