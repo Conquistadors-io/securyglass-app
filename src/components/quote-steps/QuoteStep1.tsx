@@ -175,7 +175,7 @@ export const QuoteStep1 = ({
                 }))}
                 departmentCode={formData.codePostal}
                 city={formData.ville}
-                placeholder="Tapez votre adresse d'intervention"
+                placeholder=""
               />
             </div>
             <p className="text-xs text-muted-foreground mt-1">Adresse où aura lieu l'intervention</p>
