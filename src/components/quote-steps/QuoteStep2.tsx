@@ -98,6 +98,34 @@ export const QuoteStep2 = ({
           </div>
 
           <div>
+            <Label htmlFor="property">Lieu <span className="text-destructive">*</span></Label>
+            <Select value={formData.property} onValueChange={value => setFormData(prev => ({
+            ...prev,
+            property: value,
+            propertyOther: ""
+          }))}>
+              <SelectTrigger className="mt-1">
+                <SelectValue placeholder="Appartement" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="appartement">Appartement</SelectItem>
+                <SelectItem value="maison">Maison</SelectItem>
+                <SelectItem value="bureau">Bureaux</SelectItem>
+                <SelectItem value="commerce">Magasin</SelectItem>
+                <SelectItem value="immeuble">Immeuble ( ou parties communes )</SelectItem>
+                <SelectItem value="autre">Autres</SelectItem>
+              </SelectContent>
+            </Select>
+            
+            {formData.property === "autre" && <div className="mt-3">
+                <Input placeholder="Précisez ..." value={formData.propertyOther} onChange={e => setFormData(prev => ({
+              ...prev,
+              propertyOther: e.target.value
+            }))} />
+              </div>}
+          </div>
+
+          <div>
             <Label htmlFor="motif">Motif : <span className="text-destructive">*</span></Label>
             
             <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
@@ -132,34 +160,6 @@ export const QuoteStep2 = ({
                 <Input placeholder="Précisez ..." value={formData.motifOther} onChange={e => setFormData(prev => ({
               ...prev,
               motifOther: e.target.value
-            }))} />
-              </div>}
-          </div>
-
-          <div>
-            <Label htmlFor="property">Lieu <span className="text-destructive">*</span></Label>
-            <Select value={formData.property} onValueChange={value => setFormData(prev => ({
-            ...prev,
-            property: value,
-            propertyOther: ""
-          }))}>
-              <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Appartement" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="appartement">Appartement</SelectItem>
-                <SelectItem value="maison">Maison</SelectItem>
-                <SelectItem value="bureau">Bureaux</SelectItem>
-                <SelectItem value="commerce">Magasin</SelectItem>
-                <SelectItem value="immeuble">Immeuble ( ou parties communes )</SelectItem>
-                <SelectItem value="autre">Autres</SelectItem>
-              </SelectContent>
-            </Select>
-            
-            {formData.property === "autre" && <div className="mt-3">
-                <Input placeholder="Précisez ..." value={formData.propertyOther} onChange={e => setFormData(prev => ({
-              ...prev,
-              propertyOther: e.target.value
             }))} />
               </div>}
           </div>
