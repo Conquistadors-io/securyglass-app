@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Glasses, Info } from "lucide-react";
+import { Glasses, Info, Shield } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
@@ -23,7 +23,8 @@ export const QuoteStep2 = ({
     property: data.property || "appartement",
     propertyOther: data.propertyOther || "",
     motif: data.motif || "usure",
-    motifOther: data.motifOther || ""
+    motifOther: data.motifOther || "",
+    miseEnSecurite: data.miseEnSecurite || "non"
   });
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -162,6 +163,42 @@ export const QuoteStep2 = ({
               motifOther: e.target.value
             }))} />
               </div>}
+          </div>
+
+          <div>
+            <Label className="text-lg font-medium mb-4 block flex items-center gap-2">
+              <Shield className="h-5 w-5 text-primary" />
+              Voulez-vous une mise en sécurité ?
+            </Label>
+            <RadioGroup 
+              value={formData.miseEnSecurite} 
+              onValueChange={value => setFormData(prev => ({
+                ...prev,
+                miseEnSecurite: value
+              }))} 
+              className="space-y-3"
+            >
+              <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.miseEnSecurite === "oui" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
+                <RadioGroupItem value="oui" id="securite-oui" className="w-5 h-5" />
+                <Label htmlFor="securite-oui" className="cursor-pointer flex-1 font-medium">
+                  Oui, je souhaite une mise en sécurité
+                </Label>
+              </div>
+              
+              <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.miseEnSecurite === "non" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
+                <RadioGroupItem value="non" id="securite-non" className="w-5 h-5" />
+                <Label htmlFor="securite-non" className="cursor-pointer flex-1 font-medium">
+                  Non, pas de mise en sécurité
+                </Label>
+              </div>
+            </RadioGroup>
+            
+            <div className="p-4 bg-muted/50 rounded-lg mt-3 flex items-start gap-2">
+              <Info className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+              <p className="text-muted-foreground text-sm">
+                La mise en sécurité protège votre propriété en attendant la réparation définitive. Cette option peut influencer le coût final.
+              </p>
+            </div>
           </div>
 
           <div className="flex gap-4">
