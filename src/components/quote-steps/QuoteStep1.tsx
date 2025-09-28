@@ -115,27 +115,6 @@ export const QuoteStep1 = ({
             </Select>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="nom">Nom <span className="text-destructive">*</span></Label>
-              <div className="mt-1">
-                <Input id="nom" placeholder="Nom" value={formData.nom} onChange={e => setFormData(prev => ({
-                ...prev,
-                nom: e.target.value
-              }))} required />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="prenom">Prénom</Label>
-              <div className="mt-1">
-                <Input id="prenom" placeholder="Prénom" value={formData.prenom} onChange={e => setFormData(prev => ({
-                ...prev,
-                prenom: e.target.value
-              }))} />
-              </div>
-            </div>
-          </div>
-
           {(formData.civilite === "societe" || formData.civilite === "entreprise-btp") && (
             <div className="space-y-4">
               <div>
@@ -157,28 +136,6 @@ export const QuoteStep1 = ({
               </div>
             </div>
           )}
-
-          <div>
-            <Label htmlFor="mobile">Téléphone mobile <span className="text-destructive">*</span></Label>
-            <div className="relative mt-1">
-              <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input id="mobile" type="tel" placeholder="06 12 34 56 78" className="pl-10" value={formData.mobile} onChange={e => setFormData(prev => ({
-              ...prev,
-              mobile: e.target.value
-            }))} required />
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="email">Email <span className="text-destructive">*</span></Label>
-            <div className="relative mt-1">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input id="email" type="email" placeholder="votre@email.com" className="pl-10" value={formData.email} onChange={e => setFormData(prev => ({
-              ...prev,
-              email: e.target.value
-            }))} required />
-            </div>
-          </div>
 
           <div>
             <Label htmlFor="codePostal">Code postal <span className="text-destructive">*</span></Label>
@@ -225,6 +182,49 @@ export const QuoteStep1 = ({
               />
             </div>
             <p className="text-xs text-muted-foreground mt-1">Adresse où aura lieu l'intervention</p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="nom">Nom <span className="text-destructive">*</span></Label>
+              <div className="mt-1">
+                <Input id="nom" placeholder="Nom" value={formData.nom} onChange={e => setFormData(prev => ({
+                ...prev,
+                nom: e.target.value
+              }))} required />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="prenom">Prénom</Label>
+              <div className="mt-1">
+                <Input id="prenom" placeholder="Prénom" value={formData.prenom} onChange={e => setFormData(prev => ({
+                ...prev,
+                prenom: e.target.value
+              }))} />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="mobile">Téléphone mobile <span className="text-destructive">*</span></Label>
+            <div className="relative mt-1">
+              <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input id="mobile" type="tel" placeholder="06 12 34 56 78" className="pl-10" value={formData.mobile} onChange={e => setFormData(prev => ({
+              ...prev,
+              mobile: e.target.value
+            }))} required />
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="email">Email <span className="text-destructive">*</span></Label>
+            <div className="relative mt-1">
+              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input id="email" type="email" placeholder="votre@email.com" className="pl-10" value={formData.email} onChange={e => setFormData(prev => ({
+              ...prev,
+              email: e.target.value
+            }))} required />
+            </div>
           </div>
 
           {/* Adresse d'intervention différente pour les sociétés/BTP */}
