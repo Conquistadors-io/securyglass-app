@@ -219,8 +219,8 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
             <div className="text-foreground font-medium">{getDisplayValue("object", data.object).toUpperCase()}</div>
             <div className="text-foreground">Motif : {getDisplayValue("motif", data.motif)}</div>
             <div className="text-foreground">{getDisplayValue("vitrage", data.vitrage)}</div>
-            {data.category && data.subcategory && <div className="text-foreground">{getDisplayValue("category", data.category)} {getDisplayValue("subcategory", data.subcategory)}</div>}
-            {data.category && !data.subcategory && <div className="text-foreground">{getDisplayValue("category", data.category)}</div>}
+            {data.category && data.subcategory && data.category !== "vitrine" && <div className="text-foreground">{getDisplayValue("category", data.category)} {getDisplayValue("subcategory", data.subcategory)}</div>}
+            {(data.category && !data.subcategory) || (data.category === "vitrine") && <div className="text-foreground">{getDisplayValue("category", data.category)}</div>}
             <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L) x {data.quantite}</div>
           </div>
           <div className="flex justify-center mt-4">
