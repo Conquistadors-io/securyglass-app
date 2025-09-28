@@ -50,12 +50,12 @@ export const QuoteStep2 = ({
                     <Label htmlFor="miroir-sur-mesure" className="text-lg cursor-pointer flex-1">Miroir sur mesure</Label>
                   </div>
                 </> : <>
-                  <div className={`flex items-center space-x-3 p-4 border-2 border-primary rounded-lg transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "bg-primary text-primary-foreground" : "bg-background text-primary hover:bg-primary hover:text-primary-foreground"}`}>
+                  <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "bg-primary text-primary-foreground" : "bg-background text-primary hover:bg-primary hover:text-primary-foreground"}`}>
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className={`w-6 h-6 ${formData.object === "vitre-cassee" ? "border-primary-foreground text-primary-foreground" : "border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground"}`} />
                     <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer flex-1">Vitre cassée</Label>
                   </div>
                   
-                  <div className={`flex items-center space-x-3 p-4 border-2 border-primary rounded-lg transition-colors cursor-pointer ${formData.object === "autre" ? "bg-primary text-primary-foreground" : "bg-background text-primary hover:bg-primary hover:text-primary-foreground"}`}>
+                  <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer ${formData.object === "autre" ? "bg-primary text-primary-foreground" : "bg-background text-primary hover:bg-primary hover:text-primary-foreground"}`}>
                     <RadioGroupItem value="autre" id="autre-objet" className={`w-6 h-6 ${formData.object === "autre" ? "border-primary-foreground text-primary-foreground" : "border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground"}`} />
                     <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">Autres</Label>
                   </div>
