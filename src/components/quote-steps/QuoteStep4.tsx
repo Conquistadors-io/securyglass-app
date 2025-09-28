@@ -79,7 +79,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
         "baie-vitree": "Baie vitrée",
         "fenetre-standard": "Fenêtre standard",
         "porte-vitree": "Porte vitrée",
-        "vitrine": "Vitrine"
+        "vitrine": "Vitrine Magasin"
       },
       subcategory: {
         "coulissante": "Coulissante",
