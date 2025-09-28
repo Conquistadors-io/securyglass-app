@@ -91,10 +91,10 @@ export const QuoteStep3 = ({
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label className="text-lg font-medium mb-6 block text-blue-600">Type de vitrage ?</Label>
+            <Label className="text-lg font-medium mb-6 block">Type de vitrage ?</Label>
             
             <div className="mb-4">
-              <Label htmlFor="category" className="text-blue-600">Catégorie <span className="text-destructive">*</span></Label>
+              <Label htmlFor="category">Catégorie <span className="text-destructive">*</span></Label>
                <Select value={formData.category} onValueChange={value => {
               setFormData(prev => ({
                 ...prev,
@@ -111,23 +111,23 @@ export const QuoteStep3 = ({
                   <SelectValue placeholder="Précisez la catégorie" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="fenetre">Fenêtre</SelectItem>
-                  <SelectItem value="porte-vitree">Porte vitrée</SelectItem>
-                  <SelectItem value="porte-entree">Porte d'entrée</SelectItem>
-                  <SelectItem value="porte-fenetre">Porte-fenêtre</SelectItem>
-                  <SelectItem value="vitrine">Vitrine Magasin</SelectItem>
-                  <SelectItem value="baie-vitree">Baie vitrée</SelectItem>
-                  <SelectItem value="marquise">Marquise</SelectItem>
-                  <SelectItem value="fenetre-toit">Fenêtre de toit</SelectItem>
-                  <SelectItem value="velux">VELUX</SelectItem>
-                  <SelectItem value="cloison">Cloison vitrée</SelectItem>
-                  <SelectItem value="autre">Autre</SelectItem>
+                  <SelectItem value="fenetre" className="text-blue-600">Fenêtre</SelectItem>
+                  <SelectItem value="porte-vitree" className="text-blue-600">Porte vitrée</SelectItem>
+                  <SelectItem value="porte-entree" className="text-blue-600">Porte d'entrée</SelectItem>
+                  <SelectItem value="porte-fenetre" className="text-blue-600">Porte-fenêtre</SelectItem>
+                  <SelectItem value="vitrine" className="text-blue-600">Vitrine Magasin</SelectItem>
+                  <SelectItem value="baie-vitree" className="text-blue-600">Baie vitrée</SelectItem>
+                  <SelectItem value="marquise" className="text-blue-600">Marquise</SelectItem>
+                  <SelectItem value="fenetre-toit" className="text-blue-600">Fenêtre de toit</SelectItem>
+                  <SelectItem value="velux" className="text-blue-600">VELUX</SelectItem>
+                  <SelectItem value="cloison" className="text-blue-600">Cloison vitrée</SelectItem>
+                  <SelectItem value="autre" className="text-blue-600">Autre</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             
             {formData.category === "baie-vitree" && <div className="mb-4">
-                <Label className="text-blue-600">Type de baie vitrée</Label>
+                <Label>Type de baie vitrée</Label>
                 <Select value={formData.subcategory} onValueChange={value => {
                   setFormData(prev => ({
                     ...prev,
@@ -138,8 +138,8 @@ export const QuoteStep3 = ({
                     <SelectValue placeholder="Sélectionnez le type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="coulissante">Coulissante</SelectItem>
-                    <SelectItem value="fixe">Fixe</SelectItem>
+                    <SelectItem value="coulissante" className="text-blue-600">Coulissante</SelectItem>
+                    <SelectItem value="fixe" className="text-blue-600">Fixe</SelectItem>
                   </SelectContent>
                 </Select>
               </div>}
@@ -158,11 +158,11 @@ export const QuoteStep3 = ({
                 <SelectValue placeholder="Sélectionnez le type de vitrage" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="simple">Simple Vitrage</SelectItem>
-                <SelectItem value="double">Double Vitrage</SelectItem>
-                <SelectItem value="verre-securit">Verre Cheminée</SelectItem>
-                <SelectItem value="verre-feuillete">Verre Feuilleté Sécurit</SelectItem>
-                <SelectItem value="verre-trempe">Verre Trempé Sécurit</SelectItem>
+                <SelectItem value="simple" className="text-blue-600">Simple Vitrage</SelectItem>
+                <SelectItem value="double" className="text-blue-600">Double Vitrage</SelectItem>
+                <SelectItem value="verre-securit" className="text-blue-600">Verre Cheminée</SelectItem>
+                <SelectItem value="verre-feuillete" className="text-blue-600">Verre Feuilleté Sécurit</SelectItem>
+                <SelectItem value="verre-trempe" className="text-blue-600">Verre Trempé Sécurit</SelectItem>
               </SelectContent>
             </Select>
           </div>
