@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
 import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2, ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
@@ -127,108 +127,44 @@ export const QuoteStep3 = ({
             </div>
             
             {formData.category === "baie-vitree" && <div className="mb-4">
-                
-                <RadioGroup value={formData.subcategory} onValueChange={value => {
-              setFormData(prev => ({
-                ...prev,
-                subcategory: value
-              }));
-            }} className="flex gap-6 mt-2">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="coulissante" id="coulissante" className="w-4 h-4" />
-                    <Label htmlFor="coulissante" className="text-sm cursor-pointer">Coulissante</Label>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="fixe" id="fixe" className="w-4 h-4" />
-                    <Label htmlFor="fixe" className="text-sm cursor-pointer">Fixe</Label>
-                  </div>
-                </RadioGroup>
+                <Label>Type de baie vitrée</Label>
+                <Select value={formData.subcategory} onValueChange={value => {
+                  setFormData(prev => ({
+                    ...prev,
+                    subcategory: value
+                  }));
+                }}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Sélectionnez le type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="coulissante">Coulissante</SelectItem>
+                    <SelectItem value="fixe">Fixe</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>}
             
-            <RadioGroup value={formData.vitrage} onValueChange={value => {
-            setFormData(prev => ({
-              ...prev,
-              vitrage: value
-            }));
-            setValidationErrors(prev => ({
-              ...prev,
-              vitrage: false
-            }));
-            // Ouvrir automatiquement la section "Autres" si on sélectionne une sous-option
-            if (value === "autre" || value === "verre-feuillete" || value === "verre-trempe") {
-              setShowAutresOptions(true);
-            } else {
-              setShowAutresOptions(false);
-            }
-          }} className={`space-y-4 ${validationErrors.vitrage ? 'ring-2 ring-red-500 rounded-lg p-2' : ''}`}>
-              <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'simple' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
-                <RadioGroupItem value="simple" id="simple" className={`w-6 h-6 ${formData.vitrage === 'simple' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
-                <Label htmlFor="simple" className="text-lg cursor-pointer flex-1">Simple Vitrage</Label>
-              </div>
-              
-              <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'double' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
-                <RadioGroupItem value="double" id="double" className={`w-6 h-6 ${formData.vitrage === 'double' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
-                <Label htmlFor="double" className="text-lg cursor-pointer flex-1">Double Vitrage</Label>
-              </div>
-              
-              <div className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'verre-securit' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}>
-                <RadioGroupItem value="verre-securit" id="verre-securit" className={`w-6 h-6 ${formData.vitrage === 'verre-securit' ? 'border-primary-foreground text-primary-foreground' : 'group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
-                <Label htmlFor="verre-securit" className="text-lg cursor-pointer flex-1">Verre Sécurit</Label>
-              </div>
-              
-              <div className="space-y-2">
-                <div 
-                  className={`flex items-center space-x-3 p-4 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'autre' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
-                  onClick={() => {
-                    setFormData(prev => ({ ...prev, vitrage: 'autre' }));
-                    setShowAutresOptions(true);
-                  }}
-                >
-                  <RadioGroupItem 
-                    value="autre" 
-                    id="autre" 
-                    className={`w-6 h-6 ${formData.vitrage === 'autre' ? 'border-primary-foreground text-primary-foreground' : 'border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground'}`}
-                  />
-                  <Label 
-                    htmlFor="autre" 
-                    className="text-lg cursor-pointer flex-1"
-                  >
-                    Autres
-                  </Label>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowAutresOptions(!showAutresOptions);
-                    }}
-                    className="p-1 hover:bg-accent rounded transition-colors"
-                  >
-                    <ChevronDown className={`w-5 h-5 transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
-                  </button>
-                </div>
-                
-                {showAutresOptions && (
-                  <div className="ml-6 space-y-2">
-                    <div 
-                      className={`flex items-center space-x-3 p-3 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'verre-feuillete' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
-                      onClick={() => setFormData(prev => ({ ...prev, vitrage: 'verre-feuillete' }))}
-                    >
-                      <RadioGroupItem value="verre-feuillete" id="verre-feuillete" className={`w-5 h-5 ${formData.vitrage === 'verre-feuillete' ? 'border-primary-foreground text-primary-foreground' : 'border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
-                      <Label htmlFor="verre-feuillete" className="cursor-pointer flex-1">Verre Feuilleté Sécurit</Label>
-                    </div>
-                    
-                    <div 
-                      className={`flex items-center space-x-3 p-3 border border-primary rounded-lg transition-colors cursor-pointer group ${formData.vitrage === 'verre-trempe' ? 'bg-primary text-primary-foreground' : 'bg-background text-primary hover:bg-primary hover:text-primary-foreground'}`}
-                      onClick={() => setFormData(prev => ({ ...prev, vitrage: 'verre-trempe' }))}
-                    >
-                      <RadioGroupItem value="verre-trempe" id="verre-trempe" className={`w-5 h-5 ${formData.vitrage === 'verre-trempe' ? 'border-primary-foreground text-primary-foreground' : 'border-primary text-primary group-hover:border-primary-foreground group-hover:text-primary-foreground'}`} />
-                      <Label htmlFor="verre-trempe" className="cursor-pointer flex-1">Verre Trempé Sécurit</Label>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </RadioGroup>
+            <Select value={formData.vitrage} onValueChange={value => {
+              setFormData(prev => ({
+                ...prev,
+                vitrage: value
+              }));
+              setValidationErrors(prev => ({
+                ...prev,
+                vitrage: false
+              }));
+            }}>
+              <SelectTrigger className={`mt-1 ${validationErrors.vitrage ? 'border-red-500 ring-red-500' : ''}`}>
+                <SelectValue placeholder="Sélectionnez le type de vitrage" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="simple">Simple Vitrage</SelectItem>
+                <SelectItem value="double">Double Vitrage</SelectItem>
+                <SelectItem value="verre-securit">Verre Sécurit</SelectItem>
+                <SelectItem value="verre-feuillete">Verre Feuilleté Sécurit</SelectItem>
+                <SelectItem value="verre-trempe">Verre Trempé Sécurit</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="grid grid-cols-[1fr_1fr_auto] gap-4">
