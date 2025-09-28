@@ -106,8 +106,16 @@ function calculateQuote(request: QuoteRequest, rules: PricingRules) {
   const laborPerM2 = rules.labor_costs.base_rate_per_m2;
   const laborCost = Math.max(surfaceTotale * laborPerM2, rules.labor_costs.minimum_charge);
 
-  // Security setup cost (different for particulier vs professionnel)
-  const securityCost = rules.client_types[clientType].security_setup;
+  // Security setup cost calculation
+  let securityCost = 0;
+  if (clientType === 'particulier') {
+    // Fixed cost for particuliers
+    securityCost = rules.client_types[clientType].security_setup || 0;
+  } else {
+    // Per m² cost for professionals
+    const securityPerM2 = rules.client_types[clientType].security_setup_per_m2 || 0;
+    securityCost = surfaceTotale * securityPerM2;
+  }
 
   // Base subtotal
   let subtotal = glassPrice + laborCost + securityCost;
@@ -129,8 +137,8 @@ function calculateQuote(request: QuoteRequest, rules: PricingRules) {
   const clientMultiplier = rules.client_types[clientType].multiplier;
   subtotal = (subtotal + deliveryCost + travelCost) * clientMultiplier;
 
-  // Calculate VAT
-  const tvaRate = rules.general_settings.tva_rate;
+  // Calculate VAT using client-specific rate
+  const tvaRate = rules.client_types[clientType].tva_rate;
   const tva = subtotal * tvaRate;
   const total = subtotal + tva;
 
@@ -152,7 +160,9 @@ function calculateQuote(request: QuoteRequest, rules: PricingRules) {
       minimum: rules.labor_costs.minimum_charge
     },
     securite: {
-      total: securityCost
+      total: securityCost,
+      type: clientType === 'particulier' ? 'fixe' : 'par_m2',
+      prix_m2: clientType === 'professionnel' ? rules.client_types[clientType].security_setup_per_m2 : null
     },
     livraison: {
       total: deliveryCost,
