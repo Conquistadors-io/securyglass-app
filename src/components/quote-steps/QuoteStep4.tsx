@@ -149,23 +149,23 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
   ];
 
   return (
-    <div className="min-h-screen bg-white py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
       <div className="max-w-2xl mx-auto space-y-6 px-4">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
           RÉCAPITULATIF
         </h2>
-        <p className="text-gray-600">
+        <p className="text-gray-700">
           Veuillez vérifier vos informations avant de valider votre demande de devis
         </p>
       </div>
 
       {/* Section Client */}
-      <Card>
-        <CardContent className="p-6">
+      <Card className="border-l-4 border-l-blue-500 shadow-lg hover:shadow-xl transition-shadow">
+        <CardContent className="p-6 bg-gradient-to-r from-blue-50 to-white">
           <div className="flex items-center mb-4">
-            <CheckCircle2 className="h-5 w-5 text-primary mr-2" />
-            <span className="text-lg font-semibold">Vos informations</span>
+            <CheckCircle2 className="h-6 w-6 text-blue-600 mr-3" />
+            <span className="text-lg font-semibold text-blue-800">Vos informations</span>
           </div>
           <div className="space-y-2">
             <div className="text-sm font-medium text-muted-foreground">
@@ -198,11 +198,11 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       </Card>
 
       {/* Section Interventions */}
-      <Card>
-        <CardContent className="p-6">
+      <Card className="border-l-4 border-l-green-500 shadow-lg hover:shadow-xl transition-shadow">
+        <CardContent className="p-6 bg-gradient-to-r from-green-50 to-white">
           <div className="flex items-center mb-4">
-            <CheckCircle2 className="h-5 w-5 text-primary mr-2" />
-            <span className="text-lg font-semibold">Description</span>
+            <CheckCircle2 className="h-6 w-6 text-green-600 mr-3" />
+            <span className="text-lg font-semibold text-green-800">Description</span>
           </div>
           <div className="space-y-2">
             <div className="text-foreground font-medium">{getDisplayValue("object", data.object).toUpperCase()}</div>
@@ -217,8 +217,8 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
 
 
       {/* Section Acceptation des conditions */}
-      <Card>
-        <CardContent className="p-6">
+      <Card className="border-l-4 border-l-purple-500 shadow-lg hover:shadow-xl transition-shadow">
+        <CardContent className="p-6 bg-gradient-to-r from-purple-50 to-white">
           <div className="flex items-start space-x-3">
             <Checkbox
               id="terms"
