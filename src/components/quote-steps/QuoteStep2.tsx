@@ -149,9 +149,9 @@ export const QuoteStep2 = ({
               </SelectContent>
             </Select>
             
-            <div className="p-4 bg-accent rounded-lg mt-2 mb-2 flex items-center gap-2">
-              <Info className="h-4 w-4 text-white" />
-              <p className="text-white text-sm">
+            <div className="p-4 bg-primary/10 rounded-lg mt-2 mb-2 flex items-center gap-2">
+              <Info className="h-4 w-4 text-primary" />
+              <p className="text-primary text-sm">
                 Le motif ne sera pas mentionné sur le devis
               </p>
             </div>
