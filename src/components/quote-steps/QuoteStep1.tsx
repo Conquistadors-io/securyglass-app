@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { User, Phone, Mail, MapPin, Hash, Shield } from "lucide-react";
+import { User, Phone, Mail, MapPin, Hash, Shield, Star } from "lucide-react";
 import { DepartmentSelect } from "@/components/ui/department-select";
 import { CitySelect } from "@/components/ui/city-select";
 import { AddressSelect } from "@/components/ui/address-select";
@@ -88,14 +88,18 @@ export const QuoteStep1 = ({
   return <Card className="shadow-card border-0">
       <div className="p-6">
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-foreground mb-2">
+          <h2 className="text-xl font-semibold text-foreground mb-2 flex items-center">
             Vos informations
+            <Star className="ml-2 h-4 w-4 text-red-500 fill-red-500" />
           </h2>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label htmlFor="civilite">Civilité</Label>
+            <Label htmlFor="civilite" className="flex items-center">
+              Civilité
+              <Star className="ml-1 h-3 w-3 text-red-500 fill-red-500" />
+            </Label>
             <Select value={formData.civilite} onValueChange={value => setFormData(prev => ({
             ...prev,
             civilite: value
