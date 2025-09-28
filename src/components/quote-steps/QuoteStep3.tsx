@@ -160,7 +160,7 @@ export const QuoteStep3 = ({
               <SelectContent>
                 <SelectItem value="simple">Simple Vitrage</SelectItem>
                 <SelectItem value="double">Double Vitrage</SelectItem>
-                <SelectItem value="verre-securit">Verre Sécurit</SelectItem>
+                <SelectItem value="verre-securit">Verre Cheminée</SelectItem>
                 <SelectItem value="verre-feuillete">Verre Feuilleté Sécurit</SelectItem>
                 <SelectItem value="verre-trempe">Verre Trempé Sécurit</SelectItem>
               </SelectContent>
