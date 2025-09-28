@@ -128,7 +128,7 @@ export const QuoteSummary = ({
         <div class="client-info">
           <h3>Client</h3>
           <p><strong>${data.civilite} ${data.nom}</strong></p>
-          ${data.nomSociete ? `<p><strong>${data.nomSociete}</strong></p>` : ''}
+          ${(data.raison_sociale || data.nomSociete) ? `<p><strong>${data.raison_sociale || data.nomSociete}</strong></p>` : ''}
           <p>${data.telephone}</p>
           <p>${data.email}</p>
           ${data.adresse ? `<p>${data.adresse}</p>` : ''}
@@ -591,7 +591,7 @@ export const QuoteSummary = ({
           
           <div className="space-y-2 text-sm">
             <p><strong>{data.civilite} {data.nom}</strong></p>
-            {data.nomSociete && <p><strong>{data.nomSociete}</strong></p>}
+            {(data.raison_sociale || data.nomSociete) && <p><strong>{data.raison_sociale || data.nomSociete}</strong></p>}
             <p>{data.telephone}</p>
             <p>{data.email}</p>
             {data.adresse && <p>{data.adresse}</p>}
