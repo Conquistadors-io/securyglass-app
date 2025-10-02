@@ -473,7 +473,7 @@ export const QuoteSummary = ({
 
   return <div className="space-y-6">
       {/* Header Card */}
-      <Card className="shadow-card border-0">
+      <Card className="shadow-card border-2 border-blue-500">
         <div className="p-6">
           <div className="text-center">
             <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
@@ -488,7 +488,7 @@ export const QuoteSummary = ({
       </Card>
 
       {/* Quote Details */}
-      <Card className="shadow-card border-0">
+      <Card className="shadow-card border-2 border-blue-500">
         <div className="p-6">
           <h3 className="text-lg font-semibold mb-4">Récapitulatif</h3>
           
@@ -587,7 +587,7 @@ export const QuoteSummary = ({
       </Card>
 
       {/* Contact Info */}
-      <Card className="shadow-card border-0">
+      <Card className="shadow-card border-2 border-blue-500">
         <div className="p-6">
           <h3 className="text-lg font-semibold mb-4">Vos coordonnées</h3>
           
@@ -615,7 +615,7 @@ export const QuoteSummary = ({
 
       {/* Gmail Status Info */}
       {!gmailConfigured && devisSaved && (
-        <Card className="shadow-card border-0">
+        <Card className="shadow-card border-2 border-blue-500">
           <div className="p-6">
             <div className="flex items-start gap-3">
               <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
@@ -680,7 +680,7 @@ export const QuoteSummary = ({
       </div>
 
       {/* Info Message */}
-      <Card className="shadow-card border-0">
+      <Card className="shadow-card border-2 border-blue-500">
         <div className="p-6">
           <p className="text-sm text-center text-foreground">
             <strong>Vérifiez votre e-mail  📩</strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
