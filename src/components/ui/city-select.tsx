@@ -210,13 +210,18 @@ export function CitySelect({
   // Mode ville unique (auto-sélectionnée)
   if (cities.length === 1) {
     return (
-      <div className={className}>
-        <Input
-          type="text"
-          value={cities[0].nom}
-          disabled
-          className="bg-muted"
-        />
+      <div className={`space-y-2 ${className}`}>
+        <div 
+          onClick={() => setShowManualInput(true)}
+          className="cursor-pointer"
+        >
+          <Input
+            type="text"
+            value={cities[0].nom}
+            disabled
+            className="bg-muted cursor-pointer"
+          />
+        </div>
       </div>
     );
   }
