@@ -212,7 +212,7 @@ export const QuoteStep1 = ({
                   ...prev,
                   codePostal: value
                 }))}
-                placeholder="Numéro de département"
+                placeholder="Numéro du département"
               />
             </div>
           </div>
@@ -281,7 +281,7 @@ export const QuoteStep1 = ({
                           ...prev,
                           interventionCodePostal: value
                         }))}
-                        placeholder="Numéro de département"
+                        placeholder="Numéro du département"
                       />
                     </div>
                   </div>
