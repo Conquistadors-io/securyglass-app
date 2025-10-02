@@ -170,14 +170,15 @@ export const QuoteStep1 = ({
           <div>
             <Label htmlFor="ville">Ville <span className="text-destructive">*</span></Label>
             <div className="mt-1">
-              <CitySelect 
+              <Input 
+                id="ville" 
                 value={formData.ville} 
-                onValueChange={(value) => setFormData(prev => ({
+                onChange={(e) => setFormData(prev => ({
                   ...prev,
-                  ville: value
+                  ville: e.target.value
                 }))}
-                postalCode={formData.codePostal}
-                placeholder="Sélectionnez une ville"
+                placeholder="Saisissez votre ville"
+                required
               />
             </div>
           </div>
@@ -262,14 +263,15 @@ export const QuoteStep1 = ({
                   <div>
                     <Label htmlFor="interventionVille">Ville d'intervention <span className="text-destructive">*</span></Label>
                     <div className="mt-1">
-                      <CitySelect 
+                      <Input 
+                        id="interventionVille"
                         value={formData.interventionVille} 
-                        onValueChange={(value) => setFormData(prev => ({
+                        onChange={(e) => setFormData(prev => ({
                           ...prev,
-                          interventionVille: value
+                          interventionVille: e.target.value
                         }))}
-                        postalCode={formData.interventionCodePostal}
-                        placeholder="Sélectionnez une ville"
+                        placeholder="Saisissez la ville"
+                        required
                       />
                     </div>
                   </div>
