@@ -613,16 +613,18 @@ export const QuoteSummary = ({
 
       {/* Gmail Status Info */}
       {!gmailConfigured && devisSaved && (
-        <Card className="p-4 bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800">
-          <div className="flex items-center gap-3">
-            <CheckCircle className="h-5 w-5 text-green-600" />
-            <div>
-              <p className="text-sm font-medium text-green-800 dark:text-green-200">
-                ✅ Devis enregistré avec succès!
-              </p>
-              <p className="text-xs text-green-700 dark:text-green-300">
-                L'envoi automatique par email n'est pas configuré. Vous pouvez télécharger le devis ci-dessous.
-              </p>
+        <Card className="shadow-card border-0">
+          <div className="p-6">
+            <div className="flex items-start gap-3">
+              <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-foreground mb-1">
+                  Devis enregistré avec succès
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Vous pouvez télécharger le devis en PDF ci-dessous.
+                </p>
+              </div>
             </div>
           </div>
         </Card>
