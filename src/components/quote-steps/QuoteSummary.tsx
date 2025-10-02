@@ -475,11 +475,6 @@ export const QuoteSummary = ({
             <p className="text-muted-foreground">
               {emailSent ? `à : ${data.email}` : isLoading ? "Veuillez patienter..." : ""}
             </p>
-            {emailSent && (
-              <p className="text-sm text-center text-foreground mt-4">
-                <strong>Vérifiez votre e-mail  📩</strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
-              </p>
-            )}
           </div>
         </div>
       </Card>
@@ -567,9 +562,7 @@ export const QuoteSummary = ({
                </div>
             </>}
 
-          <p className="text-xs text-muted-foreground mt-2">
-            * Prix indicatif, devis définitif après visite technique
-          </p>
+          
         </div>
       </Card>
 
@@ -635,6 +628,14 @@ export const QuoteSummary = ({
         </Button>
       </div>
 
+      {/* Info Message */}
+      <Card className="shadow-card border-2 border-blue-500">
+        <div className="p-6">
+          <p className="text-sm text-center text-foreground">
+            <strong>Vérifiez votre e-mail  📩</strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
+          </p>
+        </div>
+      </Card>
 
       {/* Action buttons */}
       <div className="grid grid-cols-2 gap-2">
