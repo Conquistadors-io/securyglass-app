@@ -110,9 +110,10 @@ interface DepartmentSelectProps {
   value?: string
   onValueChange?: (value: string) => void
   placeholder?: string
+  onComplete?: () => void
 }
 
-export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro du département" }: DepartmentSelectProps) {
+export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro du département", onComplete }: DepartmentSelectProps) {
   const [inputValue, setInputValue] = useState("")
   const [showSuggestions, setShowSuggestions] = useState(false)
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -183,6 +184,7 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro 
   const handleSelectDepartment = (dept: typeof DEPARTMENTS[0]) => {
     onValueChange?.(dept.code)
     setShowSuggestions(false)
+    setTimeout(() => onComplete?.(), 100)
   }
 
   const handleClick = () => {

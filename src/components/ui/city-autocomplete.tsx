@@ -15,6 +15,7 @@ interface CityAutocompleteProps {
   departmentCode?: string;
   disabled?: boolean;
   className?: string;
+  onComplete?: () => void;
 }
 
 export function CityAutocomplete({
@@ -23,7 +24,8 @@ export function CityAutocomplete({
   placeholder = "Saisissez votre ville",
   departmentCode = '',
   disabled = false,
-  className = ""
+  className = "",
+  onComplete
 }: CityAutocompleteProps) {
   const [inputValue, setInputValue] = useState(value);
   const [suggestions, setSuggestions] = useState<City[]>([]);
@@ -109,6 +111,7 @@ export function CityAutocomplete({
     onValueChange?.(cityName);
     setShowSuggestions(false);
     setSuggestions([]);
+    setTimeout(() => onComplete?.(), 100);
   };
 
   // Gérer le blur (perte de focus)

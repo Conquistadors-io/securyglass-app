@@ -303,6 +303,9 @@ export const QuoteStep1 = ({
                   codePostal: value
                 }))}
                 placeholder="Numéro du département"
+                onComplete={() => {
+                  // Le focus se déplacera automatiquement vers la ville quand elle sera affichée
+                }}
               />
             </div>
           </div>
