@@ -81,7 +81,7 @@ export const QuoteStep0 = ({
                     
                     <div className={`flex items-center space-x-3 p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.serviceType === 'renovation' ? 'border-primary' : 'border-border'}`} onClick={() => handleServiceTypeChange('renovation')}>
                       <RadioGroupItem value="renovation" id="renovation" className="w-5 h-5" />
-                      <Label htmlFor="renovation" className="cursor-pointer flex-1 text-primary">Rénovation</Label>
+                      <Label htmlFor="renovation" className="cursor-pointer flex-1 text-slate-700">Rénovation</Label>
                     </div>
                   </div>}
               </div>
