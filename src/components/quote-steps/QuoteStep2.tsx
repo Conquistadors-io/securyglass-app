@@ -68,29 +68,29 @@ export const QuoteStep2 = ({
               ...prev,
               object: value
             }))}>
-                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                  <div className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-sur-mesure" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="verre-sur-mesure" id="verre-sur-mesure" className="w-5 h-5" />
                     <Label htmlFor="verre-sur-mesure" className="cursor-pointer flex-1">Verre sur mesure</Label>
                   </div>
                   
                   
                   
-                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                  <div className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "chatiere" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="chatiere" id="chatiere" className="w-5 h-5" />
                     <Label htmlFor="chatiere" className="cursor-pointer flex-1">Chatière</Label>
                   </div>
                   
-                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                  <div className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "decoupe-aeration" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="decoupe-aeration" id="decoupe-aeration" className="w-5 h-5" />
                     <Label htmlFor="decoupe-aeration" className="cursor-pointer flex-1">Découpe aération</Label>
                   </div>
                   
-                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                  <div className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-anti-bruit" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="verre-anti-bruit" id="verre-anti-bruit" className="w-5 h-5" />
                     <Label htmlFor="verre-anti-bruit" className="cursor-pointer flex-1">Verre Anti-Bruit</Label>
                   </div>
                   
-                  <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer">
+                  <div className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="verre-anti-effraction" id="verre-anti-effraction" className="w-5 h-5" />
                     <Label htmlFor="verre-anti-effraction" className="cursor-pointer flex-1">Verre Anti-effraction</Label>
                   </div>
