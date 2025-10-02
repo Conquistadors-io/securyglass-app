@@ -79,7 +79,10 @@ export function CityAutocomplete({
       // Sélection automatique s'il n'y a qu'une seule ville correspondante
       if (filtered.length === 1 && search.length >= 1) {
         const singleCity = filtered[0];
-        onValueChange?.(singleCity.nom);
+        const cityWithPostal = singleCity.codesPostaux && singleCity.codesPostaux.length > 0 
+          ? `${singleCity.nom} (${singleCity.codesPostaux[0]})`
+          : singleCity.nom;
+        onValueChange?.(cityWithPostal);
         setShowSuggestions(false);
         setSuggestions([]);
       }
@@ -106,9 +109,12 @@ export function CityAutocomplete({
   };
 
   // Gérer la sélection d'une suggestion
-  const handleSelectSuggestion = (cityName: string) => {
-    setInputValue(cityName);
-    onValueChange?.(cityName);
+  const handleSelectSuggestion = (city: City) => {
+    const cityWithPostal = city.codesPostaux && city.codesPostaux.length > 0 
+      ? `${city.nom} (${city.codesPostaux[0]})`
+      : city.nom;
+    setInputValue(cityWithPostal);
+    onValueChange?.(cityWithPostal);
     setShowSuggestions(false);
     setSuggestions([]);
     setTimeout(() => onComplete?.(), 100);
@@ -168,16 +174,17 @@ export function CityAutocomplete({
               className="w-full px-4 py-2 text-left hover:bg-accent transition-colors cursor-pointer"
               onMouseDown={(e) => {
                 e.preventDefault(); // Empêcher le blur
-                handleSelectSuggestion(city.nom);
+                handleSelectSuggestion(city);
               }}
             >
-              <div className="font-medium">{city.nom}</div>
-              {city.codesPostaux && city.codesPostaux.length > 0 && (
-                <div className="text-xs text-muted-foreground">
-                  {city.codesPostaux.slice(0, 3).join(', ')}
-                  {city.codesPostaux.length > 3 && '...'}
-                </div>
-              )}
+              <div className="font-medium">
+                {city.nom}
+                {city.codesPostaux && city.codesPostaux.length > 0 && (
+                  <span className="text-muted-foreground ml-2">
+                    ({city.codesPostaux[0]})
+                  </span>
+                )}
+              </div>
             </button>
           ))}
         </div>
