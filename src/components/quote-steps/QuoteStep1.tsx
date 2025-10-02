@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { User, Phone, Mail, MapPin, Hash, Shield, Star } from "lucide-react";
 import { DepartmentSelect } from "@/components/ui/department-select";
-import { CitySelect } from "@/components/ui/city-select";
+import { CityAutocomplete } from "@/components/ui/city-autocomplete";
 import { AddressSelect } from "@/components/ui/address-select";
 import { InsuranceSelect } from "@/components/ui/insurance-select";
 import { saveClient } from "@/services/clients";
@@ -170,15 +170,14 @@ export const QuoteStep1 = ({
           <div>
             <Label htmlFor="ville">Ville <span className="text-destructive">*</span></Label>
             <div className="mt-1">
-              <Input 
-                id="ville" 
+              <CityAutocomplete 
                 value={formData.ville} 
-                onChange={(e) => setFormData(prev => ({
+                onValueChange={(value) => setFormData(prev => ({
                   ...prev,
-                  ville: e.target.value
+                  ville: value
                 }))}
+                departmentCode={formData.codePostal}
                 placeholder="Saisissez votre ville"
-                required
               />
             </div>
           </div>
@@ -246,16 +245,15 @@ export const QuoteStep1 = ({
               {formData.differentInterventionAddress && (
                 <div className="space-y-4 ml-6">
                   <div>
-                    <Label htmlFor="interventionCodePostal">Code postal d'intervention <span className="text-destructive">*</span></Label>
+                    <Label htmlFor="interventionCodePostal">Département d'intervention <span className="text-destructive">*</span></Label>
                     <div className="mt-1">
-                      <Input 
-                        id="interventionCodePostal" 
+                      <DepartmentSelect 
                         value={formData.interventionCodePostal} 
-                        onChange={e => setFormData(prev => ({
+                        onValueChange={(value) => setFormData(prev => ({
                           ...prev,
-                          interventionCodePostal: e.target.value
-                        }))} 
-                        required 
+                          interventionCodePostal: value
+                        }))}
+                        placeholder="Sélectionnez le département"
                       />
                     </div>
                   </div>
@@ -263,15 +261,14 @@ export const QuoteStep1 = ({
                   <div>
                     <Label htmlFor="interventionVille">Ville d'intervention <span className="text-destructive">*</span></Label>
                     <div className="mt-1">
-                      <Input 
-                        id="interventionVille"
+                      <CityAutocomplete 
                         value={formData.interventionVille} 
-                        onChange={(e) => setFormData(prev => ({
+                        onValueChange={(value) => setFormData(prev => ({
                           ...prev,
-                          interventionVille: e.target.value
+                          interventionVille: value
                         }))}
+                        departmentCode={formData.interventionCodePostal}
                         placeholder="Saisissez la ville"
-                        required
                       />
                     </div>
                   </div>
