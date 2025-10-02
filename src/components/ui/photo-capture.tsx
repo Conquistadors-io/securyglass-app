@@ -34,12 +34,13 @@ export const PhotoCapture = ({ onPhotoSelect, children, maxSizeMB = 5 }: PhotoCa
       return;
     }
     
-    // Create preview
+    // Create preview and immediately confirm selection
     const reader = new FileReader();
     reader.onload = (e) => {
       const previewUrl = e.target?.result as string;
-      setPreview(previewUrl);
-      setSelectedFile(file);
+      onPhotoSelect(file, previewUrl);
+      setIsOpen(false);
+      resetState();
     };
     reader.readAsDataURL(file);
   };
