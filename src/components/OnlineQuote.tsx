@@ -9,12 +9,12 @@ import { QuoteStep2 } from "./quote-steps/QuoteStep2";
 import { QuoteStep3 } from "./quote-steps/QuoteStep3";
 import { QuoteSummary } from "./quote-steps/QuoteSummary";
 import { QuoteStep4 } from "./quote-steps/QuoteStep4";
-
 interface OnlineQuoteProps {
   onNavigate: (route: string) => void;
 }
-
-export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
+export const OnlineQuote = ({
+  onNavigate
+}: OnlineQuoteProps) => {
   // Initialisation des données depuis localStorage ou valeurs par défaut
   const [currentStep, setCurrentStep] = useState(() => {
     try {
@@ -24,14 +24,12 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
       return 1;
     }
   });
-  
   const [formData, setFormData] = useState(() => {
     try {
       const saved = localStorage.getItem('quote-form-data');
       return saved ? JSON.parse(saved) : {
         // Step 0: Service type
         serviceType: "",
-        
         // Step 1: Personal info
         civilite: "",
         nom: "",
@@ -48,12 +46,10 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         interventionCodePostal: "",
         interventionVille: "",
         interventionAdresse: "",
-        
         // Step 2: Object
         object: "",
         property: "",
         motif: "",
-        
         // Step 3: Property details
         category: "",
         subcategory: "",
@@ -67,7 +63,6 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
       return {
         // Step 0: Service type
         serviceType: "",
-        
         // Step 1: Personal info
         civilite: "",
         nom: "",
@@ -84,12 +79,10 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         interventionCodePostal: "",
         interventionVille: "",
         interventionAdresse: "",
-        
         // Step 2: Object
         object: "",
         property: "",
         motif: "",
-        
         // Step 3: Property details
         category: "",
         subcategory: "",
@@ -129,101 +122,57 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
       console.error('Erreur lors de la suppression des données:', error);
     }
   };
-
   const totalSteps = 6; // Updated to 6 steps
-  const progress = ((currentStep + 1) / totalSteps) * 100;
-
+  const progress = (currentStep + 1) / totalSteps * 100;
   const handleNext = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     }
   };
-
   const handlePrevious = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
   };
-
   const handleStepComplete = (stepData: any) => {
-    setFormData(prev => ({ ...prev, ...stepData }));
+    setFormData(prev => ({
+      ...prev,
+      ...stepData
+    }));
     if (currentStep < totalSteps) {
       handleNext();
     }
   };
-
   const renderStep = () => {
     switch (currentStep) {
       case 0:
-        return (
-          <QuoteStep0 
-            data={formData} 
-            onComplete={handleStepComplete}
-          />
-        );
+        return <QuoteStep0 data={formData} onComplete={handleStepComplete} />;
       case 1:
-        return (
-          <QuoteStep2 
-            data={formData} 
-            onComplete={handleStepComplete}
-            onBack={handlePrevious}
-          />
-        );
+        return <QuoteStep2 data={formData} onComplete={handleStepComplete} onBack={handlePrevious} />;
       case 2:
-        return (
-          <QuoteStep3 
-            data={formData} 
-            onComplete={handleStepComplete}
-            onBack={handlePrevious}
-          />
-        );
+        return <QuoteStep3 data={formData} onComplete={handleStepComplete} onBack={handlePrevious} />;
       case 3:
-        return (
-          <QuoteStep1 
-            data={formData} 
-            onComplete={handleStepComplete}
-            onBack={handlePrevious}
-          />
-        );
+        return <QuoteStep1 data={formData} onComplete={handleStepComplete} onBack={handlePrevious} />;
       case 4:
-        return (
-          <QuoteStep4 
-            data={formData} 
-            onValidate={handleNext}
-            onModify={(step: number) => setCurrentStep(step)}
-          />
-        );
+        return <QuoteStep4 data={formData} onValidate={handleNext} onModify={(step: number) => setCurrentStep(step)} />;
       case 5:
-        return (
-          <QuoteSummary 
-            data={formData} 
-            onNavigate={(route) => {
-              clearSavedData();
-              onNavigate(route);
-            }}
-            onComplete={clearSavedData}
-          />
-        );
+        return <QuoteSummary data={formData} onNavigate={route => {
+          clearSavedData();
+          onNavigate(route);
+        }} onComplete={clearSavedData} />;
       default:
         return null;
     }
   };
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="bg-gradient-primary px-6 py-4 text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="text-white hover:bg-white/20 mr-3"
-              onClick={() => currentStep === 0 ? onNavigate('welcome') : handlePrevious()}
-            >
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 mr-3" onClick={() => currentStep === 0 ? onNavigate('welcome') : handlePrevious()}>
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            <h1 className="text-xl font-semibold">Devis en Ligne</h1>
+            <h1 className="text-xl font-semibold">Devis en 3 minutes </h1>
           </div>
           <span className="text-sm">
             {currentStep + 1}/{totalSteps}
@@ -232,10 +181,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         
         {/* Progress Bar */}
         <div className="mt-4">
-          <Progress 
-            value={progress} 
-            className="h-2 bg-white/20"
-          />
+          <Progress value={progress} className="h-2 bg-white/20" />
         </div>
       </div>
 
@@ -243,6 +189,5 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
       <div className="px-6 py-8">
         {renderStep()}
       </div>
-    </div>
-  );
+    </div>;
 };
