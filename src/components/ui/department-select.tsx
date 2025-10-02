@@ -1,21 +1,7 @@
 import * as React from "react"
-import { useState, useEffect } from "react"
-import { Check, ChevronsUpDown, MapPin } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import { useState, useEffect, useRef } from "react"
+import { MapPin } from "lucide-react"
+import { Input } from "@/components/ui/input"
 
 const DEPARTMENTS = [
   { code: "01", name: "Ain" },
@@ -127,93 +113,119 @@ interface DepartmentSelectProps {
 }
 
 export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro du département" }: DepartmentSelectProps) {
-  const [open, setOpen] = useState(false)
-  const [searchValue, setSearchValue] = useState("")
+  const [inputValue, setInputValue] = useState("")
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const wrapperRef = useRef<HTMLDivElement>(null)
 
   const selectedDepartment = DEPARTMENTS.find(dept => dept.code === value)
 
+  // Mettre à jour l'inputValue quand value change
+  useEffect(() => {
+    if (value) {
+      const dept = DEPARTMENTS.find(d => d.code === value)
+      if (dept) {
+        setInputValue(`${dept.code} ${dept.name}`)
+      }
+    } else {
+      setInputValue("")
+    }
+  }, [value])
+
+  // Fermer les suggestions quand on clique en dehors
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   const filteredDepartments = DEPARTMENTS.filter(department => {
-    // Ne rien afficher si aucune recherche n'est en cours
-    if (!searchValue) return false
+    if (!inputValue || inputValue === `${selectedDepartment?.code} ${selectedDepartment?.name}`) return false
     
-    const search = searchValue.toLowerCase()
+    const search = inputValue.toLowerCase()
     const departmentText = `${department.code} ${department.name}`.toLowerCase()
     
     // Si la recherche ne contient que des chiffres, chercher seulement au début du code
-    if (/^\d+$/.test(searchValue)) {
-      return department.code.startsWith(searchValue)
+    if (/^\d+$/.test(inputValue)) {
+      return department.code.startsWith(inputValue)
     }
     
     // Sinon, recherche normale dans le texte complet
     return departmentText.includes(search)
   })
 
-  // Sélection automatique s'il n'y a qu'un seul résultat
+  // Sélection automatique s'il n'y a qu'un seul résultat exact
   useEffect(() => {
-    if (filteredDepartments.length === 1 && searchValue && !value) {
+    if (filteredDepartments.length === 1 && inputValue && /^\d+$/.test(inputValue)) {
       const singleDept = filteredDepartments[0]
-      // Sélectionner automatiquement si la recherche correspond exactement au code
-      if (singleDept.code === searchValue) {
+      if (singleDept.code === inputValue) {
         onValueChange?.(singleDept.code)
-        setSearchValue("")
-        setOpen(false)
+        setShowSuggestions(false)
       }
     }
-  }, [filteredDepartments, searchValue, value, onValueChange])
+  }, [filteredDepartments, inputValue, onValueChange])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value
+    setInputValue(newValue)
+    
+    if (newValue.length >= 1) {
+      setShowSuggestions(true)
+    } else {
+      setShowSuggestions(false)
+      onValueChange?.("")
+    }
+  }
+
+  const handleSelectDepartment = (dept: typeof DEPARTMENTS[0]) => {
+    onValueChange?.(dept.code)
+    setShowSuggestions(false)
+  }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between pl-10 font-normal"
-        >
-          <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-          {selectedDepartment
-            ? `${selectedDepartment.code} ${selectedDepartment.name}`
-            : placeholder}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-full p-0" align="start" side="bottom" sideOffset={4}>
-        <Command shouldFilter={false}>
-          <CommandInput 
-            placeholder="Numéro du département" 
-            value={searchValue}
-            onValueChange={setSearchValue}
-          />
-          <CommandList>
-            {searchValue && filteredDepartments.length === 0 && (
-              <CommandEmpty>Aucun département trouvé.</CommandEmpty>
-            )}
-            {filteredDepartments.length > 0 && (
-              <CommandGroup>
-                {filteredDepartments.map((department) => (
-                  <CommandItem
-                    key={department.code}
-                    value={`${department.code} ${department.name}`}
-                    onSelect={() => {
-                      onValueChange?.(department.code)
-                      setOpen(false)
-                      setSearchValue("")
-                    }}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        value === department.code ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                    {department.code} {department.name}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <div ref={wrapperRef} className="relative">
+      <div className="relative">
+        <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground z-10" />
+        <Input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          onFocus={() => {
+            if (inputValue && filteredDepartments.length > 0) {
+              setShowSuggestions(true)
+            }
+          }}
+          placeholder={placeholder}
+          className="pl-10"
+        />
+      </div>
+      
+      {showSuggestions && filteredDepartments.length > 0 && (
+        <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-auto">
+          {filteredDepartments.map((department) => (
+            <button
+              key={department.code}
+              type="button"
+              className="w-full px-4 py-2 text-left hover:bg-accent transition-colors cursor-pointer"
+              onMouseDown={(e) => {
+                e.preventDefault()
+                handleSelectDepartment(department)
+              }}
+            >
+              <div className="font-medium">{department.code} {department.name}</div>
+            </button>
+          ))}
+        </div>
+      )}
+      
+      {showSuggestions && filteredDepartments.length === 0 && inputValue.length >= 1 && inputValue !== `${selectedDepartment?.code} ${selectedDepartment?.name}` && (
+        <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg p-4 text-sm text-muted-foreground">
+          Aucun département trouvé
+        </div>
+      )}
+    </div>
   )
 }
