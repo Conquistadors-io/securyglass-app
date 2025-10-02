@@ -4,18 +4,15 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
 import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2, ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
-
 interface QuoteStep3Props {
   data: any;
   onComplete: (data: any) => void;
   onBack?: () => void;
 }
-
 export const QuoteStep3 = ({
   data,
   onComplete,
@@ -31,9 +28,7 @@ export const QuoteStep3 = ({
     photo: data.photo || null,
     photoPreview: data.photoPreview || null
   });
-  const [showAutresOptions, setShowAutresOptions] = useState(
-    data.vitrage === "autre" || data.vitrage === "verre-feuillete" || data.vitrage === "verre-trempe"
-  );
+  const [showAutresOptions, setShowAutresOptions] = useState(data.vitrage === "autre" || data.vitrage === "verre-feuillete" || data.vitrage === "verre-trempe");
   const [validationErrors, setValidationErrors] = useState({
     category: false,
     vitrage: false,
@@ -43,7 +38,6 @@ export const QuoteStep3 = ({
   const {
     toast
   } = useToast();
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errors = {
@@ -59,7 +53,6 @@ export const QuoteStep3 = ({
     }
     onComplete(formData);
   };
-
   const handlePhotoSelect = (file: File, preview: string) => {
     setFormData(prev => ({
       ...prev,
@@ -71,7 +64,6 @@ export const QuoteStep3 = ({
       description: "Votre photo a été téléchargée avec succès"
     });
   };
-
   const handlePhotoDelete = () => {
     setFormData(prev => ({
       ...prev,
@@ -83,9 +75,7 @@ export const QuoteStep3 = ({
       description: "La photo a été supprimée"
     });
   };
-
   const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur && (formData.category !== "baie-vitree" || formData.subcategory);
-
   return <Card className="shadow-card border-0">
       <div className="p-6">
 
@@ -100,8 +90,7 @@ export const QuoteStep3 = ({
                 ...prev,
                 category: value,
                 subcategory: value === "baie-vitree" ? "coulissante" : "",
-                vitrage: value === "baie-vitree" ? "double" : 
-                        value === "vitrine" ? "verre-feuillete" : prev.vitrage
+                vitrage: value === "baie-vitree" ? "double" : value === "vitrine" ? "verre-feuillete" : prev.vitrage
               }));
               setValidationErrors(prev => ({
                 ...prev,
@@ -130,11 +119,11 @@ export const QuoteStep3 = ({
             {formData.category === "baie-vitree" && <div className="mb-4">
                 <Label>Type de baie vitrée</Label>
                 <Select value={formData.subcategory} onValueChange={value => {
-                  setFormData(prev => ({
-                    ...prev,
-                    subcategory: value
-                  }));
-                }}>
+              setFormData(prev => ({
+                ...prev,
+                subcategory: value
+              }));
+            }}>
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Sélectionnez le type" />
                   </SelectTrigger>
@@ -146,15 +135,15 @@ export const QuoteStep3 = ({
               </div>}
             
             <Select value={formData.vitrage} onValueChange={value => {
-              setFormData(prev => ({
-                ...prev,
-                vitrage: value
-              }));
-              setValidationErrors(prev => ({
-                ...prev,
-                vitrage: false
-              }));
-            }}>
+            setFormData(prev => ({
+              ...prev,
+              vitrage: value
+            }));
+            setValidationErrors(prev => ({
+              ...prev,
+              vitrage: false
+            }));
+          }}>
               <SelectTrigger className={`mt-1 ${validationErrors.vitrage ? 'border-red-500 ring-red-500' : ''}`}>
                 <SelectValue placeholder="Sélectionnez le type de vitrage" />
               </SelectTrigger>
@@ -224,9 +213,7 @@ export const QuoteStep3 = ({
             <div className="mt-1 space-y-3">
               {formData.photo && <div className="p-3 bg-accent rounded-lg">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm text-white">
-                      Voir la photo
-                    </p>
+                    <p className="text-sm text-white mx-0 px-0">        Voir Photo</p>
                     <div className="flex gap-2">
                       {formData.photoPreview && <Dialog>
                           <DialogTrigger asChild>
