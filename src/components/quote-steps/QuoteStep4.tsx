@@ -274,8 +274,7 @@ export const QuoteStep4 = ({
       {/* Section Mise en sécurité */}
       <Card className="!border-2 !border-blue-500 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-orange-50 to-white">
-          <div className="flex items-center mb-4">
-            <Shield className="h-6 w-6 text-orange-600 mr-3" />
+          <div className="mb-4">
             <span className="text-lg font-semibold text-blue-800">Voulez vous une Mise en sécurité ?</span>
           </div>
           <RadioGroup value={miseEnSecurite} onValueChange={setMiseEnSecurite} className="space-y-3">
