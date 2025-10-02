@@ -132,6 +132,27 @@ export const QuoteStep1 = ({
             </div>
           )}
 
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="nom">Nom <span className="text-destructive">*</span></Label>
+              <div className="mt-1">
+                <Input id="nom" placeholder="Nom" value={formData.nom} onChange={e => setFormData(prev => ({
+                ...prev,
+                nom: e.target.value
+              }))} required />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="prenom">Prénom</Label>
+              <div className="mt-1">
+                <Input id="prenom" placeholder="Prénom" value={formData.prenom} onChange={e => setFormData(prev => ({
+                ...prev,
+                prenom: e.target.value
+              }))} />
+              </div>
+            </div>
+          </div>
+
           <div>
             <Label htmlFor="codePostal">Code postal <span className="text-destructive">*</span></Label>
             <div className="mt-1">
@@ -177,27 +198,6 @@ export const QuoteStep1 = ({
               />
             </div>
             <p className="text-xs text-muted-foreground mt-1">Adresse où aura lieu l'intervention</p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="nom">Nom <span className="text-destructive">*</span></Label>
-              <div className="mt-1">
-                <Input id="nom" placeholder="Nom" value={formData.nom} onChange={e => setFormData(prev => ({
-                ...prev,
-                nom: e.target.value
-              }))} required />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="prenom">Prénom</Label>
-              <div className="mt-1">
-                <Input id="prenom" placeholder="Prénom" value={formData.prenom} onChange={e => setFormData(prev => ({
-                ...prev,
-                prenom: e.target.value
-              }))} />
-              </div>
-            </div>
           </div>
 
           <div>
