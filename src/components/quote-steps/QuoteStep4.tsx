@@ -222,14 +222,9 @@ export const QuoteStep4 = ({
             {(data.civilite === "societe" || data.civilite === "entreprise-btp") && (data.raison_sociale || data.nomSociete) && <div className="text-foreground font-medium">{data.raison_sociale || data.nomSociete}</div>}
             <div className="text-foreground">{data.email}</div>
             <div className="text-foreground">{data.telephone}</div>
-            {!data.differentInterventionAddress && <>
-                <div className="text-foreground">
-                  {data.adresse_intervention}
-                </div>
-                <div className="text-foreground">
-                  {[data.codePostal, data.ville].filter(Boolean).join(" ")}
-                </div>
-              </>}
+            {!data.differentInterventionAddress && <div className="text-foreground">
+                {[data.codePostal, data.ville].filter(Boolean).join(" ")}
+              </div>}
             
             {/* Adresse d'intervention si différente */}
             {data.differentInterventionAddress && <div className="mt-3 pt-3 border-t border-muted">
