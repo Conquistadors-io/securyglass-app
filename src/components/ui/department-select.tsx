@@ -133,7 +133,8 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro 
   const selectedDepartment = DEPARTMENTS.find(dept => dept.code === value)
 
   const filteredDepartments = DEPARTMENTS.filter(department => {
-    if (!searchValue) return true
+    // Ne rien afficher si aucune recherche n'est en cours
+    if (!searchValue) return false
     
     const search = searchValue.toLowerCase()
     const departmentText = `${department.code} ${department.name}`.toLowerCase()
@@ -184,28 +185,36 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro 
             onValueChange={setSearchValue}
           />
           <CommandList>
-            <CommandEmpty>Aucun département trouvé.</CommandEmpty>
-            <CommandGroup>
-              {filteredDepartments.map((department) => (
-                <CommandItem
-                  key={department.code}
-                  value={`${department.code} ${department.name}`}
-                  onSelect={() => {
-                    onValueChange?.(department.code)
-                    setOpen(false)
-                    setSearchValue("")
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === department.code ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {department.code} {department.name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
+            {searchValue ? (
+              <>
+                <CommandEmpty>Aucun département trouvé.</CommandEmpty>
+                <CommandGroup>
+                  {filteredDepartments.map((department) => (
+                    <CommandItem
+                      key={department.code}
+                      value={`${department.code} ${department.name}`}
+                      onSelect={() => {
+                        onValueChange?.(department.code)
+                        setOpen(false)
+                        setSearchValue("")
+                      }}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          value === department.code ? "opacity-100" : "opacity-0"
+                        )}
+                      />
+                      {department.code} {department.name}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </>
+            ) : (
+              <div className="p-4 text-sm text-muted-foreground text-center">
+                Tapez un numéro de département pour rechercher
+              </div>
+            )}
           </CommandList>
         </Command>
       </PopoverContent>
