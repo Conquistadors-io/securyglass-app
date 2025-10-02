@@ -211,32 +211,37 @@ export const QuoteStep3 = ({
           <div>
             <Label htmlFor="photo">Photos ( optionnel )</Label>
             <div className="mt-1 space-y-3">
-              {formData.photo && formData.photoPreview && <Dialog>
-                  <div className="p-3 bg-accent rounded-lg">
-                    <div className="flex items-center justify-between">
-                      <DialogTrigger asChild>
-                        <button type="button" className="flex-1 text-sm text-white text-center cursor-pointer hover:opacity-80 transition-opacity">
-                          Voir Photo
-                        </button>
-                      </DialogTrigger>
-                      <div className="flex gap-2">
-                        <Button 
-                          type="button" 
-                          size="sm" 
-                          variant="outline" 
-                          onClick={handlePhotoDelete} 
-                          className="text-red-600 hover:text-red-700"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+              {formData.photo && formData.photoPreview && (
+                <Dialog>
+                  <div className="relative rounded-lg overflow-hidden border-2 border-primary/20">
+                    <DialogTrigger asChild>
+                      <div className="cursor-pointer group">
+                        <img 
+                          src={formData.photoPreview} 
+                          alt="Photo sélectionnée" 
+                          className="w-full h-48 object-cover transition-opacity group-hover:opacity-90"
+                        />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <Eye className="h-8 w-8 text-white" />
+                        </div>
                       </div>
-                    </div>
+                    </DialogTrigger>
+                    <Button 
+                      type="button" 
+                      size="icon"
+                      variant="destructive" 
+                      onClick={handlePhotoDelete} 
+                      className="absolute top-2 right-2 z-10"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                   <DialogContent className="max-w-lg">
                     <DialogTitle>Aperçu de la photo</DialogTitle>
                     <img src={formData.photoPreview} alt="Photo prévisualisée" className="w-full h-auto rounded-lg" />
                   </DialogContent>
-                </Dialog>}
+                </Dialog>
+              )}
               
               <PhotoCapture onPhotoSelect={handlePhotoSelect}>
                 <Button type="button" variant="outline" className="w-full h-20 border-dashed">
