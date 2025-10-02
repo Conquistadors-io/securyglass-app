@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Check, ChevronsUpDown, MapPin } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -146,6 +146,19 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro 
     // Sinon, recherche normale dans le texte complet
     return departmentText.includes(search)
   })
+
+  // Sélection automatique s'il n'y a qu'un seul résultat
+  useEffect(() => {
+    if (filteredDepartments.length === 1 && searchValue && !value) {
+      const singleDept = filteredDepartments[0]
+      // Sélectionner automatiquement si la recherche correspond exactement au code
+      if (singleDept.code === searchValue) {
+        onValueChange?.(singleDept.code)
+        setSearchValue("")
+        setOpen(false)
+      }
+    }
+  }, [filteredDepartments, searchValue, value, onValueChange])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
