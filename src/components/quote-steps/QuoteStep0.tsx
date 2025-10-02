@@ -66,7 +66,7 @@ export const QuoteStep0 = ({
                 setShowAutresOptions(true);
               }}>
                   <RadioGroupItem value="autres" id="autres" className="w-6 h-6" />
-                  <Label htmlFor="autres" className="text-lg cursor-pointer flex-1 text-primary">
+                  <Label htmlFor="autres" className="text-lg cursor-pointer flex-1 text-slate-700">
                     Autres
                   </Label>
                   <button type="button" onClick={e => {
