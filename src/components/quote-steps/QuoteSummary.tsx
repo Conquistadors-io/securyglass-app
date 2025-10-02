@@ -473,15 +473,17 @@ export const QuoteSummary = ({
 
   return <div className="space-y-6">
       {/* Header Card */}
-      <Card className="p-6 shadow-card border-0 bg-gradient-card">
-        <div className="text-center">
-          <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-foreground mb-2">
-            {isLoading ? "Envoi en cours..." : emailSent ? "Devis envoyé !" : "Préparation du devis..."}
-          </h2>
-          <p className="text-muted-foreground">
-            {emailSent ? `à : ${data.email}` : isLoading ? "Veuillez patienter..." : ""}
-          </p>
+      <Card className="shadow-card border-0">
+        <div className="p-6">
+          <div className="text-center">
+            <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-foreground mb-2">
+              {isLoading ? "Envoi en cours..." : emailSent ? "Devis envoyé !" : "Préparation du devis..."}
+            </h2>
+            <p className="text-muted-foreground">
+              {emailSent ? `à : ${data.email}` : isLoading ? "Veuillez patienter..." : ""}
+            </p>
+          </div>
         </div>
       </Card>
 
@@ -678,12 +680,12 @@ export const QuoteSummary = ({
       </div>
 
       {/* Info Message */}
-      <Card className="p-4 bg-accent border-0">
-        <p className="text-sm text-center text-foreground">
-          <strong>Vérifiez votre e-mail  📩
-
-        </strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
-        </p>
+      <Card className="shadow-card border-0">
+        <div className="p-6">
+          <p className="text-sm text-center text-foreground">
+            <strong>Vérifiez votre e-mail  📩</strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
+          </p>
+        </div>
       </Card>
 
       {/* Action buttons */}
