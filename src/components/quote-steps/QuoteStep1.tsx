@@ -154,16 +154,15 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="codePostal">Code postal <span className="text-destructive">*</span></Label>
+            <Label htmlFor="codePostal">Département <span className="text-destructive">*</span></Label>
             <div className="mt-1">
-              <Input 
-                id="codePostal" 
+              <DepartmentSelect 
                 value={formData.codePostal} 
-                onChange={e => setFormData(prev => ({
+                onValueChange={(value) => setFormData(prev => ({
                   ...prev,
-                  codePostal: e.target.value
-                }))} 
-                required 
+                  codePostal: value
+                }))}
+                placeholder="Sélectionnez votre département"
               />
             </div>
           </div>
