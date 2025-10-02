@@ -164,7 +164,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       </div>
 
       {/* Section Client */}
-      <Card className="border-2 border-primary shadow-lg hover:shadow-xl transition-shadow">
+      <Card className="border-2 border-blue-500 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-blue-50 to-white">
           <div className="flex items-center mb-4">
             <CheckCircle2 className="h-6 w-6 text-blue-600 mr-3" />
@@ -212,7 +212,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       </Card>
 
       {/* Section Interventions */}
-      <Card className="border-2 border-primary shadow-lg hover:shadow-xl transition-shadow">
+      <Card className="border-2 border-blue-500 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-green-50 to-white">
           <div className="flex items-center mb-4">
             <CheckCircle2 className="h-6 w-6 text-green-600 mr-3" />
@@ -242,7 +242,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
 
 
       {/* Section Mise en sécurité */}
-      <Card className="border-2 border-primary shadow-lg hover:shadow-xl transition-shadow">
+      <Card className="border-2 border-blue-500 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-orange-50 to-white">
           <div className="flex items-center mb-4">
             <Shield className="h-6 w-6 text-orange-600 mr-3" />
@@ -278,7 +278,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       </Card>
 
       {/* Section Acceptation des conditions */}
-      <Card className="border-2 border-primary shadow-lg hover:shadow-xl transition-shadow">
+      <Card className="border-2 border-blue-500 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-purple-50 to-white">
           <div className="flex items-start space-x-3">
             <Checkbox
