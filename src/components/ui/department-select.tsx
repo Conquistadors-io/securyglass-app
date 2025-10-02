@@ -126,7 +126,7 @@ interface DepartmentSelectProps {
   placeholder?: string
 }
 
-export function DepartmentSelect({ value, onValueChange, placeholder = "75 Paris" }: DepartmentSelectProps) {
+export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro du département" }: DepartmentSelectProps) {
   const [open, setOpen] = useState(false)
   const [searchValue, setSearchValue] = useState("")
 
