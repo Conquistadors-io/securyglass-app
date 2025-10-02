@@ -74,15 +74,12 @@ export function CityAutocomplete({
       
       setSuggestions(filtered);
       
-      // Sélection automatique s'il n'y a qu'une seule ville
+      // Sélection automatique s'il n'y a qu'une seule ville correspondante
       if (filtered.length === 1 && search.length >= 1) {
         const singleCity = filtered[0];
-        // Vérifier si le nom de la ville correspond exactement (insensible à la casse)
-        if (singleCity.nom.toLowerCase() === search.toLowerCase()) {
-          onValueChange?.(singleCity.nom);
-          setShowSuggestions(false);
-          setSuggestions([]);
-        }
+        onValueChange?.(singleCity.nom);
+        setShowSuggestions(false);
+        setSuggestions([]);
       }
     } catch (err) {
       console.error('Erreur lors de la récupération des villes:', err);
