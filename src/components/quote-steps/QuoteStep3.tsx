@@ -212,8 +212,8 @@ export const QuoteStep3 = ({
             <Label htmlFor="photo">Photos ( optionnel )</Label>
             <div className="mt-1 space-y-3">
               {formData.photo && <div className="p-3 bg-accent rounded-lg">
-                  <div className="flex items-center justify-center">
-                    <p className="text-sm text-white">Voir Photo</p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-white flex-1 text-center">Voir Photo</p>
                     <div className="flex gap-2">
                       {formData.photoPreview && <Dialog>
                           <DialogTrigger asChild>
