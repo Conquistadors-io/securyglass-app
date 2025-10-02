@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -44,6 +44,34 @@ export const QuoteStep1 = ({
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [prevDepartment, setPrevDepartment] = useState(data.codePostal || "");
+  const [prevCity, setPrevCity] = useState(data.ville || "");
+  const [prevInterventionDepartment, setPrevInterventionDepartment] = useState(data.interventionCodePostal || "");
+  const [prevInterventionCity, setPrevInterventionCity] = useState(data.interventionVille || "");
+
+  // Réinitialiser l'adresse si le département ou la ville change
+  useEffect(() => {
+    if (formData.codePostal !== prevDepartment || formData.ville !== prevCity) {
+      setFormData(prev => ({
+        ...prev,
+        adresse_intervention: ""
+      }));
+      setPrevDepartment(formData.codePostal);
+      setPrevCity(formData.ville);
+    }
+  }, [formData.codePostal, formData.ville, prevDepartment, prevCity]);
+
+  // Réinitialiser l'adresse d'intervention si le département ou la ville d'intervention change
+  useEffect(() => {
+    if (formData.interventionCodePostal !== prevInterventionDepartment || formData.interventionVille !== prevInterventionCity) {
+      setFormData(prev => ({
+        ...prev,
+        interventionAdresse: ""
+      }));
+      setPrevInterventionDepartment(formData.interventionCodePostal);
+      setPrevInterventionCity(formData.interventionVille);
+    }
+  }, [formData.interventionCodePostal, formData.interventionVille, prevInterventionDepartment, prevInterventionCity]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
