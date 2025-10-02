@@ -48,15 +48,15 @@ export const QuoteStep0 = ({
                 <RadioGroupItem value="vitrerie" id="vitrerie" className="w-6 h-6" />
                 <div className="flex-1" onClick={() => handleServiceTypeChange('vitrerie')}>
                   <Label htmlFor="vitrerie" className="text-lg cursor-pointer text-primary">Vitrerie</Label>
-                  <p className="text-sm opacity-70 mt-1">Tous types de verres</p>
+                  <p className="text-sm text-primary opacity-70 mt-1">Tous types de verres</p>
                 </div>
               </div>
               
               <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.serviceType === 'miroiterie' ? 'border-primary' : 'border-border'}`}>
                 <RadioGroupItem value="miroiterie" id="miroiterie" className="w-6 h-6" />
                 <div className="flex-1" onClick={() => handleServiceTypeChange('miroiterie')}>
-                  <Label htmlFor="miroiterie" className="text-lg cursor-pointer text-slate-700">Miroiterie</Label>
-                  <p className="text-sm opacity-70 mt-1">Tous types de miroirs</p>
+                  <Label htmlFor="miroiterie" className="text-lg cursor-pointer text-primary">Miroiterie</Label>
+                  <p className="text-sm text-primary opacity-70 mt-1">Tous types de miroirs</p>
                 </div>
               </div>
               
