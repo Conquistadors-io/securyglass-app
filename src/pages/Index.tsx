@@ -19,7 +19,7 @@ import { InvoiceDetail } from "@/components/InvoiceDetail";
 import { AppointmentDetail } from "@/components/AppointmentDetail";
 
 const Index = () => {
-  const [currentRoute, setCurrentRoute] = useState("technician-dashboard");
+  const [currentRoute, setCurrentRoute] = useState("welcome");
 
   const handleNavigate = (route: string) => {
     setCurrentRoute(route);
