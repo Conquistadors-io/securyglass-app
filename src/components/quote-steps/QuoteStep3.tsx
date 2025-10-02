@@ -212,27 +212,26 @@ export const QuoteStep3 = ({
             <Label htmlFor="photo">Photos ( optionnel )</Label>
             <div className="mt-1 space-y-3">
               {formData.photo && formData.photoPreview && <Dialog>
-                  <DialogTrigger asChild>
-                    <div className="p-3 bg-accent rounded-lg cursor-pointer hover:bg-accent/80 transition-colors">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm text-white flex-1 text-center">Voir Photo</p>
-                        <div className="flex gap-2">
-                          <Button 
-                            type="button" 
-                            size="sm" 
-                            variant="outline" 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handlePhotoDelete();
-                            }} 
-                            className="text-red-600 hover:text-red-700"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
+                  <div className="p-3 bg-accent rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <DialogTrigger asChild>
+                        <button type="button" className="flex-1 text-sm text-white text-center cursor-pointer hover:opacity-80 transition-opacity">
+                          Voir Photo
+                        </button>
+                      </DialogTrigger>
+                      <div className="flex gap-2">
+                        <Button 
+                          type="button" 
+                          size="sm" 
+                          variant="outline" 
+                          onClick={handlePhotoDelete} 
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
-                  </DialogTrigger>
+                  </div>
                   <DialogContent className="max-w-lg">
                     <DialogTitle>Aperçu de la photo</DialogTitle>
                     <img src={formData.photoPreview} alt="Photo prévisualisée" className="w-full h-auto rounded-lg" />
