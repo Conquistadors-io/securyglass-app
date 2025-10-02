@@ -2,7 +2,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CheckCircle2, Edit3 } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { CheckCircle2, Edit3, Shield, Info } from "lucide-react";
 import { useState } from "react";
 
 interface QuoteStep4Props {
@@ -13,6 +15,7 @@ interface QuoteStep4Props {
 
 export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [miseEnSecurite, setMiseEnSecurite] = useState(data.miseEnSecurite || "non");
   // Helper function to escape regex special characters
   const escapeRegExp = (string: string) => {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -238,6 +241,42 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       </Card>
 
 
+      {/* Section Mise en sécurité */}
+      <Card className="border-l-4 border-l-orange-500 shadow-lg hover:shadow-xl transition-shadow">
+        <CardContent className="p-6 bg-gradient-to-r from-orange-50 to-white">
+          <div className="flex items-center mb-4">
+            <Shield className="h-6 w-6 text-orange-600 mr-3" />
+            <span className="text-lg font-semibold text-orange-800">Mise en sécurité</span>
+          </div>
+          <RadioGroup 
+            value={miseEnSecurite} 
+            onValueChange={setMiseEnSecurite}
+            className="space-y-3"
+          >
+            <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${miseEnSecurite === "oui" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
+              <RadioGroupItem value="oui" id="securite-oui" className="w-5 h-5" />
+              <Label htmlFor="securite-oui" className="cursor-pointer flex-1 font-medium">
+                Oui, je souhaite une mise en sécurité
+              </Label>
+            </div>
+            
+            <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${miseEnSecurite === "non" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
+              <RadioGroupItem value="non" id="securite-non" className="w-5 h-5" />
+              <Label htmlFor="securite-non" className="cursor-pointer flex-1 font-medium">
+                Non, pas de mise en sécurité
+              </Label>
+            </div>
+          </RadioGroup>
+          
+          <div className="p-4 bg-muted/50 rounded-lg mt-3 flex items-start gap-2">
+            <Info className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+            <p className="text-muted-foreground text-sm">
+              La mise en sécurité protège votre propriété en attendant la réparation définitive. Cette option peut influencer le coût final.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Section Acceptation des conditions */}
       <Card className="border-l-4 border-l-purple-500 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-purple-50 to-white">
@@ -273,7 +312,11 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
 
       <div className="flex flex-col sm:flex-row gap-4 pt-6">
         <Button
-          onClick={onValidate}
+          onClick={() => {
+            // Update data with miseEnSecurite before validation
+            data.miseEnSecurite = miseEnSecurite;
+            onValidate();
+          }}
           className="flex-1 h-12"
           disabled={!acceptedTerms}
         >
