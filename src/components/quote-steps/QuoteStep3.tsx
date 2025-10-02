@@ -224,8 +224,8 @@ export const QuoteStep3 = ({
             <div className="mt-1 space-y-3">
               {formData.photo && <div className="p-3 bg-accent rounded-lg">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm text-foreground">
-                      Photo ajoutée: {formData.photo.name || "Photo sélectionnée"}
+                    <p className="text-sm text-white">
+                      Voir la photo
                     </p>
                     <div className="flex gap-2">
                       {formData.photoPreview && <Dialog>
