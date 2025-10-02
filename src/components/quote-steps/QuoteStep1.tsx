@@ -49,26 +49,42 @@ export const QuoteStep1 = ({
   const [prevInterventionDepartment, setPrevInterventionDepartment] = useState(data.interventionCodePostal || "");
   const [prevInterventionCity, setPrevInterventionCity] = useState(data.interventionVille || "");
 
-  // Réinitialiser l'adresse si le département ou la ville change
+  // Réinitialiser la ville et l'adresse si le département change
   useEffect(() => {
-    if (formData.codePostal !== prevDepartment || formData.ville !== prevCity) {
+    if (formData.codePostal !== prevDepartment) {
+      setFormData(prev => ({
+        ...prev,
+        ville: "",
+        adresse_intervention: ""
+      }));
+      setPrevDepartment(formData.codePostal);
+      setPrevCity("");
+    } else if (formData.ville !== prevCity) {
+      // Si seule la ville change, réinitialiser uniquement l'adresse
       setFormData(prev => ({
         ...prev,
         adresse_intervention: ""
       }));
-      setPrevDepartment(formData.codePostal);
       setPrevCity(formData.ville);
     }
   }, [formData.codePostal, formData.ville, prevDepartment, prevCity]);
 
-  // Réinitialiser l'adresse d'intervention si le département ou la ville d'intervention change
+  // Réinitialiser la ville et l'adresse d'intervention si le département d'intervention change
   useEffect(() => {
-    if (formData.interventionCodePostal !== prevInterventionDepartment || formData.interventionVille !== prevInterventionCity) {
+    if (formData.interventionCodePostal !== prevInterventionDepartment) {
+      setFormData(prev => ({
+        ...prev,
+        interventionVille: "",
+        interventionAdresse: ""
+      }));
+      setPrevInterventionDepartment(formData.interventionCodePostal);
+      setPrevInterventionCity("");
+    } else if (formData.interventionVille !== prevInterventionCity) {
+      // Si seule la ville change, réinitialiser uniquement l'adresse
       setFormData(prev => ({
         ...prev,
         interventionAdresse: ""
       }));
-      setPrevInterventionDepartment(formData.interventionCodePostal);
       setPrevInterventionCity(formData.interventionVille);
     }
   }, [formData.interventionCodePostal, formData.interventionVille, prevInterventionDepartment, prevInterventionCity]);
