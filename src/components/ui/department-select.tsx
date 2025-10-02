@@ -185,6 +185,15 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro 
     setShowSuggestions(false)
   }
 
+  const handleClick = () => {
+    // Si un département est déjà sélectionné, le réinitialiser
+    if (value) {
+      onValueChange?.("")
+      setInputValue("")
+      setShowSuggestions(false)
+    }
+  }
+
   return (
     <div ref={wrapperRef} className="relative">
       <div className="relative">
@@ -193,13 +202,15 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro 
           type="text"
           value={inputValue}
           onChange={handleInputChange}
+          onClick={handleClick}
           onFocus={() => {
-            if (inputValue && filteredDepartments.length > 0) {
+            if (inputValue && filteredDepartments.length > 0 && !value) {
               setShowSuggestions(true)
             }
           }}
           placeholder={placeholder}
-          className="pl-10"
+          className="pl-10 cursor-pointer"
+          readOnly={!!value}
         />
       </div>
       
