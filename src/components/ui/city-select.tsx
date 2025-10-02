@@ -210,22 +210,13 @@ export function CitySelect({
   // Mode ville unique (auto-sélectionnée)
   if (cities.length === 1) {
     return (
-      <div className={`space-y-2 ${className}`}>
-        <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-md">
-          <div className="flex items-center space-x-2">
-            <span className="text-green-600">✓</span>
-            <span className="font-medium text-green-800">{cities[0].nom}</span>
-          </div>
-          <Button 
-            type="button"
-            variant="outline" 
-            size="sm"
-            onClick={() => setShowManualInput(true)}
-            className="text-xs"
-          >
-            Modifier
-          </Button>
-        </div>
+      <div className={className}>
+        <Input
+          type="text"
+          value={cities[0].nom}
+          disabled
+          className="bg-muted"
+        />
       </div>
     );
   }
