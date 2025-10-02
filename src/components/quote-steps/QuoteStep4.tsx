@@ -277,7 +277,7 @@ export const QuoteStep4 = ({
           <div className="mb-4">
             <span className="text-lg font-semibold text-blue-800">Voulez vous une Mise en sécurité ?</span>
           </div>
-          <RadioGroup value={miseEnSecurite} onValueChange={setMiseEnSecurite} className="space-y-3">
+          <RadioGroup value={miseEnSecurite} onValueChange={setMiseEnSecurite} className="flex gap-4">
             <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${miseEnSecurite === "oui" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
               <RadioGroupItem value="oui" id="securite-oui" className="w-5 h-5" />
               <Label htmlFor="securite-oui" className="cursor-pointer flex-1 font-medium">
