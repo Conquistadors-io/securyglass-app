@@ -180,7 +180,7 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro 
       <PopoverContent className="w-full p-0" align="start" side="bottom" sideOffset={4}>
         <Command shouldFilter={false}>
           <CommandInput 
-            placeholder="Rechercher un département..." 
+            placeholder="Numéro du département" 
             value={searchValue}
             onValueChange={setSearchValue}
           />
