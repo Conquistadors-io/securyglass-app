@@ -6,14 +6,16 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { CheckCircle2, Edit3, Shield, Info } from "lucide-react";
 import { useState } from "react";
-
 interface QuoteStep4Props {
   data: any;
   onValidate: () => void;
   onModify: (step: number) => void;
 }
-
-export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
+export const QuoteStep4 = ({
+  data,
+  onValidate,
+  onModify
+}: QuoteStep4Props) => {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [miseEnSecurite, setMiseEnSecurite] = useState(data.miseEnSecurite || "non");
   // Helper function to escape regex special characters
@@ -24,23 +26,24 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
   // Helper function to clean street name by removing duplicate postal code and city
   const cleanStreet = (address: string, codePostal: string, ville: string) => {
     if (!address) return "";
-    
     let cleanedAddress = address;
-    
+
     // Remove postal code and city if they appear in the address
     if (codePostal && ville) {
       const postalCityPattern = new RegExp(`\\s*${escapeRegExp(codePostal)}\\s*${escapeRegExp(ville)}\\s*`, 'gi');
       cleanedAddress = cleanedAddress.replace(postalCityPattern, '');
     }
-    
+
     // Clean up any trailing commas or spaces
     cleanedAddress = cleanedAddress.replace(/,\s*$/, '').trim();
-    
     return cleanedAddress;
   };
-
   const getDisplayValue = (key: string, value: any) => {
-    const displayMap: { [key: string]: { [value: string]: string } } = {
+    const displayMap: {
+      [key: string]: {
+        [value: string]: string;
+      };
+    } = {
       serviceType: {
         "reparation": "Réparation",
         "installation": "Installation"
@@ -80,7 +83,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       },
       category: {
         "baie-vitree": "Baie vitrée",
-        "fenetre": "Fenêtre", 
+        "fenetre": "Fenêtre",
         "porte-vitree": "Porte vitrée",
         "porte-entree": "Porte d'entrée",
         "porte-fenetre": "Porte-fenêtre",
@@ -106,53 +109,94 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
         "verre-feuillete": "Verre Feuilleté Sécurit"
       }
     };
-
     return displayMap[key]?.[value] || value;
   };
-
-  const infoSections = [
-    {
-      title: "Type de service",
-      items: [
-        { label: "Service", value: data.serviceType, key: "serviceType" }
-      ]
-    },
-    {
-      title: "Informations personnelles",
-      items: [
-        { label: "Civilité", value: data.civilite, key: "civilite" },
-        { label: "Nom", value: data.nom, key: "nom" },
-        { label: "Téléphone", value: data.telephone, key: "telephone" },
-        { label: "Email", value: data.email, key: "email" },
-        { label: "Adresse", value: data.adresse, key: "adresse" },
-        { label: "Code postal", value: data.codePostal, key: "codePostal" },
-        { label: "Ville", value: data.ville, key: "ville" }
-      ]
-    },
-    {
-      title: "Détails du projet",
-      items: [
-        { label: "Objet", value: data.object, key: "object" },
-        { label: "Type de propriété", value: data.property, key: "property" },
-        { label: "Motif", value: data.motif, key: "motif" }
-      ]
-    },
-    {
-      title: "Spécifications techniques",
-      items: [
-        { label: "Catégorie", value: data.category, key: "category" },
-        ...(data.subcategory ? [{ label: "Type", value: data.subcategory, key: "subcategory" }] : []),
-        { label: "Vitrage", value: data.vitrage, key: "vitrage" },
-        { label: "Largeur", value: data.largeur ? `${data.largeur} cm` : "", key: "largeur" },
-        { label: "Hauteur", value: data.hauteur ? `${data.hauteur} cm` : "", key: "hauteur" },
-        { label: "Quantité", value: data.quantite, key: "quantite" },
-        { label: "Assurance", value: data.assurance, key: "assurance" }
-      ]
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+  const infoSections = [{
+    title: "Type de service",
+    items: [{
+      label: "Service",
+      value: data.serviceType,
+      key: "serviceType"
+    }]
+  }, {
+    title: "Informations personnelles",
+    items: [{
+      label: "Civilité",
+      value: data.civilite,
+      key: "civilite"
+    }, {
+      label: "Nom",
+      value: data.nom,
+      key: "nom"
+    }, {
+      label: "Téléphone",
+      value: data.telephone,
+      key: "telephone"
+    }, {
+      label: "Email",
+      value: data.email,
+      key: "email"
+    }, {
+      label: "Adresse",
+      value: data.adresse,
+      key: "adresse"
+    }, {
+      label: "Code postal",
+      value: data.codePostal,
+      key: "codePostal"
+    }, {
+      label: "Ville",
+      value: data.ville,
+      key: "ville"
+    }]
+  }, {
+    title: "Détails du projet",
+    items: [{
+      label: "Objet",
+      value: data.object,
+      key: "object"
+    }, {
+      label: "Type de propriété",
+      value: data.property,
+      key: "property"
+    }, {
+      label: "Motif",
+      value: data.motif,
+      key: "motif"
+    }]
+  }, {
+    title: "Spécifications techniques",
+    items: [{
+      label: "Catégorie",
+      value: data.category,
+      key: "category"
+    }, ...(data.subcategory ? [{
+      label: "Type",
+      value: data.subcategory,
+      key: "subcategory"
+    }] : []), {
+      label: "Vitrage",
+      value: data.vitrage,
+      key: "vitrage"
+    }, {
+      label: "Largeur",
+      value: data.largeur ? `${data.largeur} cm` : "",
+      key: "largeur"
+    }, {
+      label: "Hauteur",
+      value: data.hauteur ? `${data.hauteur} cm` : "",
+      key: "hauteur"
+    }, {
+      label: "Quantité",
+      value: data.quantite,
+      key: "quantite"
+    }, {
+      label: "Assurance",
+      value: data.assurance,
+      key: "assurance"
+    }]
+  }];
+  return <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
       <div className="max-w-2xl mx-auto space-y-6 px-4">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
@@ -172,38 +216,29 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
           </div>
           <div className="space-y-2">
             <div className="text-sm font-medium text-muted-foreground">
-              {(data.civilite === "societe" || data.civilite === "entreprise-btp") ? "ENTREPRISE" : "PARTICULIER"}
+              {data.civilite === "societe" || data.civilite === "entreprise-btp" ? "ENTREPRISE" : "PARTICULIER"}
             </div>
             <div className="text-foreground">{data.civilite === "monsieur" ? "Monsieur" : data.civilite === "madame" ? "Madame" : data.civilite === "entreprise-btp" ? "Professionnel du BTP" : ""}</div>
             {(data.raison_sociale || data.nomSociete) && <div className="text-foreground font-medium">{data.raison_sociale || data.nomSociete || "PRIOR REPAIR"}</div>}
             <div className="text-foreground">{data.email}</div>
             <div className="text-foreground">{data.telephone}</div>
-            {!data.differentInterventionAddress && (
-              <div className="text-foreground">
+            {!data.differentInterventionAddress && <div className="text-foreground">
                 {data.adresse_intervention}
-              </div>
-            )}
+              </div>}
             
             {/* Adresse d'intervention si différente */}
-            {data.differentInterventionAddress && (
-              <div className="mt-3 pt-3 border-t border-muted">
+            {data.differentInterventionAddress && <div className="mt-3 pt-3 border-t border-muted">
                 <div className="text-sm font-medium text-muted-foreground mb-1">ADRESSE D'INTERVENTION</div>
                 <div className="text-foreground">
-                  {data.interventionAdresse}<br/>
+                  {data.interventionAdresse}<br />
                   {[data.interventionCodePostal, data.interventionVille].filter(Boolean).join(" ")}
                 </div>
-              </div>
-            )}
+              </div>}
             
             {data.assurance && <div className="text-foreground">Assurance : {data.assurance}</div>}
           </div>
           <div className="flex justify-center mt-4">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => onModify(3)}
-              className="text-blue-600 border-blue-300 hover:bg-blue-50"
-            >
+            <Button variant="outline" size="sm" onClick={() => onModify(3)} className="text-blue-600 border-blue-300 hover:bg-blue-50">
               <Edit3 className="h-4 w-4 mr-1" />
               Modifier
             </Button>
@@ -223,16 +258,11 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
             <div className="text-foreground">Motif : {getDisplayValue("motif", data.motif)}</div>
             <div className="text-foreground">{getDisplayValue("vitrage", data.vitrage)}</div>
             {data.category && data.subcategory && data.category !== "vitrine" && <div className="text-foreground">{getDisplayValue("category", data.category)} {getDisplayValue("subcategory", data.subcategory)}</div>}
-            {(data.category && !data.subcategory) || (data.category === "vitrine") && <div className="text-foreground">{getDisplayValue("category", data.category)}</div>}
+            {data.category && !data.subcategory || data.category === "vitrine" && <div className="text-foreground">{getDisplayValue("category", data.category)}</div>}
             <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L) x {data.quantite}</div>
           </div>
           <div className="flex justify-center mt-4">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => onModify(2)}
-              className="text-green-600 border-green-300 hover:bg-green-50"
-            >
+            <Button variant="outline" size="sm" onClick={() => onModify(2)} className="text-green-600 border-green-300 hover:bg-green-50">
               <Edit3 className="h-4 w-4 mr-1" />
               Modifier
             </Button>
@@ -246,13 +276,9 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
         <CardContent className="p-6 bg-gradient-to-r from-orange-50 to-white">
           <div className="flex items-center mb-4">
             <Shield className="h-6 w-6 text-orange-600 mr-3" />
-            <span className="text-lg font-semibold text-orange-800">Mise en sécurité</span>
+            <span className="text-lg font-semibold text-blue-800">Voulez vous une Mise en sécurité ?</span>
           </div>
-          <RadioGroup 
-            value={miseEnSecurite} 
-            onValueChange={setMiseEnSecurite}
-            className="space-y-3"
-          >
+          <RadioGroup value={miseEnSecurite} onValueChange={setMiseEnSecurite} className="space-y-3">
             <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${miseEnSecurite === "oui" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
               <RadioGroupItem value="oui" id="securite-oui" className="w-5 h-5" />
               <Label htmlFor="securite-oui" className="cursor-pointer flex-1 font-medium">
@@ -281,17 +307,9 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       <Card className="!border-2 !border-blue-500 shadow-lg hover:shadow-xl transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-purple-50 to-white">
           <div className="flex items-start space-x-3">
-            <Checkbox
-              id="terms"
-              checked={acceptedTerms}
-              onCheckedChange={(checked) => setAcceptedTerms(checked as boolean)}
-              className="mt-1"
-            />
+            <Checkbox id="terms" checked={acceptedTerms} onCheckedChange={checked => setAcceptedTerms(checked as boolean)} className="mt-1" />
             <div className="space-y-1 leading-none">
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium cursor-pointer"
-              >
+              <label htmlFor="terms" className="text-sm font-medium cursor-pointer">
                 J'accepte les conditions générales de vente (CGV) et les conditions générales d'utilisation (CGU)
               </label>
               <p className="text-xs text-muted-foreground">
@@ -311,28 +329,19 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       </Card>
 
       <div className="flex flex-col sm:flex-row gap-4 pt-6">
-        <Button
-          onClick={() => {
-            // Update data with miseEnSecurite before validation
-            data.miseEnSecurite = miseEnSecurite;
-            onValidate();
-          }}
-          className="flex-1 h-12"
-          disabled={!acceptedTerms}
-        >
+        <Button onClick={() => {
+          // Update data with miseEnSecurite before validation
+          data.miseEnSecurite = miseEnSecurite;
+          onValidate();
+        }} className="flex-1 h-12" disabled={!acceptedTerms}>
           <CheckCircle2 className="h-4 w-4 mr-2" />
           Valider
         </Button>
-        <Button
-          onClick={() => onModify(0)}
-          variant="outline"
-          className="flex-1 h-12"
-        >
+        <Button onClick={() => onModify(0)} variant="outline" className="flex-1 h-12">
           <Edit3 className="h-4 w-4 mr-2" />
           Modifier
         </Button>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
