@@ -211,27 +211,33 @@ export const QuoteStep3 = ({
           <div>
             <Label htmlFor="photo">Photos ( optionnel )</Label>
             <div className="mt-1 space-y-3">
-              {formData.photo && <div className="p-3 bg-accent rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-white flex-1 text-center">Voir Photo</p>
-                    <div className="flex gap-2">
-                      {formData.photoPreview && <Dialog>
-                          <DialogTrigger asChild>
-                            <Button type="button" size="sm" variant="outline">
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-lg">
-                            <DialogTitle>Aperçu de la photo</DialogTitle>
-                            <img src={formData.photoPreview} alt="Photo prévisualisée" className="w-full h-auto rounded-lg" />
-                          </DialogContent>
-                        </Dialog>}
-                      <Button type="button" size="sm" variant="outline" onClick={handlePhotoDelete} className="text-red-600 hover:text-red-700">
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+              {formData.photo && formData.photoPreview && <Dialog>
+                  <DialogTrigger asChild>
+                    <div className="p-3 bg-accent rounded-lg cursor-pointer hover:bg-accent/80 transition-colors">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm text-white flex-1 text-center">Voir Photo</p>
+                        <div className="flex gap-2">
+                          <Button 
+                            type="button" 
+                            size="sm" 
+                            variant="outline" 
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handlePhotoDelete();
+                            }} 
+                            className="text-red-600 hover:text-red-700"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>}
+                  </DialogTrigger>
+                  <DialogContent className="max-w-lg">
+                    <DialogTitle>Aperçu de la photo</DialogTitle>
+                    <img src={formData.photoPreview} alt="Photo prévisualisée" className="w-full h-auto rounded-lg" />
+                  </DialogContent>
+                </Dialog>}
               
               <PhotoCapture onPhotoSelect={handlePhotoSelect}>
                 <Button type="button" variant="outline" className="w-full h-20 border-dashed">
