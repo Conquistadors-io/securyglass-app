@@ -69,7 +69,7 @@ export function CityAutocomplete({
       
       // Filtrer les villes selon la recherche
       const filtered = data.filter(city => 
-        city.nom.toLowerCase().includes(search.toLowerCase())
+        city.nom.toLowerCase().startsWith(search.toLowerCase())
       ).slice(0, 10); // Limiter à 10 résultats
       
       setSuggestions(filtered);
