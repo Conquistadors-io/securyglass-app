@@ -86,7 +86,7 @@ export function CityAutocomplete({
     const newValue = e.target.value;
     setInputValue(newValue);
     
-    if (newValue.length >= 2 && departmentCode) {
+    if (newValue.length >= 1 && departmentCode) {
       fetchCities(newValue, departmentCode);
       setShowSuggestions(true);
     } else {
@@ -172,7 +172,7 @@ export function CityAutocomplete({
         </div>
       )}
       
-      {showSuggestions && suggestions.length === 0 && !loading && inputValue.length >= 2 && departmentCode && (
+      {showSuggestions && suggestions.length === 0 && !loading && inputValue.length >= 1 && departmentCode && (
         <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg p-4 text-sm text-muted-foreground">
           Aucune ville trouvée
         </div>
