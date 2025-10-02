@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -48,6 +48,13 @@ export const QuoteStep1 = ({
   const [prevCity, setPrevCity] = useState(data.ville || "");
   const [prevInterventionDepartment, setPrevInterventionDepartment] = useState(data.interventionCodePostal || "");
   const [prevInterventionCity, setPrevInterventionCity] = useState(data.interventionVille || "");
+
+  // Refs pour le focus automatique
+  const raisonSocialeRef = useRef<HTMLInputElement>(null);
+  const nomRef = useRef<HTMLInputElement>(null);
+  const prenomRef = useRef<HTMLInputElement>(null);
+  const mobileRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
 
   // Réinitialiser la ville et l'adresse si le département change
   useEffect(() => {
@@ -140,10 +147,20 @@ export const QuoteStep1 = ({
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <Label htmlFor="civilite">Civilité <span className="text-destructive">*</span></Label>
-            <Select value={formData.civilite} onValueChange={value => setFormData(prev => ({
-            ...prev,
-            civilite: value
-          }))}>
+            <Select value={formData.civilite} onValueChange={value => {
+              setFormData(prev => ({
+                ...prev,
+                civilite: value
+              }));
+              // Focus sur le champ suivant
+              setTimeout(() => {
+                if (value === "societe" || value === "entreprise-btp") {
+                  raisonSocialeRef.current?.focus();
+                } else {
+                  nomRef.current?.focus();
+                }
+              }, 100);
+            }}>
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Sélectionnez" />
               </SelectTrigger>
@@ -162,6 +179,7 @@ export const QuoteStep1 = ({
               <div className="relative mt-1">
                 <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input 
+                  ref={raisonSocialeRef}
                   id="raison_sociale" 
                   placeholder="Nom de la société" 
                   className="pl-10" 
@@ -169,7 +187,13 @@ export const QuoteStep1 = ({
                   onChange={e => setFormData(prev => ({
                     ...prev,
                     raison_sociale: e.target.value
-                  }))} 
+                  }))}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      nomRef.current?.focus();
+                    }
+                  }}
                   required 
                 />
               </div>
@@ -180,19 +204,44 @@ export const QuoteStep1 = ({
             <div>
               <Label htmlFor="nom">Nom <span className="text-destructive">*</span></Label>
               <div className="mt-1">
-                <Input id="nom" placeholder="Nom" value={formData.nom} onChange={e => setFormData(prev => ({
-                ...prev,
-                nom: e.target.value
-              }))} required />
+                <Input 
+                  ref={nomRef}
+                  id="nom" 
+                  placeholder="Nom" 
+                  value={formData.nom} 
+                  onChange={e => setFormData(prev => ({
+                    ...prev,
+                    nom: e.target.value
+                  }))}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      prenomRef.current?.focus();
+                    }
+                  }}
+                  required 
+                />
               </div>
             </div>
             <div>
               <Label htmlFor="prenom">Prénom</Label>
               <div className="mt-1">
-                <Input id="prenom" placeholder="Prénom" value={formData.prenom} onChange={e => setFormData(prev => ({
-                ...prev,
-                prenom: e.target.value
-              }))} />
+                <Input 
+                  ref={prenomRef}
+                  id="prenom" 
+                  placeholder="Prénom" 
+                  value={formData.prenom} 
+                  onChange={e => setFormData(prev => ({
+                    ...prev,
+                    prenom: e.target.value
+                  }))}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      mobileRef.current?.focus();
+                    }
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -201,10 +250,26 @@ export const QuoteStep1 = ({
             <Label htmlFor="mobile">Téléphone mobile <span className="text-destructive">*</span></Label>
             <div className="relative mt-1">
               <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input id="mobile" type="tel" placeholder="06 12 34 56 78" className="pl-10" value={formData.mobile} onChange={e => setFormData(prev => ({
-              ...prev,
-              mobile: e.target.value
-            }))} required />
+              <Input 
+                ref={mobileRef}
+                id="mobile" 
+                type="tel" 
+                placeholder="06 12 34 56 78" 
+                className="pl-10" 
+                value={formData.mobile} 
+                onChange={e => setFormData(prev => ({
+                  ...prev,
+                  mobile: e.target.value
+                }))
+                }
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    emailRef.current?.focus();
+                  }
+                }}
+                required 
+              />
             </div>
           </div>
 
@@ -212,10 +277,19 @@ export const QuoteStep1 = ({
             <Label htmlFor="email">Email <span className="text-destructive">*</span></Label>
             <div className="relative mt-1">
               <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input id="email" type="email" placeholder="votre@email.com" className="pl-10" value={formData.email} onChange={e => setFormData(prev => ({
-              ...prev,
-              email: e.target.value
-            }))} required />
+              <Input 
+                ref={emailRef}
+                id="email" 
+                type="email" 
+                placeholder="votre@email.com" 
+                className="pl-10" 
+                value={formData.email} 
+                onChange={e => setFormData(prev => ({
+                  ...prev,
+                  email: e.target.value
+                }))} 
+                required 
+              />
             </div>
           </div>
 
