@@ -185,28 +185,32 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro 
             onValueChange={setSearchValue}
           />
           <CommandList>
-            <CommandEmpty>Aucun département trouvé.</CommandEmpty>
-            <CommandGroup>
-              {filteredDepartments.map((department) => (
-                <CommandItem
-                  key={department.code}
-                  value={`${department.code} ${department.name}`}
-                  onSelect={() => {
-                    onValueChange?.(department.code)
-                    setOpen(false)
-                    setSearchValue("")
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === department.code ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {department.code} {department.name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
+            {searchValue && filteredDepartments.length === 0 && (
+              <CommandEmpty>Aucun département trouvé.</CommandEmpty>
+            )}
+            {filteredDepartments.length > 0 && (
+              <CommandGroup>
+                {filteredDepartments.map((department) => (
+                  <CommandItem
+                    key={department.code}
+                    value={`${department.code} ${department.name}`}
+                    onSelect={() => {
+                      onValueChange?.(department.code)
+                      setOpen(false)
+                      setSearchValue("")
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === department.code ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {department.code} {department.name}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
           </CommandList>
         </Command>
       </PopoverContent>
