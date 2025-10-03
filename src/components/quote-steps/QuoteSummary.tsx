@@ -468,7 +468,7 @@ export const QuoteSummary = ({
       <Card className="shadow-card border-2 border-success">
         <div className="p-6 bg-success/10">
           <div className="text-center">
-            <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
+            <CheckCircle className="h-12 w-12 text-success mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-foreground mb-2">
               {isLoading ? "Envoi en cours..." : emailSent ? "Devis envoyé !" : "Préparation du devis..."}
             </h2>
