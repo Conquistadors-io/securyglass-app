@@ -465,21 +465,16 @@ export const QuoteSummary = ({
   }, [data.email, devisSaved, savedQuoteNumber, priceCalculation, calculationLoading]);
   return <div className="space-y-6">
       {/* Header Card */}
-      <Card className="shadow-card border-2 border-success">
-        <div className="p-6 bg-success/10">
+      <Card className="shadow-card border-2 border-blue-500">
+        <div className="p-6">
           <div className="text-center">
-            <CheckCircle className="h-12 w-12 text-success mx-auto mb-4" />
+            <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-foreground mb-2">
               {isLoading ? "Envoi en cours..." : emailSent ? "Devis envoyé !" : "Préparation du devis..."}
             </h2>
             <p className="text-muted-foreground">
               {emailSent ? `à : ${data.email}` : isLoading ? "Veuillez patienter..." : ""}
             </p>
-            {emailSent && (
-              <p className="text-sm text-center text-foreground mt-4">
-                <strong>Vérifiez votre e-mail 📩</strong> vérifiez dans les spams et indésirables également.
-              </p>
-            )}
           </div>
         </div>
       </Card>
@@ -487,7 +482,7 @@ export const QuoteSummary = ({
       {/* Quote Details */}
       <Card className="shadow-card border-2 border-blue-500">
         <div className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Estimation</h3>
+          <h3 className="text-lg font-semibold mb-4">Récapitulatif</h3>
           
           <div className="space-y-3">
             <div className="flex justify-between">
@@ -560,7 +555,7 @@ export const QuoteSummary = ({
                <Separator className="my-3" />
 
                <div className="flex justify-between items-center">
-                 <span className="text-lg font-semibold">Total TTC:</span>
+                 
                  <span className="text-2xl font-bold text-primary">
                    {priceCalculation.total.toFixed(2)}€
                  </span>
@@ -569,6 +564,11 @@ export const QuoteSummary = ({
 
           
         </div>
+      </Card>
+
+      {/* Contact Info */}
+      <Card className="shadow-card border-2 border-blue-500">
+        
       </Card>
 
       {/* Gmail Status Info */}
@@ -594,6 +594,7 @@ export const QuoteSummary = ({
           Envoyer le devis par email
         </Button>}
 
+      {/* Action Buttons */}
       <div className="space-y-4">
         <Button variant="default" size="lg" className="w-full" onClick={handleDownloadPDF}>
           <Download className="h-5 w-5 mr-2" />
@@ -626,6 +627,15 @@ export const QuoteSummary = ({
           Prendre RDV
         </Button>
       </div>
+
+      {/* Info Message */}
+      <Card className="shadow-card border-2 border-blue-500">
+        <div className="p-6">
+          <p className="text-sm text-center text-foreground">
+            <strong>Vérifiez votre e-mail  📩</strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
+          </p>
+        </div>
+      </Card>
 
       {/* Action buttons */}
       <div className="grid grid-cols-2 gap-2">
