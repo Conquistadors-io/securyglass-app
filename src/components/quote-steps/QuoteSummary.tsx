@@ -475,6 +475,11 @@ export const QuoteSummary = ({
             <p className="text-muted-foreground">
               {emailSent ? `à : ${data.email}` : isLoading ? "Veuillez patienter..." : ""}
             </p>
+            {emailSent && (
+              <p className="text-sm text-center text-foreground mt-4">
+                <strong>Vérifiez votre e-mail 📩</strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
+              </p>
+            )}
           </div>
         </div>
       </Card>
