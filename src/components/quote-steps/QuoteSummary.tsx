@@ -475,6 +475,11 @@ export const QuoteSummary = ({
             <p className="text-muted-foreground">
               {emailSent ? `à : ${data.email}` : isLoading ? "Veuillez patienter..." : ""}
             </p>
+            {emailSent && (
+              <p className="text-sm text-muted-foreground mt-2">
+                <strong>Vérifiez votre e-mail 📩</strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
+              </p>
+            )}
           </div>
         </div>
       </Card>
@@ -555,8 +560,10 @@ export const QuoteSummary = ({
                <Separator className="my-3" />
 
                <div className="flex justify-between items-center">
-                 
-                 
+                 <span className="text-lg font-bold">Total TTC:</span>
+                 <span className="text-lg font-bold text-primary">
+                   {priceCalculation.total.toFixed(2)}€
+                 </span>
                </div>
             </>}
 
@@ -564,27 +571,6 @@ export const QuoteSummary = ({
         </div>
       </Card>
 
-      {/* Contact Info */}
-      <Card className="shadow-card border-2 border-blue-500">
-        
-      </Card>
-
-      {/* Gmail Status Info */}
-      {!gmailConfigured && devisSaved && <Card className="shadow-card border-2 border-blue-500">
-          <div className="p-6">
-            <div className="flex items-start gap-3">
-              <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-foreground mb-1">
-                  Devis enregistré avec succès
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Vous pouvez télécharger le devis en PDF ci-dessous.
-                </p>
-              </div>
-            </div>
-          </div>
-        </Card>}
 
       {/* Manual Send Button if not auto-sent */}
       {gmailConfigured && !emailSent && !isLoading && <Button variant="default" size="lg" className="w-full" onClick={sendQuoteEmailViaSendGrid}>
@@ -626,14 +612,6 @@ export const QuoteSummary = ({
         </Button>
       </div>
 
-      {/* Info Message */}
-      <Card className="shadow-card border-2 border-blue-500">
-        <div className="p-6">
-          <p className="text-sm text-center text-foreground">
-            <strong>Vérifiez votre e-mail  📩</strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
-          </p>
-        </div>
-      </Card>
 
       {/* Action buttons */}
       <div className="grid grid-cols-2 gap-2">
