@@ -160,27 +160,6 @@ export const QuoteSummary = ({
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>${data.object}</td>
-              <td>${data.largeur} × ${data.hauteur} cm</td>
-              <td>${data.quantite}</td>
-              <td>Vitrage ${data.vitrage}</td>
-              <td>${(priceCalculation?.details?.vitrage?.total ?? 0).toFixed(2)}€</td>
-            </tr>
-            <tr>
-              <td>Main d'œuvre</td>
-              <td>${priceCalculation?.details?.surface?.totale?.toFixed(2) ?? '0.00'} m²</td>
-              <td>1</td>
-              <td>${((priceCalculation?.details?.main_oeuvre?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${(priceCalculation?.details?.main_oeuvre?.total ?? 0).toFixed(2)}€</td>
-            </tr>
-            <tr>
-              <td>Livraison</td>
-              <td>-</td>
-              <td>1</td>
-              <td>${((priceCalculation?.details?.livraison?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
-              <td>${(priceCalculation?.details?.livraison?.total ?? 0).toFixed(2)}€</td>
-            </tr>
             ${(priceCalculation?.details?.deplacement?.total ?? 0) > 0 ? `
             <tr>
               <td>Déplacement</td>
@@ -190,6 +169,27 @@ export const QuoteSummary = ({
               <td>${(priceCalculation?.details?.deplacement?.total ?? 0).toFixed(2)}€</td>
             </tr>
             ` : ''}
+            <tr>
+              <td>${data.object}</td>
+              <td>${data.largeur} × ${data.hauteur} cm</td>
+              <td>${data.quantite}</td>
+              <td>Vitrage ${data.vitrage}</td>
+              <td>${(priceCalculation?.details?.vitrage?.total ?? 0).toFixed(2)}€</td>
+            </tr>
+            <tr>
+              <td>Livraison</td>
+              <td>-</td>
+              <td>1</td>
+              <td>${((priceCalculation?.details?.livraison?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${(priceCalculation?.details?.livraison?.total ?? 0).toFixed(2)}€</td>
+            </tr>
+            <tr>
+              <td>Main d'œuvre</td>
+              <td>${priceCalculation?.details?.surface?.totale?.toFixed(2) ?? '0.00'} m²</td>
+              <td>1</td>
+              <td>${((priceCalculation?.details?.main_oeuvre?.total ?? 0) / parseInt(data.quantite || 1)).toFixed(2)}€</td>
+              <td>${(priceCalculation?.details?.main_oeuvre?.total ?? 0).toFixed(2)}€</td>
+            </tr>
             ${(priceCalculation?.details?.securite?.total ?? 0) > 0 ? `
             <tr>
               <td>Mise en sécurité</td>
@@ -378,11 +378,6 @@ export const QuoteSummary = ({
           quantity: 1,
           unitPrice: parseFloat((priceCalculation?.details?.deplacement?.total ?? 0).toFixed(2)),
           total: parseFloat((priceCalculation?.details?.deplacement?.total ?? 0).toFixed(2))
-        }] : []), ...(priceCalculation?.details?.securite?.total > 0 ? [{
-          designation: "Mise en sécurité",
-          quantity: 1,
-          unitPrice: parseFloat((priceCalculation?.details?.securite?.total ?? 0).toFixed(2)),
-          total: parseFloat((priceCalculation?.details?.securite?.total ?? 0).toFixed(2))
         }] : []), {
           designation: `${data.vitrage || 'Double vitrage'} (${data.largeur}x${data.hauteur} cm)`,
           quantity: parseInt(data.quantite || 1),
@@ -398,7 +393,12 @@ export const QuoteSummary = ({
           quantity: 1,
           unitPrice: parseFloat((priceCalculation?.details?.main_oeuvre?.total ?? 0).toFixed(2)),
           total: parseFloat((priceCalculation?.details?.main_oeuvre?.total ?? 0).toFixed(2))
-        }, {
+        }, ...(priceCalculation?.details?.securite?.total > 0 ? [{
+          designation: "Mise en sécurité",
+          quantity: 1,
+          unitPrice: parseFloat((priceCalculation?.details?.securite?.total ?? 0).toFixed(2)),
+          total: parseFloat((priceCalculation?.details?.securite?.total ?? 0).toFixed(2))
+        }] : []), {
           designation: "SAVE PLANET : Éco-enlèvement - Tri-sélectif - Recyclage",
           quantity: 1,
           unitPrice: 0,
@@ -517,22 +517,22 @@ export const QuoteSummary = ({
             </div> : <>
               {/* Détail des coûts */}
               <div className="space-y-2 text-sm">
+                 {priceCalculation.details.deplacement?.total > 0 && <div className="flex justify-between">
+                     <span>Déplacement:</span>
+                     <span>{priceCalculation.details.deplacement.total.toFixed(2)}€</span>
+                   </div>}
                  <div className="flex justify-between">
                    <span>Vitrage ({priceCalculation.details.surface?.totale?.toFixed(2) || '0.00'} m²):</span>
                    <span>{(priceCalculation.details.vitrage?.total || 0).toFixed(2)}€</span>
                  </div>
                  <div className="flex justify-between">
-                   <span>Main d'œuvre:</span>
-                   <span>{(priceCalculation.details.main_oeuvre?.total || 0).toFixed(2)}€</span>
-                 </div>
-                 <div className="flex justify-between">
                    <span>Livraison:</span>
                    <span>{(priceCalculation.details.livraison?.total || 0).toFixed(2)}€</span>
                  </div>
-                 {priceCalculation.details.deplacement?.total > 0 && <div className="flex justify-between">
-                     <span>Déplacement:</span>
-                     <span>{priceCalculation.details.deplacement.total.toFixed(2)}€</span>
-                   </div>}
+                 <div className="flex justify-between">
+                   <span>Main d'œuvre:</span>
+                   <span>{(priceCalculation.details.main_oeuvre?.total || 0).toFixed(2)}€</span>
+                 </div>
                  {priceCalculation.details.securite?.total > 0 && <div className="flex justify-between">
                      <span>Mise en sécurité:</span>
                      <span>{priceCalculation.details.securite.total.toFixed(2)}€</span>
