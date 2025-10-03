@@ -465,7 +465,7 @@ export const QuoteSummary = ({
   }, [data.email, devisSaved, savedQuoteNumber, priceCalculation, calculationLoading]);
   return <div className="space-y-6">
       {/* Header Card */}
-      <Card className="shadow-card border-2 border-blue-500">
+      <Card className="shadow-card border-2 border-success">
         <div className="p-6">
           <div className="text-center">
             <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
