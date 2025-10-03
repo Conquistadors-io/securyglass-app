@@ -536,7 +536,7 @@ export const QuoteSummary = ({
                    <span>{priceCalculation.subtotal.toFixed(2)}€</span>
                  </div>
                  <div className="flex justify-between">
-                   <span>TVA ({Math.round(priceCalculation.tvaRate * 100)}%):</span>
+                   <span>TVA ({Math.round(priceCalculation.tvaRate * 100)}%)</span>
                    <span>{priceCalculation.tva.toFixed(2)}€</span>
                  </div>
                </div>
