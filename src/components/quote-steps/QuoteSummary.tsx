@@ -490,22 +490,6 @@ export const QuoteSummary = ({
           <h3 className="text-lg font-semibold mb-4">Récapitulatif</h3>
           
           <div className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Type d'intervention:</span>
-              <span className="font-medium">{data.object}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Vitrage:</span>
-              <span className="font-medium">{data.vitrage}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Dimensions:</span>
-              <span className="font-medium">{data.largeur} × {data.hauteur} cm</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Quantité:</span>
-              <span className="font-medium">{data.quantite}</span>
-            </div>
             {data.assurance === "oui" && <div className="flex justify-between">
                 <span className="text-muted-foreground">Assurance:</span>
                 <span className="font-medium text-primary">Prise en charge possible</span>
@@ -527,7 +511,7 @@ export const QuoteSummary = ({
                      <span>{priceCalculation.details.deplacement.total.toFixed(2)}€</span>
                    </div>}
                  <div className="flex justify-between">
-                   <span>Vitrage ({priceCalculation.details.surface?.totale?.toFixed(2) || '0.00'} m²):</span>
+                   <span>Vitrage ({data.largeur} × {data.hauteur} cm - Qté: {data.quantite}):</span>
                    <span>{(priceCalculation.details.vitrage?.total || 0).toFixed(2)}€</span>
                  </div>
                  <div className="flex justify-between">
