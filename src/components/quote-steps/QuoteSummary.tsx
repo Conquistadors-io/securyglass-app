@@ -517,22 +517,22 @@ export const QuoteSummary = ({
             </div> : <>
               {/* Détail des coûts */}
               <div className="space-y-2 text-sm">
+                 {priceCalculation.details.deplacement?.total > 0 && <div className="flex justify-between">
+                     <span>Déplacement:</span>
+                     <span>{priceCalculation.details.deplacement.total.toFixed(2)}€</span>
+                   </div>}
                  <div className="flex justify-between">
                    <span>Vitrage ({priceCalculation.details.surface?.totale?.toFixed(2) || '0.00'} m²):</span>
                    <span>{(priceCalculation.details.vitrage?.total || 0).toFixed(2)}€</span>
                  </div>
                  <div className="flex justify-between">
-                   <span>Main d'œuvre:</span>
-                   <span>{(priceCalculation.details.main_oeuvre?.total || 0).toFixed(2)}€</span>
-                 </div>
-                 <div className="flex justify-between">
                    <span>Livraison:</span>
                    <span>{(priceCalculation.details.livraison?.total || 0).toFixed(2)}€</span>
                  </div>
-                 {priceCalculation.details.deplacement?.total > 0 && <div className="flex justify-between">
-                     <span>Déplacement:</span>
-                     <span>{priceCalculation.details.deplacement.total.toFixed(2)}€</span>
-                   </div>}
+                 <div className="flex justify-between">
+                   <span>Main d'œuvre:</span>
+                   <span>{(priceCalculation.details.main_oeuvre?.total || 0).toFixed(2)}€</span>
+                 </div>
                  {priceCalculation.details.securite?.total > 0 && <div className="flex justify-between">
                      <span>Mise en sécurité:</span>
                      <span>{priceCalculation.details.securite.total.toFixed(2)}€</span>
