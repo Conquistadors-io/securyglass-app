@@ -466,9 +466,9 @@ export const QuoteSummary = ({
   return <div className="space-y-6">
       {/* Header Card */}
       <Card className="shadow-card border-2 border-success">
-        <div className="p-6">
+        <div className="p-6 bg-success/10">
           <div className="text-center">
-            <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
+            <CheckCircle className="h-12 w-12 text-success mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-foreground mb-2">
               {isLoading ? "Envoi en cours..." : emailSent ? "Devis envoyé !" : "Préparation du devis..."}
             </h2>
@@ -485,9 +485,9 @@ export const QuoteSummary = ({
       </Card>
 
       {/* Quote Details */}
-      <Card className="shadow-card border-2 border-blue-500">
+      <Card className="shadow-card">
         <div className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Récapitulatif</h3>
+          <h3 className="text-lg font-semibold mb-4">Estimation</h3>
           
           <div className="space-y-3">
             {data.assurance === "oui" && <div className="flex justify-between">
