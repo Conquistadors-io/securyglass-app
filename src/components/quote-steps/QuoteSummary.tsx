@@ -487,7 +487,7 @@ export const QuoteSummary = ({
       {/* Quote Details */}
       <Card className="shadow-card border-2 border-blue-500">
         <div className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Récapitulatif</h3>
+          <h3 className="text-lg font-semibold mb-4">Estimation</h3>
           
           <div className="space-y-3">
             <div className="flex justify-between">
