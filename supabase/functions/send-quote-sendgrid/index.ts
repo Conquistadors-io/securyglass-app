@@ -134,6 +134,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailContent = `
       <h2>Bonjour ${clientName},</h2>
+      <br>
       ${customMessage}
       <p>Veuillez trouver ci-joint votre devis pour les travaux de vitrerie.</p>
       <p>N'hésitez pas à nous contacter pour toute question.</p>
