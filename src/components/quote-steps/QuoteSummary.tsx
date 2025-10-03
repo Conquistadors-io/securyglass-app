@@ -477,7 +477,7 @@ export const QuoteSummary = ({
             </p>
             {emailSent && (
               <p className="text-sm text-center text-foreground mt-4">
-                <strong>Vérifiez votre e-mail 📩</strong> pour confirmer votre demande et programmer l'intervention si nécessaire.
+                <strong>Vérifiez votre e-mail 📩</strong> vérifiez dans les spams et indésirables également.
               </p>
             )}
           </div>
