@@ -571,10 +571,6 @@ export const QuoteSummary = ({
         </div>
       </Card>
 
-      {/* Contact Info */}
-      <Card className="shadow-card border-2 border-blue-500">
-        
-      </Card>
 
       {/* Gmail Status Info */}
       {!gmailConfigured && devisSaved && <Card className="shadow-card border-2 border-blue-500">
