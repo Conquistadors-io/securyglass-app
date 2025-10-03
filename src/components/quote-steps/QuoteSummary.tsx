@@ -595,7 +595,6 @@ export const QuoteSummary = ({
           Envoyer le devis par email
         </Button>}
 
-      {/* Action Buttons */}
       <div className="space-y-4">
         <Button variant="default" size="lg" className="w-full" onClick={handleDownloadPDF}>
           <Download className="h-5 w-5 mr-2" />
