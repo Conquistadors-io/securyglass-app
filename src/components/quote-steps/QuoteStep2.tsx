@@ -61,7 +61,7 @@ export const QuoteStep2 = ({
                     <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">
                       Autres :
                       {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
-                        <div className="text-primary font-semibold mt-1">
+                        <div className="text-primary mt-1">
                           {formData.object === "verre-sur-mesure" ? "Verre sur mesure" : formData.object === "chatiere" ? "Chatière" : formData.object === "decoupe-aeration" ? "Découpe aération" : formData.object === "verre-anti-bruit" ? "Verre Anti-Bruit" : formData.object === "verre-anti-effraction" ? "Verre Anti-effraction" : ""}
                         </div>
                       )}
