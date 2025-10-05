@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Glasses, Info } from "lucide-react";
+import { Glasses, Info, ShieldAlert, Ruler, Cat, Wind, VolumeX, ShieldCheck } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
@@ -53,6 +53,7 @@ export const QuoteStep2 = ({
                 </> : <>
                   <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
+                    <ShieldAlert className="w-5 h-5 text-primary shrink-0" />
                     <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer flex-1 text-primary">Vitre cassée</Label>
                   </div>
                   
@@ -77,6 +78,7 @@ export const QuoteStep2 = ({
             }))}>
                   <div className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-sur-mesure" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="verre-sur-mesure" id="verre-sur-mesure" className="w-5 h-5" />
+                    <Ruler className="w-4 h-4 shrink-0" />
                     <Label htmlFor="verre-sur-mesure" className="cursor-pointer flex-1">Verre sur mesure</Label>
                   </div>
                   
@@ -84,21 +86,25 @@ export const QuoteStep2 = ({
                   
                   <div className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "chatiere" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="chatiere" id="chatiere" className="w-5 h-5" />
+                    <Cat className="w-4 h-4 shrink-0" />
                     <Label htmlFor="chatiere" className="cursor-pointer flex-1">Chatière</Label>
                   </div>
                   
                   <div className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "decoupe-aeration" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="decoupe-aeration" id="decoupe-aeration" className="w-5 h-5" />
+                    <Wind className="w-4 h-4 shrink-0" />
                     <Label htmlFor="decoupe-aeration" className="cursor-pointer flex-1">Découpe aération</Label>
                   </div>
                   
                   <div className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-anti-bruit" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="verre-anti-bruit" id="verre-anti-bruit" className="w-5 h-5" />
+                    <VolumeX className="w-4 h-4 shrink-0" />
                     <Label htmlFor="verre-anti-bruit" className="cursor-pointer flex-1">Verre Anti-Bruit</Label>
                   </div>
                   
                   <div className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="verre-anti-effraction" id="verre-anti-effraction" className="w-5 h-5" />
+                    <ShieldCheck className="w-4 h-4 shrink-0" />
                     <Label htmlFor="verre-anti-effraction" className="cursor-pointer flex-1">Verre Anti-effraction</Label>
                   </div>
                 </RadioGroup>
