@@ -56,8 +56,8 @@ export const QuoteStep2 = ({
                     <Label htmlFor="vitre-cassee" className={`text-lg cursor-pointer flex-1 group-hover:text-accent-foreground ${formData.object === "vitre-cassee" ? "text-primary" : ""}`}>Vitre cassée</Label>
                   </div>
                   
-                  <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}>
-                    <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" checked={formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction"} />
+                  <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`} onClick={() => setFormData(prev => ({ ...prev, object: "autre" }))}>
+                    <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" />
                     <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1 group-hover:text-accent-foreground">
                       Autres :
                       {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
