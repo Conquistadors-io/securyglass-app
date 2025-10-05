@@ -43,17 +43,17 @@ export const QuoteStep2 = ({
               {isMiroiterie ? <>
                   <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "miroir-casse" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="miroir-casse" id="miroir-casse" className="w-6 h-6" />
-                    <Label htmlFor="miroir-casse" className="text-lg cursor-pointer flex-1 group-hover:text-accent-foreground">Miroir cassé</Label>
+                    <Label htmlFor="miroir-casse" className={`text-lg cursor-pointer flex-1 group-hover:text-accent-foreground ${formData.object === "miroir-casse" ? "text-primary" : ""}`}>Miroir cassé</Label>
                   </div>
                   
                   <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "miroir-sur-mesure" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="miroir-sur-mesure" id="miroir-sur-mesure" className="w-6 h-6" />
-                    <Label htmlFor="miroir-sur-mesure" className="text-lg cursor-pointer flex-1 group-hover:text-accent-foreground">Miroir sur mesure</Label>
+                    <Label htmlFor="miroir-sur-mesure" className={`text-lg cursor-pointer flex-1 group-hover:text-accent-foreground ${formData.object === "miroir-sur-mesure" ? "text-primary" : ""}`}>Miroir sur mesure</Label>
                   </div>
                 </> : <>
                   <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
-                    <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer flex-1 text-primary group-hover:text-accent-foreground">Vitre cassée</Label>
+                    <Label htmlFor="vitre-cassee" className={`text-lg cursor-pointer flex-1 group-hover:text-accent-foreground ${formData.object === "vitre-cassee" ? "text-primary" : ""}`}>Vitre cassée</Label>
                   </div>
                   
                   <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}>
@@ -77,8 +77,8 @@ export const QuoteStep2 = ({
             }))}>
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "verre-sur-mesure" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Ruler className="w-4 h-4 shrink-0 group-hover:text-accent-foreground" />
-                      <Label htmlFor="verre-sur-mesure" className="cursor-pointer group-hover:text-accent-foreground">Verre sur mesure</Label>
+                      <Ruler className={`w-4 h-4 shrink-0 group-hover:text-accent-foreground ${formData.object === "verre-sur-mesure" ? "text-primary" : ""}`} />
+                      <Label htmlFor="verre-sur-mesure" className={`cursor-pointer group-hover:text-accent-foreground ${formData.object === "verre-sur-mesure" ? "text-primary" : ""}`}>Verre sur mesure</Label>
                     </div>
                     <RadioGroupItem value="verre-sur-mesure" id="verre-sur-mesure" className="w-5 h-5" />
                   </div>
@@ -87,32 +87,32 @@ export const QuoteStep2 = ({
                   
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "chatiere" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Cat className="w-4 h-4 shrink-0 group-hover:text-accent-foreground" />
-                      <Label htmlFor="chatiere" className="cursor-pointer group-hover:text-accent-foreground">Chatière</Label>
+                      <Cat className={`w-4 h-4 shrink-0 group-hover:text-accent-foreground ${formData.object === "chatiere" ? "text-primary" : ""}`} />
+                      <Label htmlFor="chatiere" className={`cursor-pointer group-hover:text-accent-foreground ${formData.object === "chatiere" ? "text-primary" : ""}`}>Chatière</Label>
                     </div>
                     <RadioGroupItem value="chatiere" id="chatiere" className="w-5 h-5" />
                   </div>
                   
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "decoupe-aeration" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Wind className="w-4 h-4 shrink-0 group-hover:text-accent-foreground" />
-                      <Label htmlFor="decoupe-aeration" className="cursor-pointer group-hover:text-accent-foreground">Découpe aération</Label>
+                      <Wind className={`w-4 h-4 shrink-0 group-hover:text-accent-foreground ${formData.object === "decoupe-aeration" ? "text-primary" : ""}`} />
+                      <Label htmlFor="decoupe-aeration" className={`cursor-pointer group-hover:text-accent-foreground ${formData.object === "decoupe-aeration" ? "text-primary" : ""}`}>Découpe aération</Label>
                     </div>
                     <RadioGroupItem value="decoupe-aeration" id="decoupe-aeration" className="w-5 h-5" />
                   </div>
                   
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "verre-anti-bruit" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <VolumeX className="w-4 h-4 shrink-0 group-hover:text-accent-foreground" />
-                      <Label htmlFor="verre-anti-bruit" className="cursor-pointer group-hover:text-accent-foreground">Verre Anti-Bruit</Label>
+                      <VolumeX className={`w-4 h-4 shrink-0 group-hover:text-accent-foreground ${formData.object === "verre-anti-bruit" ? "text-primary" : ""}`} />
+                      <Label htmlFor="verre-anti-bruit" className={`cursor-pointer group-hover:text-accent-foreground ${formData.object === "verre-anti-bruit" ? "text-primary" : ""}`}>Verre Anti-Bruit</Label>
                     </div>
                     <RadioGroupItem value="verre-anti-bruit" id="verre-anti-bruit" className="w-5 h-5" />
                   </div>
                   
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Lock className="w-4 h-4 shrink-0 group-hover:text-accent-foreground" />
-                      <Label htmlFor="verre-anti-effraction" className="cursor-pointer group-hover:text-accent-foreground">Verre Anti-effraction</Label>
+                      <Lock className={`w-4 h-4 shrink-0 group-hover:text-accent-foreground ${formData.object === "verre-anti-effraction" ? "text-primary" : ""}`} />
+                      <Label htmlFor="verre-anti-effraction" className={`cursor-pointer group-hover:text-accent-foreground ${formData.object === "verre-anti-effraction" ? "text-primary" : ""}`}>Verre Anti-effraction</Label>
                     </div>
                     <RadioGroupItem value="verre-anti-effraction" id="verre-anti-effraction" className="w-5 h-5" />
                   </div>
