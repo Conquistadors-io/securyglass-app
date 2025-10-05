@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Glasses, Info, ShieldAlert, Ruler, Cat, Wind, VolumeX, ShieldCheck } from "lucide-react";
+import { Glasses, Info, ShieldAlert, Ruler, Cat, Wind, VolumeX, Lock } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
@@ -111,7 +111,7 @@ export const QuoteStep2 = ({
                   
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <ShieldCheck className="w-4 h-4 shrink-0 group-hover:text-accent-foreground" />
+                      <Lock className="w-4 h-4 shrink-0 group-hover:text-accent-foreground" />
                       <Label htmlFor="verre-anti-effraction" className="cursor-pointer group-hover:text-accent-foreground">Verre Anti-effraction</Label>
                     </div>
                     <RadioGroupItem value="verre-anti-effraction" id="verre-anti-effraction" className="w-5 h-5" />
