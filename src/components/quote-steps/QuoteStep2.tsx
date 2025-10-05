@@ -53,7 +53,6 @@ export const QuoteStep2 = ({
                 </> : <>
                   <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "border-primary" : "border-border"}`}>
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
-                    <ShieldAlert className="w-5 h-5 text-primary shrink-0" />
                     <Label htmlFor="vitre-cassee" className="text-lg cursor-pointer flex-1 text-primary">Vitre cassée</Label>
                   </div>
                   
