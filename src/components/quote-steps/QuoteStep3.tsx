@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2, ChevronDown } from "lucide-react";
+import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Home, Store, Boxes, Tent, House, Sun, Grid3x3, MoreHorizontal } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
@@ -101,17 +101,72 @@ export const QuoteStep3 = ({
                   <SelectValue placeholder="Précisez la catégorie" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="fenetre" className="text-blue-600">Fenêtre</SelectItem>
-                  <SelectItem value="porte-vitree" className="text-blue-600">Porte vitrée</SelectItem>
-                  <SelectItem value="porte-entree" className="text-blue-600">Porte d'entrée</SelectItem>
-                  <SelectItem value="porte-fenetre" className="text-blue-600">Porte-fenêtre</SelectItem>
-                  <SelectItem value="vitrine" className="text-blue-600">Vitrine Magasin</SelectItem>
-                  <SelectItem value="baie-vitree" className="text-blue-600">Baie vitrée</SelectItem>
-                  <SelectItem value="marquise" className="text-blue-600">Marquise</SelectItem>
-                  <SelectItem value="fenetre-toit" className="text-blue-600">Fenêtre de toit</SelectItem>
-                  <SelectItem value="velux" className="text-blue-600">VELUX</SelectItem>
-                  <SelectItem value="cloison" className="text-blue-600">Cloison vitrée</SelectItem>
-                  <SelectItem value="autre" className="text-blue-600">Autre</SelectItem>
+                  <SelectItem value="fenetre" className="text-blue-600">
+                    <div className="flex items-center gap-2">
+                      <Square className="w-4 h-4" />
+                      <span>Fenêtre</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="porte-vitree" className="text-blue-600">
+                    <div className="flex items-center gap-2">
+                      <DoorOpen className="w-4 h-4" />
+                      <span>Porte vitrée</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="porte-entree" className="text-blue-600">
+                    <div className="flex items-center gap-2">
+                      <DoorClosed className="w-4 h-4" />
+                      <span>Porte d'entrée</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="porte-fenetre" className="text-blue-600">
+                    <div className="flex items-center gap-2">
+                      <Home className="w-4 h-4" />
+                      <span>Porte-fenêtre</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="vitrine" className="text-blue-600">
+                    <div className="flex items-center gap-2">
+                      <Store className="w-4 h-4" />
+                      <span>Vitrine Magasin</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="baie-vitree" className="text-blue-600">
+                    <div className="flex items-center gap-2">
+                      <Boxes className="w-4 h-4" />
+                      <span>Baie vitrée</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="marquise" className="text-blue-600">
+                    <div className="flex items-center gap-2">
+                      <Tent className="w-4 h-4" />
+                      <span>Marquise</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="fenetre-toit" className="text-blue-600">
+                    <div className="flex items-center gap-2">
+                      <House className="w-4 h-4" />
+                      <span>Fenêtre de toit</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="velux" className="text-blue-600">
+                    <div className="flex items-center gap-2">
+                      <Sun className="w-4 h-4" />
+                      <span>VELUX</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="cloison" className="text-blue-600">
+                    <div className="flex items-center gap-2">
+                      <Grid3x3 className="w-4 h-4" />
+                      <span>Cloison vitrée</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="autre" className="text-blue-600">
+                    <div className="flex items-center gap-2">
+                      <MoreHorizontal className="w-4 h-4" />
+                      <span>Autre</span>
+                    </div>
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
