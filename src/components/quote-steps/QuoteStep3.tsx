@@ -158,7 +158,7 @@ export const QuoteStep3 = ({
                   <SelectItem value="cloison" className="text-blue-600">
                     <div className="flex items-center gap-2">
                       <Grid3x3 className="w-4 h-4" />
-                      <span>Cloison vitrée</span>
+                      <span>Cloison Vitrée Bureaux</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="autre" className="text-blue-600">
