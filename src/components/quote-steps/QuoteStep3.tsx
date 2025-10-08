@@ -213,48 +213,43 @@ export const QuoteStep3 = ({
           </div>
 
 
-          <div className="space-y-2">
-            <p className="text-sm text-muted-foreground italic">
-              Ex : 1,90 mètres = 190
-            </p>
-            <div className="grid grid-cols-[1fr_1fr_auto] gap-4">
-              <div>
-                <Label htmlFor="hauteur" className="whitespace-nowrap">Hauteur (cm) <span className="text-destructive">*</span></Label>
-                <Input id="hauteur" type="number" placeholder="150" className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.hauteur ? 'border-red-500 ring-red-500' : ''}`} value={formData.hauteur} onChange={e => {
-                setFormData(prev => ({
-                  ...prev,
-                  hauteur: e.target.value
-                }));
-                setValidationErrors(prev => ({
-                  ...prev,
-                  hauteur: false
-                }));
-              }} required />
-              </div>
+          <div className="grid grid-cols-[1fr_1fr_auto] gap-4">
+            <div>
+              <Label htmlFor="hauteur" className="whitespace-nowrap">Hauteur (cm) <span className="text-destructive">*</span></Label>
+              <Input id="hauteur" type="number" placeholder="Ex : 1,90 mètres = 190" className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.hauteur ? 'border-red-500 ring-red-500' : ''}`} value={formData.hauteur} onChange={e => {
+              setFormData(prev => ({
+                ...prev,
+                hauteur: e.target.value
+              }));
+              setValidationErrors(prev => ({
+                ...prev,
+                hauteur: false
+              }));
+            }} required />
+            </div>
 
-              <div>
-                <Label htmlFor="largeur" className="whitespace-nowrap">Largeur (cm) <span className="text-destructive">*</span></Label>
-                <Input id="largeur" type="number" placeholder="100" className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.largeur ? 'border-red-500 ring-red-500' : ''}`} value={formData.largeur} onChange={e => {
-                setFormData(prev => ({
-                  ...prev,
-                  largeur: e.target.value
-                }));
-                setValidationErrors(prev => ({
-                  ...prev,
-                  largeur: false
-                }));
-              }} required />
-              </div>
+            <div>
+              <Label htmlFor="largeur" className="whitespace-nowrap">Largeur (cm) <span className="text-destructive">*</span></Label>
+              <Input id="largeur" type="number" placeholder="100" className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.largeur ? 'border-red-500 ring-red-500' : ''}`} value={formData.largeur} onChange={e => {
+              setFormData(prev => ({
+                ...prev,
+                largeur: e.target.value
+              }));
+              setValidationErrors(prev => ({
+                ...prev,
+                largeur: false
+              }));
+            }} required />
+            </div>
 
-              <div className="w-16">
-                <Label htmlFor="quantite">Qté</Label>
-                <div className="relative mt-1">
-                  <span className="absolute left-2 top-3 text-sm text-muted-foreground">x</span>
-                  <Input id="quantite" type="number" min="1" max="99" value={formData.quantite} onChange={e => setFormData(prev => ({
-                  ...prev,
-                  quantite: e.target.value
-                }))} className="pl-6" />
-                </div>
+            <div className="w-16">
+              <Label htmlFor="quantite">Qté</Label>
+              <div className="relative mt-1">
+                <span className="absolute left-2 top-3 text-sm text-muted-foreground">x</span>
+                <Input id="quantite" type="number" min="1" max="99" value={formData.quantite} onChange={e => setFormData(prev => ({
+                ...prev,
+                quantite: e.target.value
+              }))} className="pl-6" />
               </div>
             </div>
           </div>
