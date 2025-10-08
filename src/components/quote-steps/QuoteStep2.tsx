@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Glasses, Info, ShieldAlert, Ruler, Cat, Wind, VolumeX, Lock } from "lucide-react";
+import { Glasses, Info, ShieldAlert, Ruler, Cat, Wind, VolumeX, Lock, Home, Building2, Building, Store, MoreHorizontal } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
@@ -131,12 +131,42 @@ export const QuoteStep2 = ({
                 <SelectValue placeholder="Appartement" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="appartement">Appartement</SelectItem>
-                <SelectItem value="maison">Maison</SelectItem>
-                <SelectItem value="bureau">Bureaux</SelectItem>
-                <SelectItem value="commerce">Magasin</SelectItem>
-                <SelectItem value="immeuble">Immeuble ( ou parties communes )</SelectItem>
-                <SelectItem value="autre">Autres</SelectItem>
+                <SelectItem value="appartement">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="w-4 h-4" />
+                    <span>Appartement</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="maison">
+                  <div className="flex items-center gap-2">
+                    <Home className="w-4 h-4" />
+                    <span>Maison</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="bureau">
+                  <div className="flex items-center gap-2">
+                    <Building className="w-4 h-4" />
+                    <span>Bureaux</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="commerce">
+                  <div className="flex items-center gap-2">
+                    <Store className="w-4 h-4" />
+                    <span>Magasin</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="immeuble">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="w-4 h-4" />
+                    <span>Immeuble ( ou parties communes )</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="autre">
+                  <div className="flex items-center gap-2">
+                    <MoreHorizontal className="w-4 h-4" />
+                    <span>Autres</span>
+                  </div>
+                </SelectItem>
               </SelectContent>
             </Select>
             
