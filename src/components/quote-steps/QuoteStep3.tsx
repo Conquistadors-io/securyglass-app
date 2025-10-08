@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Home, Store, Boxes, Tent, House, Sun, Grid3x3, MoreHorizontal } from "lucide-react";
+import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Maximize2, Store, RectangleHorizontal, ArrowUpFromLine, Sun, Grid3x3, MoreHorizontal } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
@@ -121,7 +121,7 @@ export const QuoteStep3 = ({
                   </SelectItem>
                   <SelectItem value="porte-fenetre" className="text-blue-600">
                     <div className="flex items-center gap-2">
-                      <Home className="w-4 h-4" />
+                      <Maximize2 className="w-4 h-4" />
                       <span>Porte-fenêtre</span>
                     </div>
                   </SelectItem>
@@ -133,19 +133,19 @@ export const QuoteStep3 = ({
                   </SelectItem>
                   <SelectItem value="baie-vitree" className="text-blue-600">
                     <div className="flex items-center gap-2">
-                      <Boxes className="w-4 h-4" />
+                      <RectangleHorizontal className="w-4 h-4" />
                       <span>Baie vitrée</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="marquise" className="text-blue-600">
                     <div className="flex items-center gap-2">
-                      <Tent className="w-4 h-4" />
+                      <ArrowUpFromLine className="w-4 h-4" />
                       <span>Marquise</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="fenetre-toit" className="text-blue-600">
                     <div className="flex items-center gap-2">
-                      <House className="w-4 h-4" />
+                      <Square className="w-4 h-4 rotate-45" />
                       <span>Fenêtre de toit</span>
                     </div>
                   </SelectItem>
