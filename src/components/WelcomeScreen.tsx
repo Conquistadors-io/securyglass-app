@@ -1,4 +1,5 @@
 import formationArtisans from "@/assets/formation-artisans.png";
+import { Button } from "@/components/ui/button";
 
 interface WelcomeScreenProps {
   onNavigate: (route: string) => void;
@@ -28,6 +29,25 @@ export const WelcomeScreen = ({
             </span>
           </h2>
         </div>
+      </div>
+      
+      {/* Buttons Section */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4 py-8 md:py-12">
+        <Button 
+          variant="outline" 
+          size="lg"
+          className="w-full sm:w-auto min-w-[200px] text-lg font-semibold"
+          onClick={() => window.open("https://creactifs.fr/formations/reseaux-sociaux", "_blank")}
+        >
+          Regarder
+        </Button>
+        <Button 
+          size="lg"
+          className="w-full sm:w-auto min-w-[200px] text-lg font-semibold bg-blue-600 hover:bg-blue-700"
+          onClick={() => onNavigate("online-quote")}
+        >
+          Devis gratuit
+        </Button>
       </div>
     </div>
   );
