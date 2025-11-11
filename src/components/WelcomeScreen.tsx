@@ -16,6 +16,16 @@ export const WelcomeScreen = ({
           alt="Formation artisans aux réseaux sociaux" 
           className="w-full h-auto object-cover"
         />
+        
+        {/* Text Overlay */}
+        <div className="absolute left-4 md:left-8 bottom-20 md:bottom-32">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground">
+            Votre devis{" "}
+            <span className="bg-yellow-400 text-foreground px-2">
+              en 5 minutes
+            </span>
+          </h2>
+        </div>
       </div>
     </div>
   );
