@@ -61,7 +61,13 @@ export const QuoteStep0 = ({
               </label>
               
               <div className="space-y-2">
-                <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors group ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5' : 'border-border'}`}>
+                <div 
+                  className={`flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors group cursor-pointer ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5' : 'border-border'}`}
+                  onClick={() => {
+                    setFormData(prev => ({ ...prev, serviceType: 'autres' }));
+                    setShowAutresOptions(!showAutresOptions);
+                  }}
+                >
                   <div className="flex items-center space-x-3 flex-1">
                     <div className="text-lg font-medium text-foreground">
                       Autres

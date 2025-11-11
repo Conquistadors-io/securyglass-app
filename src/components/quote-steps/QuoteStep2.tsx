@@ -56,7 +56,10 @@ export const QuoteStep2 = ({
                     <Label htmlFor="vitre-cassee" className={`text-lg cursor-pointer flex-1 ${formData.object === "vitre-cassee" ? "text-primary" : ""}`}>Vitre cassée</Label>
                   </div>
                   
-                  <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}>
+                  <div 
+                    className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}
+                    onClick={() => setFormData(prev => ({ ...prev, object: "autre" }))}
+                  >
                     <div className="text-lg flex-1">
                       Autres :
                       {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
