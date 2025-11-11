@@ -42,12 +42,10 @@ export const WelcomeScreen = ({
               className="flex-1 h-[50px] rounded-full opacity-0 hover:opacity-10 hover:bg-white transition-opacity"
               aria-label="Regarder la formation"
             />
-            <a 
-              href="https://creactifs.fr/inscriptions" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex-1 h-[50px] rounded-full opacity-0 hover:opacity-10 hover:bg-white transition-opacity"
-              aria-label="S'inscrire à la formation"
+            <button
+              onClick={() => onNavigate('online-quote')}
+              className="flex-1 h-[50px] rounded-full opacity-0 hover:opacity-10 hover:bg-white transition-opacity cursor-pointer"
+              aria-label="Devis gratuit"
             />
           </div>
         </div>
