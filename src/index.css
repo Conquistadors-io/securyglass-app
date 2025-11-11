@@ -52,6 +52,11 @@ All colors MUST be HSL.
     --warning: 32 95% 44%;
     --warning-foreground: 0 0% 100%;
 
+    /* Formation colors */
+    --formation-bg: 195 53% 75%;
+    --formation-highlight: 48 100% 50%;
+    --formation-text: 0 0% 0%;
+
     /* Gradients - Clean and subtle */
     --gradient-primary: linear-gradient(135deg, hsl(228 94% 54%), hsl(228 94% 64%));
     --gradient-secondary: linear-gradient(135deg, hsl(0 0% 95%), hsl(0 0% 97%));
