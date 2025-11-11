@@ -63,11 +63,6 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				formation: {
-					bg: 'hsl(var(--formation-bg))',
-					highlight: 'hsl(var(--formation-highlight))',
-					text: 'hsl(var(--formation-text))'
-				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
