@@ -9,7 +9,7 @@ export const WelcomeScreen = ({
 }: WelcomeScreenProps) => {
   return <div className="min-h-screen w-full bg-background overflow-y-auto">
       {/* Formation Artisans Banner */}
-      <div className="relative w-full aspect-[16/9] bg-background">
+      <div className="relative w-full aspect-[32/9] bg-background">
         <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-contain" />
         
         {/* Text Overlay */}
