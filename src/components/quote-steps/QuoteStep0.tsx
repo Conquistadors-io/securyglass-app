@@ -48,7 +48,7 @@ export const QuoteStep0 = ({
                 <RadioGroupItem value="vitrerie" id="vitrerie" className="w-6 h-6" />
                 <div className="flex-1">
                   <div className={`text-lg font-medium ${formData.serviceType === 'vitrerie' ? 'text-primary' : 'text-foreground'}`}>Vitrerie</div>
-                  <p className="text-sm mt-1 text-muted-foreground">Tous types de verres</p>
+                  <p className={`text-sm mt-1 ${formData.serviceType === 'vitrerie' ? 'text-primary' : 'text-muted-foreground'}`}>Tous types de verres</p>
                 </div>
               </label>
               
@@ -56,7 +56,7 @@ export const QuoteStep0 = ({
                 <RadioGroupItem value="miroiterie" id="miroiterie" className="w-6 h-6" />
                 <div className="flex-1">
                   <div className={`text-lg font-medium ${formData.serviceType === 'miroiterie' ? 'text-primary' : 'text-foreground'}`}>Miroiterie</div>
-                  <p className="text-sm mt-1 text-muted-foreground">Tous types de miroirs</p>
+                  <p className={`text-sm mt-1 ${formData.serviceType === 'miroiterie' ? 'text-primary' : 'text-muted-foreground'}`}>Tous types de miroirs</p>
                 </div>
               </label>
               
