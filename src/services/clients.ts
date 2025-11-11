@@ -1,4 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
+import { clientSchema } from "@/lib/validation";
+import { z } from "zod";
 
 export interface ClientData {
   email: string;
@@ -20,7 +22,8 @@ export const saveClient = async (data: {
   adresse_intervention: string;
 }): Promise<{ success: boolean; error?: string }> => {
   try {
-    const clientData: ClientData = {
+    // Validate input data
+    const validationResult = clientSchema.safeParse({
       email: data.email,
       mobile: data.mobile,
       nom: data.nom,
@@ -28,7 +31,15 @@ export const saveClient = async (data: {
       raison_sociale: data.raison_sociale || null,
       email_facturation: data.email_facturation || null,
       adresse_intervention: data.adresse_intervention,
-    };
+    });
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.errors.map(e => e.message).join(", ");
+      console.error('Validation error:', errors);
+      return { success: false, error: errors };
+    }
+
+    const clientData: ClientData = validationResult.data;
 
     const { error } = await supabase
       .from('clients' as any)

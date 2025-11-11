@@ -1,4 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
+import { devisSchema } from "@/lib/validation";
+import { z } from "zod";
 
 export interface DevisData {
   quote_number?: string;
@@ -45,8 +47,8 @@ export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{
     // Generate unique quote number
     const quoteNumber = generateQuoteNumber();
     
-    const devisData: DevisData = {
-      quote_number: quoteNumber,
+    // Prepare data for validation
+    const dataToValidate = {
       client_email: formData.email,
       service_type: formData.serviceType || 'vitrerie',
       object: formData.object || '',
@@ -60,12 +62,27 @@ export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{
       largeur_cm: formData.largeur ? parseFloat(formData.largeur) : undefined,
       hauteur_cm: formData.hauteur ? parseFloat(formData.hauteur) : undefined,
       quantite: formData.quantite || 1,
-      photo_url: formData.photo,
       assurance: formData.assurance,
-      different_intervention_address: formData.differentInterventionAddress || false,
-      intervention_adresse: formData.differentInterventionAddress ? formData.interventionAdresse : formData.adresse,
       intervention_code_postal: formData.differentInterventionAddress ? formData.interventionCodePostal : formData.codePostal,
       intervention_ville: formData.differentInterventionAddress ? formData.interventionVille : formData.ville,
+      intervention_adresse: formData.differentInterventionAddress ? formData.interventionAdresse : formData.adresse,
+      notes: formData.notes
+    };
+
+    // Validate input data
+    const validationResult = devisSchema.safeParse(dataToValidate);
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(", ");
+      console.error('Validation error:', errors);
+      return { success: false, error: errors };
+    }
+
+    const devisData: DevisData = {
+      quote_number: quoteNumber,
+      ...validationResult.data,
+      photo_url: formData.photo,
+      different_intervention_address: formData.differentInterventionAddress || false,
       price_subtotal: calculatedPrices.subtotal,
       price_tva: calculatedPrices.tva,
       price_tva_rate: calculatedPrices.tvaRate,
@@ -73,7 +90,6 @@ export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{
       price_details: calculatedPrices.details,
       status: 'draft',
       source: 'online',
-      notes: formData.notes
     };
 
     const { data, error } = await supabase
