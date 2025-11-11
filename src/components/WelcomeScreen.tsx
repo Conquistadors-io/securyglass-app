@@ -27,12 +27,29 @@ export const WelcomeScreen = ({
 
       {/* Formation Artisans Banner */}
       <div className="px-6 mb-6">
-        <div className="max-w-md mx-auto">
+        <div className="max-w-md mx-auto relative">
           <img 
             src={formationArtisans} 
             alt="Formation réseaux sociaux pour artisans financée par l'État" 
             className="w-full rounded-lg shadow-lg"
           />
+          {/* Clickable buttons overlay */}
+          <div className="absolute bottom-[3%] left-0 right-0 flex gap-4 px-[3%]">
+            <a 
+              href="https://creactifs.fr/formations/reseaux-sociaux" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex-1 h-[50px] rounded-full opacity-0 hover:opacity-10 hover:bg-white transition-opacity"
+              aria-label="Regarder la formation"
+            />
+            <a 
+              href="https://creactifs.fr/inscriptions" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex-1 h-[50px] rounded-full opacity-0 hover:opacity-10 hover:bg-white transition-opacity"
+              aria-label="S'inscrire à la formation"
+            />
+          </div>
         </div>
       </div>
 
