@@ -61,18 +61,23 @@ export const QuoteStep0 = ({
               </label>
               
               <div className="space-y-2">
-                <label htmlFor="autres" className={`flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5' : 'border-border'}`}>
-                  <RadioGroupItem value="autres" id="autres" className="w-6 h-6" />
-                  <div className="flex-1">
-                    <div className={`text-lg font-medium ${formData.serviceType === 'autres' ? 'text-primary' : 'text-foreground'}`}>Autres</div>
-                  </div>
+                <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors group cursor-pointer ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5' : 'border-border'}`}
+                  onClick={() => {
+                    setFormData(prev => ({
+                      ...prev,
+                      serviceType: 'autres'
+                    }));
+                    setShowAutresOptions(!showAutresOptions);
+                  }}
+                >
+                  <div className={`text-lg font-medium ${formData.serviceType === 'autres' ? 'text-primary' : 'text-foreground'} flex-1`}>Autres</div>
                   <button type="button" onClick={e => {
                     e.stopPropagation();
                     setShowAutresOptions(!showAutresOptions);
                   }} className="p-1 rounded transition-colors">
                     <ChevronDown className={`w-5 h-5 text-foreground transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
                   </button>
-                </label>
+                </div>
                 
                 {showAutresOptions && <div className="ml-6 space-y-2">
                     <label htmlFor="renovation" className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'renovation' ? 'border-primary bg-primary/5' : 'border-border'}`}>
