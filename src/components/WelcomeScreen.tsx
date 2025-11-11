@@ -11,22 +11,24 @@ export const WelcomeScreen = ({
         <img 
           src={formationArtisans} 
           alt="Formation réseaux sociaux pour artisans financée par l'État" 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         />
         {/* Clickable buttons overlay */}
-        <div className="absolute bottom-[3%] left-0 right-0 flex gap-4 px-[3%] max-w-4xl mx-auto">
-          <a 
-            href="https://creactifs.fr/formations/reseaux-sociaux" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex-1 h-[50px] rounded-full opacity-0 hover:opacity-10 hover:bg-white transition-opacity"
-            aria-label="Regarder la formation"
-          />
-          <button
-            onClick={() => onNavigate('online-quote')}
-            className="flex-1 h-[50px] rounded-full opacity-0 hover:opacity-10 hover:bg-white transition-opacity cursor-pointer"
-            aria-label="Devis gratuit"
-          />
+        <div className="absolute inset-0 flex items-end justify-center pb-[8%]">
+          <div className="flex gap-[2%] w-[80%] max-w-[600px]">
+            <a 
+              href="https://creactifs.fr/formations/reseaux-sociaux" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex-1 h-[60px] rounded-full opacity-0 hover:opacity-20 hover:bg-white transition-opacity cursor-pointer"
+              aria-label="Regarder la formation"
+            />
+            <button
+              onClick={() => onNavigate('online-quote')}
+              className="flex-1 h-[60px] rounded-full opacity-0 hover:opacity-20 hover:bg-white transition-opacity cursor-pointer"
+              aria-label="Devis gratuit"
+            />
+          </div>
         </div>
       </div>
     </div>;
