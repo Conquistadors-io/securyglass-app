@@ -72,12 +72,6 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				},
-				formation: {
-					bg: 'hsl(var(--formation-bg))',
-					primary: 'hsl(var(--formation-primary))',
-					highlight: 'hsl(var(--formation-highlight))',
-					accent: 'hsl(var(--formation-accent))'
 				}
 			},
 			borderRadius: {

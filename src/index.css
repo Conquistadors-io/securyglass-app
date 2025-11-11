@@ -67,12 +67,6 @@ All colors MUST be HSL.
 
     --radius: 1rem;
 
-    /* Formation page colors */
-    --formation-bg: 220 70% 97%;
-    --formation-primary: 220 90% 25%;
-    --formation-highlight: 45 100% 50%;
-    --formation-accent: 200 100% 45%;
-
     --sidebar-background: 245 25% 10%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 267 85% 65%;
