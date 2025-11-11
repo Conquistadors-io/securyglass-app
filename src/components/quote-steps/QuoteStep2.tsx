@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Glasses, Info, ShieldAlert, Ruler, Cat, Wind, VolumeX, Lock, Home, Building2, Building, Store, MoreHorizontal } from "lucide-react";
+import { Glasses, Info, ShieldAlert, Ruler, Cat, Wind, VolumeX, Lock, Home, Building2, Building, Store, MoreHorizontal, ChevronDown } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
@@ -26,6 +26,15 @@ export const QuoteStep2 = ({
     motifOther: data.motifOther || "",
     miseEnSecurite: data.miseEnSecurite || "non"
   });
+  
+  const [showAutresOptions, setShowAutresOptions] = useState(
+    formData.object === "autre" || 
+    formData.object === "verre-sur-mesure" || 
+    formData.object === "chatiere" || 
+    formData.object === "decoupe-aeration" || 
+    formData.object === "verre-anti-bruit" || 
+    formData.object === "verre-anti-effraction"
+  );
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onComplete(formData);
@@ -56,10 +65,11 @@ export const QuoteStep2 = ({
                     <Label htmlFor="vitre-cassee" className={`text-lg cursor-pointer flex-1 ${formData.object === "vitre-cassee" ? "text-primary" : ""}`}>Vitre cassée</Label>
                   </div>
                   
-                  <div 
+                  <label 
+                    htmlFor="autres-option"
                     className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary bg-primary/5" : "border-border"}`}
-                    onClick={() => setFormData(prev => ({ ...prev, object: "autre" }))}
                   >
+                    <RadioGroupItem value="autre" id="autres-option" className="w-6 h-6" />
                     <div className={`text-lg flex-1 ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "text-primary" : ""}`}>
                       Autres
                       {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
@@ -68,11 +78,22 @@ export const QuoteStep2 = ({
                         </div>
                       )}
                     </div>
-                  </div>
+                    <button 
+                      type="button" 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setShowAutresOptions(!showAutresOptions);
+                      }} 
+                      className="p-1 rounded transition-colors"
+                    >
+                      <ChevronDown className={`w-5 h-5 text-foreground transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
+                    </button>
+                  </label>
                 </>}
             </RadioGroup>
             
-            {!isMiroiterie && formData.object === "autre" && <div className="mt-4 pl-6 space-y-3">
+            {!isMiroiterie && showAutresOptions && <div className="mt-4 pl-6 space-y-3">
                 <RadioGroup value={formData.object} onValueChange={value => setFormData(prev => ({
               ...prev,
               object: value
