@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Glasses, Info, ShieldAlert, Ruler, Cat, Wind, VolumeX, Lock, Home, Building2, Building, Store, MoreHorizontal, ChevronDown } from "lucide-react";
+import { Glasses, Info, ShieldAlert, Ruler, Cat, Wind, VolumeX, Lock, Home, Building2, Building, Store, MoreHorizontal, ChevronDown, Droplets } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
@@ -33,7 +33,8 @@ export const QuoteStep2 = ({
     formData.object === "chatiere" || 
     formData.object === "decoupe-aeration" || 
     formData.object === "verre-anti-bruit" || 
-    formData.object === "verre-anti-effraction"
+    formData.object === "verre-anti-effraction" ||
+    formData.object === "condensation"
   );
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,14 +67,14 @@ export const QuoteStep2 = ({
                   </div>
                   
                   <div 
-                    className={`group flex items-center p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary bg-primary/5" : "border-border"}`}
+                    className={`group flex items-center p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" || formData.object === "condensation" ? "border-primary bg-primary/5" : "border-border"}`}
                     onClick={() => setShowAutresOptions(!showAutresOptions)}
                   >
-                    <div className={`text-lg flex-1 ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "text-primary" : ""}`}>
+                    <div className={`text-lg flex-1 ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" || formData.object === "condensation" ? "text-primary" : ""}`}>
                       Autres
                       {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
                         <div className="text-primary mt-1">
-                          {formData.object === "verre-sur-mesure" ? "Verre sur mesure" : formData.object === "chatiere" ? "Chatière" : formData.object === "decoupe-aeration" ? "Découpe aération" : formData.object === "verre-anti-bruit" ? "Verre Anti-Bruit" : formData.object === "verre-anti-effraction" ? "Verre Anti-effraction" : ""}
+                          {formData.object === "verre-sur-mesure" ? "Verre sur mesure" : formData.object === "chatiere" ? "Chatière" : formData.object === "decoupe-aeration" ? "Découpe aération" : formData.object === "verre-anti-bruit" ? "Verre Anti-Bruit" : formData.object === "verre-anti-effraction" ? "Verre Anti-effraction" : formData.object === "condensation" ? "Condensation" : ""}
                         </div>
                       )}
                     </div>
@@ -137,6 +138,14 @@ export const QuoteStep2 = ({
                       <Label htmlFor="verre-anti-effraction" className={`cursor-pointer ${formData.object === "verre-anti-effraction" ? "text-primary" : ""}`}>Verre Anti-effraction</Label>
                     </div>
                     <RadioGroupItem value="verre-anti-effraction" id="verre-anti-effraction" className="w-5 h-5" />
+                  </div>
+                  
+                  <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "condensation" ? "border-primary" : "border-border"}`}>
+                    <div className="flex items-center space-x-3">
+                      <Droplets className={`w-4 h-4 shrink-0 ${formData.object === "condensation" ? "text-primary" : ""}`} />
+                      <Label htmlFor="condensation" className={`cursor-pointer ${formData.object === "condensation" ? "text-primary" : ""}`}>Condensation</Label>
+                    </div>
+                    <RadioGroupItem value="condensation" id="condensation" className="w-5 h-5" />
                   </div>
                 </RadioGroup>
               </div>}
