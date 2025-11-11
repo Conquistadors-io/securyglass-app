@@ -19,7 +19,7 @@ export const WelcomeScreen = ({
         />
         
         {/* Text Overlay */}
-        <div className="absolute left-4 md:left-8 top-1/3 md:top-1/4">
+        <div className="absolute left-4 md:left-8 top-8 md:top-12 lg:top-16">
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground">
             Votre devis
           </h2>
