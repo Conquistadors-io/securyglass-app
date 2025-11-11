@@ -65,11 +65,10 @@ export const QuoteStep2 = ({
                     <Label htmlFor="vitre-cassee" className={`text-lg cursor-pointer flex-1 ${formData.object === "vitre-cassee" ? "text-primary" : ""}`}>Vitre cassée</Label>
                   </div>
                   
-                  <label 
-                    htmlFor="autres-option"
-                    className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary bg-primary/5" : "border-border"}`}
+                  <div 
+                    className={`group flex items-center p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary bg-primary/5" : "border-border"}`}
+                    onClick={() => setShowAutresOptions(!showAutresOptions)}
                   >
-                    <RadioGroupItem value="autre" id="autres-option" className="w-6 h-6" />
                     <div className={`text-lg flex-1 ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "text-primary" : ""}`}>
                       Autres
                       {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
@@ -89,7 +88,7 @@ export const QuoteStep2 = ({
                     >
                       <ChevronDown className={`w-5 h-5 text-foreground transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
                     </button>
-                  </label>
+                  </div>
                 </>}
             </RadioGroup>
             
