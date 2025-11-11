@@ -51,16 +51,16 @@ export const QuoteStep2 = ({
                     <Label htmlFor="miroir-sur-mesure" className={`text-lg cursor-pointer flex-1 ${formData.object === "miroir-sur-mesure" ? "text-primary" : ""}`}>Miroir sur mesure</Label>
                   </div>
                 </> : <>
-                  <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "border-primary" : "border-border"}`}>
+                  <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "border-primary bg-primary/5" : "border-border"}`}>
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
                     <Label htmlFor="vitre-cassee" className={`text-lg cursor-pointer flex-1 ${formData.object === "vitre-cassee" ? "text-primary" : ""}`}>Vitre cassée</Label>
                   </div>
                   
                   <div 
-                    className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}
+                    className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary bg-primary/5" : "border-border"}`}
                     onClick={() => setFormData(prev => ({ ...prev, object: "autre" }))}
                   >
-                    <div className="text-lg flex-1">
+                    <div className={`text-lg flex-1 ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "text-primary" : ""}`}>
                       Autres :
                       {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
                         <div className="text-primary mt-1">

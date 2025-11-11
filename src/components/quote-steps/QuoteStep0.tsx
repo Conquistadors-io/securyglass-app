@@ -47,7 +47,7 @@ export const QuoteStep0 = ({
               <label htmlFor="vitrerie" className={`flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'vitrerie' ? 'border-primary bg-primary/5' : 'border-border'}`}>
                 <RadioGroupItem value="vitrerie" id="vitrerie" className="w-6 h-6" />
                 <div className="flex-1">
-                  <div className="text-lg font-medium text-foreground">Vitrerie</div>
+                  <div className={`text-lg font-medium ${formData.serviceType === 'vitrerie' ? 'text-primary' : 'text-foreground'}`}>Vitrerie</div>
                   <p className="text-sm mt-1 text-muted-foreground">Tous types de verres</p>
                 </div>
               </label>
@@ -55,7 +55,7 @@ export const QuoteStep0 = ({
               <label htmlFor="miroiterie" className={`flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'miroiterie' ? 'border-primary bg-primary/5' : 'border-border'}`}>
                 <RadioGroupItem value="miroiterie" id="miroiterie" className="w-6 h-6" />
                 <div className="flex-1">
-                  <div className="text-lg font-medium text-foreground">Miroiterie</div>
+                  <div className={`text-lg font-medium ${formData.serviceType === 'miroiterie' ? 'text-primary' : 'text-foreground'}`}>Miroiterie</div>
                   <p className="text-sm mt-1 text-muted-foreground">Tous types de miroirs</p>
                 </div>
               </label>
@@ -69,7 +69,7 @@ export const QuoteStep0 = ({
                 setShowAutresOptions(!showAutresOptions);
               }}>
                   <div className="flex items-center space-x-3 flex-1">
-                    <div className="text-lg font-medium text-foreground">
+                    <div className={`text-lg font-medium ${formData.serviceType === 'autres' ? 'text-primary' : 'text-foreground'}`}>
                       Autres
                     </div>
                   </div>
@@ -84,7 +84,7 @@ export const QuoteStep0 = ({
                 {showAutresOptions && <div className="ml-6 space-y-2">
                     <label htmlFor="renovation" className={`flex items-center space-x-3 p-3 border-2 rounded-lg transition-colors cursor-pointer group ${formData.serviceType === 'renovation' ? 'border-primary bg-primary/5' : 'border-border'}`}>
                       <RadioGroupItem value="renovation" id="renovation" className="w-5 h-5" />
-                      <div className="flex-1 text-foreground">Volet Roulant</div>
+                      <div className={`flex-1 ${formData.serviceType === 'renovation' ? 'text-primary' : 'text-foreground'}`}>Volet Roulant</div>
                     </label>
                   </div>}
               </div>
