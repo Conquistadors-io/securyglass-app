@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AlertCircle, Quote, Users, Settings } from "lucide-react";
 import securyglassLogo from "@/assets/securyglass-logo.png";
+import formationArtisans from "@/assets/formation-artisans.png";
 interface WelcomeScreenProps {
   onNavigate: (route: string) => void;
 }
@@ -21,6 +22,17 @@ export const WelcomeScreen = ({
           <p className="text-white/90 text-lg font-medium">
             Un bris de glace ? SECURYGLASS 🙂
           </p>
+        </div>
+      </div>
+
+      {/* Formation Artisans Banner */}
+      <div className="px-6 mb-6">
+        <div className="max-w-md mx-auto">
+          <img 
+            src={formationArtisans} 
+            alt="Formation réseaux sociaux pour artisans financée par l'État" 
+            className="w-full rounded-lg shadow-lg"
+          />
         </div>
       </div>
 
