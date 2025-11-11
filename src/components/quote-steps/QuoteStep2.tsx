@@ -61,7 +61,7 @@ export const QuoteStep2 = ({
                     onClick={() => setFormData(prev => ({ ...prev, object: "autre" }))}
                   >
                     <div className={`text-lg flex-1 ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "text-primary" : ""}`}>
-                      Autres :
+                      Autres
                       {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
                         <div className="text-primary mt-1">
                           {formData.object === "verre-sur-mesure" ? "Verre sur mesure" : formData.object === "chatiere" ? "Chatière" : formData.object === "decoupe-aeration" ? "Découpe aération" : formData.object === "verre-anti-bruit" ? "Verre Anti-Bruit" : formData.object === "verre-anti-effraction" ? "Verre Anti-effraction" : ""}
