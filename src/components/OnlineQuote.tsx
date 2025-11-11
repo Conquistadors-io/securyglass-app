@@ -19,9 +19,9 @@ export const OnlineQuote = ({
   const [currentStep, setCurrentStep] = useState(() => {
     try {
       const saved = localStorage.getItem('quote-current-step');
-      return saved ? parseInt(saved, 10) : 1;
+      return saved ? parseInt(saved, 10) : 0;
     } catch {
-      return 1;
+      return 0;
     }
   });
   const [formData, setFormData] = useState(() => {
