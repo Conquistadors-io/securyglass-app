@@ -208,7 +208,7 @@ export const QuoteStep4 = ({
       </div>
 
       {/* Section Client */}
-      <Card className="!border-2 !border-blue-500 shadow-lg hover:shadow-xl transition-shadow">
+      <Card className="!border-2 !border-blue-500 shadow-lg transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-blue-50 to-white">
           <div className="flex items-center mb-4">
             <CheckCircle2 className="h-6 w-6 text-blue-600 mr-3" />
@@ -243,7 +243,7 @@ export const QuoteStep4 = ({
             {data.assurance && <div className="text-foreground">Assurance : {data.assurance}</div>}
           </div>
           <div className="flex justify-center mt-4">
-            <Button variant="outline" size="sm" onClick={() => onModify(3)} className="text-blue-600 border-blue-300 hover:bg-blue-50">
+            <Button variant="outline" size="sm" onClick={() => onModify(3)} className="text-blue-600 border-blue-300">
               <Edit3 className="h-4 w-4 mr-1" />
               Modifier
             </Button>
@@ -252,7 +252,7 @@ export const QuoteStep4 = ({
       </Card>
 
       {/* Section Interventions */}
-      <Card className="!border-2 !border-blue-500 shadow-lg hover:shadow-xl transition-shadow">
+      <Card className="!border-2 !border-blue-500 shadow-lg transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-green-50 to-white">
           <div className="flex items-center mb-4">
             <CheckCircle2 className="h-6 w-6 text-green-600 mr-3" />
@@ -267,7 +267,7 @@ export const QuoteStep4 = ({
             <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L) x {data.quantite}</div>
           </div>
           <div className="flex justify-center mt-4">
-            <Button variant="outline" size="sm" onClick={() => onModify(2)} className="text-green-600 border-green-300 hover:bg-green-50">
+            <Button variant="outline" size="sm" onClick={() => onModify(2)} className="text-green-600 border-green-300">
               <Edit3 className="h-4 w-4 mr-1" />
               Modifier
             </Button>
@@ -277,20 +277,20 @@ export const QuoteStep4 = ({
 
 
       {/* Section Mise en sécurité */}
-      <Card className="!border-2 !border-blue-500 shadow-lg hover:shadow-xl transition-shadow">
+      <Card className="!border-2 !border-blue-500 shadow-lg transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-orange-50 to-white">
           <div className="mb-4">
             <span className="text-lg font-semibold text-blue-800">Voulez vous une Mise en sécurité ?</span>
           </div>
           <RadioGroup value={miseEnSecurite} onValueChange={setMiseEnSecurite} className="flex gap-4">
-            <div className={`flex items-center space-x-3 px-4 h-12 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${miseEnSecurite === "non" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
+            <div className={`flex items-center space-x-3 px-4 h-12 border-2 rounded-lg transition-colors cursor-pointer ${miseEnSecurite === "non" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
               <RadioGroupItem value="non" id="securite-non" className="w-5 h-5 bg-background" />
               <Label htmlFor="securite-non" className="cursor-pointer flex-1 font-medium">
                 Non
               </Label>
             </div>
             
-            <div className={`flex items-center space-x-3 px-4 h-12 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${miseEnSecurite === "oui" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
+            <div className={`flex items-center space-x-3 px-4 h-12 border-2 rounded-lg transition-colors cursor-pointer ${miseEnSecurite === "oui" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
               <RadioGroupItem value="oui" id="securite-oui" className="w-5 h-5 bg-background" />
               <Label htmlFor="securite-oui" className="cursor-pointer flex-1 font-medium">
                 Oui
@@ -308,7 +308,7 @@ export const QuoteStep4 = ({
       </Card>
 
       {/* Section Acceptation des conditions */}
-      <Card className="!border-2 !border-blue-500 shadow-lg hover:shadow-xl transition-shadow">
+      <Card className="!border-2 !border-blue-500 shadow-lg transition-shadow">
         <CardContent className="p-6 bg-gradient-to-r from-purple-50 to-white">
           <div className="flex items-start space-x-3">
             <Checkbox id="terms" checked={acceptedTerms} onCheckedChange={checked => setAcceptedTerms(checked as boolean)} className="mt-1" />
@@ -318,11 +318,11 @@ export const QuoteStep4 = ({
               </label>
               <p className="text-xs text-muted-foreground">
                 En cochant cette case, vous acceptez nos{" "}
-                <a href="#" className="underline text-primary hover:text-primary/80">
+                <a href="#" className="underline text-primary">
                   conditions générales de vente
                 </a>{" "}
                 et nos{" "}
-                <a href="#" className="underline text-primary hover:text-primary/80">
+                <a href="#" className="underline text-primary">
                   conditions générales d'utilisation
                 </a>
                 .

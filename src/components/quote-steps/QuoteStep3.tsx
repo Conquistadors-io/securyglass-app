@@ -271,7 +271,7 @@ export const QuoteStep3 = ({
                   <div className="p-3 bg-accent rounded-lg">
                     <div className="flex items-center justify-between">
                       <DialogTrigger asChild>
-                        <button type="button" className="flex-1 text-sm text-white text-center cursor-pointer hover:opacity-80 transition-opacity">
+                        <button type="button" className="flex-1 text-sm text-white text-center cursor-pointer transition-opacity">
                           Voir Photo
                         </button>
                       </DialogTrigger>
@@ -281,7 +281,7 @@ export const QuoteStep3 = ({
                           size="sm" 
                           variant="outline" 
                           onClick={handlePhotoDelete} 
-                          className="text-red-600 hover:text-red-700"
+                          className="text-red-600"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

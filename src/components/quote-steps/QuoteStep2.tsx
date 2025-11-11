@@ -75,44 +75,44 @@ export const QuoteStep2 = ({
               ...prev,
               object: value
             }))}>
-                  <div className={`group flex items-center justify-between p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "verre-sur-mesure" ? "border-primary" : "border-border"}`}>
+                  <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-sur-mesure" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Ruler className={`w-4 h-4 shrink-0 group-hover:text-accent-foreground ${formData.object === "verre-sur-mesure" ? "text-primary" : ""}`} />
-                      <Label htmlFor="verre-sur-mesure" className={`cursor-pointer group-hover:text-accent-foreground ${formData.object === "verre-sur-mesure" ? "text-primary" : ""}`}>Verre sur mesure</Label>
+                      <Ruler className={`w-4 h-4 shrink-0 ${formData.object === "verre-sur-mesure" ? "text-primary" : ""}`} />
+                      <Label htmlFor="verre-sur-mesure" className={`cursor-pointer ${formData.object === "verre-sur-mesure" ? "text-primary" : ""}`}>Verre sur mesure</Label>
                     </div>
                     <RadioGroupItem value="verre-sur-mesure" id="verre-sur-mesure" className="w-5 h-5" />
                   </div>
                   
                   
                   
-                  <div className={`group flex items-center justify-between p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "chatiere" ? "border-primary" : "border-border"}`}>
+                  <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "chatiere" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Cat className={`w-4 h-4 shrink-0 group-hover:text-accent-foreground ${formData.object === "chatiere" ? "text-primary" : ""}`} />
-                      <Label htmlFor="chatiere" className={`cursor-pointer group-hover:text-accent-foreground ${formData.object === "chatiere" ? "text-primary" : ""}`}>Chatière</Label>
+                      <Cat className={`w-4 h-4 shrink-0 ${formData.object === "chatiere" ? "text-primary" : ""}`} />
+                      <Label htmlFor="chatiere" className={`cursor-pointer ${formData.object === "chatiere" ? "text-primary" : ""}`}>Chatière</Label>
                     </div>
                     <RadioGroupItem value="chatiere" id="chatiere" className="w-5 h-5" />
                   </div>
                   
-                  <div className={`group flex items-center justify-between p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "decoupe-aeration" ? "border-primary" : "border-border"}`}>
+                  <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "decoupe-aeration" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Wind className={`w-4 h-4 shrink-0 group-hover:text-accent-foreground ${formData.object === "decoupe-aeration" ? "text-primary" : ""}`} />
-                      <Label htmlFor="decoupe-aeration" className={`cursor-pointer group-hover:text-accent-foreground ${formData.object === "decoupe-aeration" ? "text-primary" : ""}`}>Découpe aération</Label>
+                      <Wind className={`w-4 h-4 shrink-0 ${formData.object === "decoupe-aeration" ? "text-primary" : ""}`} />
+                      <Label htmlFor="decoupe-aeration" className={`cursor-pointer ${formData.object === "decoupe-aeration" ? "text-primary" : ""}`}>Découpe aération</Label>
                     </div>
                     <RadioGroupItem value="decoupe-aeration" id="decoupe-aeration" className="w-5 h-5" />
                   </div>
                   
-                  <div className={`group flex items-center justify-between p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "verre-anti-bruit" ? "border-primary" : "border-border"}`}>
+                  <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-anti-bruit" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <VolumeX className={`w-4 h-4 shrink-0 group-hover:text-accent-foreground ${formData.object === "verre-anti-bruit" ? "text-primary" : ""}`} />
-                      <Label htmlFor="verre-anti-bruit" className={`cursor-pointer group-hover:text-accent-foreground ${formData.object === "verre-anti-bruit" ? "text-primary" : ""}`}>Verre Anti-Bruit</Label>
+                      <VolumeX className={`w-4 h-4 shrink-0 ${formData.object === "verre-anti-bruit" ? "text-primary" : ""}`} />
+                      <Label htmlFor="verre-anti-bruit" className={`cursor-pointer ${formData.object === "verre-anti-bruit" ? "text-primary" : ""}`}>Verre Anti-Bruit</Label>
                     </div>
                     <RadioGroupItem value="verre-anti-bruit" id="verre-anti-bruit" className="w-5 h-5" />
                   </div>
                   
-                  <div className={`group flex items-center justify-between p-3 border-2 rounded-lg hover:bg-accent transition-colors cursor-pointer ${formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}>
+                  <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Lock className={`w-4 h-4 shrink-0 group-hover:text-accent-foreground ${formData.object === "verre-anti-effraction" ? "text-primary" : ""}`} />
-                      <Label htmlFor="verre-anti-effraction" className={`cursor-pointer group-hover:text-accent-foreground ${formData.object === "verre-anti-effraction" ? "text-primary" : ""}`}>Verre Anti-effraction</Label>
+                      <Lock className={`w-4 h-4 shrink-0 ${formData.object === "verre-anti-effraction" ? "text-primary" : ""}`} />
+                      <Label htmlFor="verre-anti-effraction" className={`cursor-pointer ${formData.object === "verre-anti-effraction" ? "text-primary" : ""}`}>Verre Anti-effraction</Label>
                     </div>
                     <RadioGroupItem value="verre-anti-effraction" id="verre-anti-effraction" className="w-5 h-5" />
                   </div>
