@@ -227,7 +227,7 @@ export const TechnicianPlanning = ({ onNavigate }: TechnicianPlanningProps) => {
                       
                       {appointment ? (
                         <Card 
-                          className="flex-1 p-3 cursor-pointer hover:shadow-md transition-shadow animate-fade-in"
+                          className="flex-1 p-3 cursor-pointer transition-shadow animate-fade-in"
                   onClick={() => onNavigate("appointment-detail")}
                         >
                           <div className="flex items-start justify-between mb-2">
@@ -253,7 +253,7 @@ export const TechnicianPlanning = ({ onNavigate }: TechnicianPlanningProps) => {
                       ) : (
                         <Button 
                           variant="outline" 
-                          className="flex-1 h-12 border-dashed border-gray-300 hover:border-primary hover:bg-primary/5"
+                          className="flex-1 h-12 border-dashed border-gray-300"
                           onClick={() => {/* TODO: Add appointment */}}
                         >
                           <Plus className="h-4 w-4 mr-2" />
@@ -314,7 +314,7 @@ export const TechnicianPlanning = ({ onNavigate }: TechnicianPlanningProps) => {
             {filteredAppointments.slice(0, 3).map((appointment) => (
               <div 
                 key={appointment.id}
-                className="flex items-center justify-between p-3 bg-secondary/10 rounded-lg cursor-pointer hover:bg-secondary/20 transition-colors"
+                className="flex items-center justify-between p-3 bg-secondary/10 rounded-lg cursor-pointer transition-colors"
                 onClick={() => onNavigate("appointment-detail")}
               >
                 <div className="flex-1">

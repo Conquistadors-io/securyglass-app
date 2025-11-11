@@ -98,7 +98,7 @@ export const UrgentIntervention = ({ onNavigate }: UrgentInterventionProps) => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="text-white hover:bg-white/20 mr-3"
+            className="text-white mr-3"
             onClick={() => onNavigate('welcome')}
           >
             <ArrowLeft className="h-5 w-5" />
@@ -195,7 +195,7 @@ export const UrgentIntervention = ({ onNavigate }: UrgentInterventionProps) => {
                 <div className="mt-1">
                   <label 
                     htmlFor="photo-upload" 
-                    className="flex items-center justify-center w-full h-24 border-2 border-dashed border-border rounded-lg cursor-pointer hover:bg-accent transition-colors"
+                    className="flex items-center justify-center w-full h-24 border-2 border-dashed border-border rounded-lg cursor-pointer transition-colors"
                   >
                     <div className="text-center">
                       <Camera className="h-6 w-6 text-muted-foreground mx-auto mb-2" />

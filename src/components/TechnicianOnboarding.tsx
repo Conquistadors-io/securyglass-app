@@ -181,7 +181,7 @@ export const TechnicianOnboarding = ({ onComplete, onNavigate }: TechnicianOnboa
       content: (
         <div className="space-y-4">
           <div className="grid gap-4">
-            <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+            <Card className="p-4 transition-shadow cursor-pointer">
               <div className="flex items-center space-x-3">
                 <div className="bg-primary/10 rounded-lg p-2">
                   <Calendar className="h-5 w-5 text-primary" />
@@ -193,7 +193,7 @@ export const TechnicianOnboarding = ({ onComplete, onNavigate }: TechnicianOnboa
               </div>
             </Card>
             
-            <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+            <Card className="p-4 transition-shadow cursor-pointer">
               <div className="flex items-center space-x-3">
                 <div className="bg-green-100 rounded-lg p-2">
                   <MapPin className="h-5 w-5 text-green-600" />
@@ -205,7 +205,7 @@ export const TechnicianOnboarding = ({ onComplete, onNavigate }: TechnicianOnboa
               </div>
             </Card>
             
-            <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+            <Card className="p-4 transition-shadow cursor-pointer">
               <div className="flex items-center space-x-3">
                 <div className="bg-purple-100 rounded-lg p-2">
                   <Euro className="h-5 w-5 text-purple-600" />
@@ -217,7 +217,7 @@ export const TechnicianOnboarding = ({ onComplete, onNavigate }: TechnicianOnboa
               </div>
             </Card>
             
-            <Card className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+            <Card className="p-4 transition-shadow cursor-pointer">
               <div className="flex items-center space-x-3">
                 <div className="bg-orange-100 rounded-lg p-2">
                   <Phone className="h-5 w-5 text-orange-600" />

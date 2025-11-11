@@ -31,7 +31,7 @@ export const TechnicianLogin = ({ onNavigate }: TechnicianLoginProps) => {
           variant="ghost"
           size="sm"
           onClick={() => onNavigate('welcome')}
-          className="text-white hover:bg-white/20"
+          className="text-white"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
           Retour

@@ -237,7 +237,7 @@ export const TechnicianMap = ({ onNavigate }: TechnicianMapProps) => {
                   className={`flex items-center space-x-3 p-2 rounded-lg cursor-pointer transition-colors ${
                     selectedIntervention.id === intervention.id 
                       ? 'bg-primary/10 border border-primary/20' 
-                      : 'hover:bg-secondary/10'
+                      : 'bg-secondary/10'
                   }`}
                   onClick={() => setSelectedIntervention(intervention)}
                 >

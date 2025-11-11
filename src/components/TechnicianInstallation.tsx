@@ -113,7 +113,7 @@ export const TechnicianInstallation = ({ onNavigate }: TechnicianInstallationPro
                       <Button
                         size="icon"
                         variant="outline"
-                        className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 hover:bg-red-600 text-white border-0"
+                        className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-white border-0"
                         onClick={() => removeBeforePhoto(index)}
                       >
                         <span className="text-xs">×</span>
@@ -149,7 +149,7 @@ export const TechnicianInstallation = ({ onNavigate }: TechnicianInstallationPro
                       <Button
                         size="icon"
                         variant="outline"
-                        className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 hover:bg-red-600 text-white border-0"
+                        className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-white border-0"
                         onClick={() => removeAfterPhoto(index)}
                       >
                         <span className="text-xs">×</span>
@@ -268,7 +268,7 @@ export const TechnicianInstallation = ({ onNavigate }: TechnicianInstallationPro
                 <FileText className="h-4 w-4 mr-2" />
                 Facture auto-générée
               </span>
-              <Button variant="outline" size="sm" className="border-green-300 text-green-700 hover:bg-green-100">
+              <Button variant="outline" size="sm" className="border-green-300 text-green-700">
                 <Download className="h-4 w-4 mr-1" />
                 PDF
               </Button>

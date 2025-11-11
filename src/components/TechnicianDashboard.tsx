@@ -433,7 +433,7 @@ export const TechnicianDashboard = ({
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-3 mb-6">
-        <Card className="p-4 text-center cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onNavigate("technician-planning")}>
+        <Card className="p-4 text-center cursor-pointer transition-shadow" onClick={() => onNavigate("technician-planning")}>
           <div className="text-2xl font-bold text-primary">5</div>
           <div className="text-xs text-muted-foreground">Aujourd'hui</div>
           <div className="text-sm font-medium text-green-600 mt-1">680€</div>
@@ -496,7 +496,7 @@ Travaux</div>
       <div className="space-y-3">
         <h2 className="text-lg font-semibold text-foreground mb-3">Interventions du jour</h2>
         
-        {interventions.map(intervention => <Card key={intervention.id} className="p-4 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onNavigate("quote-detail")}>
+        {interventions.map(intervention => <Card key={intervention.id} className="p-4 cursor-pointer transition-shadow" onClick={() => onNavigate("quote-detail")}>
             <div className="flex justify-between items-start mb-2">
               <div className="flex-1">
                 <h3 className="font-medium text-foreground">{intervention.client}</h3>

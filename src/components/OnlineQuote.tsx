@@ -169,7 +169,7 @@ export const OnlineQuote = ({
       <div className="bg-gradient-primary px-6 py-4 text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 mr-3" onClick={() => currentStep === 0 ? onNavigate('welcome') : handlePrevious()}>
+            <Button variant="ghost" size="icon" className="text-white mr-3" onClick={() => currentStep === 0 ? onNavigate('welcome') : handlePrevious()}>
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <h1 className="text-xl font-semibold">Devis en 3 minutes </h1>

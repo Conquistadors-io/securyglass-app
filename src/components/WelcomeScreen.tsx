@@ -30,7 +30,7 @@ export const WelcomeScreen = ({
           <h2 className="text-xl font-semibold text-white text-center mb-8">Choisissez votre profil</h2>
 
           {/* Client Card */}
-          <Card className="p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-white/95 backdrop-blur shadow-card border-0" onClick={() => onNavigate('online-quote')}>
+          <Card className="p-6 cursor-pointer transition-all duration-300 bg-white/95 backdrop-blur shadow-card border-0" onClick={() => onNavigate('online-quote')}>
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
                 <Quote className="h-6 w-6 text-white" />
@@ -43,7 +43,7 @@ export const WelcomeScreen = ({
           </Card>
 
           {/* Technician Card */}
-          <Card className="p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-white/95 backdrop-blur shadow-card border-0" onClick={() => onNavigate('technician-login')}>
+          <Card className="p-6 cursor-pointer transition-all duration-300 bg-white/95 backdrop-blur shadow-card border-0" onClick={() => onNavigate('technician-login')}>
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-gradient-secondary rounded-full flex items-center justify-center">
                 <Users className="h-6 w-6 text-white" />
@@ -58,7 +58,7 @@ export const WelcomeScreen = ({
           </Card>
 
           {/* Admin Card */}
-          <Card className="p-6 cursor-pointer transition-all duration-300 hover:scale-105 bg-white/95 backdrop-blur shadow-card border-0" onClick={() => setSelectedUserType('admin')}>
+          <Card className="p-6 cursor-pointer transition-all duration-300 bg-white/95 backdrop-blur shadow-card border-0" onClick={() => setSelectedUserType('admin')}>
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center">
                 <Settings className="h-6 w-6 text-muted-foreground" />

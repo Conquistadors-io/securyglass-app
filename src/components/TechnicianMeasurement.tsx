@@ -91,7 +91,7 @@ export const TechnicianMeasurement = ({ onNavigate }: TechnicianMeasurementProps
                   <Button
                     size="icon"
                     variant="outline"
-                    className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 hover:bg-red-600 text-white border-0"
+                    className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-red-500 text-white border-0"
                     onClick={() => removePhoto(index)}
                   >
                     <span className="text-xs">×</span>
@@ -201,7 +201,7 @@ export const TechnicianMeasurement = ({ onNavigate }: TechnicianMeasurementProps
           <Card className="p-4 border-green-200 bg-green-50">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-green-800">Générer reçu d'acompte</span>
-              <Button variant="outline" size="sm" className="border-green-300 text-green-700 hover:bg-green-100">
+              <Button variant="outline" size="sm" className="border-green-300 text-green-700">
                 <Receipt className="h-4 w-4 mr-1" />
                 PDF
               </Button>

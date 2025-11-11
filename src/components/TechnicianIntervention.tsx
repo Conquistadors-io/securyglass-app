@@ -164,7 +164,7 @@ export const TechnicianIntervention = ({ onNavigate }: TechnicianInterventionPro
         <Button 
           variant="outline" 
           size="lg" 
-          className="w-full border-red-200 text-red-700 hover:bg-red-50"
+          className="w-full border-red-200 text-red-700"
           onClick={handleRefuse}
         >
           <XCircle className="h-5 w-5 mr-2" />

@@ -99,7 +99,7 @@ export const TechnicianAppointment = ({ onNavigate }: TechnicianAppointmentProps
                     ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
                     : selectedSlot === slot.time
                     ? "bg-primary text-white border-primary"
-                    : "bg-white text-foreground border-gray-200 hover:border-primary"
+                    : "bg-white text-foreground border-gray-200"
                 }`}
               >
                 <div className="flex items-center justify-center space-x-1">
