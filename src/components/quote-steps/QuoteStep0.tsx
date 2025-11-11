@@ -7,10 +7,12 @@ import { ChevronDown } from "lucide-react";
 interface QuoteStep0Props {
   data: any;
   onComplete: (data: any) => void;
+  onBack?: () => void;
 }
 export const QuoteStep0 = ({
   data,
-  onComplete
+  onComplete,
+  onBack
 }: QuoteStep0Props) => {
   const [formData, setFormData] = useState({
     serviceType: data.serviceType || "vitrerie"
@@ -89,9 +91,16 @@ export const QuoteStep0 = ({
             </RadioGroup>
           </div>
 
-          <Button type="submit" variant="default" size="lg" className="w-full" disabled={!isValid}>
-            Continuer
-          </Button>
+          <div className="flex gap-3">
+            {onBack && (
+              <Button type="button" variant="outline" size="lg" className="flex-1" onClick={onBack}>
+                Retour
+              </Button>
+            )}
+            <Button type="submit" variant="default" size="lg" className="flex-1" disabled={!isValid}>
+              Continuer
+            </Button>
+          </div>
         </form>
       </div>
     </Card>;

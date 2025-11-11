@@ -146,7 +146,7 @@ export const OnlineQuote = ({
   const renderStep = () => {
     switch (currentStep) {
       case 0:
-        return <QuoteStep0 data={formData} onComplete={handleStepComplete} />;
+        return <QuoteStep0 data={formData} onComplete={handleStepComplete} onBack={handlePrevious} />;
       case 1:
         return <QuoteStep2 data={formData} onComplete={handleStepComplete} onBack={handlePrevious} />;
       case 2:
