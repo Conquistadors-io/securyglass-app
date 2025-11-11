@@ -57,15 +57,14 @@ export const QuoteStep2 = ({
                   </div>
                   
                   <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}>
-                    <RadioGroupItem value="autre" id="autre-objet" className="w-6 h-6" />
-                    <Label htmlFor="autre-objet" className="text-lg cursor-pointer flex-1">
+                    <div className="text-lg flex-1">
                       Autres :
                       {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
                         <div className="text-primary mt-1">
                           {formData.object === "verre-sur-mesure" ? "Verre sur mesure" : formData.object === "chatiere" ? "Chatière" : formData.object === "decoupe-aeration" ? "Découpe aération" : formData.object === "verre-anti-bruit" ? "Verre Anti-Bruit" : formData.object === "verre-anti-effraction" ? "Verre Anti-effraction" : ""}
                         </div>
                       )}
-                    </Label>
+                    </div>
                   </div>
                 </>}
             </RadioGroup>

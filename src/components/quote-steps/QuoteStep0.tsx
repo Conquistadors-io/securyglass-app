@@ -62,12 +62,11 @@ export const QuoteStep0 = ({
               
               <div className="space-y-2">
                 <div className={`flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors group ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5' : 'border-border'}`}>
-                  <label htmlFor="autres" className="flex items-center space-x-3 flex-1 cursor-pointer">
-                    <RadioGroupItem value="autres" id="autres" className="w-6 h-6" />
+                  <div className="flex items-center space-x-3 flex-1">
                     <div className="text-lg font-medium text-foreground">
                       Autres
                     </div>
-                  </label>
+                  </div>
                   <button type="button" onClick={e => {
                   e.stopPropagation();
                   setShowAutresOptions(!showAutresOptions);
