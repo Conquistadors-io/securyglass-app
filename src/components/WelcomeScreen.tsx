@@ -8,26 +8,9 @@ export const WelcomeScreen = ({
   return <div className="min-h-screen w-full bg-background overflow-y-auto">
       {/* Formation Artisans Banner - Full Screen */}
       <div className="relative w-full min-h-screen flex items-center justify-center">
-        <img 
-          src={formationArtisans} 
-          alt="Formation réseaux sociaux pour artisans financée par l'État" 
-          className="w-full h-auto max-h-screen object-contain"
-        />
+        <img src={formationArtisans} alt="Formation réseaux sociaux pour artisans financée par l'État" className="w-full h-auto max-h-screen object-contain" />
         {/* Clickable buttons overlay */}
-        <div className="absolute inset-0 flex items-end justify-center pb-[8%]">
-          <div className="flex gap-[2%] w-[80%] max-w-[600px]">
-            <a 
-              href="tel:0970144344" 
-              className="flex-1 h-[60px] rounded-full opacity-0 hover:opacity-20 hover:bg-white transition-opacity cursor-pointer"
-              aria-label="Nous contacter"
-            />
-            <button
-              onClick={() => onNavigate('online-quote')}
-              className="flex-1 h-[60px] rounded-full opacity-0 hover:opacity-20 hover:bg-white transition-opacity cursor-pointer"
-              aria-label="Devis gratuit"
-            />
-          </div>
-        </div>
+        
       </div>
     </div>;
 };
