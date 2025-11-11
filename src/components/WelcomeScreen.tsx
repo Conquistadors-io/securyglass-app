@@ -17,11 +17,9 @@ export const WelcomeScreen = ({
         <div className="absolute inset-0 flex items-end justify-center pb-[8%]">
           <div className="flex gap-[2%] w-[80%] max-w-[600px]">
             <a 
-              href="https://creactifs.fr/formations/reseaux-sociaux" 
-              target="_blank" 
-              rel="noopener noreferrer"
+              href="tel:0970144344" 
               className="flex-1 h-[60px] rounded-full opacity-0 hover:opacity-20 hover:bg-white transition-opacity cursor-pointer"
-              aria-label="Regarder la formation"
+              aria-label="Nous contacter"
             />
             <button
               onClick={() => onNavigate('online-quote')}
