@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { validateEmail } from '../_shared/validation.ts';
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -122,9 +123,14 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { email, clientName, message = "", ccInternal = false, attachment, quoteData }: QuoteEmailRequest = await req.json();
 
-    console.log("Sending quote email via SendGrid to:", email);
-    console.log("Quote ID:", quoteData.id);
-    console.log("CC Internal:", ccInternal);
+    // Validate recipient email address
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.success) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid recipient email', details: emailValidation.error }),
+        { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+      );
+    }
 
     // Générer le HTML du devis
     const quoteHTML = generateQuotePDF(quoteData);
@@ -145,7 +151,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Préparer les destinataires
     const personalizations = [{
-      to: [{ email: email }],
+      to: [{ email: emailValidation.data! }],
       ...(ccInternal ? { cc: [{ email: "contact@securyglass.fr" }] } : {})
     }];
 
@@ -167,8 +173,6 @@ const handler = async (req: Request): Promise<Response> => {
       } : {})
     };
 
-    console.log("SendGrid payload:", JSON.stringify(sendGridPayload, null, 2));
-
     const response = await fetch("https://api.sendgrid.com/v3/mail/send", {
       method: "POST",
       headers: {
@@ -178,28 +182,19 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify(sendGridPayload)
     });
 
-    console.log("SendGrid response status:", response.status);
-    console.log("SendGrid response headers:", Object.fromEntries(response.headers.entries()));
-
     if (!response.ok) {
       const errorText = await response.text();
       console.error("SendGrid error response:", errorText);
-      throw new Error(`SendGrid API error: ${response.status} - ${errorText}`);
+      throw new Error(`SendGrid API error: ${response.status}`);
     }
-
-    const responseText = await response.text();
-    console.log("SendGrid response body:", responseText);
 
     // SendGrid renvoie une réponse vide en cas de succès (202)
     const messageId = response.headers.get('x-message-id') || 'unknown';
 
-    console.log("Email sent successfully via SendGrid");
-    console.log("Message ID:", messageId);
-
     return new Response(JSON.stringify({ 
       success: true, 
       messageId: messageId,
-      to: [email],
+      to: [emailValidation.data!],
       cc: ccInternal ? ["contact@securyglass.fr"] : undefined
     }), {
       status: 200,

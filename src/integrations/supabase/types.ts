@@ -225,7 +225,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      check_client_exists: {
+        Args: { _email: string; _mobile: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

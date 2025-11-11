@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { validateNumber, validateString, validateEnum } from '../_shared/validation.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -36,11 +37,50 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_ANON_KEY') ?? ''
     );
-
-    console.log('Compute quote function called');
     
-    const requestData: QuoteRequest = await req.json();
-    console.log('Request data:', requestData);
+    const requestData: any = await req.json();
+    
+    // Validate all input fields
+    const validations = [
+      validateString(requestData.largeur, 'Largeur', { required: true, maxLength: 10 }),
+      validateString(requestData.hauteur, 'Hauteur', { required: true, maxLength: 10 }),
+      validateNumber(requestData.quantite, 'Quantité', { min: 1, max: 1000, integer: true }),
+      validateString(requestData.vitrage, 'Vitrage', { required: true, maxLength: 50 }),
+    ];
+
+    // Validate client type if provided
+    if (requestData.clientType) {
+      validations.push(
+        validateEnum(requestData.clientType, 'Type de client', ['particulier', 'professionnel'])
+      );
+    }
+
+    // Check for validation errors
+    const errors = validations.filter(v => !v.success).map(v => v.error);
+    if (errors.length > 0) {
+      return new Response(
+        JSON.stringify({ error: 'Validation error', details: errors }),
+        { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+      );
+    }
+
+    // Validate dimensions are positive numbers
+    const largeurNum = parseFloat(requestData.largeur);
+    const hauteurNum = parseFloat(requestData.hauteur);
+    
+    if (isNaN(largeurNum) || largeurNum <= 0 || largeurNum > 10000) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid dimensions', details: ['Largeur must be between 1 and 10000 cm'] }),
+        { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+      );
+    }
+    
+    if (isNaN(hauteurNum) || hauteurNum <= 0 || hauteurNum > 10000) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid dimensions', details: ['Hauteur must be between 1 and 10000 cm'] }),
+        { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+      );
+    }
 
     // Fetch pricing rules from database
     const { data: pricingData, error } = await supabase
@@ -58,11 +98,8 @@ serve(async (req) => {
       return acc;
     }, {} as any);
 
-    console.log('Pricing rules loaded:', Object.keys(rules));
-
     // Calculate quote
     const result = calculateQuote(requestData, rules);
-    console.log('Calculation result:', result);
 
     return new Response(JSON.stringify(result), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -88,9 +125,6 @@ function calculateQuote(request: QuoteRequest, rules: PricingRules) {
   const minSurface = rules.general_settings.minimum_surface_m2;
   const surfaceFacturee = Math.max(surfaceUnitaire, minSurface);
   const surfaceTotale = surfaceFacturee * quantite;
-
-  console.log(`Surface calculation: ${largeurM}m x ${hauteurM}m = ${surfaceUnitaire}m² (min: ${minSurface}m²)`);
-  console.log(`Factured surface per unit: ${surfaceFacturee}m², total: ${surfaceTotale}m²`);
 
   // Glass price calculation
   let glassPrice = 0;
@@ -181,18 +215,6 @@ function calculateQuote(request: QuoteRequest, rules: PricingRules) {
       label: rules.client_types[clientType].label
     }
   };
-
-  console.log('Calculation breakdown:', {
-    glassPrice,
-    laborCost,
-    securityCost,
-    deliveryCost,
-    travelCost,
-    clientMultiplier,
-    subtotal,
-    tva,
-    total
-  });
 
   return {
     subtotal: Math.round(subtotal * 100) / 100,

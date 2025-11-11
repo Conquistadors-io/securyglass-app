@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { validateEmail } from '../_shared/validation.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -71,7 +72,7 @@ async function getValidAccessToken(senderEmail: string): Promise<string | null> 
       .single();
 
     if (error || !credentials) {
-      console.error('No credentials found for:', senderEmail);
+      console.error('No credentials found');
       return null;
     }
 
@@ -80,7 +81,6 @@ async function getValidAccessToken(senderEmail: string): Promise<string | null> 
     const expiresAt = new Date(credentials.expires_at);
 
     if (now >= expiresAt) {
-      console.log('Token expired, refreshing...');
       return await refreshAccessToken(credentials.refresh_token);
     }
 
@@ -237,8 +237,6 @@ async function sendGmailEmail(accessToken: string, senderEmail: string, recipien
       return false;
     }
 
-    const result = await response.json();
-    console.log('Email sent successfully via Gmail:', result.id);
     return true;
   } catch (error) {
     console.error('Error sending email via Gmail:', error);
@@ -255,10 +253,17 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { email, clientName, message, quoteData, senderEmail }: QuoteEmailRequest = await req.json();
 
+    // Validate recipient email address
+    const emailValidation = validateEmail(email);
+    if (!emailValidation.success) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid recipient email', details: emailValidation.error }),
+        { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } }
+      );
+    }
+
     // Use default sender email if not provided
     const actualSenderEmail = senderEmail || 'contact@securyglass.fr';
-
-    console.log('Sending quote email via Gmail to:', email, 'from:', actualSenderEmail);
 
     // Get valid access token
     const accessToken = await getValidAccessToken(actualSenderEmail);
@@ -298,7 +303,7 @@ const handler = async (req: Request): Promise<Response> => {
     const success = await sendGmailEmail(
       accessToken,
       actualSenderEmail,
-      email,
+      emailValidation.data!,
       subject,
       htmlContent,
       textContent

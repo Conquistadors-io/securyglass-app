@@ -39,7 +39,15 @@ export const saveClient = async (data: {
       return { success: false, error: errors };
     }
 
-    const clientData: ClientData = validationResult.data;
+    const clientData: ClientData = {
+      email: validationResult.data.email!,
+      mobile: validationResult.data.mobile!,
+      nom: validationResult.data.nom!,
+      prenom: validationResult.data.prenom,
+      raison_sociale: validationResult.data.raison_sociale,
+      email_facturation: validationResult.data.email_facturation || null,
+      adresse_intervention: validationResult.data.adresse_intervention!,
+    };
 
     const { error } = await supabase
       .from('clients' as any)
