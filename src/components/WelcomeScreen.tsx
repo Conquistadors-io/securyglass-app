@@ -11,7 +11,7 @@ export const WelcomeScreen = ({
         <img 
           src={formationArtisans} 
           alt="Formation réseaux sociaux pour artisans financée par l'État" 
-          className="w-full h-full object-cover md:object-contain md:object-center"
+          className="w-full h-full object-cover"
         />
         {/* Clickable buttons overlay */}
         <div className="absolute inset-0 flex items-end justify-center pb-[8%]">
