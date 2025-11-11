@@ -20,10 +20,10 @@ export const WelcomeScreen = ({
         
         {/* Text Overlay */}
         <div className="absolute left-4 md:left-8 top-1/3 md:top-1/4">
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground">
             Votre devis
           </h2>
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold">
             <span className="bg-yellow-400 text-foreground px-2">
               en 5 minutes
             </span>
