@@ -26,7 +26,7 @@ export const WelcomeScreen = ({
 
         {/* Certification Badge */}
         <div className="absolute bottom-4 left-4">
-          <img src={certificationQualite} alt="Certification Qualité" className="w-20 md:w-24 h-auto" />
+          <img src={certificationQualite} alt="Certification Qualité" className="w-32 md:w-40 h-auto" />
         </div>
       </div>
       
