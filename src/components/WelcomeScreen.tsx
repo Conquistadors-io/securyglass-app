@@ -15,8 +15,13 @@ export const WelcomeScreen = ({
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-formation-primary mb-4 leading-tight">
-            Votre devis <span className="inline-block bg-formation-highlight text-formation-primary px-4 py-2 rounded-lg font-bold ml-2">en 5 minutes</span>
+            Formation réseaux sociaux <br />
+            pour artisans <span className="text-formation-highlight">gratuitement</span>
           </h1>
+          
+          <div className="inline-block bg-destructive text-white px-6 py-3 rounded-lg font-bold text-lg md:text-xl mt-6 shadow-lg">
+            FINANCÉ PAR L'ÉTAT
+          </div>
         </div>
 
         {/* Main Content */}
