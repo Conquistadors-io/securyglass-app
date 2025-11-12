@@ -32,7 +32,10 @@ export const WelcomeScreen = ({
             </Button>
             <div className="flex flex-col gap-2">
               <Button variant="outline" size="lg" className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full border-2 bg-white text-blue-700 border-blue-600 hover:bg-blue-50 px-6 md:px-10 lg:px-12 md:h-14 lg:h-16" asChild>
-                <a href="tel:0970144344">Nous contacter</a>
+                <a href="tel:0970144344" className="flex items-center justify-center gap-2">
+                  <Phone size={18} className="md:w-5 md:h-5" />
+                  Nous contacter
+                </a>
               </Button>
               <div className="flex items-center justify-center gap-1 text-xs md:text-sm text-foreground/80">
                 <Phone size={14} className="md:w-4 md:h-4" />
