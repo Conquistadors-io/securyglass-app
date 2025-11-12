@@ -199,14 +199,15 @@ const styles = StyleSheet.create({
   
   // Quote info (before client section)
   quoteInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     marginBottom: 15,
     paddingHorizontal: 5,
   },
   quoteInfoLeft: {
     fontSize: 10,
     fontFamily: 'Helvetica-Bold',
+    marginBottom: 3,
   },
   quoteInfoRight: {
     fontSize: 10,
@@ -446,7 +447,7 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
         {/* Quote info (before client section) */}
         <View style={styles.quoteInfo}>
           <Text style={styles.quoteInfoLeft}>Devis N° : {data.quoteNumber}</Text>
-          <Text style={styles.quoteInfoRight}>Date : {data.date}</Text>
+          <Text style={styles.quoteInfoLeft}>Date : {data.date}</Text>
         </View>
         
         {/* Section client */}
