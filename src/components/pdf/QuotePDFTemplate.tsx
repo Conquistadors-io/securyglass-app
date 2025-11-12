@@ -108,9 +108,21 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     marginBottom: 8,
   },
+  companySectionTitle: {
+    fontSize: 11,
+    fontFamily: 'Helvetica-Bold',
+    color: COLORS.text,
+    marginBottom: 8,
+    textAlign: 'right',
+  },
   clientInfo: {
     fontSize: 9,
     lineHeight: 1.5,
+  },
+  companySectionInfo: {
+    fontSize: 9,
+    lineHeight: 1.5,
+    textAlign: 'right',
   },
   clientLine: {
     marginBottom: 3,
@@ -345,6 +357,7 @@ export interface QuotePDFData {
   
   // Client info
   civilite: string;
+  prenom?: string;
   nom: string;
   raison_sociale?: string;
   nomSociete?: string;
@@ -465,7 +478,7 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
         <View style={styles.clientSection}>
           {/* Colonne gauche : Client */}
           <View style={styles.clientSectionLeft}>
-            <Text style={styles.clientTitle}>À : {data.civilite} {data.nom}</Text>
+            <Text style={styles.clientTitle}>À : {data.civilite} {data.prenom} {data.nom}</Text>
             <View style={styles.clientInfo}>
               {(data.raison_sociale || data.nomSociete) && (
                 <Text style={styles.clientLine}>
@@ -473,25 +486,10 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
                   {data.raison_sociale || data.nomSociete}
                 </Text>
               )}
-              <Text style={styles.clientLine}>
-                <Text style={styles.clientLabel}>Email :</Text>
-                {data.email}
-              </Text>
-              <Text style={styles.clientLine}>
-                <Text style={styles.clientLabel}>Téléphone :</Text>
-                {data.telephone}
-              </Text>
-              {data.adresse && (
-                <Text style={styles.clientLine}>
-                  <Text style={styles.clientLabel}>Adresse :</Text>
-                  {data.adresse}
-                </Text>
-              )}
-              {data.codePostal && data.ville && (
-                <Text style={styles.clientLine}>
-                  {data.codePostal} {data.ville}
-                </Text>
-              )}
+              <Text style={styles.clientLine}>{data.adresse}</Text>
+              <Text style={styles.clientLine}>{data.codePostal} {data.ville}</Text>
+              <Text style={styles.clientLine}>{data.telephone}</Text>
+              <Text style={styles.clientLine}>{data.email}</Text>
               
               {data.differentInterventionAddress && data.interventionAdresse && (
                 <>
@@ -511,8 +509,8 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
           
           {/* Colonne droite : Siège social */}
           <View style={styles.clientSectionRight}>
-            <Text style={styles.clientTitle}>Securyglass France</Text>
-            <View style={styles.clientInfo}>
+            <Text style={styles.companySectionTitle}>Securyglass France</Text>
+            <View style={styles.companySectionInfo}>
               <Text style={styles.clientLine}>contact@securyglass.fr</Text>
               <Text style={styles.clientLine}>09 70 144 344</Text>
               <Text style={styles.clientLine}>Code APE {companyInfo.codeAPE}</Text>
