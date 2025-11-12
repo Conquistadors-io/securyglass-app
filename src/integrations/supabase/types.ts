@@ -193,6 +193,30 @@ export type Database = {
         }
         Relationships: []
       }
+      motif_descriptions: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          motif: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          motif: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          motif?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pricing_rules: {
         Row: {
           created_at: string

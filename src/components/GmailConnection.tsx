@@ -1,151 +1,90 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Mail, CheckCircle, AlertCircle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 
 interface GmailConnectionProps {
-  onConnectionChange?: (isConnected: boolean, email?: string) => void;
+  isConnected: boolean;
+  connectedEmail: string;
+  onConnect: () => void;
+  onDisconnect: () => Promise<void>;
 }
 
-export const GmailConnection: React.FC<GmailConnectionProps> = ({ onConnectionChange }) => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [connectedEmail, setConnectedEmail] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(true);
-  const { toast } = useToast();
+export const GmailConnection = ({ 
+  isConnected, 
+  connectedEmail, 
+  onConnect, 
+  onDisconnect 
+}: GmailConnectionProps) => {
+  return (
+    <Card className="max-w-2xl mx-auto p-8">
+      <div className="text-center mb-8">
+        <Mail className="h-16 w-16 text-primary mx-auto mb-4" />
+        <h2 className="text-2xl font-bold mb-2">Configuration de l'envoi des devis</h2>
+        <p className="text-muted-foreground">
+          Connectez votre compte Gmail professionnel pour envoyer automatiquement les devis à vos clients
+        </p>
+      </div>
 
-  // Check Gmail connection status
-  const checkConnection = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('gmail_credentials')
-        .select('user_email, expires_at')
-        .gte('expires_at', new Date().toISOString())
-        .single();
-
-      if (data && !error) {
-        setIsConnected(true);
-        setConnectedEmail(data.user_email);
-        onConnectionChange?.(true, data.user_email);
-      } else {
-        setIsConnected(false);
-        setConnectedEmail('');
-        onConnectionChange?.(false);
-      }
-    } catch (error) {
-      console.log('No Gmail connection found');
-      setIsConnected(false);
-      setConnectedEmail('');
-      onConnectionChange?.(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    checkConnection();
-  }, []);
-
-  const handleConnect = () => {
-    const authUrl = `https://kmeyrlplsvdjxowxmzan.supabase.co/functions/v1/gmail-oauth/authorize`;
-    
-    // Open popup window
-    const popup = window.open(
-      authUrl,
-      'gmail-auth',
-      'width=500,height=600,scrollbars=yes,resizable=yes'
-    );
-
-    // Check if popup was closed (user completed auth)
-    const checkClosed = setInterval(() => {
-      if (popup?.closed) {
-        clearInterval(checkClosed);
-        // Wait a bit then check connection
-        setTimeout(() => {
-          checkConnection();
-          toast({
-            title: "Vérification en cours",
-            description: "Vérification de la connexion Gmail...",
-          });
-        }, 1000);
-      }
-    }, 1000);
-  };
-
-  const handleDisconnect = async () => {
-    try {
-      const { error } = await supabase
-        .from('gmail_credentials')
-        .delete()
-        .eq('user_email', connectedEmail);
-
-      if (error) throw error;
-
-      setIsConnected(false);
-      setConnectedEmail('');
-      onConnectionChange?.(false);
-
-      toast({
-        title: "Déconnecté",
-        description: "Votre compte Gmail a été déconnecté.",
-      });
-    } catch (error) {
-      console.error('Error disconnecting Gmail:', error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de déconnecter Gmail.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <Card className="p-4">
-        <div className="flex items-center gap-3">
-          <Mail className="h-5 w-5 text-muted-foreground" />
-          <span className="text-sm text-muted-foreground">Vérification de la connexion Gmail...</span>
+      {/* Connection Status */}
+      <Card className="p-6 mb-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Mail className="h-8 w-8 text-primary" />
+            <div>
+              {isConnected ? (
+                <>
+                  <div className="flex items-center gap-2 mb-1">
+                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    <span className="font-semibold text-lg">Gmail connecté</span>
+                  </div>
+                  <span className="text-muted-foreground">{connectedEmail}</span>
+                  <p className="text-sm text-green-600 mt-1">✓ Prêt à envoyer des devis</p>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center gap-2 mb-1">
+                    <AlertCircle className="h-5 w-5 text-orange-600" />
+                    <span className="font-semibold text-lg">Gmail non connecté</span>
+                  </div>
+                  <p className="text-muted-foreground">Les devis ne peuvent pas être envoyés automatiquement</p>
+                </>
+              )}
+            </div>
+          </div>
+          
+          {isConnected ? (
+            <Button variant="outline" onClick={onDisconnect}>
+              Déconnecter
+            </Button>
+          ) : (
+            <Button size="lg" onClick={onConnect}>
+              Connecter Gmail
+            </Button>
+          )}
         </div>
       </Card>
-    );
-  }
 
-  return (
-    <Card className="p-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Mail className="h-5 w-5 text-primary" />
-          <div>
-            {isConnected ? (
-              <>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="font-medium text-sm">Gmail connecté</span>
-                </div>
-                <span className="text-xs text-muted-foreground">{connectedEmail}</span>
-              </>
-            ) : (
-              <>
-                <div className="flex items-center gap-2">
-                  <AlertCircle className="h-4 w-4 text-orange-600" />
-                  <span className="font-medium text-sm">Gmail non connecté</span>
-                </div>
-                <span className="text-xs text-muted-foreground">Connectez Gmail pour envoyer les devis</span>
-              </>
-            )}
-          </div>
+      {/* Instructions */}
+      <div className="space-y-4 text-sm text-muted-foreground">
+        <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg">
+          <h3 className="font-semibold text-foreground mb-2">📧 Comment ça fonctionne :</h3>
+          <ul className="space-y-1">
+            <li>• Une fois votre Gmail connecté, tous les devis seront envoyés depuis votre compte</li>
+            <li>• Les clients recevront les devis directement dans leur boîte mail</li>
+            <li>• Vous recevrez une copie de chaque devis envoyé</li>
+            <li>• L'autorisation Gmail est sécurisée et peut être révoquée à tout moment</li>
+          </ul>
         </div>
-        
-        {isConnected ? (
-          <Button variant="outline" size="sm" onClick={handleDisconnect}>
-            Déconnecter
-          </Button>
-        ) : (
-          <Button size="sm" onClick={handleConnect}>
-            Connecter Gmail
-          </Button>
-        )}
+
+        <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg">
+          <h3 className="font-semibold text-foreground mb-2">🔒 Sécurité :</h3>
+          <ul className="space-y-1">
+            <li>• Seules les permissions d'envoi d'emails sont demandées</li>
+            <li>• Vos emails existants ne sont pas accessibles</li>
+            <li>• Les tokens sont stockés de manière sécurisée et chiffrée</li>
+            <li>• L'autorisation peut être révoquée depuis votre compte Google</li>
+          </ul>
+        </div>
       </div>
     </Card>
   );

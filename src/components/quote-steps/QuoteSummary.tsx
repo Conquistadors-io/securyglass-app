@@ -26,6 +26,31 @@ export const QuoteSummary = ({
   const [adminEmail, setAdminEmail] = useState<string>('');
   const [devisSaved, setDevisSaved] = useState(false);
   const [savedQuoteNumber, setSavedQuoteNumber] = useState<string>('');
+  const [motifDescription, setMotifDescription] = useState<string>('');
+  
+  // Fetch motif description from database
+  const fetchMotifDescription = async () => {
+    if (!data.motif) return;
+    
+    try {
+      const { data: result, error } = await supabase
+        .from('motif_descriptions')
+        .select('description')
+        .eq('motif', data.motif)
+        .single();
+      
+      if (result && !error) {
+        setMotifDescription(result.description);
+      } else {
+        // Fallback to default description
+        setMotifDescription('REMPLACEMENT DE VITRAGE À L\'IDENTIQUE SUITE À UN BRIS DE GLACE');
+      }
+    } catch (error) {
+      console.error('Error fetching motif description:', error);
+      setMotifDescription('REMPLACEMENT DE VITRAGE À L\'IDENTIQUE SUITE À UN BRIS DE GLACE');
+    }
+  };
+  
   // Calculate price using centralized backend calculation
   const [priceCalculation, setPriceCalculation] = useState(null);
   const [calculationLoading, setCalculationLoading] = useState(true);
@@ -83,6 +108,7 @@ export const QuoteSummary = ({
   // Initialize calculation on component mount
   useEffect(() => {
     calculatePrice();
+    fetchMotifDescription();
   }, []);
   const quoteNumber = `DEV-${Date.now().toString().slice(-8)}`;
   const generateQuoteHTML = () => {
@@ -281,6 +307,7 @@ export const QuoteSummary = ({
           normes: 'Normes ERP - Normes EN 12600 / EN 356',
         },
         delai: '48H',
+        motifDescription: motifDescription,
         priceCalculation: priceCalculation || {
           subtotal: 0,
           tva: 0,
@@ -493,6 +520,7 @@ export const QuoteSummary = ({
           normes: 'Normes ERP - Normes EN 12600 / EN 356',
         },
         delai: '48H',
+        motifDescription: motifDescription,
         priceCalculation: priceCalculation || {
           subtotal: 0,
           tva: 0,
