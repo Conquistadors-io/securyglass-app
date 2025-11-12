@@ -14,7 +14,7 @@ export const WelcomeScreen = ({
         
         {/* Text Overlay with CTAs */}
         <div className="absolute left-4 md:left-8 top-6 md:top-8 lg:top-12 max-w-sm md:max-w-xl">
-          <h1 className="md:text-3xl lg:text-4xl font-bold text-foreground mb-2 text-4xl">Un bris de glace? Securyglass !</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2">Un bris de glace? Securyglass !</h1>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-1">
             Votre devis
           </h2>
