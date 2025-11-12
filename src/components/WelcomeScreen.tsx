@@ -32,11 +32,11 @@ export const WelcomeScreen = ({
       
       {/* Buttons Section */}
       <div className="grid grid-cols-2 gap-4 px-4 py-8 md:py-12 max-w-2xl mx-auto">
-        <Button variant="outline" size="lg" className="w-full text-base md:text-lg font-semibold" onClick={() => window.open("https://creactifs.fr/formations/reseaux-sociaux", "_blank")}>
-          Nous contacter
+        <Button variant="outline" size="lg" className="w-full text-base md:text-lg font-semibold rounded-full border-2 bg-white text-blue-600 border-gray-200 hover:bg-gray-50" onClick={() => window.open("https://creactifs.fr/formations/reseaux-sociaux", "_blank")}>
+          Regarder
         </Button>
-        <Button size="lg" className="w-full text-base md:text-lg font-semibold bg-blue-600 hover:bg-blue-700" onClick={() => onNavigate("online-quote")}>
-          Devis gratuit
+        <Button size="lg" className="w-full text-base md:text-lg font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white" onClick={() => onNavigate("online-quote")}>
+          S'inscrire
         </Button>
       </div>
     </div>;
