@@ -1,5 +1,4 @@
 import formationArtisans from "@/assets/formation-artisans.png";
-import certificationQualite from "@/assets/certification-qualite.jpg";
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 interface WelcomeScreenProps {
@@ -12,7 +11,7 @@ export const WelcomeScreen = ({
       {/* Formation Artisans Banner */}
       <div className="relative w-full h-screen md:aspect-square bg-background overflow-hidden">
         {/* Image de fond */}
-        <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-cover" />
+        <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-cover object-center" />
         
         {/* Overlay léger pour contraste sur mobile */}
         <div className="absolute inset-0 bg-black/10 md:bg-transparent" />
@@ -20,18 +19,13 @@ export const WelcomeScreen = ({
         {/* Contenu - Layout mobile flex vertical */}
         <div className="absolute inset-0 flex flex-col justify-between p-4 md:block md:p-0">
           
-          {/* Zone supérieure : Badge certification */}
-          <div className="flex justify-start items-start md:absolute md:bottom-4 md:left-4">
-            <img src={certificationQualite} alt="Certification Qualité" className="w-16 md:w-28 lg:w-32 h-auto" />
-          </div>
-          
-          {/* Zone centrale : Titres (centrés verticalement sur mobile) */}
-          <div className="flex-1 flex flex-col justify-center md:block md:absolute md:left-12 lg:left-16 md:top-8 lg:top-12 md:max-w-2xl lg:max-w-4xl">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 md:mb-6">Un bris de glace? Securyglass !</h1>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-1">
+          {/* Zone supérieure : Titres en haut */}
+          <div className="flex flex-col pt-8 md:absolute md:left-12 lg:left-16 md:top-8 lg:top-12 md:max-w-2xl lg:max-w-4xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 md:mb-6">Un bris de glace? Securyglass !</h1>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-1">
               Votre devis
             </h2>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               <span className="bg-yellow-400 text-foreground px-2 font-extrabold">
                 en 5 minutes
               </span>
