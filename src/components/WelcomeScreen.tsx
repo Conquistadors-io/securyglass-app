@@ -11,7 +11,7 @@ export const WelcomeScreen = ({
       {/* Formation Artisans Banner */}
       <div className="relative w-full h-screen md:aspect-square bg-background overflow-hidden">
         {/* Image de fond */}
-        <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-cover object-[center_35%] md:object-center" />
+        <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-cover object-[center_20%] md:object-center" />
         
         {/* Overlay léger pour contraste sur mobile */}
         <div className="absolute inset-0 bg-black/10 md:bg-transparent" />
@@ -38,7 +38,7 @@ export const WelcomeScreen = ({
           </div>
           
           {/* Zone inférieure : Boutons CTA (bas fixe sur mobile, 2 colonnes sur desktop) */}
-          <div className="flex flex-col gap-3 pb-safe md:grid md:grid-cols-2 md:gap-6 lg:gap-8 md:absolute md:left-12 lg:left-16 md:top-[280px] lg:top-[320px] md:max-w-2xl lg:max-w-4xl">
+          <div className="flex flex-col gap-3 pb-safe md:grid md:grid-cols-2 md:gap-6 lg:gap-8 md:absolute md:left-12 lg:left-16 md:top-[420px] lg:top-[500px] md:max-w-2xl lg:max-w-4xl">
             <Button 
               size="lg" 
               className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-10 lg:px-12 h-12 md:h-14 lg:h-16" 
