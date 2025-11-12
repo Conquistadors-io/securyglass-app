@@ -634,6 +634,20 @@ export const QuoteSummary = ({
       
       console.log("✅ [Email] Email sent successfully to:", data.email);
       setEmailSent(true);
+      
+      // Marquer le devis comme complété dans le cache
+      try {
+        const cache = localStorage.getItem('quote-cache');
+        if (cache) {
+          const cacheData = JSON.parse(cache);
+          cacheData.completed = true;
+          localStorage.setItem('quote-cache', JSON.stringify(cacheData));
+          console.log('✅ Devis marqué comme complété dans le cache');
+        }
+      } catch (error) {
+        console.error('❌ Erreur marquage complétion:', error);
+      }
+      
       toast({
         title: "Email envoyé",
         description: `Le devis a été envoyé avec succès à ${data.email}`
