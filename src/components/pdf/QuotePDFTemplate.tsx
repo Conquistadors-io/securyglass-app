@@ -436,19 +436,10 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
             <Text style={styles.companySlogan}>Glass for your security</Text>
           </View>
           
-          {/* Colonne droite: Certification + Devis + Infos */}
+          {/* Colonne droite: Certification + Devis */}
           <View style={styles.headerRight}>
             {data.logoCertification && <Image src={data.logoCertification} style={styles.logoCertification} />}
             <Text style={styles.devisTitle}>Devis</Text>
-            <Text style={styles.siegeTitle}>Siège social</Text>
-            <View style={styles.companyInfo}>
-              <Text style={styles.companyInfoLine}>Securyglass France</Text>
-              <Text style={styles.companyInfoLine}>contact@securyglass.fr</Text>
-              <Text style={styles.companyInfoLine}>09 70 144 344</Text>
-              <Text style={styles.companyInfoLine}>Code APE {companyInfo.codeAPE}</Text>
-              <Text style={styles.companyInfoLine}>Siret {companyInfo.siret}</Text>
-              <Text style={styles.companyInfoLine}>TVA {companyInfo.tva}</Text>
-            </View>
           </View>
         </View>
         
@@ -501,6 +492,17 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
                 )}
               </>
             )}
+            
+            {/* Section Siège social */}
+            <Text style={[styles.clientLine, { marginTop: 12, fontFamily: 'Helvetica-Bold', fontSize: 10, color: COLORS.primary }]}>
+              Siège social
+            </Text>
+            <Text style={styles.clientLine}>Securyglass France</Text>
+            <Text style={styles.clientLine}>contact@securyglass.fr</Text>
+            <Text style={styles.clientLine}>09 70 144 344</Text>
+            <Text style={styles.clientLine}>Code APE {companyInfo.codeAPE}</Text>
+            <Text style={styles.clientLine}>Siret {companyInfo.siret}</Text>
+            <Text style={styles.clientLine}>TVA {companyInfo.tva}</Text>
           </View>
         </View>
         
