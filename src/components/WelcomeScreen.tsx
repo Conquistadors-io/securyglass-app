@@ -22,7 +22,7 @@ export const WelcomeScreen = ({
               <span className="bg-yellow-400 text-foreground px-2 text-3xl font-extrabold">
                 en 5 minutes
               </span>
-              <span className="bg-green-500 text-black px-2 text-2xl md:text-4xl lg:text-5xl font-bold">
+              <span className="text-foreground px-2 text-2xl md:text-4xl lg:text-5xl font-bold">
                 instantané
               </span>
             </span>
