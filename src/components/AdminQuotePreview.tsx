@@ -15,6 +15,7 @@ const sampleQuoteData: QuotePDFData = {
   civilite: "Monsieur",
   prenom: "Bernard",
   nom: "VUILLERMET",
+  raison_sociale: "SE SOIGNER",
   adresse: "111 Rue Edouard Tremblay",
   codePostal: "94400",
   ville: "Vitry-sur-Seine",

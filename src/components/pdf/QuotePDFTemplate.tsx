@@ -88,44 +88,44 @@ const styles = StyleSheet.create({
   clientSection: {
     flexDirection: 'row',
     marginBottom: 20,
-    padding: 12,
-    backgroundColor: COLORS.secondary,
-    borderRadius: 4,
+    padding: 15,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 0,
   },
   clientSectionLeft: {
     flex: 1,
-    paddingRight: 10,
-    borderRightWidth: 1,
-    borderRightColor: '#d1d5db',
+    paddingRight: 20,
   },
   clientSectionRight: {
     flex: 1,
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
   clientTitle: {
-    fontSize: 11,
-    fontFamily: 'Helvetica-Bold',
-    color: COLORS.primary,
-    marginBottom: 8,
+    fontSize: 10,
+    fontFamily: 'Helvetica',
+    color: COLORS.text,
+    marginBottom: 5,
   },
   companySectionTitle: {
-    fontSize: 11,
-    fontFamily: 'Helvetica-Bold',
+    fontSize: 10,
+    fontFamily: 'Helvetica',
     color: COLORS.text,
-    marginBottom: 8,
+    marginBottom: 5,
     textAlign: 'right',
   },
   clientInfo: {
     fontSize: 9,
-    lineHeight: 1.5,
+    lineHeight: 1.4,
+    color: COLORS.text,
   },
   companySectionInfo: {
     fontSize: 9,
-    lineHeight: 1.5,
+    lineHeight: 1.4,
+    color: COLORS.text,
     textAlign: 'right',
   },
   clientLine: {
-    marginBottom: 3,
+    marginBottom: 2,
   },
   clientLabel: {
     fontFamily: 'Helvetica-Bold',
@@ -478,22 +478,17 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
         <View style={styles.clientSection}>
           {/* Colonne gauche : Client */}
           <View style={styles.clientSectionLeft}>
-            <Text style={styles.clientTitle}>À : {data.civilite} {data.prenom} {data.nom}</Text>
+            <Text style={styles.clientTitle}>
+              À : {data.raison_sociale || data.nomSociete || `${data.civilite} ${data.prenom || ''} ${data.nom}`.trim()}
+            </Text>
             <View style={styles.clientInfo}>
-              {(data.raison_sociale || data.nomSociete) && (
-                <Text style={styles.clientLine}>
-                  <Text style={styles.clientLabel}>Société :</Text>
-                  {data.raison_sociale || data.nomSociete}
-                </Text>
-              )}
+              <Text style={styles.clientLine}>{data.email}</Text>
               <Text style={styles.clientLine}>{data.adresse}</Text>
               <Text style={styles.clientLine}>{data.codePostal} {data.ville}</Text>
-              <Text style={styles.clientLine}>{data.telephone}</Text>
-              <Text style={styles.clientLine}>{data.email}</Text>
               
               {data.differentInterventionAddress && data.interventionAdresse && (
                 <>
-                  <Text style={[styles.clientLine, { marginTop: 8, fontFamily: 'Helvetica-Bold' }]}>
+                  <Text style={[styles.clientLine, { marginTop: 5, fontFamily: 'Helvetica-Bold' }]}>
                     Adresse d'intervention :
                   </Text>
                   <Text style={styles.clientLine}>{data.interventionAdresse}</Text>
@@ -504,6 +499,8 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
                   )}
                 </>
               )}
+              
+              <Text style={styles.clientLine}>{data.telephone}</Text>
             </View>
           </View>
           
