@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { AdminMotifDescriptions } from "./AdminMotifDescriptions";
 import { GmailConnection } from "./GmailConnection";
 import { AdminQuotePreview } from "./AdminQuotePreview";
+import { AdminQuotesList } from "./AdminQuotesList";
 
 export const AdminGmailConfig = () => {
   const [isConnected, setIsConnected] = useState(false);
@@ -129,12 +130,17 @@ export const AdminGmailConfig = () => {
         </div>
 
         {/* Tabs */}
-        <Tabs defaultValue="gmail" className="w-full">
+        <Tabs defaultValue="devis" className="w-full">
           <TabsList className="mb-6">
+            <TabsTrigger value="devis">Devis</TabsTrigger>
             <TabsTrigger value="gmail">Configuration Gmail</TabsTrigger>
             <TabsTrigger value="motifs">Descriptions de Motifs</TabsTrigger>
             <TabsTrigger value="preview">Aperçu PDF</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="devis">
+            <AdminQuotesList />
+          </TabsContent>
 
           <TabsContent value="gmail">
             <GmailConnection 
