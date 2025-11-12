@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.get-logo-base64]
 verify_jwt = false
+
+[functions.notify-admin-new-quote]
+verify_jwt = false

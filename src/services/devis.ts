@@ -146,6 +146,31 @@ export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{
 
     const savedData = data as any;
     console.log('Devis saved successfully:', { id: savedData.id, quote_number: savedData.quote_number });
+    
+    // Send admin notification asynchronously (don't wait for it)
+    supabase.functions.invoke('notify-admin-new-quote', {
+      body: {
+        quoteNumber: savedData.quote_number,
+        clientName: `${formData.prenom || ''} ${formData.nom || formData.raison_sociale || ''}`.trim(),
+        clientEmail: formData.email,
+        clientPhone: formData.telephone,
+        total: calculatedPrices.total,
+        serviceType: formData.serviceType || 'vitrerie',
+        motif: formData.motif !== 'autre' ? formData.motif : formData.motifOther,
+        interventionAddress: formData.differentInterventionAddress ? formData.interventionAdresse : formData.adresse,
+        interventionCity: formData.differentInterventionAddress ? formData.interventionVille : formData.ville,
+        interventionPostalCode: formData.differentInterventionAddress ? formData.interventionCodePostal : formData.codePostal,
+      }
+    }).then(response => {
+      if (response.error) {
+        console.error('Failed to send admin notification:', response.error);
+      } else {
+        console.log('Admin notification sent successfully');
+      }
+    }).catch(err => {
+      console.error('Error sending admin notification:', err);
+    });
+    
     return { 
       success: true, 
       devisId: savedData.id, 
