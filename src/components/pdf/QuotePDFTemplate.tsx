@@ -1,11 +1,10 @@
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
-// Logo SecuryGlass en base64 (à partir de src/assets/securyglass-logo.png)
-// Note: Remplacer par la vraie conversion base64 si nécessaire
-const LOGO_SECURYGLASS = '/src/assets/securyglass-logo.png';
+// Logo SecuryGlass en base64 - URL publique depuis les assets
+const LOGO_SECURYGLASS = 'https://kmeyrlplsvdjxowxmzan.supabase.co/storage/v1/object/public/assets/securyglass-logo.png';
 
-// Logo certification en base64 (à partir de src/assets/certification-qualite.jpg)
-const LOGO_CERTIFICATION = '/src/assets/certification-qualite.jpg';
+// Logo certification en base64 - URL publique depuis les assets  
+const LOGO_CERTIFICATION = 'https://kmeyrlplsvdjxowxmzan.supabase.co/storage/v1/object/public/assets/certification-qualite.jpg';
 
 // Couleurs de marque
 const COLORS = {

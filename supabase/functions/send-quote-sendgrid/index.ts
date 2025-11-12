@@ -121,7 +121,9 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    console.log('🔵 [SendGrid] Function called');
     const { email, clientName, message = "", ccInternal = false, attachment, quoteData }: QuoteEmailRequest = await req.json();
+    console.log('🔵 [SendGrid] Request data:', { email, clientName, hasAttachment: !!attachment, attachmentSize: attachment?.contentBase64?.length });
 
     // Validate recipient email address
     const emailValidation = validateEmail(email);
@@ -173,6 +175,7 @@ const handler = async (req: Request): Promise<Response> => {
       } : {})
     };
 
+    console.log('🔵 [SendGrid] Calling SendGrid API...');
     const response = await fetch("https://api.sendgrid.com/v3/mail/send", {
       method: "POST",
       headers: {
@@ -184,9 +187,12 @@ const handler = async (req: Request): Promise<Response> => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("SendGrid error response:", errorText);
-      throw new Error(`SendGrid API error: ${response.status}`);
+      console.error("❌ [SendGrid] API error response:", errorText);
+      console.error("❌ [SendGrid] Status:", response.status);
+      throw new Error(`SendGrid API error: ${response.status} - ${errorText}`);
     }
+    
+    console.log('✅ [SendGrid] Email sent successfully');
 
     // SendGrid renvoie une réponse vide en cas de succès (202)
     const messageId = response.headers.get('x-message-id') || 'unknown';

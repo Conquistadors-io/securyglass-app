@@ -219,6 +219,7 @@ export const QuoteSummary = ({
   };
   const handleDownloadPDF = async () => {
     try {
+      console.log('🔵 [PDF Download] Starting PDF generation...');
       const displayQuoteNumber = savedQuoteNumber || quoteNumber;
       const pdfData: QuotePDFData = {
         quoteNumber: displayQuoteNumber,
@@ -267,17 +268,23 @@ export const QuoteSummary = ({
       };
       
       const filename = `devis-${displayQuoteNumber}.pdf`;
+      console.log('🔵 [PDF Download] Calling generateQuotePDF with filename:', filename);
       await generateQuotePDF(pdfData, filename);
       
+      console.log('✅ [PDF Download] PDF generated successfully');
       toast({
         title: "PDF téléchargé",
         description: "Le PDF a été téléchargé avec succès"
       });
     } catch (error) {
-      console.error('Erreur lors de la génération du PDF:', error);
+      console.error('❌ [PDF Download] Error generating PDF:', error);
+      console.error('❌ [PDF Download] Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined
+      });
       toast({
-        title: "Erreur",
-        description: "Erreur lors de la génération du PDF",
+        title: "Erreur PDF",
+        description: error instanceof Error ? error.message : "Erreur lors de la génération du PDF",
         variant: "destructive"
       });
     }
@@ -375,7 +382,7 @@ export const QuoteSummary = ({
   };
   const sendQuoteEmailViaSendGrid = async () => {
     if (isLoading || emailSent || !devisSaved || !savedQuoteNumber || !priceCalculation || calculationLoading) {
-      console.log('Envoi bloqué:', {
+      console.log('🔴 [Email] Envoi bloqué:', {
         isLoading,
         emailSent,
         devisSaved,
@@ -386,10 +393,10 @@ export const QuoteSummary = ({
       return;
     }
     setIsLoading(true);
-    console.log("Sending quote email via SendGrid to:", data.email);
+    console.log("🔵 [Email] Starting email send process to:", data.email);
     try {
       const displayQuoteNumber = savedQuoteNumber || quoteNumber;
-      console.log("Generating PDF with @react-pdf/renderer...");
+      console.log("🔵 [Email] Generating PDF with @react-pdf/renderer for quote:", displayQuoteNumber);
       
       // Prepare PDF data
       const pdfData: QuotePDFData = {
@@ -439,8 +446,13 @@ export const QuoteSummary = ({
       };
       
       // Generate PDF as base64 for attachment
+      console.log('🔵 [Email] Calling generateQuotePDFBase64...');
       const pdfBase64 = await generateQuotePDFBase64(pdfData);
-      console.log('PDF generated with vector rendering, size:', pdfBase64.length, 'characters');
+      console.log('✅ [Email] PDF generated with vector rendering, size:', pdfBase64.length, 'characters');
+      
+      if (!pdfBase64 || pdfBase64.length < 100) {
+        throw new Error('PDF generation failed - base64 string too short');
+      }
       const quoteData = {
         id: displayQuoteNumber,
         date: new Date().toLocaleDateString('fr-FR'),

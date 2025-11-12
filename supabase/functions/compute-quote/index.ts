@@ -33,12 +33,14 @@ serve(async (req) => {
   }
 
   try {
+    console.log('🔵 [Compute Quote] Function called');
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_ANON_KEY') ?? ''
     );
     
     const requestData: any = await req.json();
+    console.log('🔵 [Compute Quote] Request data:', { vitrage: requestData.vitrage, largeur: requestData.largeur, hauteur: requestData.hauteur, quantite: requestData.quantite });
     
     // Validate all input fields
     const validations = [
@@ -99,13 +101,15 @@ serve(async (req) => {
     }, {} as any);
 
     // Calculate quote
+    console.log('🔵 [Compute Quote] Calculating quote...');
     const result = calculateQuote(requestData, rules);
+    console.log('✅ [Compute Quote] Result:', { subtotal: result.subtotal, tva: result.tva, total: result.total });
 
     return new Response(JSON.stringify(result), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error in compute-quote function:', error);
+    console.error('❌ [Compute Quote] Error:', error);
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
