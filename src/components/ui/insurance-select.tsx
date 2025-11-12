@@ -95,24 +95,9 @@ export function InsuranceSelect({
           disabled={disabled}
         >
           <Shield className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-          <div className="flex items-center gap-2 truncate pr-2">
-            {selectedInsurance && (
-              <>
-                {typeof selectedInsurance.logo === 'string' ? (
-                  <span className="text-sm">{selectedInsurance.logo}</span>
-                ) : (
-                  <img 
-                    src={selectedInsurance.logo.src} 
-                    alt={selectedInsurance.logo.alt}
-                    className="w-6 h-6 object-contain"
-                  />
-                )}
-              </>
-            )}
-            <span className="truncate">
-              {selectedInsurance ? selectedInsurance.name : (isCustomValue ? value : placeholder)}
-            </span>
-          </div>
+          <span className="truncate">
+            {selectedInsurance ? selectedInsurance.name : (isCustomValue ? value : placeholder)}
+          </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -140,15 +125,6 @@ export function InsuranceSelect({
                       value === insurance.value ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {typeof insurance.logo === 'string' ? (
-                    <span className="text-sm mr-2">{insurance.logo}</span>
-                  ) : (
-                    <img 
-                      src={insurance.logo.src} 
-                      alt={insurance.logo.alt}
-                      className="w-6 h-6 object-contain mr-2"
-                    />
-                  )}
                   {insurance.name}
                 </CommandItem>
               ))}
