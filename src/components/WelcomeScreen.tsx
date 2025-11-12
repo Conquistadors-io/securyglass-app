@@ -29,8 +29,8 @@ export const WelcomeScreen = ({
             <Button size="lg" className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full bg-orange-500 hover:bg-orange-600 text-white px-6 md:px-10 lg:px-12 md:h-14 lg:h-16" onClick={() => onNavigate("online-quote")}>
               Devis gratuit
             </Button>
-            <Button variant="outline" size="lg" className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full border-2 bg-white text-blue-700 border-blue-600 hover:bg-blue-50 px-6 md:px-10 lg:px-12 md:h-14 lg:h-16" onClick={() => window.open("https://creactifs.fr/formations/reseaux-sociaux", "_blank")}>
-              Nous contacter
+            <Button variant="outline" size="lg" className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full border-2 bg-white text-blue-700 border-blue-600 hover:bg-blue-50 px-6 md:px-10 lg:px-12 md:h-14 lg:h-16" asChild>
+              <a href="tel:0970144344">Nous contacter</a>
             </Button>
           </div>
         </div>
