@@ -50,13 +50,9 @@ export const WelcomeScreen = ({
               >
                 <a href="tel:0970144344" className="flex items-center justify-center gap-2">
                   <Phone size={18} className="md:w-5 md:h-5" />
-                  Nous contacter
+                  09 70 14 43 44
                 </a>
               </Button>
-              <div className="flex items-center justify-center gap-1 text-xs md:text-sm text-foreground/80">
-                <Phone size={14} className="md:w-4 md:h-4" />
-                <span className="font-medium">09 70 14 43 44</span>
-              </div>
             </div>
           </div>
         </div>
