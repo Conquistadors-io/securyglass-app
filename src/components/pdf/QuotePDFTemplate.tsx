@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   
   // Footer
   footer: {
-    marginTop: 30,
+    marginTop: 15,
     paddingTop: 15,
     borderTop: `1px solid ${COLORS.border}`,
   },
@@ -303,10 +303,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica-Bold',
     color: COLORS.primary,
     marginBottom: 10,
-    marginTop: 10,
+    marginTop: 5,
   },
   cgvSection: {
-    marginBottom: 10,
+    marginBottom: 8,
   },
   cgvSectionTitle: {
     fontSize: 10,
@@ -643,28 +643,28 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
         <View style={styles.footer}>
           {/* Modalités de règlement */}
           <View style={styles.footerSection}>
-            <Text style={styles.footerTitle}>Modalités de règlement :</Text>
+            <Text style={styles.footerTitle}>Modalités de règlement</Text>
             <Text style={styles.footerText}>
-              Acompte de 50% après validation du devis, solde à payer fin de travaux
+              Acompte de 50% à la validation du devis, solde à payer fin de travaux.
             </Text>
           </View>
           
           {/* Modes de paiement */}
           <View style={styles.footerSection}>
-            <Text style={styles.footerTitle}>Modes de paiement :</Text>
+            <Text style={styles.footerTitle}>Mode de règlement :</Text>
             <Text style={styles.footerText}>
-              1 - Espèces{'\n'}
-              2 - Carte bancaire{'\n'}
-              3 - Chèque libellé à l'ordre de SECURYGLASS{'\n'}
-              4 - Virement bancaire :
+              • Carte bancaire{'\n'}
+              • Chèque libellé à l'ordre de SECURYGLASS{'\n'}
+              • Numéraire (Voir Article L112-6){'\n'}
+              • Virement bancaire :
             </Text>
           </View>
           
           {/* RIB */}
           <View style={[styles.footerSection, styles.ribBox]}>
             <Text style={styles.ribTitle}>RELEVÉ D'IDENTITÉ BANCAIRE</Text>
-            <Text style={styles.ribLine}>Titulaire du compte :</Text>
-            <Text style={styles.ribLine}>SAS SECURYGLASS</Text>
+            <Text style={styles.ribLine}>Titulaire du compte : SAS SECURYGLASS</Text>
+            <Text style={styles.ribLine}>Domiciliation : BPRIVES MONTROUGE</Text>
             <Text style={styles.ribLine}>IBAN : {companyInfo.iban}</Text>
             <Text style={styles.ribLine}>BIC / SWIFT : {companyInfo.bic}</Text>
           </View>
