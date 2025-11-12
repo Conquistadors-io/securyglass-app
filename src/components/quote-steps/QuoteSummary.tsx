@@ -243,35 +243,50 @@ export const QuoteSummary = ({
       </html>
     `;
   };
+  // Helper function to load logos with edge function + fallback
+  const loadLogo = async (logoName: 'securyglass' | 'certification'): Promise<string> => {
+    try {
+      // Try edge function first
+      console.log(`🔵 [Logo] Trying edge function for ${logoName}...`);
+      const { data, error } = await supabase.functions.invoke('get-logo-base64', {
+        body: { logo: logoName }
+      });
+      
+      if (!error && data?.base64) {
+        console.log(`✅ [Logo] Loaded ${logoName} from edge function`);
+        return data.base64;
+      }
+      
+      throw new Error('Edge function failed');
+    } catch (edgeFunctionError) {
+      // Fallback to public folder
+      console.log(`⚠️ [Logo] Edge function failed for ${logoName}, using fallback...`);
+      const fileName = logoName === 'securyglass' ? '/securyglass-logo.png' : '/certification-qualite.jpg';
+      
+      try {
+        const res = await fetch(fileName);
+        const blob = await res.blob();
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(blob);
+        });
+      } catch (fallbackError) {
+        console.error(`❌ [Logo] Failed to load ${logoName} even with fallback:`, fallbackError);
+        return '';
+      }
+    }
+  };
+
   const handleDownloadPDF = async () => {
     try {
       console.log('🔵 [PDF Download] Starting PDF generation...');
       
-      // Load and convert images to base64
-      console.log('🔵 [PDF Download] Loading images from public folder...');
+      // Load images using edge function with fallback
+      console.log('🔵 [PDF Download] Loading images...');
       const [logoSecuryglass, logoCertification] = await Promise.all([
-        fetch('/securyglass-logo.png')
-          .then(res => res.blob())
-          .then(blob => new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result as string);
-            reader.readAsDataURL(blob);
-          }))
-          .catch(err => {
-            console.error('❌ Failed to load logo:', err);
-            return '';
-          }),
-        fetch('/certification-qualite.jpg')
-          .then(res => res.blob())
-          .then(blob => new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result as string);
-            reader.readAsDataURL(blob);
-          }))
-          .catch(err => {
-            console.error('❌ Failed to load certification:', err);
-            return '';
-          })
+        loadLogo('securyglass'),
+        loadLogo('certification')
       ]);
       
       console.log('✅ [PDF Download] Images loaded:', {
@@ -460,31 +475,11 @@ export const QuoteSummary = ({
       const displayQuoteNumber = savedQuoteNumber || quoteNumber;
       console.log("🔵 [Email] Generating PDF with @react-pdf/renderer for quote:", displayQuoteNumber);
       
-      // Load and convert images to base64
-      console.log('🔵 [Email] Loading images from public folder...');
+      // Load images using edge function with fallback
+      console.log('🔵 [Email] Loading images...');
       const [logoSecuryglass, logoCertification] = await Promise.all([
-        fetch('/securyglass-logo.png')
-          .then(res => res.blob())
-          .then(blob => new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result as string);
-            reader.readAsDataURL(blob);
-          }))
-          .catch(err => {
-            console.error('❌ Failed to load logo:', err);
-            return '';
-          }),
-        fetch('/certification-qualite.jpg')
-          .then(res => res.blob())
-          .then(blob => new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result as string);
-            reader.readAsDataURL(blob);
-          }))
-          .catch(err => {
-            console.error('❌ Failed to load certification:', err);
-            return '';
-          })
+        loadLogo('securyglass'),
+        loadLogo('certification')
       ]);
       
       console.log('✅ [Email] Images loaded:', {

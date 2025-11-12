@@ -5,12 +5,39 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Logos en base64 - embarqués directement dans l'edge function
-// Ces images ont été converties depuis src/assets/
-const LOGOS = {
-  securyglass: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==", // Placeholder - à remplacer
-  certification: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAA8A/9k=" // Placeholder - à remplacer
+// Function to fetch image from URL and convert to base64
+const fetchImageAsBase64 = async (url: string): Promise<string> => {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch image: ${response.statusText}`);
+    }
+    
+    const arrayBuffer = await response.arrayBuffer();
+    const base64 = btoa(
+      new Uint8Array(arrayBuffer).reduce(
+        (data, byte) => data + String.fromCharCode(byte),
+        ''
+      )
+    );
+    
+    // Determine content type from URL
+    const contentType = url.endsWith('.png') ? 'image/png' : 'image/jpeg';
+    return `data:${contentType};base64,${base64}`;
+  } catch (error) {
+    console.error(`Failed to load image from ${url}:`, error);
+    throw error;
+  }
 };
+
+// Public URLs of the images (these will be fetched from the deployed app)
+const LOGO_URLS = {
+  securyglass: 'https://kmeyrlplsvdjxowxmzan.supabase.co/storage/v1/object/public/assets/securyglass-logo.png',
+  certification: 'https://kmeyrlplsvdjxowxmzan.supabase.co/storage/v1/object/public/assets/certification-qualite.jpg',
+};
+
+// Alternative: If images are not in storage yet, we'll need to upload them first
+// For now, the edge function will attempt to fetch from storage
 
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight
@@ -35,8 +62,11 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
     
-    const base64Data = LOGOS[logo as keyof typeof LOGOS];
-    console.log(`✅ [Get Logo] Returning ${logo} logo`);
+    console.log(`🔵 [Get Logo] Fetching ${logo} logo from storage...`);
+    const logoUrl = LOGO_URLS[logo as keyof typeof LOGO_URLS];
+    const base64Data = await fetchImageAsBase64(logoUrl);
+    
+    console.log(`✅ [Get Logo] Returning ${logo} logo (${base64Data.length} characters)`);
     
     return new Response(
       JSON.stringify({ base64: base64Data }),
