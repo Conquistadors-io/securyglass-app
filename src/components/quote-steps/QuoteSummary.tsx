@@ -503,48 +503,57 @@ export const QuoteSummary = ({
         vat: parseFloat((priceCalculation?.tva ?? 0).toFixed(2)),
         total: parseFloat((priceCalculation?.total ?? 0).toFixed(2))
       };
-      console.log("Preparing quote data for email...");
+      console.log("🔵 [Email] Preparing quote data for email...");
+      const emailPayload = {
+        email: data.email,
+        clientName: `${data.civilite} ${data.nom}`,
+        message: `Merci pour votre demande de devis. Veuillez trouver ci-joint votre devis pour ${data.object}.`,
+        ccInternal: true,
+        attachment: {
+          filename: `Devis-${displayQuoteNumber}.pdf`,
+          contentBase64: pdfBase64,
+          type: "application/pdf"
+        },
+        quoteData
+      };
+      
+      console.log("🔵 [Email] Calling send-quote-sendgrid edge function...");
       const {
         data: result,
         error
       } = await supabase.functions.invoke('send-quote-sendgrid', {
-        body: {
-          email: data.email,
-          clientName: `${data.civilite} ${data.nom}`,
-          message: `Merci pour votre demande de devis. Veuillez trouver ci-joint votre devis pour ${data.object}.`,
-          ccInternal: true,
-          attachment: {
-            filename: `Devis-${displayQuoteNumber}.pdf`,
-            contentBase64: pdfBase64,
-            type: "application/pdf"
-          },
-          quoteData
-        }
+        body: emailPayload
       });
-      console.log("SendGrid function result:", {
-        result,
-        error
+      
+      console.log("🔵 [Email] SendGrid function result:", {
+        success: result?.success,
+        error: error?.message
       });
+      
       if (error) {
-        console.error("Erreur lors de l'envoi du devis:", error);
-        toast({
-          title: "Erreur",
-          description: "Impossible d'envoyer le devis par email. Veuillez réessayer.",
-          variant: "destructive"
-        });
-      } else {
-        console.log("Devis envoyé avec succès via SendGrid:", result);
-        setEmailSent(true);
-        toast({
-          title: "Devis envoyé",
-          description: `Le devis a été envoyé avec succès à ${data.email}`
-        });
+        console.error("❌ [Email] Error calling send-quote-sendgrid:", error);
+        throw new Error(`Erreur lors de l'appel à l'edge function: ${error.message}`);
       }
-    } catch (error) {
-      console.error("Erreur lors de l'envoi du devis:", error);
+      
+      if (!result || !result.success) {
+        throw new Error(result?.error || 'Échec de l\'envoi de l\'email');
+      }
+      
+      console.log("✅ [Email] Email sent successfully to:", data.email);
+      setEmailSent(true);
       toast({
-        title: "Erreur",
-        description: "Une erreur s'est produite lors de l'envoi du devis.",
+        title: "Email envoyé",
+        description: `Le devis a été envoyé avec succès à ${data.email}`
+      });
+    } catch (error) {
+      console.error("❌ [Email] Error in sendQuoteEmailViaSendGrid:", error);
+      console.error("❌ [Email] Error details:", {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined
+      });
+      toast({
+        title: "Erreur d'envoi",
+        description: error instanceof Error ? error.message : "Une erreur s'est produite lors de l'envoi du devis. Veuillez télécharger le PDF et l'envoyer manuellement.",
         variant: "destructive"
       });
     } finally {

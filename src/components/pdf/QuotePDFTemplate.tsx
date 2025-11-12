@@ -1,10 +1,17 @@
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
-// Logo SecuryGlass en base64 - URL publique depuis les assets
-const LOGO_SECURYGLASS = 'https://kmeyrlplsvdjxowxmzan.supabase.co/storage/v1/object/public/assets/securyglass-logo.png';
+// Images hébergées publiquement - accessibles via le dossier public
+// Pour le PDF, on utilise des URLs absolues qui fonctionneront après déploiement
+// En développement, utilisez l'URL complète de votre environnement de preview
+const getPublicImageUrl = (filename: string) => {
+  // Si en production, utiliser le domaine de production
+  // Sinon utiliser le domaine actuel
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+  return `${baseUrl}/${filename}`;
+};
 
-// Logo certification en base64 - URL publique depuis les assets  
-const LOGO_CERTIFICATION = 'https://kmeyrlplsvdjxowxmzan.supabase.co/storage/v1/object/public/assets/certification-qualite.jpg';
+const LOGO_SECURYGLASS = getPublicImageUrl('securyglass-logo.png');
+const LOGO_CERTIFICATION = getPublicImageUrl('certification-qualite.jpg');
 
 // Couleurs de marque
 const COLORS = {

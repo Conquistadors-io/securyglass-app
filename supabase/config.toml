@@ -14,3 +14,6 @@ verify_jwt = false
 
 [functions.compute-quote]
 verify_jwt = false
+
+[functions.get-logo-base64]
+verify_jwt = false
