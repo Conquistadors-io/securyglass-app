@@ -1,18 +1,5 @@
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
-// Images hébergées publiquement - accessibles via le dossier public
-// Pour le PDF, on utilise des URLs absolues qui fonctionneront après déploiement
-// En développement, utilisez l'URL complète de votre environnement de preview
-const getPublicImageUrl = (filename: string) => {
-  // Si en production, utiliser le domaine de production
-  // Sinon utiliser le domaine actuel
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  return `${baseUrl}/${filename}`;
-};
-
-const LOGO_SECURYGLASS = getPublicImageUrl('securyglass-logo.png');
-const LOGO_CERTIFICATION = getPublicImageUrl('certification-qualite.jpg');
-
 // Couleurs de marque
 const COLORS = {
   primary: '#2563eb',
@@ -332,6 +319,10 @@ export interface QuotePDFData {
     iban: string;
     bic: string;
   };
+  
+  // Base64 encoded images (required for PDF generation)
+  logoSecuryglass?: string;
+  logoCertification?: string;
 }
 
 export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
@@ -371,14 +362,14 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
         <View style={styles.header}>
           {/* Colonne gauche: Logo + nom entreprise */}
           <View style={styles.headerLeft}>
-            <Image src={LOGO_SECURYGLASS} style={styles.logo} />
+            {data.logoSecuryglass && <Image src={data.logoSecuryglass} style={styles.logo} />}
             <Text style={styles.companyName}>securyglass</Text>
             <Text style={styles.companySlogan}>Glass for your security</Text>
           </View>
           
           {/* Colonne droite: Certification + Devis + Infos */}
           <View style={styles.headerRight}>
-            <Image src={LOGO_CERTIFICATION} style={styles.logoCertification} />
+            {data.logoCertification && <Image src={data.logoCertification} style={styles.logoCertification} />}
             <Text style={styles.devisTitle}>Devis</Text>
             <Text style={styles.siegeTitle}>Siège social</Text>
             <View style={styles.companyInfo}>

@@ -220,6 +220,39 @@ export const QuoteSummary = ({
   const handleDownloadPDF = async () => {
     try {
       console.log('🔵 [PDF Download] Starting PDF generation...');
+      
+      // Load and convert images to base64
+      console.log('🔵 [PDF Download] Loading images from public folder...');
+      const [logoSecuryglass, logoCertification] = await Promise.all([
+        fetch('/securyglass-logo.png')
+          .then(res => res.blob())
+          .then(blob => new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+          }))
+          .catch(err => {
+            console.error('❌ Failed to load logo:', err);
+            return '';
+          }),
+        fetch('/certification-qualite.jpg')
+          .then(res => res.blob())
+          .then(blob => new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+          }))
+          .catch(err => {
+            console.error('❌ Failed to load certification:', err);
+            return '';
+          })
+      ]);
+      
+      console.log('✅ [PDF Download] Images loaded:', {
+        logoSize: logoSecuryglass.length,
+        certSize: logoCertification.length
+      });
+      
       const displayQuoteNumber = savedQuoteNumber || quoteNumber;
       const pdfData: QuotePDFData = {
         quoteNumber: displayQuoteNumber,
@@ -264,7 +297,9 @@ export const QuoteSummary = ({
           address: '65 Rue De La Croix - 92000 Nanterre',
           iban: 'FR76 1020 7000 0123 2145 6187 131',
           bic: 'CCBPFRPMTG',
-        }
+        },
+        logoSecuryglass,
+        logoCertification
       };
       
       const filename = `devis-${displayQuoteNumber}.pdf`;
@@ -398,6 +433,38 @@ export const QuoteSummary = ({
       const displayQuoteNumber = savedQuoteNumber || quoteNumber;
       console.log("🔵 [Email] Generating PDF with @react-pdf/renderer for quote:", displayQuoteNumber);
       
+      // Load and convert images to base64
+      console.log('🔵 [Email] Loading images from public folder...');
+      const [logoSecuryglass, logoCertification] = await Promise.all([
+        fetch('/securyglass-logo.png')
+          .then(res => res.blob())
+          .then(blob => new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+          }))
+          .catch(err => {
+            console.error('❌ Failed to load logo:', err);
+            return '';
+          }),
+        fetch('/certification-qualite.jpg')
+          .then(res => res.blob())
+          .then(blob => new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+          }))
+          .catch(err => {
+            console.error('❌ Failed to load certification:', err);
+            return '';
+          })
+      ]);
+      
+      console.log('✅ [Email] Images loaded:', {
+        logoSize: logoSecuryglass.length,
+        certSize: logoCertification.length
+      });
+      
       // Prepare PDF data
       const pdfData: QuotePDFData = {
         quoteNumber: displayQuoteNumber,
@@ -442,7 +509,9 @@ export const QuoteSummary = ({
           address: '65 Rue De La Croix - 92000 Nanterre',
           iban: 'FR76 1020 7000 0123 2145 6187 131',
           bic: 'CCBPFRPMTG',
-        }
+        },
+        logoSecuryglass,
+        logoCertification
       };
       
       // Generate PDF as base64 for attachment
