@@ -49,12 +49,33 @@ export const saveClient = async (data: {
       adresse_intervention: validationResult.data.adresse_intervention!,
     };
 
-    const { error } = await supabase
-      .from('clients' as any)
-      .upsert(clientData, {
-        onConflict: 'email,mobile',
-        ignoreDuplicates: false
+    // Check if client exists using the secure function
+    const { data: existsData, error: existsError } = await supabase
+      .rpc('check_client_exists', {
+        _email: clientData.email,
+        _mobile: clientData.mobile
       });
+
+    if (existsError) {
+      console.error('Error checking client existence:', existsError);
+      return { success: false, error: existsError.message };
+    }
+
+    let error;
+    if (existsData) {
+      // Client exists, update it
+      const result = await supabase
+        .from('clients')
+        .update(clientData)
+        .or(`email.eq.${clientData.email},mobile.eq.${clientData.mobile}`);
+      error = result.error;
+    } else {
+      // Client doesn't exist, insert it
+      const result = await supabase
+        .from('clients')
+        .insert(clientData);
+      error = result.error;
+    }
 
     if (error) {
       console.error('Error saving client:', error);
