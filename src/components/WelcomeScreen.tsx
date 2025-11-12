@@ -13,8 +13,8 @@ export const WelcomeScreen = ({
         <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-cover" />
         
         {/* Text Overlay with CTAs */}
-        <div className="absolute left-4 md:left-8 top-6 md:top-8 lg:top-12 max-w-sm md:max-w-xl">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2">Un bris de glace? Securyglass !</h1>
+        <div className="absolute left-4 md:left-12 lg:left-16 top-6 md:top-8 lg:top-12 max-w-sm md:max-w-2xl lg:max-w-4xl">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 md:mb-6">Un bris de glace? Securyglass !</h1>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-1">
             Votre devis
           </h2>
@@ -25,11 +25,11 @@ export const WelcomeScreen = ({
           </h2>
           
           {/* CTA Buttons */}
-          <div className="grid grid-cols-2 gap-3 md:gap-4 mt-4">
-            <Button size="lg" className="w-full text-sm md:text-base font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white" onClick={() => onNavigate("online-quote")}>
+          <div className="grid grid-cols-2 gap-3 md:gap-6 lg:gap-8 mt-4">
+            <Button size="lg" className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full bg-orange-500 hover:bg-orange-600 text-white px-6 md:px-10 lg:px-12 md:h-14 lg:h-16" onClick={() => onNavigate("online-quote")}>
               Devis gratuit
             </Button>
-            <Button variant="outline" size="lg" className="w-full text-sm md:text-base font-semibold rounded-full border-2 bg-white text-blue-600 border-gray-200 hover:bg-gray-50" onClick={() => window.open("https://creactifs.fr/formations/reseaux-sociaux", "_blank")}>
+            <Button variant="outline" size="lg" className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full border-2 bg-white text-blue-700 border-blue-600 hover:bg-blue-50 px-6 md:px-10 lg:px-12 md:h-14 lg:h-16" onClick={() => window.open("https://creactifs.fr/formations/reseaux-sociaux", "_blank")}>
               Nous contacter
             </Button>
           </div>
