@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { validateEmail } from '../_shared/validation.ts';
+import { generateUnifiedQuoteHTML } from "../_shared/quote-html-template.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -29,90 +30,6 @@ interface QuoteEmailRequest {
   };
 }
 
-const generateQuotePDF = (quoteData: any) => {
-  // Génération HTML du devis pour conversion PDF
-  return `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>Devis ${quoteData.id}</title>
-      <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .header { text-align: center; margin-bottom: 30px; }
-        .company-info { margin-bottom: 20px; }
-        .client-info { margin-bottom: 20px; }
-        .quote-details { margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-        th { background-color: #f5f5f5; }
-        .totals { text-align: right; margin-top: 20px; }
-        .total-line { margin-bottom: 5px; }
-        .final-total { font-weight: bold; font-size: 1.2em; }
-      </style>
-    </head>
-    <body>
-      <div class="header">
-        <h1>DEVIS</h1>
-        <h2>SecuryGlass</h2>
-      </div>
-      
-      <div class="company-info">
-        <h3>Entreprise</h3>
-        <p><strong>${quoteData.company.name}</strong></p>
-        <p>${quoteData.company.address}</p>
-        <p>${quoteData.company.phone}</p>
-        <p>${quoteData.company.email}</p>
-      </div>
-      
-      <div class="client-info">
-        <h3>Client</h3>
-        <p><strong>${quoteData.client.name}</strong></p>
-        <p>${quoteData.client.address}</p>
-        <p>${quoteData.client.phone}</p>
-        <p>${quoteData.client.email}</p>
-      </div>
-      
-      <div class="quote-details">
-        <p><strong>Numéro de devis:</strong> ${quoteData.id}</p>
-        <p><strong>Date:</strong> ${quoteData.date}</p>
-      </div>
-      
-      <table>
-        <thead>
-          <tr>
-            <th>Désignation</th>
-            <th>Quantité</th>
-            <th>Prix unitaire</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${quoteData.items.map((item: any) => `
-            <tr>
-              <td>${item.designation}</td>
-              <td>${item.quantity}</td>
-              <td>${item.unitPrice.toFixed(2)} €</td>
-              <td>${item.total.toFixed(2)} €</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-      
-      <div class="totals">
-        <div class="total-line">Sous-total: ${quoteData.subtotal.toFixed(2)} €</div>
-        <div class="total-line">TVA (20%): ${quoteData.vat.toFixed(2)} €</div>
-        <div class="total-line final-total">Total TTC: ${quoteData.total.toFixed(2)} €</div>
-      </div>
-      
-      <div style="margin-top: 40px; font-size: 0.9em; color: #666;">
-        <p>Ce devis est valable 30 jours à compter de la date d'émission.</p>
-        <p>Merci de votre confiance.</p>
-      </div>
-    </body>
-    </html>
-  `;
-};
 
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
@@ -135,7 +52,18 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // Générer le HTML du devis
-    const quoteHTML = generateQuotePDF(quoteData);
+    const quoteHTML = generateUnifiedQuoteHTML({
+      id: quoteData.id,
+      quoteNumber: quoteData.id,
+      date: quoteData.date,
+      client: quoteData.client,
+      company: quoteData.company,
+      items: quoteData.items,
+      motifDescription: quoteData.motifDescription,
+      subtotal: quoteData.subtotal,
+      vat: quoteData.vat,
+      total: quoteData.total,
+    });
 
     // Préparer le message personnalisé
     const customMessage = message ? `<p>${message.replace(/\n/g, '<br>')}</p>` : "";
