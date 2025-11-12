@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import { saveDevis } from "@/services/devis";
-import { generatePDFFromHTML, generatePDFFromHTMLBase64 } from "@/lib/pdf-generator";
+import { generateQuotePDF, generateQuotePDFBase64, QuotePDFData } from "@/lib/pdf-generator";
 interface QuoteSummaryProps {
   data: any;
   onNavigate: (route: string) => void;
@@ -219,9 +219,40 @@ export const QuoteSummary = ({
   };
   const handleDownloadPDF = async () => {
     try {
-      const quoteHTML = generateQuoteHTML();
-      const filename = `devis-${savedQuoteNumber || quoteNumber}.pdf`;
-      await generatePDFFromHTML(quoteHTML, filename);
+      const displayQuoteNumber = savedQuoteNumber || quoteNumber;
+      const pdfData: QuotePDFData = {
+        quoteNumber: displayQuoteNumber,
+        date: new Date().toLocaleDateString('fr-FR'),
+        civilite: data.civilite,
+        nom: data.nom,
+        raison_sociale: data.raison_sociale,
+        nomSociete: data.nomSociete,
+        telephone: data.telephone,
+        email: data.email,
+        adresse: data.adresse,
+        codePostal: data.codePostal,
+        ville: data.ville,
+        differentInterventionAddress: data.differentInterventionAddress,
+        interventionAdresse: data.interventionAdresse,
+        interventionCodePostal: data.interventionCodePostal,
+        interventionVille: data.interventionVille,
+        object: data.object,
+        largeur: data.largeur,
+        hauteur: data.hauteur,
+        quantite: data.quantite,
+        vitrage: data.vitrage,
+        priceCalculation: priceCalculation || {
+          subtotal: 0,
+          tva: 0,
+          total: 0,
+          tvaRate: 0.2,
+          details: {}
+        }
+      };
+      
+      const filename = `devis-${displayQuoteNumber}.pdf`;
+      await generateQuotePDF(pdfData, filename);
+      
       toast({
         title: "PDF téléchargé",
         description: "Le PDF a été téléchargé avec succès"
@@ -342,22 +373,42 @@ export const QuoteSummary = ({
     console.log("Sending quote email via SendGrid to:", data.email);
     try {
       const displayQuoteNumber = savedQuoteNumber || quoteNumber;
-      console.log("Generating quote HTML...");
-      const quoteHTML = generateQuoteHTML();
-      console.log("Quote HTML generated, length:", quoteHTML.length);
-      console.log("Generating PDF from HTML...");
+      console.log("Generating PDF with @react-pdf/renderer...");
+      
+      // Prepare PDF data
+      const pdfData: QuotePDFData = {
+        quoteNumber: displayQuoteNumber,
+        date: new Date().toLocaleDateString('fr-FR'),
+        civilite: data.civilite,
+        nom: data.nom,
+        raison_sociale: data.raison_sociale,
+        nomSociete: data.nomSociete,
+        telephone: data.telephone,
+        email: data.email,
+        adresse: data.adresse,
+        codePostal: data.codePostal,
+        ville: data.ville,
+        differentInterventionAddress: data.differentInterventionAddress,
+        interventionAdresse: data.interventionAdresse,
+        interventionCodePostal: data.interventionCodePostal,
+        interventionVille: data.interventionVille,
+        object: data.object,
+        largeur: data.largeur,
+        hauteur: data.hauteur,
+        quantite: data.quantite,
+        vitrage: data.vitrage,
+        priceCalculation: priceCalculation || {
+          subtotal: 0,
+          tva: 0,
+          total: 0,
+          tvaRate: 0.2,
+          details: {}
+        }
+      };
+      
       // Generate PDF as base64 for attachment
-      const pdfBase64 = await generatePDFFromHTMLBase64(quoteHTML);
-      console.log('PDF generated, size:', pdfBase64.length, 'characters');
-
-      // Warning for small PDF size (don't block anymore)
-      if (pdfBase64.length < 1000) {
-        console.warn('PDF appears small:', pdfBase64.length, 'characters');
-        toast({
-          title: "Avertissement PDF",
-          description: `Le PDF généré est petit (${pdfBase64.length} caractères). Envoi en cours...`
-        });
-      }
+      const pdfBase64 = await generateQuotePDFBase64(pdfData);
+      console.log('PDF generated with vector rendering, size:', pdfBase64.length, 'characters');
       const quoteData = {
         id: displayQuoteNumber,
         date: new Date().toLocaleDateString('fr-FR'),

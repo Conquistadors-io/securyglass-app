@@ -1,5 +1,70 @@
 import html2pdf from 'html2pdf.js';
+import { pdf } from '@react-pdf/renderer';
+import { QuotePDFTemplate } from '@/components/pdf/QuotePDFTemplate';
+import type { QuotePDFData } from '@/components/pdf/QuotePDFTemplate';
 
+// Re-export the type for convenience
+export type { QuotePDFData };
+
+/**
+ * Generate PDF using @react-pdf/renderer (NEW - Recommended)
+ * Provides high-quality vector rendering with perfect fidelity
+ */
+export const generateQuotePDF = async (data: QuotePDFData, filename: string): Promise<void> => {
+  try {
+    console.log('Generating PDF with @react-pdf/renderer...');
+    
+    const blob = await pdf(<QuotePDFTemplate data={data} />).toBlob();
+    
+    // Create download link
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    
+    // Clean up
+    URL.revokeObjectURL(url);
+    
+    console.log('PDF generated successfully');
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    throw error;
+  }
+};
+
+/**
+ * Generate PDF as Base64 using @react-pdf/renderer (NEW - Recommended)
+ * Returns base64 string for email attachments
+ */
+export const generateQuotePDFBase64 = async (data: QuotePDFData): Promise<string> => {
+  try {
+    console.log('Generating PDF as base64 with @react-pdf/renderer...');
+    
+    const blob = await pdf(<QuotePDFTemplate data={data} />).toBlob();
+    
+    // Convert blob to base64
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64data = reader.result as string;
+        const base64 = base64data.split(',')[1];
+        console.log('PDF base64 generated, length:', base64.length);
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.error('Error generating PDF base64:', error);
+    throw error;
+  }
+};
+
+/**
+ * LEGACY: Generate PDF from HTML using html2pdf.js
+ * Kept for backwards compatibility, but @react-pdf/renderer is recommended
+ */
 export const generatePDFFromHTML = async (htmlContent: string, filename: string): Promise<void> => {
   // Create a temporary container
   const tempContainer = document.createElement('div');
@@ -34,6 +99,10 @@ export const generatePDFFromHTML = async (htmlContent: string, filename: string)
   }
 };
 
+/**
+ * LEGACY: Generate PDF from HTML as Base64 using html2pdf.js
+ * Kept for backwards compatibility, but generateQuotePDFBase64 is recommended
+ */
 export const generatePDFFromHTMLBase64 = async (htmlContent: string): Promise<string> => {
   console.log('Starting PDF generation...');
   
