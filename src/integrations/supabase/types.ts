@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_tabs: {
+        Row: {
+          created_at: string
+          display_order: number
+          icon: string | null
+          id: string
+          is_active: boolean
+          is_system: boolean
+          key: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          is_system?: boolean
+          key: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          is_system?: boolean
+          key?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       clients: {
         Row: {
           adresse_intervention: string
