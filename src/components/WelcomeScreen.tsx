@@ -9,11 +9,11 @@ export const WelcomeScreen = ({
 }: WelcomeScreenProps) => {
   return <div className="min-h-screen w-full bg-background overflow-y-auto">
       {/* Formation Artisans Banner */}
-      <div className="relative w-full aspect-square bg-background">
-        <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-contain" />
+      <div className="relative w-full aspect-[3/4] md:aspect-square bg-background">
+        <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-cover" />
         
         {/* Text Overlay with CTAs */}
-        <div className="absolute left-4 md:left-8 top-8 md:top-12 lg:top-16 max-w-xl">
+        <div className="absolute left-4 md:left-8 top-6 md:top-8 lg:top-12 max-w-sm md:max-w-xl">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-2">
             Un bris de glace, Securiglace
           </h1>
@@ -29,6 +29,13 @@ export const WelcomeScreen = ({
           {/* CTA Buttons */}
           <div className="grid grid-cols-2 gap-3 md:gap-4 mt-4">
             <Button 
+              size="lg" 
+              className="w-full text-sm md:text-base font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white" 
+              onClick={() => onNavigate("online-quote")}
+            >
+              Devis gratuit
+            </Button>
+            <Button 
               variant="outline" 
               size="lg" 
               className="w-full text-sm md:text-base font-semibold rounded-full border-2 bg-white text-blue-600 border-gray-200 hover:bg-gray-50" 
@@ -36,19 +43,12 @@ export const WelcomeScreen = ({
             >
               Nous contacter
             </Button>
-            <Button 
-              size="lg" 
-              className="w-full text-sm md:text-base font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white" 
-              onClick={() => onNavigate("online-quote")}
-            >
-              Devis gratuit
-            </Button>
           </div>
         </div>
 
         {/* Certification Badge */}
         <div className="absolute bottom-4 left-4">
-          <img src={certificationQualite} alt="Certification Qualité" className="w-32 md:w-40 h-auto" />
+          <img src={certificationQualite} alt="Certification Qualité" className="w-20 md:w-28 lg:w-32 h-auto" />
         </div>
       </div>
     </div>;
