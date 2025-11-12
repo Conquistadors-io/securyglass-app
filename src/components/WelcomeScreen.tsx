@@ -24,8 +24,10 @@ export const WelcomeScreen = ({
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-1">
               Un bris de glace?
             </h1>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-foreground mb-4 md:mb-6">
-              Securyglass !
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-4 md:mb-6">
+              <span className="bg-yellow-400 text-foreground px-2 font-extrabold">
+                Securyglass !
+              </span>
             </h1>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-1">
               Votre devis
