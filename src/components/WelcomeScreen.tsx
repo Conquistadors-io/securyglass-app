@@ -11,7 +11,7 @@ export const WelcomeScreen = ({
       {/* Formation Artisans Banner */}
       <div className="relative w-full h-screen md:aspect-square bg-background overflow-hidden">
         {/* Image de fond */}
-        <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-cover object-center" />
+        <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-cover object-[center_35%] md:object-center" />
         
         {/* Overlay léger pour contraste sur mobile */}
         <div className="absolute inset-0 bg-black/10 md:bg-transparent" />
@@ -21,7 +21,12 @@ export const WelcomeScreen = ({
           
           {/* Zone supérieure : Titres en haut */}
           <div className="flex flex-col pt-8 md:absolute md:left-12 lg:left-16 md:top-8 lg:top-12 md:max-w-2xl lg:max-w-4xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 md:mb-6">Un bris de glace? Securyglass !</h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-1">
+              Un bris de glace?
+            </h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 md:mb-6">
+              Securyglass !
+            </h1>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-1">
               Votre devis
             </h2>
