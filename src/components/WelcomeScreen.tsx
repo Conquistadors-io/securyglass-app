@@ -36,7 +36,7 @@ export const WelcomeScreen = ({
           <div className="flex flex-col gap-3 pb-safe md:grid md:grid-cols-2 md:gap-6 lg:gap-8 md:absolute md:left-12 lg:left-16 md:top-[280px] lg:top-[320px] md:max-w-2xl lg:max-w-4xl">
             <Button 
               size="lg" 
-              className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full bg-orange-500 hover:bg-orange-600 text-white px-6 md:px-10 lg:px-12 h-12 md:h-14 lg:h-16" 
+              className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-10 lg:px-12 h-12 md:h-14 lg:h-16" 
               onClick={() => onNavigate("online-quote")}
             >
               Devis gratuit
