@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { AdminMotifDescriptions } from "./AdminMotifDescriptions";
 import { GmailConnection } from "./GmailConnection";
+import { AdminQuotePreview } from "./AdminQuotePreview";
 
 export const AdminGmailConfig = () => {
   const [isConnected, setIsConnected] = useState(false);
@@ -132,6 +133,7 @@ export const AdminGmailConfig = () => {
           <TabsList className="mb-6">
             <TabsTrigger value="gmail">Configuration Gmail</TabsTrigger>
             <TabsTrigger value="motifs">Descriptions de Motifs</TabsTrigger>
+            <TabsTrigger value="preview">Aperçu PDF</TabsTrigger>
           </TabsList>
 
           <TabsContent value="gmail">
@@ -145,6 +147,10 @@ export const AdminGmailConfig = () => {
 
           <TabsContent value="motifs">
             <AdminMotifDescriptions />
+          </TabsContent>
+
+          <TabsContent value="preview">
+            <AdminQuotePreview />
           </TabsContent>
         </Tabs>
       </div>
