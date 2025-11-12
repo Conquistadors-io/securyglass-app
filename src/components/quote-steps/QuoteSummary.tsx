@@ -805,33 +805,8 @@ export const QuoteSummary = ({
           <Download className="h-5 w-5 mr-2" />
           Télécharger le PDF
         </Button>
-
-        <div className="grid grid-cols-2 gap-3">
-          <Button variant="outline" onClick={() => {
-          onComplete?.();
-          // Handle validation
-        }}>
-            <CreditCard className="h-4 w-4 mr-2" />
-            Valider
-          </Button>
-          
-          <Button variant="outline" onClick={() => {
-          onComplete?.();
-          // Handle payment
-        }}>
-            <CreditCard className="h-4 w-4 mr-2" />
-            Payer
-          </Button>
-        </div>
-
-        <Button variant="secondary" size="lg" className="w-full" onClick={() => {
-        onComplete?.();
-        // Handle appointment booking
-      }}>
-          <Calendar className="h-5 w-5 mr-2" />
-          Prendre RDV
-        </Button>
       </div>
+
 
 
       {/* Action buttons */}
