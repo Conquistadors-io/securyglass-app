@@ -18,8 +18,13 @@ export const WelcomeScreen = ({
             Votre devis
           </h2>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold">
-            <span className="bg-yellow-400 text-foreground px-2 text-3xl font-extrabold">
-              en 5 minutes
+            <span className="inline-flex flex-col">
+              <span className="bg-yellow-400 text-foreground px-2 text-3xl font-extrabold">
+                en 5 minutes
+              </span>
+              <span className="bg-green-500 text-black px-2 text-2xl md:text-4xl lg:text-5xl font-bold">
+                instantané
+              </span>
             </span>
           </h2>
         </div>
