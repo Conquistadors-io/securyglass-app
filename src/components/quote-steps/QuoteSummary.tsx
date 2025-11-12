@@ -273,7 +273,8 @@ export const QuoteSummary = ({
         });
       } catch (fallbackError) {
         console.error(`❌ [Logo] Failed to load ${logoName} even with fallback:`, fallbackError);
-        return '';
+        // Return a transparent 1x1 pixel PNG as last resort
+        return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
       }
     }
   };
@@ -656,9 +657,35 @@ export const QuoteSummary = ({
   // Auto-send email when component loads and devis is saved
   useEffect(() => {
     if (data.email && !emailSent && !isLoading && devisSaved && savedQuoteNumber && priceCalculation && !calculationLoading) {
+      console.log('🟢 [Auto-send] Triggering automatic email send');
       sendQuoteEmailViaSendGrid();
+    } else {
+      console.log('🟡 [Auto-send] Conditions not met:', {
+        hasEmail: !!data.email,
+        emailSent,
+        isLoading,
+        devisSaved,
+        hasSavedQuoteNumber: !!savedQuoteNumber,
+        hasPriceCalculation: !!priceCalculation,
+        calculationLoading
+      });
     }
-  }, [data.email, devisSaved, savedQuoteNumber, priceCalculation, calculationLoading]);
+  }, [data.email, emailSent, isLoading, devisSaved, savedQuoteNumber, priceCalculation, calculationLoading]);
+
+  // Safety timeout: if email not sent after 10 seconds, show fallback option
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!emailSent && !isLoading && devisSaved && savedQuoteNumber && priceCalculation && !calculationLoading) {
+        console.warn('⚠️ [Auto-send] Email not sent after 10 seconds despite all conditions being met');
+        toast({
+          title: "Devis prêt",
+          description: "Vous pouvez télécharger le PDF ci-dessous.",
+        });
+      }
+    }, 10000);
+
+    return () => clearTimeout(timeoutId);
+  }, [emailSent, isLoading, devisSaved, savedQuoteNumber, priceCalculation, calculationLoading]);
   return <div className="space-y-6">
       {/* Header Card */}
       <Card className="shadow-card border-2 border-success">
