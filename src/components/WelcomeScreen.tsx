@@ -12,32 +12,44 @@ export const WelcomeScreen = ({
       <div className="relative w-full aspect-square bg-background">
         <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-contain" />
         
-        {/* Text Overlay */}
-        <div className="absolute left-4 md:left-8 top-8 md:top-12 lg:top-16">
-          <h2 className="md:text-5xl lg:text-6xl font-bold text-foreground text-4xl">
+        {/* Text Overlay with CTAs */}
+        <div className="absolute left-4 md:left-8 top-8 md:top-12 lg:top-16 max-w-xl">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-2">
+            Un bris de glace, Securiglace
+          </h1>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-1">
             Votre devis
           </h2>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold">
-            <span className="bg-yellow-400 text-foreground px-2 text-3xl font-extrabold">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+            <span className="bg-yellow-400 text-foreground px-2 font-extrabold">
               en 5 minutes
             </span>
           </h2>
+          
+          {/* CTA Buttons */}
+          <div className="grid grid-cols-2 gap-3 md:gap-4 mt-4">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="w-full text-sm md:text-base font-semibold rounded-full border-2 bg-white text-blue-600 border-gray-200 hover:bg-gray-50" 
+              onClick={() => window.open("https://creactifs.fr/formations/reseaux-sociaux", "_blank")}
+            >
+              Nous contacter
+            </Button>
+            <Button 
+              size="lg" 
+              className="w-full text-sm md:text-base font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white" 
+              onClick={() => onNavigate("online-quote")}
+            >
+              Devis gratuit
+            </Button>
+          </div>
         </div>
 
         {/* Certification Badge */}
         <div className="absolute bottom-4 left-4">
           <img src={certificationQualite} alt="Certification Qualité" className="w-32 md:w-40 h-auto" />
         </div>
-      </div>
-      
-      {/* Buttons Section */}
-      <div className="grid grid-cols-2 gap-4 px-4 py-8 md:py-12 max-w-2xl mx-auto">
-        <Button variant="outline" size="lg" className="w-full text-base md:text-lg font-semibold rounded-full border-2 bg-white text-blue-600 border-gray-200 hover:bg-gray-50" onClick={() => window.open("https://creactifs.fr/formations/reseaux-sociaux", "_blank")}>
-          Nous contacter
-        </Button>
-        <Button size="lg" className="w-full text-base md:text-lg font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white" onClick={() => onNavigate("online-quote")}>
-          Devis gratuit
-        </Button>
       </div>
     </div>;
 };
