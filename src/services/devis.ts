@@ -61,7 +61,7 @@ export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{
       vitrage: formData.vitrage,
       largeur_cm: formData.largeur ? parseFloat(formData.largeur) : undefined,
       hauteur_cm: formData.hauteur ? parseFloat(formData.hauteur) : undefined,
-      quantite: formData.quantite || 1,
+      quantite: parseInt(formData.quantite, 10) || 1,
       assurance: formData.assurance,
       intervention_code_postal: formData.differentInterventionAddress ? formData.interventionCodePostal : formData.codePostal,
       intervention_ville: formData.differentInterventionAddress ? formData.interventionVille : formData.ville,
