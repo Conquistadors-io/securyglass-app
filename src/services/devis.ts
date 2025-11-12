@@ -1,6 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import { devisSchema } from "@/lib/validation";
 import { z } from "zod";
+import { saveClient } from "./clients";
 
 export interface DevisData {
   quote_number?: string;
@@ -44,6 +45,24 @@ const generateQuoteNumber = (): string => {
 
 export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{ success: boolean; error?: string; devisId?: string; quoteNumber?: string }> => {
   try {
+    // First, save the client information
+    const clientResult = await saveClient({
+      nom: formData.nom,
+      prenom: formData.prenom,
+      raison_sociale: formData.raison_sociale || formData.nomSociete,
+      mobile: formData.telephone,
+      email: formData.email,
+      email_facturation: formData.email_facturation,
+      adresse_intervention: formData.differentInterventionAddress 
+        ? formData.interventionAdresse 
+        : formData.adresse
+    });
+
+    if (!clientResult.success) {
+      console.error('Error saving client:', clientResult.error);
+      return { success: false, error: `Erreur lors de la sauvegarde du client: ${clientResult.error}` };
+    }
+
     // Generate unique quote number
     const quoteNumber = generateQuoteNumber();
     
