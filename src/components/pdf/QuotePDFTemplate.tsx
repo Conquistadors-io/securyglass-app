@@ -86,10 +86,21 @@ const styles = StyleSheet.create({
   
   // Section client
   clientSection: {
+    flexDirection: 'row',
     marginBottom: 20,
     padding: 12,
     backgroundColor: COLORS.secondary,
     borderRadius: 4,
+  },
+  clientSectionLeft: {
+    flex: 1,
+    paddingRight: 10,
+    borderRightWidth: 1,
+    borderRightColor: '#d1d5db',
+  },
+  clientSectionRight: {
+    flex: 1,
+    paddingLeft: 10,
   },
   clientTitle: {
     fontSize: 11,
@@ -452,58 +463,62 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
         
         {/* Section client */}
         <View style={styles.clientSection}>
-          <Text style={styles.clientTitle}>À : {data.civilite} {data.nom}</Text>
-          <View style={styles.clientInfo}>
-            {(data.raison_sociale || data.nomSociete) && (
-              <Text style={styles.clientLine}>
-                <Text style={styles.clientLabel}>Société :</Text>
-                {data.raison_sociale || data.nomSociete}
-              </Text>
-            )}
-            <Text style={styles.clientLine}>
-              <Text style={styles.clientLabel}>Email :</Text>
-              {data.email}
-            </Text>
-            <Text style={styles.clientLine}>
-              <Text style={styles.clientLabel}>Téléphone :</Text>
-              {data.telephone}
-            </Text>
-            {data.adresse && (
-              <Text style={styles.clientLine}>
-                <Text style={styles.clientLabel}>Adresse :</Text>
-                {data.adresse}
-              </Text>
-            )}
-            {data.codePostal && data.ville && (
-              <Text style={styles.clientLine}>
-                {data.codePostal} {data.ville}
-              </Text>
-            )}
-            
-            {data.differentInterventionAddress && data.interventionAdresse && (
-              <>
-                <Text style={[styles.clientLine, { marginTop: 8, fontFamily: 'Helvetica-Bold' }]}>
-                  Adresse d'intervention :
+          {/* Colonne gauche : Client */}
+          <View style={styles.clientSectionLeft}>
+            <Text style={styles.clientTitle}>À : {data.civilite} {data.nom}</Text>
+            <View style={styles.clientInfo}>
+              {(data.raison_sociale || data.nomSociete) && (
+                <Text style={styles.clientLine}>
+                  <Text style={styles.clientLabel}>Société :</Text>
+                  {data.raison_sociale || data.nomSociete}
                 </Text>
-                <Text style={styles.clientLine}>{data.interventionAdresse}</Text>
-                {data.interventionCodePostal && data.interventionVille && (
-                  <Text style={styles.clientLine}>
-                    {data.interventionCodePostal} {data.interventionVille}
+              )}
+              <Text style={styles.clientLine}>
+                <Text style={styles.clientLabel}>Email :</Text>
+                {data.email}
+              </Text>
+              <Text style={styles.clientLine}>
+                <Text style={styles.clientLabel}>Téléphone :</Text>
+                {data.telephone}
+              </Text>
+              {data.adresse && (
+                <Text style={styles.clientLine}>
+                  <Text style={styles.clientLabel}>Adresse :</Text>
+                  {data.adresse}
+                </Text>
+              )}
+              {data.codePostal && data.ville && (
+                <Text style={styles.clientLine}>
+                  {data.codePostal} {data.ville}
+                </Text>
+              )}
+              
+              {data.differentInterventionAddress && data.interventionAdresse && (
+                <>
+                  <Text style={[styles.clientLine, { marginTop: 8, fontFamily: 'Helvetica-Bold' }]}>
+                    Adresse d'intervention :
                   </Text>
-                )}
-              </>
-            )}
-            
-            {/* Section Siège social */}
-            <Text style={[styles.clientLine, { marginTop: 12, fontFamily: 'Helvetica-Bold', fontSize: 10, color: COLORS.primary }]}>
-              Siège social
-            </Text>
-            <Text style={styles.clientLine}>Securyglass France</Text>
-            <Text style={styles.clientLine}>contact@securyglass.fr</Text>
-            <Text style={styles.clientLine}>09 70 144 344</Text>
-            <Text style={styles.clientLine}>Code APE {companyInfo.codeAPE}</Text>
-            <Text style={styles.clientLine}>Siret {companyInfo.siret}</Text>
-            <Text style={styles.clientLine}>TVA {companyInfo.tva}</Text>
+                  <Text style={styles.clientLine}>{data.interventionAdresse}</Text>
+                  {data.interventionCodePostal && data.interventionVille && (
+                    <Text style={styles.clientLine}>
+                      {data.interventionCodePostal} {data.interventionVille}
+                    </Text>
+                  )}
+                </>
+              )}
+            </View>
+          </View>
+          
+          {/* Colonne droite : Siège social */}
+          <View style={styles.clientSectionRight}>
+            <Text style={styles.clientTitle}>Securyglass France</Text>
+            <View style={styles.clientInfo}>
+              <Text style={styles.clientLine}>contact@securyglass.fr</Text>
+              <Text style={styles.clientLine}>09 70 144 344</Text>
+              <Text style={styles.clientLine}>Code APE {companyInfo.codeAPE}</Text>
+              <Text style={styles.clientLine}>Siret {companyInfo.siret}</Text>
+              <Text style={styles.clientLine}>TVA {companyInfo.tva}</Text>
+            </View>
           </View>
         </View>
         
@@ -678,34 +693,6 @@ export const QuotePDFTemplate = ({ data }: { data: QuotePDFData }) => {
           <Text style={styles.page2HeaderText}>
             Devis {data.quoteNumber} - {data.date}
           </Text>
-        </View>
-        
-        {/* Modalités de règlement */}
-        <View style={styles.cgvSection}>
-          <Text style={styles.cgvTitle}>Modalités de règlement</Text>
-          <Text style={styles.cgvText}>
-            Acompte de 50% à la validation du devis, solde à payer fin de travaux.
-          </Text>
-        </View>
-        
-        {/* Mode de règlement */}
-        <View style={styles.cgvSection}>
-          <Text style={styles.cgvTitle}>Mode de règlement :</Text>
-          <Text style={styles.cgvText}>
-            - Carte bancaire{'\n'}
-            - Chèque libellé à l'ordre de SECURYGLASS{'\n'}
-            - Numéraire ( Voir Article L112-6 Code Financier Monétaire ){'\n'}
-            - Virement bancaire :
-          </Text>
-        </View>
-        
-        {/* RIB */}
-        <View style={[styles.cgvSection, styles.ribBox]}>
-          <Text style={styles.ribTitle}>RELEVÉ D'IDENTITÉ BANCAIRE</Text>
-          <Text style={styles.ribLine}>Titulaire du compte : SAS SECURYGLASS</Text>
-          <Text style={styles.ribLine}>Domiciliation : BPRIVES MONTROUGE</Text>
-          <Text style={styles.ribLine}>IBAN : {companyInfo.iban}</Text>
-          <Text style={styles.ribLine}>BIC / SWIFT : {companyInfo.bic}</Text>
         </View>
         
         {/* Conditions générales */}
