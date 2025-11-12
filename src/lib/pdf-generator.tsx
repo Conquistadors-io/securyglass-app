@@ -1,10 +1,10 @@
 import html2pdf from 'html2pdf.js';
 import { pdf } from '@react-pdf/renderer';
 import { QuotePDFTemplate } from '@/components/pdf/QuotePDFTemplate';
-import type { QuotePDFData } from '@/components/pdf/QuotePDFTemplate';
+import type { QuotePDFData as QuotePDFDataOriginal } from '@/components/pdf/QuotePDFTemplate';
 
 // Re-export the type for convenience
-export type { QuotePDFData };
+export type QuotePDFData = QuotePDFDataOriginal;
 
 /**
  * Generate PDF using @react-pdf/renderer (NEW - Recommended)

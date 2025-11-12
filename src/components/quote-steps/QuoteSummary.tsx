@@ -241,12 +241,28 @@ export const QuoteSummary = ({
         hauteur: data.hauteur,
         quantite: data.quantite,
         vitrage: data.vitrage,
+        vitrageDetails: {
+          type: 'Vitrage Feuilleté Sécurit CLR Transparent',
+          epaisseur: 'EP10 55.2 mm',
+          normes: 'Normes ERP - Normes EN 12600 / EN 356',
+        },
+        delai: '48H',
         priceCalculation: priceCalculation || {
           subtotal: 0,
           tva: 0,
           total: 0,
           tvaRate: 0.2,
           details: {}
+        },
+        companyInfo: {
+          siret: '91094284600015',
+          tva: 'FR2091094282846',
+          codeAPE: '6201Z',
+          capital: '10000',
+          rcs: 'Nanterre',
+          address: '65 Rue De La Croix - 92000 Nanterre',
+          iban: 'FR76 1020 7000 0123 2145 6187 131',
+          bic: 'CCBPFRPMTG',
         }
       };
       
@@ -397,12 +413,28 @@ export const QuoteSummary = ({
         hauteur: data.hauteur,
         quantite: data.quantite,
         vitrage: data.vitrage,
+        vitrageDetails: {
+          type: 'Vitrage Feuilleté Sécurit CLR Transparent',
+          epaisseur: 'EP10 55.2 mm',
+          normes: 'Normes ERP - Normes EN 12600 / EN 356',
+        },
+        delai: '48H',
         priceCalculation: priceCalculation || {
           subtotal: 0,
           tva: 0,
           total: 0,
           tvaRate: 0.2,
           details: {}
+        },
+        companyInfo: {
+          siret: '91094284600015',
+          tva: 'FR2091094282846',
+          codeAPE: '6201Z',
+          capital: '10000',
+          rcs: 'Nanterre',
+          address: '65 Rue De La Croix - 92000 Nanterre',
+          iban: 'FR76 1020 7000 0123 2145 6187 131',
+          bic: 'CCBPFRPMTG',
         }
       };
       
