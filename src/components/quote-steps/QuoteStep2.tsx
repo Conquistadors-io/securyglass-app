@@ -249,9 +249,6 @@ export const QuoteStep2 = ({
                 <Label htmlFor="motif" className="text-base font-semibold text-gray-700">
                   Motif (optionnel)
                 </Label>
-                <p className="text-sm text-muted-foreground mt-1 mb-3">
-                  Cause du sinistre
-                </p>
               </div>
               
               <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
@@ -260,7 +257,7 @@ export const QuoteStep2 = ({
               motifOther: ""
             }))}>
                 <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
-                  <SelectValue placeholder="Veuillez sélectionner" />
+                  <SelectValue placeholder="Cause du sinistre" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="usure">Usure</SelectItem>
