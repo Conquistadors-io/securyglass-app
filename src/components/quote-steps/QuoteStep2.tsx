@@ -44,11 +44,10 @@ export const QuoteStep2 = ({
     e.preventDefault();
     onComplete(formData);
   };
-  // Motif requis uniquement si vitre cassée ou miroir cassé est sélectionné
-  const motifRequired = formData.object === "vitre-cassee" || formData.object === "miroir-casse";
+  // Motif est maintenant optionnel
   const isValid = formData.object && 
     formData.property && 
-    (!motifRequired || (formData.motif && (formData.motif !== "autre" || formData.motifOther.trim() !== ""))) &&
+    (formData.motif !== "autre" || formData.motifOther.trim() !== "") &&
     (formData.property !== "autre" || formData.propertyOther.trim() !== "");
   
   // Helper pour obtenir l'affichage de l'option sélectionnée
