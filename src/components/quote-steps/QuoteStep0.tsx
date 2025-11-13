@@ -49,10 +49,10 @@ export const QuoteStep0 = ({
             </div>
             <div className="flex-1">
               <h2 className="text-xl font-bold text-gray-900 mb-2">
-                Type de service
+                Type de prestation ?
               </h2>
               <p className="text-sm text-muted-foreground">
-                Sélectionnez le type de prestation dont vous avez besoin
+                Sélectionnez le type de prestation
               </p>
             </div>
           </div>
