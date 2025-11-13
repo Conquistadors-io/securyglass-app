@@ -104,7 +104,7 @@ export const OnlineQuote = ({
         return defaultFormData;
       }
       
-      return cache.formData;
+      return cache.currentStep > 0 ? cache.formData : defaultFormData;
     } catch {
       return defaultFormData;
     }
