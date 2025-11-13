@@ -89,7 +89,7 @@ export const QuoteStep3 = ({
               Type de vitrage ?
             </h2>
               <p className="text-sm text-muted-foreground">
-                Décrivez précisément le vitrage souhaité
+                Caractéristiques techniques
               </p>
             </div>
           </div>
