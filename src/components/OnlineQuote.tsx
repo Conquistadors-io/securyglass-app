@@ -110,6 +110,11 @@ export const OnlineQuote = ({
     }
   });
 
+  // Scroll vers le haut à chaque changement d'étape
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentStep]);
+
   // Détecter les données existantes au chargement
   useEffect(() => {
     try {
