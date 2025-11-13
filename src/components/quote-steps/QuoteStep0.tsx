@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ChevronDown, Wrench, Sparkles, Grid3x3, Settings, ArrowLeft, ArrowRight } from "lucide-react";
+import { ChevronDown, Wrench, Sparkles, Grid3x3, Settings, ArrowLeft, ArrowRight, MoreHorizontal } from "lucide-react";
 interface QuoteStep0Props {
   data: any;
   onComplete: (data: any) => void;
@@ -101,14 +101,14 @@ export const QuoteStep0 = ({
                   </label>
                 )}
                 
-                <div className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}
+                  <div className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}
                   onClick={() => {
                     setShowAutresOptions(!showAutresOptions);
                   }}
                 >
                   <div className="flex items-center gap-3 flex-1">
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Settings className="w-5 h-5 text-primary" />
+                      <MoreHorizontal className="w-5 h-5 text-primary" />
                     </div>
                     <div className={`text-base font-semibold ${formData.serviceType === 'autres' ? 'text-primary' : 'text-gray-900'}`}>Autres</div>
                   </div>
