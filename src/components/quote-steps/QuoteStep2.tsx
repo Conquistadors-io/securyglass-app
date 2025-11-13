@@ -286,21 +286,7 @@ export const QuoteStep2 = ({
 
           {/* Section Type de bien */}
           <div className="space-y-4">
-            <div className="flex items-start gap-4 pb-4 border-b-2 border-gray-100">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <Home className="w-5 h-5 text-primary" />
-              </div>
-              <div className="flex-1">
-                <Label htmlFor="property" className="text-base font-semibold text-gray-700">
-                  Type de bien <span className="text-destructive">*</span>
-                </Label>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Indiquez où se situe l'intervention
-                </p>
-              </div>
-            </div>
-            
-            <RadioGroup 
+            <RadioGroup
               value={formData.property} 
               onValueChange={value => setFormData(prev => ({
                 ...prev,
