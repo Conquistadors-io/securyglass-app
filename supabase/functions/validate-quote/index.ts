@@ -12,7 +12,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { devisId, status = 'validated' } = await req.json();
+    const { devisId, status = 'validated', validatedAt, validationIp } = await req.json();
     
     if (!devisId) {
       console.error('❌ [Validate Quote] Missing devisId in request');
@@ -30,12 +30,23 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     );
 
+    // Préparer les données à mettre à jour
+    const updateData: any = {
+      status: status,
+      updated_at: new Date().toISOString()
+    };
+
+    // Si validation client, stocker les métadonnées
+    if (status === 'validated') {
+      updateData.validated_at = validatedAt || new Date().toISOString();
+      if (validationIp) {
+        updateData.validation_ip = validationIp;
+      }
+    }
+
     const { data, error } = await supabaseAdmin
       .from('devis')
-      .update({ 
-        status: status,
-        updated_at: new Date().toISOString()
-      })
+      .update(updateData)
       .eq('id', devisId)
       .select('id, status, quote_number')
       .single();
