@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Shield, MoveVertical, MoveHorizontal, Plus, X, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Maximize2, Store, RectangleHorizontal, ArrowUpFromLine, Sun, Grid3x3, Grid2x2, MoreHorizontal, Ruler, Camera, ArrowRight, ArrowLeft } from "lucide-react";
+import { Shield, MoveVertical, MoveHorizontal, Plus, X, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Maximize2, Store, RectangleHorizontal, ArrowUpFromLine, Sun, Grid3x3, Grid2x2, MoreHorizontal, Ruler, Camera, ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
@@ -122,7 +122,10 @@ export const QuoteStep3 = ({
                     <div className="flex-1">
                       <div className={`text-base font-semibold ${formData.category === 'fenetre' ? 'text-primary' : 'text-gray-900'}`}>Fenêtre</div>
                     </div>
-                    <RadioGroupItem value="fenetre" id="cat-fenetre" className="w-6 h-6 ml-auto" />
+                    {formData.category === 'fenetre' && (
+                      <CheckCircle2 className="w-6 h-6 text-primary ml-auto" />
+                    )}
+                    <RadioGroupItem value="fenetre" id="cat-fenetre" className="hidden" />
                   </div>
                 </label>
 
@@ -134,7 +137,10 @@ export const QuoteStep3 = ({
                     <div className="flex-1">
                       <div className={`text-base font-semibold ${formData.category === 'porte-vitree' ? 'text-primary' : 'text-gray-900'}`}>Porte vitrée</div>
                     </div>
-                    <RadioGroupItem value="porte-vitree" id="cat-porte-vitree" className="w-6 h-6 ml-auto" />
+                    {formData.category === 'porte-vitree' && (
+                      <CheckCircle2 className="w-6 h-6 text-primary ml-auto" />
+                    )}
+                    <RadioGroupItem value="porte-vitree" id="cat-porte-vitree" className="hidden" />
                   </div>
                 </label>
 
@@ -146,7 +152,10 @@ export const QuoteStep3 = ({
                     <div className="flex-1">
                       <div className={`text-base font-semibold ${formData.category === 'porte-entree' ? 'text-primary' : 'text-gray-900'}`}>Porte d'entrée</div>
                     </div>
-                    <RadioGroupItem value="porte-entree" id="cat-porte-entree" className="w-6 h-6 ml-auto" />
+                    {formData.category === 'porte-entree' && (
+                      <CheckCircle2 className="w-6 h-6 text-primary ml-auto" />
+                    )}
+                    <RadioGroupItem value="porte-entree" id="cat-porte-entree" className="hidden" />
                   </div>
                 </label>
 
@@ -158,7 +167,10 @@ export const QuoteStep3 = ({
                     <div className="flex-1">
                       <div className={`text-base font-semibold ${formData.category === 'porte-fenetre' ? 'text-primary' : 'text-gray-900'}`}>Porte-fenêtre</div>
                     </div>
-                    <RadioGroupItem value="porte-fenetre" id="cat-porte-fenetre" className="w-6 h-6 ml-auto" />
+                    {formData.category === 'porte-fenetre' && (
+                      <CheckCircle2 className="w-6 h-6 text-primary ml-auto" />
+                    )}
+                    <RadioGroupItem value="porte-fenetre" id="cat-porte-fenetre" className="hidden" />
                   </div>
                 </label>
 
@@ -170,7 +182,10 @@ export const QuoteStep3 = ({
                     <div className="flex-1">
                       <div className={`text-base font-semibold ${formData.category === 'vitrine' ? 'text-primary' : 'text-gray-900'}`}>Vitrine Magasin</div>
                     </div>
-                    <RadioGroupItem value="vitrine" id="cat-vitrine" className="w-6 h-6 ml-auto" />
+                    {formData.category === 'vitrine' && (
+                      <CheckCircle2 className="w-6 h-6 text-primary ml-auto" />
+                    )}
+                    <RadioGroupItem value="vitrine" id="cat-vitrine" className="hidden" />
                   </div>
                 </label>
 
@@ -182,7 +197,10 @@ export const QuoteStep3 = ({
                     <div className="flex-1">
                       <div className={`text-base font-semibold ${formData.category === 'baie-vitree' ? 'text-primary' : 'text-gray-900'}`}>Baie vitrée</div>
                     </div>
-                    <RadioGroupItem value="baie-vitree" id="cat-baie-vitree" className="w-6 h-6 ml-auto" />
+                    {formData.category === 'baie-vitree' && (
+                      <CheckCircle2 className="w-6 h-6 text-primary ml-auto" />
+                    )}
+                    <RadioGroupItem value="baie-vitree" id="cat-baie-vitree" className="hidden" />
                   </div>
                 </label>
 
@@ -194,7 +212,10 @@ export const QuoteStep3 = ({
                     <div className="flex-1">
                       <div className={`text-base font-semibold ${formData.category === 'marquise' ? 'text-primary' : 'text-gray-900'}`}>Marquise</div>
                     </div>
-                    <RadioGroupItem value="marquise" id="cat-marquise" className="w-6 h-6 ml-auto" />
+                    {formData.category === 'marquise' && (
+                      <CheckCircle2 className="w-6 h-6 text-primary ml-auto" />
+                    )}
+                    <RadioGroupItem value="marquise" id="cat-marquise" className="hidden" />
                   </div>
                 </label>
 
@@ -206,7 +227,10 @@ export const QuoteStep3 = ({
                     <div className="flex-1">
                       <div className={`text-base font-semibold ${formData.category === 'fenetre-toit' ? 'text-primary' : 'text-gray-900'}`}>Fenêtre de toit</div>
                     </div>
-                    <RadioGroupItem value="fenetre-toit" id="cat-fenetre-toit" className="w-6 h-6 ml-auto" />
+                    {formData.category === 'fenetre-toit' && (
+                      <CheckCircle2 className="w-6 h-6 text-primary ml-auto" />
+                    )}
+                    <RadioGroupItem value="fenetre-toit" id="cat-fenetre-toit" className="hidden" />
                   </div>
                 </label>
 
@@ -218,7 +242,10 @@ export const QuoteStep3 = ({
                     <div className="flex-1">
                       <div className={`text-base font-semibold ${formData.category === 'velux' ? 'text-primary' : 'text-gray-900'}`}>VELUX</div>
                     </div>
-                    <RadioGroupItem value="velux" id="cat-velux" className="w-6 h-6 ml-auto" />
+                    {formData.category === 'velux' && (
+                      <CheckCircle2 className="w-6 h-6 text-primary ml-auto" />
+                    )}
+                    <RadioGroupItem value="velux" id="cat-velux" className="hidden" />
                   </div>
                 </label>
 
@@ -230,7 +257,10 @@ export const QuoteStep3 = ({
                     <div className="flex-1">
                       <div className={`text-base font-semibold ${formData.category === 'cloison' ? 'text-primary' : 'text-gray-900'}`}>Cloison Vitrée Bureaux</div>
                     </div>
-                    <RadioGroupItem value="cloison" id="cat-cloison" className="w-6 h-6 ml-auto" />
+                    {formData.category === 'cloison' && (
+                      <CheckCircle2 className="w-6 h-6 text-primary ml-auto" />
+                    )}
+                    <RadioGroupItem value="cloison" id="cat-cloison" className="hidden" />
                   </div>
                 </label>
 
@@ -239,8 +269,13 @@ export const QuoteStep3 = ({
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                       <MoreHorizontal className="w-5 h-5 text-primary" />
                     </div>
-                    <div className={`text-base font-semibold ${formData.category === 'autre' ? 'text-primary' : 'text-gray-900'}`}>Autre</div>
-                    <RadioGroupItem value="autre" id="cat-autre" className="w-6 h-6 ml-auto" />
+                    <div className="flex-1">
+                      <div className={`text-base font-semibold ${formData.category === 'autre' ? 'text-primary' : 'text-gray-900'}`}>Autre</div>
+                    </div>
+                    {formData.category === 'autre' && (
+                      <CheckCircle2 className="w-6 h-6 text-primary ml-auto" />
+                    )}
+                    <RadioGroupItem value="autre" id="cat-autre" className="hidden" />
                   </div>
                 </label>
               </RadioGroup>
