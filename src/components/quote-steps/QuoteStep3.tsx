@@ -96,7 +96,7 @@ export const QuoteStep3 = ({
 
           {/* Section Type de vitrage */}
           <div className="space-y-4">
-            <div className="space-y-2">
+             <div className="space-y-2">
               <Label htmlFor="category" className="text-base font-semibold text-gray-700">
                 Catégorie <span className="text-destructive">*</span>
               </Label>
@@ -112,7 +112,7 @@ export const QuoteStep3 = ({
                 category: false
               }));
             }}>
-                 <SelectTrigger className={`h-12 border-2 ${validationErrors.category ? 'border-red-500' : 'border-gray-200'} hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10`}>
+                 <SelectTrigger className={`w-full h-12 border-2 ${validationErrors.category ? 'border-red-500' : 'border-gray-200'} hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10`}>
                   <SelectValue placeholder="Précisez la catégorie" />
                 </SelectTrigger>
                 <SelectContent side="bottom" align="start">
@@ -194,9 +194,9 @@ export const QuoteStep3 = ({
                 subcategory: value
               }));
             }}>
-                  <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
-                    <SelectValue placeholder="Sélectionnez le type" />
-                  </SelectTrigger>
+                <SelectTrigger className="w-full h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
+                  <SelectValue placeholder="Sélectionnez le type" />
+                </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="coulissante" className="text-blue-600">Coulissante</SelectItem>
                     <SelectItem value="fixe" className="text-blue-600">Fixe</SelectItem>
@@ -218,7 +218,7 @@ export const QuoteStep3 = ({
                 vitrage: false
               }));
             }}>
-                <SelectTrigger className={`h-12 border-2 ${validationErrors.vitrage ? 'border-red-500' : 'border-gray-200'} hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10`}>
+                <SelectTrigger className={`w-full h-12 border-2 ${validationErrors.vitrage ? 'border-red-500' : 'border-gray-200'} hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10`}>
                   <SelectValue placeholder="Sélectionnez le type de vitrage" />
                 </SelectTrigger>
                 <SelectContent>
