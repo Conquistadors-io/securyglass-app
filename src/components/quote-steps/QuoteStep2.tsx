@@ -259,7 +259,6 @@ export const QuoteStep2 = ({
                   <SelectValue placeholder="Cause du sinistre" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="usure">Usure</SelectItem>
                   <SelectItem value="sans-cause-apparente">Sans cause apparente</SelectItem>
                   <SelectItem value="accident">Accident</SelectItem>
                   <SelectItem value="catastrophe-naturelle">Catastrophe naturelle</SelectItem>
