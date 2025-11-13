@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { CheckCircle2, Edit3, Shield, Info } from "lucide-react";
+import { CheckCircle2, Edit3, Shield, Info, User, MapPin, FileText, ArrowRight } from "lucide-react";
 import { useState } from "react";
 interface QuoteStep4Props {
   data: any;
@@ -198,21 +198,44 @@ export const QuoteStep4 = ({
   }];
   return <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
       <div className="max-w-2xl mx-auto space-y-6 px-4">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-          RÉCAPITULATIF
-        </h2>
-        <p className="text-gray-700">
-          Veuillez vérifier vos informations avant de valider votre demande de devis
-        </p>
+      {/* Header modernisé */}
+      <div className="bg-gradient-to-r from-primary to-primary/80 text-white p-6 rounded-xl mb-6 shadow-lg">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center">
+            <CheckCircle2 className="w-8 h-8" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold mb-1">
+              Récapitulatif de votre demande
+            </h2>
+            <p className="text-white/90">
+              Vérifiez les informations avant validation
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Section Client */}
-      <Card className="!border-2 !border-blue-500 shadow-lg transition-shadow">
-        <CardContent className="p-6 bg-gradient-to-r from-blue-50 to-white">
-          <div className="flex items-center mb-4">
-            <CheckCircle2 className="h-6 w-6 text-blue-600 mr-3" />
-            <span className="text-lg font-semibold text-blue-800">Vos informations</span>
+      {/* Section Client modernisée */}
+      <Card className="border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+        <CardContent className="p-6">
+          <div className="flex justify-between items-start mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <User className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900">
+                Vos informations
+              </h3>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="h-10 border-2 hover:border-primary hover:bg-primary/5"
+              onClick={() => onModify(1)}
+            >
+              <Edit3 className="w-4 h-4 mr-2" />
+              Modifier
+            </Button>
           </div>
           <div className="space-y-2">
             <div className="text-sm font-medium text-muted-foreground">

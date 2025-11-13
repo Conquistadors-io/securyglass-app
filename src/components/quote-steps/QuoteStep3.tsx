@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Maximize2, Store, RectangleHorizontal, ArrowUpFromLine, Sun, Grid3x3, MoreHorizontal } from "lucide-react";
+import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Maximize2, Store, RectangleHorizontal, ArrowUpFromLine, Sun, Grid3x3, MoreHorizontal, Ruler, Camera, ArrowRight, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
@@ -78,13 +78,28 @@ export const QuoteStep3 = ({
   const isValid = formData.category && formData.vitrage && formData.largeur && formData.hauteur && (formData.category !== "baie-vitree" || formData.subcategory);
   return <Card className="shadow-card border-0">
       <div className="p-6">
-
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <Label className="text-lg font-medium mb-6 block">Type de vitrage ?</Label>
-            
-            <div className="mb-4">
-              <Label htmlFor="category">Catégorie <span className="text-destructive">*</span></Label>
+          {/* Header de section avec icône */}
+          <div className="flex items-start gap-4 mb-6 pb-6 border-b-2 border-gray-100">
+            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <Square className="w-6 h-6 text-primary" />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-xl font-bold text-gray-900 mb-2">
+                Caractéristiques techniques
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Décrivez précisément le vitrage souhaité
+              </p>
+            </div>
+          </div>
+
+          {/* Section Type de vitrage */}
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="category" className="text-base font-semibold text-gray-700">
+                Catégorie <span className="text-destructive">*</span>
+              </Label>
                <Select value={formData.category} onValueChange={value => {
               setFormData(prev => ({
                 ...prev,
@@ -97,7 +112,7 @@ export const QuoteStep3 = ({
                 category: false
               }));
             }}>
-                 <SelectTrigger className={`mt-1 ${validationErrors.category ? 'border-red-500 ring-red-500' : ''}`}>
+                 <SelectTrigger className={`h-12 border-2 ${validationErrors.category ? 'border-red-500' : 'border-gray-200'} hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10`}>
                   <SelectValue placeholder="Précisez la catégorie" />
                 </SelectTrigger>
                 <SelectContent>
@@ -171,15 +186,15 @@ export const QuoteStep3 = ({
               </Select>
             </div>
             
-            {formData.category === "baie-vitree" && <div className="mb-4">
-                <Label>Type de baie vitrée</Label>
+            {formData.category === "baie-vitree" && <div className="space-y-2">
+                <Label className="text-base font-semibold text-gray-700">Type de baie vitrée</Label>
                 <Select value={formData.subcategory} onValueChange={value => {
               setFormData(prev => ({
                 ...prev,
                 subcategory: value
               }));
             }}>
-                  <SelectTrigger className="mt-1">
+                  <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
                     <SelectValue placeholder="Sélectionnez le type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -189,103 +204,157 @@ export const QuoteStep3 = ({
                 </Select>
               </div>}
             
-            <Select value={formData.vitrage} onValueChange={value => {
-            setFormData(prev => ({
-              ...prev,
-              vitrage: value
-            }));
-            setValidationErrors(prev => ({
-              ...prev,
-              vitrage: false
-            }));
-          }}>
-              <SelectTrigger className={`mt-1 ${validationErrors.vitrage ? 'border-red-500 ring-red-500' : ''}`}>
-                <SelectValue placeholder="Sélectionnez le type de vitrage" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="simple" className="text-blue-600">Simple Vitrage</SelectItem>
-                <SelectItem value="double" className="text-blue-600">Double Vitrage</SelectItem>
-                <SelectItem value="verre-securit" className="text-blue-600">Verre Cheminée</SelectItem>
-                <SelectItem value="verre-feuillete" className="text-blue-600">Verre Feuilleté Sécurit</SelectItem>
-                <SelectItem value="verre-trempe" className="text-blue-600">Verre Trempé Sécurit</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="space-y-2">
+              <Label htmlFor="vitrage" className="text-base font-semibold text-gray-700">
+                Type de vitrage <span className="text-destructive">*</span>
+              </Label>
+              <Select value={formData.vitrage} onValueChange={value => {
+              setFormData(prev => ({
+                ...prev,
+                vitrage: value
+              }));
+              setValidationErrors(prev => ({
+                ...prev,
+                vitrage: false
+              }));
+            }}>
+                <SelectTrigger className={`h-12 border-2 ${validationErrors.vitrage ? 'border-red-500' : 'border-gray-200'} hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10`}>
+                  <SelectValue placeholder="Sélectionnez le type de vitrage" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="simple" className="text-blue-600">Simple Vitrage</SelectItem>
+                  <SelectItem value="double" className="text-blue-600">Double Vitrage</SelectItem>
+                  <SelectItem value="verre-securit" className="text-blue-600">Verre Cheminée</SelectItem>
+                  <SelectItem value="verre-feuillete" className="text-blue-600">Verre Feuilleté Sécurit</SelectItem>
+                  <SelectItem value="verre-trempe" className="text-blue-600">Verre Trempé Sécurit</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-
-          <div className="grid grid-cols-[1fr_1fr_auto] gap-4">
-            <div>
-              <Label htmlFor="hauteur" className="whitespace-nowrap">Hauteur (cm) <span className="text-destructive">*</span></Label>
-              <Input id="hauteur" type="number" placeholder="Ex : 1,90 mètres = 190" className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.hauteur ? 'border-red-500 ring-red-500' : ''}`} value={formData.hauteur} onChange={e => {
-              setFormData(prev => ({
-                ...prev,
-                hauteur: e.target.value
-              }));
-              setValidationErrors(prev => ({
-                ...prev,
-                hauteur: false
-              }));
-            }} required />
+          {/* Section Dimensions */}
+          <div className="bg-amber-50 border-l-4 border-amber-400 p-6 rounded-lg space-y-4">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+                <Ruler className="w-5 h-5 text-amber-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900">
+                Dimensions
+              </h3>
             </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="hauteur" className="text-base font-semibold text-gray-700">
+                  Hauteur (cm) <span className="text-destructive">*</span>
+                </Label>
+                <div className="relative">
+                  <MoveVertical className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input 
+                    id="hauteur" 
+                    type="number" 
+                    placeholder="Ex : 190" 
+                    className={`h-12 pl-12 border-2 ${validationErrors.hauteur ? 'border-red-500' : 'border-gray-200'} [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`} 
+                    value={formData.hauteur} 
+                    onChange={e => {
+                      setFormData(prev => ({
+                        ...prev,
+                        hauteur: e.target.value
+                      }));
+                      setValidationErrors(prev => ({
+                        ...prev,
+                        hauteur: false
+                      }));
+                    }} 
+                    required 
+                  />
+                </div>
+              </div>
 
-            <div>
-              <Label htmlFor="largeur" className="whitespace-nowrap">Largeur (cm) <span className="text-destructive">*</span></Label>
-              <Input id="largeur" type="number" placeholder="100" className={`mt-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${validationErrors.largeur ? 'border-red-500 ring-red-500' : ''}`} value={formData.largeur} onChange={e => {
-              setFormData(prev => ({
-                ...prev,
-                largeur: e.target.value
-              }));
-              setValidationErrors(prev => ({
-                ...prev,
-                largeur: false
-              }));
-            }} required />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="largeur" className="text-base font-semibold text-gray-700">
+                  Largeur (cm) <span className="text-destructive">*</span>
+                </Label>
+                <div className="relative">
+                  <MoveHorizontal className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input 
+                    id="largeur" 
+                    type="number" 
+                    placeholder="Ex : 100" 
+                    className={`h-12 pl-12 border-2 ${validationErrors.largeur ? 'border-red-500' : 'border-gray-200'} [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`} 
+                    value={formData.largeur} 
+                    onChange={e => {
+                      setFormData(prev => ({
+                        ...prev,
+                        largeur: e.target.value
+                      }));
+                      setValidationErrors(prev => ({
+                        ...prev,
+                        largeur: false
+                      }));
+                    }} 
+                    required 
+                  />
+                </div>
+              </div>
 
-            <div className="w-16">
-              <Label htmlFor="quantite">Qté</Label>
-              <div className="relative mt-1">
-                <span className="absolute left-2 top-3 text-sm text-muted-foreground">x</span>
-                <Input id="quantite" type="number" min="1" max="99" value={formData.quantite} onChange={e => setFormData(prev => ({
-                ...prev,
-                quantite: e.target.value
-              }))} className="pl-6" />
+              <div className="space-y-2">
+                <Label htmlFor="quantite" className="text-base font-semibold text-gray-700">Quantité</Label>
+                <div className="relative">
+                  <Plus className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input 
+                    id="quantite" 
+                    type="number" 
+                    min="1" 
+                    placeholder="1" 
+                    className="h-12 pl-12 border-2 border-gray-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+                    value={formData.quantite} 
+                    onChange={e => setFormData(prev => ({
+                      ...prev,
+                      quantite: e.target.value
+                    }))} 
+                  />
+                </div>
               </div>
             </div>
           </div>
 
-          <Button type="button" variant="outline" className="w-full" onClick={() => {
-          toast({
-            title: "Article ajouté",
-            description: "Un nouvel article a été ajouté à votre devis"
-          });
-        }}>
-            <Plus className="h-4 w-4 mr-2" />
-            Ajouter un article
-          </Button>
-
-          <div>
-            <Label htmlFor="photo">Photos ( optionnel )</Label>
-            <div className="mt-1 space-y-3">
+          {/* Section Photo */}
+          <div className="space-y-4">
+            <div className="flex items-start gap-4 pb-4 border-b-2 border-gray-100">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Camera className="w-5 h-5 text-primary" />
+              </div>
+              <div className="flex-1">
+                <Label className="text-base font-semibold text-gray-700">
+                  Photo (optionnel)
+                </Label>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Ajoutez une photo pour nous aider à mieux comprendre votre besoin
+                </p>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
               {formData.photo && formData.photoPreview && <Dialog>
-                  <div className="p-3 bg-accent rounded-lg">
+                  <div className="p-4 bg-primary/5 border-2 border-primary/20 rounded-lg">
                     <div className="flex items-center justify-between">
                       <DialogTrigger asChild>
-                        <button type="button" className="flex-1 text-sm text-white text-center cursor-pointer transition-opacity">
-                          Voir Photo
+                        <button type="button" className="flex items-center gap-2 text-base font-medium text-primary cursor-pointer hover:text-primary/80 transition-colors">
+                          <Eye className="h-4 w-4" />
+                          Voir la photo
                         </button>
                       </DialogTrigger>
-                      <div className="flex gap-2">
-                        <Button 
-                          type="button" 
-                          size="sm" 
-                          variant="outline" 
-                          onClick={handlePhotoDelete} 
-                          className="text-red-600"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
+                      <Button 
+                        type="button" 
+                        size="sm" 
+                        variant="outline" 
+                        onClick={handlePhotoDelete} 
+                        className="text-red-600 border-red-200 hover:bg-red-50"
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Supprimer
+                      </Button>
                     </div>
                   </div>
                   <DialogContent className="max-w-lg">
@@ -295,7 +364,7 @@ export const QuoteStep3 = ({
                 </Dialog>}
               
               <PhotoCapture onPhotoSelect={handlePhotoSelect}>
-                <Button type="button" variant="outline" className="w-full h-20 border-dashed">
+                <Button type="button" variant="outline" className="w-full h-20 border-2 border-dashed border-gray-300 hover:border-primary hover:bg-primary/5 transition-all">
                   <Plus className="h-5 w-5 mr-2" />
                   Ajouter une photo
                 </Button>
@@ -303,12 +372,14 @@ export const QuoteStep3 = ({
             </div>
           </div>
 
-          <div className="flex gap-4">
-            {onBack && <Button type="button" variant="outline" size="lg" className="flex-1" onClick={onBack}>
+          <div className="flex gap-3 pt-4">
+            {onBack && <Button type="button" variant="outline" className="flex-1 h-12 text-base font-semibold border-2 hover:scale-105 transition-all" onClick={onBack}>
+                <ArrowLeft className="w-5 h-5 mr-2" />
                 Retour
               </Button>}
-            <Button type="submit" variant="default" size="lg" className="flex-1" disabled={!isValid}>
+            <Button type="submit" variant="default" className="flex-1 h-12 text-base font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all" disabled={!isValid}>
               Continuer
+              <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </div>
         </form>
