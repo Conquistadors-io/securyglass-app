@@ -233,83 +233,6 @@ export const QuoteStep2 = ({
             
           </div>
 
-          {/* Section Type de bien */}
-          <div className="space-y-4">
-            <div className="flex items-start gap-4 pb-4 border-b-2 border-gray-100">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <Home className="w-5 h-5 text-primary" />
-              </div>
-              <div className="flex-1">
-                <Label htmlFor="property" className="text-base font-semibold text-gray-700">
-                  Type de bien <span className="text-destructive">*</span>
-                </Label>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Indiquez où se situe l'intervention
-                </p>
-              </div>
-            </div>
-            
-            <Select value={formData.property} onValueChange={value => setFormData(prev => ({
-            ...prev,
-            property: value,
-            propertyOther: ""
-          }))}>
-              <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
-                <SelectValue placeholder="Appartement" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="appartement">
-                  <div className="flex items-center gap-2">
-                    <Building2 className="w-4 h-4" />
-                    <span>Appartement</span>
-                  </div>
-                </SelectItem>
-                <SelectItem value="maison">
-                  <div className="flex items-center gap-2">
-                    <Home className="w-4 h-4" />
-                    <span>Maison</span>
-                  </div>
-                </SelectItem>
-                <SelectItem value="bureau">
-                  <div className="flex items-center gap-2">
-                    <Building className="w-4 h-4" />
-                    <span>Bureaux</span>
-                  </div>
-                </SelectItem>
-                <SelectItem value="commerce">
-                  <div className="flex items-center gap-2">
-                    <Store className="w-4 h-4" />
-                    <span>Magasin</span>
-                  </div>
-                </SelectItem>
-                <SelectItem value="immeuble">
-                  <div className="flex items-center gap-2">
-                    <Building2 className="w-4 h-4" />
-                    <span>Immeuble ( ou parties communes )</span>
-                  </div>
-                </SelectItem>
-                <SelectItem value="autre">
-                  <div className="flex items-center gap-2">
-                    <MoreHorizontal className="w-4 h-4" />
-                    <span>Autres</span>
-                  </div>
-                </SelectItem>
-              </SelectContent>
-            </Select>
-            
-            {formData.property === "autre" && <div className="mt-4">
-                <Input 
-                  placeholder="Précisez le type de bien ..." 
-                  value={formData.propertyOther} 
-                  onChange={e => setFormData(prev => ({
-                  ...prev,
-                  propertyOther: e.target.value
-                }))} 
-                  className="h-12 border-2" 
-                />
-              </div>}
-          </div>
-
           {/* Section Motif */}
           <div className="space-y-4">
             <div className="flex items-start gap-4 pb-4 border-b-2 border-gray-100">
@@ -321,7 +244,7 @@ export const QuoteStep2 = ({
                   Motif <span className="text-destructive">*</span>
                 </Label>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Quelle est la raison de votre demande ?
+                  Précisez la raison de votre demande
                 </p>
               </div>
             </div>
@@ -332,11 +255,12 @@ export const QuoteStep2 = ({
             motifOther: ""
           }))}>
               <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
-                <SelectValue placeholder="Sans motif apparent" />
+                <SelectValue placeholder="Sélectionnez le motif" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="usure">Sans motif apparent</SelectItem>
+                <SelectItem value="usure">Usure</SelectItem>
                 <SelectItem value="accident">Accident</SelectItem>
+                <SelectItem value="catastrophe-naturelle">Catastrophe naturelle</SelectItem>
                 <SelectItem value="choc-thermique">Choc thermique</SelectItem>
                 <SelectItem value="vandalisme">Vandalisme</SelectItem>
                 <SelectItem value="effraction">Effraction ( ou tentative )</SelectItem>
@@ -361,6 +285,109 @@ export const QuoteStep2 = ({
                   onChange={e => setFormData(prev => ({
                   ...prev,
                   motifOther: e.target.value
+                }))} 
+                  className="h-12 border-2" 
+                />
+              </div>}
+          </div>
+
+          {/* Section Type de bien */}
+          <div className="space-y-4">
+            <div className="flex items-start gap-4 pb-4 border-b-2 border-gray-100">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Home className="w-5 h-5 text-primary" />
+              </div>
+              <div className="flex-1">
+                <Label htmlFor="property" className="text-base font-semibold text-gray-700">
+                  Type de bien <span className="text-destructive">*</span>
+                </Label>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Indiquez où se situe l'intervention
+                </p>
+              </div>
+            </div>
+            
+            <RadioGroup 
+              value={formData.property} 
+              onValueChange={value => setFormData(prev => ({
+                ...prev,
+                property: value,
+                propertyOther: ""
+              }))}
+            >
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Carte Appartement */}
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
+                  formData.property === 'appartement' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
+                }`}>
+                  <RadioGroupItem value="appartement" className="sr-only" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Building2 className="w-8 h-8 text-primary" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">Appartement</span>
+                </label>
+
+                {/* Carte Maison */}
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
+                  formData.property === 'maison' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
+                }`}>
+                  <RadioGroupItem value="maison" className="sr-only" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Home className="w-8 h-8 text-primary" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">Maison</span>
+                </label>
+
+                {/* Carte Bureaux */}
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
+                  formData.property === 'bureau' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
+                }`}>
+                  <RadioGroupItem value="bureau" className="sr-only" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Building className="w-8 h-8 text-primary" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">Bureaux</span>
+                </label>
+
+                {/* Carte Magasin */}
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
+                  formData.property === 'commerce' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
+                }`}>
+                  <RadioGroupItem value="commerce" className="sr-only" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Store className="w-8 h-8 text-primary" />
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">Magasin</span>
+                </label>
+              </div>
+
+              {/* Options supplémentaires en dessous */}
+              <div className="mt-4 space-y-2">
+                <label className={`flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-primary ${
+                  formData.property === 'immeuble' ? 'border-primary bg-primary/5' : 'border-gray-200'
+                }`}>
+                  <RadioGroupItem value="immeuble" />
+                  <Building2 className="w-5 h-5 text-primary" />
+                  <span className="text-sm font-medium">Immeuble (ou parties communes)</span>
+                </label>
+
+                <label className={`flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-primary ${
+                  formData.property === 'autre' ? 'border-primary bg-primary/5' : 'border-gray-200'
+                }`}>
+                  <RadioGroupItem value="autre" />
+                  <MoreHorizontal className="w-5 h-5 text-primary" />
+                  <span className="text-sm font-medium">Autre</span>
+                </label>
+              </div>
+            </RadioGroup>
+            
+            {formData.property === "autre" && <div className="mt-4">
+                <Input 
+                  placeholder="Précisez le type de bien ..." 
+                  value={formData.propertyOther} 
+                  onChange={e => setFormData(prev => ({
+                  ...prev,
+                  propertyOther: e.target.value
                 }))} 
                   className="h-12 border-2" 
                 />
