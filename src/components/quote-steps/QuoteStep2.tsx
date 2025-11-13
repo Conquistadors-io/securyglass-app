@@ -67,7 +67,9 @@ export const QuoteStep2 = ({
               {isMiroiterie ? <>
                   <label htmlFor="miroir-casse" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "miroir-casse" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
                     <div className="flex items-center gap-3 flex-1">
-                      <ShieldAlert className="w-5 h-5 text-primary" />
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <ShieldAlert className="w-5 h-5 text-primary" />
+                      </div>
                       <Label htmlFor="miroir-casse" className={`text-base font-semibold cursor-pointer ${formData.object === "miroir-casse" ? "text-primary" : "text-gray-900"}`}>Miroir cassé</Label>
                     </div>
                     <RadioGroupItem value="miroir-casse" id="miroir-casse" className="w-6 h-6" />
@@ -75,7 +77,9 @@ export const QuoteStep2 = ({
                   
                   <label htmlFor="miroir-sur-mesure" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "miroir-sur-mesure" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
                     <div className="flex items-center gap-3 flex-1">
-                      <AlertCircle className="w-5 h-5 text-primary" />
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <AlertCircle className="w-5 h-5 text-primary" />
+                      </div>
                       <Label htmlFor="miroir-sur-mesure" className={`text-base font-semibold cursor-pointer ${formData.object === "miroir-sur-mesure" ? "text-primary" : "text-gray-900"}`}>Miroir sur mesure</Label>
                     </div>
                     <RadioGroupItem value="miroir-sur-mesure" id="miroir-sur-mesure" className="w-6 h-6" />
@@ -83,7 +87,9 @@ export const QuoteStep2 = ({
                 </> : <>
                   <label htmlFor="vitre-cassee" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "vitre-cassee" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
                     <div className="flex items-center gap-3 flex-1">
-                      <Grid2x2 className="w-5 h-5 text-primary" />
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Grid2x2 className="w-5 h-5 text-primary" />
+                      </div>
                       <Label htmlFor="vitre-cassee" className={`text-base font-semibold cursor-pointer ${formData.object === "vitre-cassee" ? "text-primary" : "text-gray-900"}`}>Vitre cassée</Label>
                     </div>
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
@@ -123,7 +129,9 @@ export const QuoteStep2 = ({
             }))}>
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-sur-mesure" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Ruler className={`w-4 h-4 shrink-0 ${formData.object === "verre-sur-mesure" ? "text-primary" : ""}`} />
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Ruler className="w-4 h-4 text-primary" />
+                      </div>
                       <Label htmlFor="verre-sur-mesure" className={`cursor-pointer ${formData.object === "verre-sur-mesure" ? "text-primary" : ""}`}>Verre sur mesure</Label>
                     </div>
                     <RadioGroupItem value="verre-sur-mesure" id="verre-sur-mesure" className="w-5 h-5" />
@@ -133,7 +141,9 @@ export const QuoteStep2 = ({
                   
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "chatiere" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Cat className={`w-4 h-4 shrink-0 ${formData.object === "chatiere" ? "text-primary" : ""}`} />
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Cat className="w-4 h-4 text-primary" />
+                      </div>
                       <Label htmlFor="chatiere" className={`cursor-pointer ${formData.object === "chatiere" ? "text-primary" : ""}`}>Chatière</Label>
                     </div>
                     <RadioGroupItem value="chatiere" id="chatiere" className="w-5 h-5" />
@@ -141,7 +151,9 @@ export const QuoteStep2 = ({
                   
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "decoupe-aeration" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Wind className={`w-4 h-4 shrink-0 ${formData.object === "decoupe-aeration" ? "text-primary" : ""}`} />
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Wind className="w-4 h-4 text-primary" />
+                      </div>
                       <Label htmlFor="decoupe-aeration" className={`cursor-pointer ${formData.object === "decoupe-aeration" ? "text-primary" : ""}`}>Découpe aération</Label>
                     </div>
                     <RadioGroupItem value="decoupe-aeration" id="decoupe-aeration" className="w-5 h-5" />
@@ -149,7 +161,9 @@ export const QuoteStep2 = ({
                   
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-anti-bruit" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <VolumeX className={`w-4 h-4 shrink-0 ${formData.object === "verre-anti-bruit" ? "text-primary" : ""}`} />
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <VolumeX className="w-4 h-4 text-primary" />
+                      </div>
                       <Label htmlFor="verre-anti-bruit" className={`cursor-pointer ${formData.object === "verre-anti-bruit" ? "text-primary" : ""}`}>Verre Anti-Bruit</Label>
                     </div>
                     <RadioGroupItem value="verre-anti-bruit" id="verre-anti-bruit" className="w-5 h-5" />
@@ -157,7 +171,9 @@ export const QuoteStep2 = ({
                   
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "verre-anti-effraction" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Lock className={`w-4 h-4 shrink-0 ${formData.object === "verre-anti-effraction" ? "text-primary" : ""}`} />
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Lock className="w-4 h-4 text-primary" />
+                      </div>
                       <Label htmlFor="verre-anti-effraction" className={`cursor-pointer ${formData.object === "verre-anti-effraction" ? "text-primary" : ""}`}>Verre Anti-effraction</Label>
                     </div>
                     <RadioGroupItem value="verre-anti-effraction" id="verre-anti-effraction" className="w-5 h-5" />
@@ -165,7 +181,9 @@ export const QuoteStep2 = ({
                   
                   <div className={`group flex items-center justify-between p-3 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "condensation" ? "border-primary" : "border-border"}`}>
                     <div className="flex items-center space-x-3">
-                      <Droplets className={`w-4 h-4 shrink-0 ${formData.object === "condensation" ? "text-primary" : ""}`} />
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Droplets className="w-4 h-4 text-primary" />
+                      </div>
                       <Label htmlFor="condensation" className={`cursor-pointer ${formData.object === "condensation" ? "text-primary" : ""}`}>Condensation</Label>
                     </div>
                     <RadioGroupItem value="condensation" id="condensation" className="w-5 h-5" />
