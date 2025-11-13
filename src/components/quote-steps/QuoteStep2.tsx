@@ -22,7 +22,7 @@ export const QuoteStep2 = ({
     object: data.object || (isMiroiterie ? "miroir-casse" : "vitre-cassee"),
     property: data.property || "appartement",
     propertyOther: data.propertyOther || "",
-    motif: data.motif || "usure",
+    motif: data.motif || "",
     motifOther: data.motifOther || "",
     miseEnSecurite: data.miseEnSecurite || "non"
   });
@@ -260,10 +260,11 @@ export const QuoteStep2 = ({
               motifOther: ""
             }))}>
                 <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
-                  <SelectValue placeholder="Sélectionnez le motif" />
+                  <SelectValue placeholder="Veuillez sélectionner" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="usure">Usure</SelectItem>
+                  <SelectItem value="sans-cause-apparente">Sans cause apparente</SelectItem>
                   <SelectItem value="accident">Accident</SelectItem>
                   <SelectItem value="catastrophe-naturelle">Catastrophe naturelle</SelectItem>
                   <SelectItem value="choc-thermique">Choc thermique</SelectItem>
