@@ -300,8 +300,8 @@ export const QuoteStep2 = ({
             >
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Carte Appartement */}
-                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
-                  formData.property === 'appartement' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 ${
+                  formData.property === 'appartement' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white hover:border-gray-300'
                 }`}>
                   <RadioGroupItem value="appartement" className="sr-only" />
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
@@ -311,8 +311,8 @@ export const QuoteStep2 = ({
                 </label>
 
                 {/* Carte Maison */}
-                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
-                  formData.property === 'maison' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 ${
+                  formData.property === 'maison' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white hover:border-gray-300'
                 }`}>
                   <RadioGroupItem value="maison" className="sr-only" />
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
@@ -322,8 +322,8 @@ export const QuoteStep2 = ({
                 </label>
 
                 {/* Carte Bureaux */}
-                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
-                  formData.property === 'bureau' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 ${
+                  formData.property === 'bureau' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white hover:border-gray-300'
                 }`}>
                   <RadioGroupItem value="bureau" className="sr-only" />
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
@@ -333,8 +333,8 @@ export const QuoteStep2 = ({
                 </label>
 
                 {/* Carte Magasin */}
-                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
-                  formData.property === 'commerce' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 ${
+                  formData.property === 'commerce' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white hover:border-gray-300'
                 }`}>
                   <RadioGroupItem value="commerce" className="sr-only" />
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
