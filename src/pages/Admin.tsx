@@ -1,20 +1,57 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminGmailConfig } from "@/components/AdminGmailConfig";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     checkAuth();
+
+    // Listen for auth changes (for OAuth callback)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth event:', event);
+        if (event === 'SIGNED_IN' && session?.user) {
+          await checkAdminRole(session.user.id);
+        }
+      }
+    );
+
+    return () => subscription.unsubscribe();
   }, []);
+
+  const checkAdminRole = async (userId: string) => {
+    try {
+      const { data: hasAdminRole, error } = await supabase.rpc('has_role' as any, {
+        _user_id: userId,
+        _role: 'admin'
+      });
+
+      if (error) throw error;
+
+      if (hasAdminRole) {
+        setIsAuthenticated(true);
+        setIsLoading(false);
+      } else {
+        await supabase.auth.signOut();
+        toast.error("Accès refusé : vous n'avez pas les droits administrateur");
+        navigate('/admin/login', { replace: true });
+      }
+    } catch (error) {
+      console.error('Error checking admin role:', error);
+      setIsAuthenticated(false);
+      setIsLoading(false);
+    }
+  };
 
   const checkAuth = async () => {
     try {
-      // Check if user is logged in
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       
       if (userError || !user) {
@@ -23,13 +60,10 @@ export default function AdminPage() {
         return;
       }
 
-      // Check if user email is admin email
-      const isAdmin = user.email === 'yves@securyglass.fr';
-      setIsAuthenticated(isAdmin);
+      await checkAdminRole(user.id);
     } catch (error) {
       console.error('Error during auth check:', error);
       setIsAuthenticated(false);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -46,7 +80,7 @@ export default function AdminPage() {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   return <AdminGmailConfig />;
