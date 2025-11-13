@@ -271,13 +271,6 @@ export const QuoteStep2 = ({
               </SelectContent>
             </Select>
             
-            <div className="p-4 bg-blue-50 border-l-4 border-blue-400 rounded-lg mt-4 flex items-center gap-3">
-              <Info className="h-5 w-5 text-blue-600 flex-shrink-0" />
-              <p className="text-blue-900 text-sm font-medium">
-                Le motif ne sera pas mentionné sur le devis
-              </p>
-            </div>
-            
             {formData.motif === "autre" && <div className="mt-4">
                 <Input 
                   placeholder="Précisez le motif ..." 
