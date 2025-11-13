@@ -254,7 +254,7 @@ export const QuoteStep2 = ({
                     Motif <span className="text-destructive">*</span>
                   </Label>
                   <p className="text-sm text-muted-foreground mt-1 mb-3">
-                    Précisez la raison de votre demande
+                    Cause du sinistre
                   </p>
                   
                   <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
