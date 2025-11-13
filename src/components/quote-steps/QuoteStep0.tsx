@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ChevronDown, Wrench, Sparkles, Grid3x3, Settings } from "lucide-react";
+import { ChevronDown, Wrench, Sparkles, Grid3x3, Settings, ArrowLeft, ArrowRight } from "lucide-react";
 interface QuoteStep0Props {
   data: any;
   onComplete: (data: any) => void;
@@ -122,11 +122,13 @@ export const QuoteStep0 = ({
           <div className="flex gap-3 pt-4">
             {onBack && (
               <Button type="button" variant="outline" className="flex-1 h-12 text-base font-semibold border-2" onClick={onBack}>
+                <ArrowLeft className="w-5 h-5 mr-2" />
                 Retour
               </Button>
             )}
             <Button type="submit" variant="default" className="flex-1 h-12 text-base font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all" disabled={!isValid}>
               Continuer
+              <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </div>
         </form>
