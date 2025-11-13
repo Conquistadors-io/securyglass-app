@@ -243,33 +243,33 @@ export const QuoteStep2 = ({
                 <Label htmlFor="motif" className="text-base font-semibold text-gray-700">
                   Motif <span className="text-destructive">*</span>
                 </Label>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-sm text-muted-foreground mt-1 mb-3">
                   Précisez la raison de votre demande
                 </p>
+                
+                <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
+                ...prev,
+                motif: value,
+                motifOther: ""
+              }))}>
+                  <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
+                    <SelectValue placeholder="Sélectionnez le motif" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="usure">Usure</SelectItem>
+                    <SelectItem value="accident">Accident</SelectItem>
+                    <SelectItem value="catastrophe-naturelle">Catastrophe naturelle</SelectItem>
+                    <SelectItem value="choc-thermique">Choc thermique</SelectItem>
+                    <SelectItem value="vandalisme">Vandalisme</SelectItem>
+                    <SelectItem value="effraction">Effraction ( ou tentative )</SelectItem>
+                    <SelectItem value="pompiers">Intervention des pompiers</SelectItem>
+                    <SelectItem value="projectiles">Projectiles</SelectItem>
+                    <SelectItem value="ne-sais-pas">Je ne sais pas</SelectItem>
+                    <SelectItem value="autre">Autres</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
-            
-            <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
-            ...prev,
-            motif: value,
-            motifOther: ""
-          }))}>
-              <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
-                <SelectValue placeholder="Sélectionnez le motif" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="usure">Usure</SelectItem>
-                <SelectItem value="accident">Accident</SelectItem>
-                <SelectItem value="catastrophe-naturelle">Catastrophe naturelle</SelectItem>
-                <SelectItem value="choc-thermique">Choc thermique</SelectItem>
-                <SelectItem value="vandalisme">Vandalisme</SelectItem>
-                <SelectItem value="effraction">Effraction ( ou tentative )</SelectItem>
-                <SelectItem value="pompiers">Intervention des pompiers</SelectItem>
-                <SelectItem value="projectiles">Projectiles</SelectItem>
-                <SelectItem value="ne-sais-pas">Je ne sais pas</SelectItem>
-                <SelectItem value="autre">Autres</SelectItem>
-              </SelectContent>
-            </Select>
             
             {formData.motif === "autre" && <div className="mt-4">
                 <Input 
