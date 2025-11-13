@@ -310,47 +310,47 @@ export const QuoteStep2 = ({
             >
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Carte Appartement */}
-                <label className={`cursor-pointer flex flex-col items-start gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md relative ${
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
                   formData.property === 'appartement' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
                 }`}>
-                  <RadioGroupItem value="appartement" className="absolute top-4 right-4 w-5 h-5" />
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <RadioGroupItem value="appartement" className="sr-only" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
                     <Building2 className="w-8 h-8 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-gray-700 text-center w-full">Appartement</span>
+                  <span className="text-sm font-medium text-gray-700">Appartement</span>
                 </label>
 
                 {/* Carte Maison */}
-                <label className={`cursor-pointer flex flex-col items-start gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md relative ${
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
                   formData.property === 'maison' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
                 }`}>
-                  <RadioGroupItem value="maison" className="absolute top-4 right-4 w-5 h-5" />
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <RadioGroupItem value="maison" className="sr-only" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
                     <Home className="w-8 h-8 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-gray-700 text-center w-full">Maison</span>
+                  <span className="text-sm font-medium text-gray-700">Maison</span>
                 </label>
 
                 {/* Carte Bureaux */}
-                <label className={`cursor-pointer flex flex-col items-start gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md relative ${
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
                   formData.property === 'bureau' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
                 }`}>
-                  <RadioGroupItem value="bureau" className="absolute top-4 right-4 w-5 h-5" />
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <RadioGroupItem value="bureau" className="sr-only" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
                     <Building className="w-8 h-8 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-gray-700 text-center w-full">Bureaux</span>
+                  <span className="text-sm font-medium text-gray-700">Bureaux</span>
                 </label>
 
                 {/* Carte Magasin */}
-                <label className={`cursor-pointer flex flex-col items-start gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md relative ${
+                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
                   formData.property === 'commerce' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
                 }`}>
-                  <RadioGroupItem value="commerce" className="absolute top-4 right-4 w-5 h-5" />
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <RadioGroupItem value="commerce" className="sr-only" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
                     <Store className="w-8 h-8 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-gray-700 text-center w-full">Magasin</span>
+                  <span className="text-sm font-medium text-gray-700">Magasin</span>
                 </label>
               </div>
 
