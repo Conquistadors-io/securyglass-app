@@ -81,7 +81,6 @@ const SelectContent = React.forwardRef<
       side="bottom"
       align="start"
       sideOffset={4}
-      avoidCollisions={false}
       position={position}
       {...props}
     >
