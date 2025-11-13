@@ -15,7 +15,7 @@ export const QuoteStep0 = ({
   onBack
 }: QuoteStep0Props) => {
   const [formData, setFormData] = useState({
-    serviceType: data.serviceType || "vitrerie"
+    serviceType: data.serviceType && data.serviceType !== "" ? data.serviceType : "vitrerie"
   });
 
   // La section "Autres" reste ouverte si on a sélectionné "autres" ou une de ses sous-options
