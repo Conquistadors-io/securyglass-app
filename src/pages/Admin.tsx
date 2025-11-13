@@ -27,24 +27,32 @@ export default function AdminPage() {
   }, []);
 
   const checkAdminRole = async (userId: string) => {
+    console.log('🔵 [Admin] Checking admin role for user:', userId);
     try {
       const { data: hasAdminRole, error } = await supabase.rpc('has_role' as any, {
         _user_id: userId,
         _role: 'admin'
       });
 
-      if (error) throw error;
+      console.log('🔵 [Admin] has_role result:', { hasAdminRole, error });
+
+      if (error) {
+        console.error('❌ [Admin] RPC error:', error);
+        throw error;
+      }
 
       if (hasAdminRole) {
+        console.log('✅ [Admin] User is admin, granting access');
         setIsAuthenticated(true);
         setIsLoading(false);
       } else {
+        console.log('❌ [Admin] User is not admin, denying access');
         await supabase.auth.signOut();
         toast.error("Accès refusé : vous n'avez pas les droits administrateur");
         navigate('/admin/login', { replace: true });
       }
     } catch (error) {
-      console.error('Error checking admin role:', error);
+      console.error('❌ [Admin] Error checking admin role:', error);
       setIsAuthenticated(false);
       setIsLoading(false);
     }
