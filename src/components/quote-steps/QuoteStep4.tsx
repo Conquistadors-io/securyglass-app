@@ -263,12 +263,6 @@ export const QuoteStep4 = ({
             
             {data.assurance && <div className="text-foreground">Assurance : {data.assurance}</div>}
           </div>
-          <div className="flex justify-center mt-4">
-            <Button variant="outline" size="sm" onClick={() => onModify(3)} className="text-blue-600 border-blue-300">
-              <Edit3 className="h-4 w-4 mr-1" />
-              Modifier
-            </Button>
-          </div>
         </CardContent>
       </Card>
 
