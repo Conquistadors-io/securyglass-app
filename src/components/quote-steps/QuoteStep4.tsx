@@ -337,6 +337,10 @@ export const QuoteStep4 = ({
       </Card>
 
       <div className="flex flex-col sm:flex-row gap-4 pt-6">
+        <Button onClick={() => onModify(0)} variant="outline" className="flex-1 h-12">
+          <Edit3 className="h-4 w-4 mr-2" />
+          Modifier
+        </Button>
         <Button onClick={() => {
           // Update data with miseEnSecurite before validation
           data.miseEnSecurite = miseEnSecurite;
@@ -344,10 +348,6 @@ export const QuoteStep4 = ({
         }} className="flex-1 h-12">
           <CheckCircle2 className="h-4 w-4 mr-2" />
           Valider
-        </Button>
-        <Button onClick={() => onModify(0)} variant="outline" className="flex-1 h-12">
-          <Edit3 className="h-4 w-4 mr-2" />
-          Modifier
         </Button>
         </div>
       </div>
