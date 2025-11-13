@@ -17,6 +17,7 @@ import { toast } from "sonner";
  */
 export const AdminGmailConfig = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('quotes');
 
   const handleLogout = async () => {
     try {
@@ -48,7 +49,7 @@ export const AdminGmailConfig = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        <Tabs defaultValue="quotes" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-8">
             <TabsTrigger value="quotes" className="gap-2">
               <FileText className="w-4 h-4" />
@@ -65,15 +66,15 @@ export const AdminGmailConfig = () => {
           </TabsList>
 
           <TabsContent value="quotes">
-            <AdminQuotesList />
+            {activeTab === 'quotes' && <AdminQuotesList />}
           </TabsContent>
 
           <TabsContent value="templates">
-            <AdminEmailTemplates />
+            {activeTab === 'templates' && <AdminEmailTemplates />}
           </TabsContent>
 
           <TabsContent value="history">
-            <AdminEmailsHistory />
+            {activeTab === 'history' && <AdminEmailsHistory />}
           </TabsContent>
         </Tabs>
       </div>
