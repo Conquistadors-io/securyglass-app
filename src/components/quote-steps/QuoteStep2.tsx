@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { FileText, ShieldAlert, AlertCircle, Home, Building2, Building, Store, MoreHorizontal, ChevronDown, ArrowRight, ArrowLeft, Ruler, Cat, Wind, VolumeX, Lock, Droplets, Info, Grid2x2 } from "lucide-react";
+import { FileText, ShieldAlert, AlertCircle, Home, Building2, Building, Store, MoreHorizontal, ChevronDown, ChevronUp, ArrowRight, ArrowLeft, Ruler, Cat, Wind, VolumeX, Lock, Droplets, Info, Grid2x2 } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
@@ -35,6 +35,10 @@ export const QuoteStep2 = ({
     formData.object === "verre-anti-bruit" || 
     formData.object === "verre-anti-effraction" ||
     formData.object === "condensation"
+  );
+  
+  const [showPropertyOthers, setShowPropertyOthers] = useState(
+    formData.property === "immeuble" || formData.property === "autre"
   );
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -340,37 +344,65 @@ export const QuoteStep2 = ({
                 </label>
               </div>
 
-              {/* Options supplémentaires en dessous */}
-              <div className="mt-4 space-y-2">
-                <label className={`flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-primary ${
-                  formData.property === 'immeuble' ? 'border-primary bg-primary/5' : 'border-gray-200'
-                }`}>
-                  <Building2 className="w-5 h-5 text-primary" />
-                  <span className="text-sm font-medium flex-1">Immeuble (ou parties communes)</span>
-                  <RadioGroupItem value="immeuble" className="ml-auto" />
-                </label>
-
-                <label className={`flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-primary ${
-                  formData.property === 'autre' ? 'border-primary bg-primary/5' : 'border-gray-200'
-                }`}>
-                  <MoreHorizontal className="w-5 h-5 text-primary" />
-                  <span className="text-sm font-medium flex-1">Autre</span>
-                  <RadioGroupItem value="autre" className="ml-auto" />
-                </label>
-              </div>
             </RadioGroup>
             
-            {formData.property === "autre" && <div className="mt-4">
-                <Input 
-                  placeholder="Précisez le type de bien ..." 
-                  value={formData.propertyOther} 
-                  onChange={e => setFormData(prev => ({
-                  ...prev,
-                  propertyOther: e.target.value
-                }))} 
-                  className="h-12 border-2" 
-                />
-              </div>}
+            {/* Bouton Autres */}
+            <div className="mt-4 space-y-2">
+              <button
+                type="button"
+                onClick={() => setShowPropertyOthers(!showPropertyOthers)}
+                className={`w-full flex items-center gap-3 p-4 border-2 rounded-lg transition-all hover:border-primary ${
+                  formData.property === 'immeuble' || formData.property === 'autre' 
+                    ? 'border-primary bg-primary/5' 
+                    : 'border-gray-200'
+                }`}
+              >
+                <MoreHorizontal className="w-5 h-5 text-primary" />
+                <span className="text-sm font-medium flex-1 text-left">Autres</span>
+                {showPropertyOthers ? (
+                  <ChevronUp className="w-5 h-5 text-primary" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 text-primary" />
+                )}
+              </button>
+              
+              {/* Select conditionnel */}
+              {showPropertyOthers && (
+                <div className="mt-2 space-y-2 animate-fade-in">
+                  <Select 
+                    value={formData.property === 'immeuble' || formData.property === 'autre' ? formData.property : ''} 
+                    onValueChange={value => setFormData(prev => ({
+                      ...prev,
+                      property: value,
+                      propertyOther: ""
+                    }))}
+                  >
+                    <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
+                      <SelectValue placeholder="Sélectionnez une option" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="immeuble">Immeuble (ou parties communes)</SelectItem>
+                      <SelectItem value="autre">Autre</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  
+                  {/* Input conditionnel pour Autre */}
+                  {formData.property === "autre" && (
+                    <div className="animate-fade-in">
+                      <Input 
+                        placeholder="Précisez le type de bien ..." 
+                        value={formData.propertyOther} 
+                        onChange={e => setFormData(prev => ({
+                          ...prev,
+                          propertyOther: e.target.value
+                        }))} 
+                        className="h-12 border-2" 
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
 
