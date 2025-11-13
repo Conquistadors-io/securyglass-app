@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Glasses, Info, ShieldAlert, Ruler, Cat, Wind, VolumeX, Lock, Home, Building2, Building, Store, MoreHorizontal, ChevronDown, Droplets } from "lucide-react";
+import { FileText, ShieldAlert, AlertCircle, Home, Building2, Building, Store, MoreHorizontal, ChevronDown, ArrowRight, ArrowLeft, Ruler, Cat, Wind, VolumeX, Lock, Droplets, Info } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
@@ -44,27 +44,50 @@ export const QuoteStep2 = ({
   return <Card className="shadow-card border-0">
       <div className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Header de section avec icône */}
+          <div className="flex items-start gap-4 mb-6 pb-6 border-b-2 border-gray-100">
+            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <FileText className="w-6 h-6 text-primary" />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-xl font-bold text-gray-900 mb-2">
+                Objet de la demande
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Précisez la nature de votre besoin
+              </p>
+            </div>
+          </div>
+
           <div>
-            <Label className="text-lg font-medium mb-6 block">Objet de la demande :</Label>
             <RadioGroup value={formData.object} onValueChange={value => setFormData(prev => ({
             ...prev,
             object: value
           }))} className="space-y-4">
               {isMiroiterie ? <>
-                  <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "miroir-casse" ? "border-primary" : "border-border"}`}>
+                  <label htmlFor="miroir-casse" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "miroir-casse" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
                     <RadioGroupItem value="miroir-casse" id="miroir-casse" className="w-6 h-6" />
-                    <Label htmlFor="miroir-casse" className={`text-lg cursor-pointer flex-1 ${formData.object === "miroir-casse" ? "text-primary" : ""}`}>Miroir cassé</Label>
-                  </div>
+                    <div className="flex items-center gap-3 flex-1">
+                      <ShieldAlert className="w-5 h-5 text-primary" />
+                      <Label htmlFor="miroir-casse" className={`text-base font-semibold cursor-pointer ${formData.object === "miroir-casse" ? "text-primary" : "text-gray-900"}`}>Miroir cassé</Label>
+                    </div>
+                  </label>
                   
-                  <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "miroir-sur-mesure" ? "border-primary" : "border-border"}`}>
+                  <label htmlFor="miroir-sur-mesure" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "miroir-sur-mesure" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
                     <RadioGroupItem value="miroir-sur-mesure" id="miroir-sur-mesure" className="w-6 h-6" />
-                    <Label htmlFor="miroir-sur-mesure" className={`text-lg cursor-pointer flex-1 ${formData.object === "miroir-sur-mesure" ? "text-primary" : ""}`}>Miroir sur mesure</Label>
-                  </div>
+                    <div className="flex items-center gap-3 flex-1">
+                      <AlertCircle className="w-5 h-5 text-primary" />
+                      <Label htmlFor="miroir-sur-mesure" className={`text-base font-semibold cursor-pointer ${formData.object === "miroir-sur-mesure" ? "text-primary" : "text-gray-900"}`}>Miroir sur mesure</Label>
+                    </div>
+                  </label>
                 </> : <>
-                  <div className={`group flex items-center space-x-3 p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "vitre-cassee" ? "border-primary bg-primary/5" : "border-border"}`}>
+                  <label htmlFor="vitre-cassee" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "vitre-cassee" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
-                    <Label htmlFor="vitre-cassee" className={`text-lg cursor-pointer flex-1 ${formData.object === "vitre-cassee" ? "text-primary" : ""}`}>Vitre cassée</Label>
-                  </div>
+                    <div className="flex items-center gap-3 flex-1">
+                      <ShieldAlert className="w-5 h-5 text-primary" />
+                      <Label htmlFor="vitre-cassee" className={`text-base font-semibold cursor-pointer ${formData.object === "vitre-cassee" ? "text-primary" : "text-gray-900"}`}>Vitre cassée</Label>
+                    </div>
+                  </label>
                   
                   <div 
                     className={`group flex items-center p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" || formData.object === "condensation" ? "border-primary bg-primary/5" : "border-border"}`}
@@ -151,14 +174,28 @@ export const QuoteStep2 = ({
               </div>}
           </div>
 
-          <div>
-            <Label htmlFor="property">Lieu <span className="text-destructive">*</span></Label>
+          {/* Section Type de bien */}
+          <div className="space-y-4">
+            <div className="flex items-start gap-4 pb-4 border-b-2 border-gray-100">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <Home className="w-5 h-5 text-primary" />
+              </div>
+              <div className="flex-1">
+                <Label htmlFor="property" className="text-base font-semibold text-gray-700">
+                  Type de bien <span className="text-destructive">*</span>
+                </Label>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Indiquez où se situe l'intervention
+                </p>
+              </div>
+            </div>
+            
             <Select value={formData.property} onValueChange={value => setFormData(prev => ({
             ...prev,
             property: value,
             propertyOther: ""
           }))}>
-              <SelectTrigger className="mt-1">
+              <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
                 <SelectValue placeholder="Appartement" />
               </SelectTrigger>
               <SelectContent>
@@ -201,23 +238,41 @@ export const QuoteStep2 = ({
               </SelectContent>
             </Select>
             
-            {formData.property === "autre" && <div className="mt-3">
-                <Input placeholder="Précisez ..." value={formData.propertyOther} onChange={e => setFormData(prev => ({
-              ...prev,
-              propertyOther: e.target.value
-            }))} />
+            {formData.property === "autre" && <div className="mt-4">
+                <Input 
+                  placeholder="Précisez le type de bien ..." 
+                  value={formData.propertyOther} 
+                  onChange={e => setFormData(prev => ({
+                  ...prev,
+                  propertyOther: e.target.value
+                }))} 
+                  className="h-12 border-2" 
+                />
               </div>}
           </div>
 
-          <div>
-            <Label htmlFor="motif">Motif : <span className="text-destructive">*</span></Label>
+          {/* Section Motif */}
+          <div className="space-y-4">
+            <div className="flex items-start gap-4 pb-4 border-b-2 border-gray-100">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+                <AlertCircle className="w-5 h-5 text-amber-600" />
+              </div>
+              <div className="flex-1">
+                <Label htmlFor="motif" className="text-base font-semibold text-gray-700">
+                  Motif <span className="text-destructive">*</span>
+                </Label>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Quelle est la raison de votre demande ?
+                </p>
+              </div>
+            </div>
             
             <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
             ...prev,
             motif: value,
             motifOther: ""
           }))}>
-              <SelectTrigger className="mt-1">
+              <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
                 <SelectValue placeholder="Sans motif apparent" />
               </SelectTrigger>
               <SelectContent>
@@ -233,28 +288,35 @@ export const QuoteStep2 = ({
               </SelectContent>
             </Select>
             
-            <div className="p-4 bg-primary/10 rounded-lg mt-2 mb-2 flex items-center gap-2">
-              <Info className="h-4 w-4 text-primary" />
-              <p className="text-primary text-sm">
+            <div className="p-4 bg-blue-50 border-l-4 border-blue-400 rounded-lg mt-4 flex items-center gap-3">
+              <Info className="h-5 w-5 text-blue-600 flex-shrink-0" />
+              <p className="text-blue-900 text-sm font-medium">
                 Le motif ne sera pas mentionné sur le devis
               </p>
             </div>
             
-            {formData.motif === "autre" && <div className="mt-3">
-                <Input placeholder="Précisez ..." value={formData.motifOther} onChange={e => setFormData(prev => ({
-              ...prev,
-              motifOther: e.target.value
-            }))} />
+            {formData.motif === "autre" && <div className="mt-4">
+                <Input 
+                  placeholder="Précisez le motif ..." 
+                  value={formData.motifOther} 
+                  onChange={e => setFormData(prev => ({
+                  ...prev,
+                  motifOther: e.target.value
+                }))} 
+                  className="h-12 border-2" 
+                />
               </div>}
           </div>
 
 
-          <div className="flex gap-4">
-            {onBack && <Button type="button" variant="outline" size="lg" className="flex-1" onClick={onBack}>
+          <div className="flex gap-3 pt-4">
+            {onBack && <Button type="button" variant="outline" className="flex-1 h-12 text-base font-semibold border-2 hover:scale-105 transition-all" onClick={onBack}>
+                <ArrowLeft className="w-5 h-5 mr-2" />
                 Retour
               </Button>}
-            <Button type="submit" variant="default" size="lg" className="flex-1" disabled={!isValid}>
+            <Button type="submit" variant="default" className="flex-1 h-12 text-base font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all" disabled={!isValid}>
               Continuer
+              <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </div>
         </form>
