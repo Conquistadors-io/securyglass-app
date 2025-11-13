@@ -85,9 +85,9 @@ export const QuoteStep3 = ({
               <Square className="w-6 h-6 text-primary" />
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
-                Caractéristiques techniques
-              </h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">
+              Type de vitrage ?
+            </h2>
               <p className="text-sm text-muted-foreground">
                 Décrivez précisément le vitrage souhaité
               </p>
