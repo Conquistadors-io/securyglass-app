@@ -266,12 +266,27 @@ export const QuoteStep4 = ({
         </CardContent>
       </Card>
 
-      {/* Section Interventions */}
-      <Card className="!border-2 !border-blue-500 shadow-lg transition-shadow">
-        <CardContent className="p-6 bg-gradient-to-r from-green-50 to-white">
-          <div className="flex items-center mb-4">
-            <CheckCircle2 className="h-6 w-6 text-green-600 mr-3" />
-            <span className="text-lg font-semibold text-green-800">Description</span>
+      {/* Section Description */}
+      <Card className="border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+        <CardContent className="p-6">
+          <div className="flex justify-between items-start mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <FileText className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-900">
+                Description
+              </h3>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="h-10 border-2 hover:border-primary hover:bg-primary/5"
+              onClick={() => onModify(2)}
+            >
+              <Edit3 className="w-4 h-4 mr-2" />
+              Modifier
+            </Button>
           </div>
           <div className="space-y-2">
             <div className="text-foreground font-medium">{getDisplayValue("object", data.object).toUpperCase()}</div>
@@ -281,21 +296,20 @@ export const QuoteStep4 = ({
             {data.category && !data.subcategory || data.category === "vitrine" && <div className="text-foreground">{getDisplayValue("category", data.category)}</div>}
             <div className="text-foreground">{data.hauteur} cm (H) x {data.largeur} cm (L) x {data.quantite}</div>
           </div>
-          <div className="flex justify-center mt-4">
-            <Button variant="outline" size="sm" onClick={() => onModify(2)} className="text-green-600 border-green-300">
-              <Edit3 className="h-4 w-4 mr-1" />
-              Modifier
-            </Button>
-          </div>
         </CardContent>
       </Card>
 
 
       {/* Section Mise en sécurité */}
-      <Card className="!border-2 !border-blue-500 shadow-lg transition-shadow">
-        <CardContent className="p-6 bg-gradient-to-r from-orange-50 to-white">
-          <div className="mb-4">
-            <span className="text-lg font-semibold text-blue-800">Voulez vous une Mise en sécurité ?</span>
+      <Card className="border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+        <CardContent className="p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <Shield className="w-5 h-5 text-primary" />
+            </div>
+            <h3 className="text-lg font-bold text-gray-900">
+              Voulez-vous une mise en sécurité ?
+            </h3>
           </div>
           <RadioGroup value={miseEnSecurite} onValueChange={setMiseEnSecurite} className="flex gap-4">
             <div className={`flex items-center space-x-3 px-4 h-12 border-2 rounded-lg transition-colors cursor-pointer ${miseEnSecurite === "non" ? "bg-primary border-primary" : "border-border"}`}>
