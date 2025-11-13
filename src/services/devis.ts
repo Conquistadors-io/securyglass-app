@@ -130,17 +130,43 @@ export const updateDevis = async (
 
 export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{ success: boolean; error?: string; devisId?: string; quoteNumber?: string }> => {
   try {
+    // Debug: Log form data before saving client
+    console.log('🔵 [SaveDevis] Form data received:', {
+      nom: formData.nom,
+      prenom: formData.prenom,
+      mobile: formData.telephone || formData.mobile,
+      email: formData.email,
+      differentInterventionAddress: formData.differentInterventionAddress,
+      adresse_intervention: formData.adresse_intervention,
+      interventionAdresse: formData.interventionAdresse,
+      ville: formData.ville,
+      codePostal: formData.codePostal,
+      interventionVille: formData.interventionVille,
+      interventionCodePostal: formData.interventionCodePostal
+    });
+
+    // Construct the correct intervention address
+    const interventionAddress = formData.differentInterventionAddress 
+      ? (formData.interventionAdresse || `${formData.interventionVille || ''} ${formData.interventionCodePostal || ''}`.trim())
+      : (formData.adresse_intervention || `${formData.ville || ''} ${formData.codePostal || ''}`.trim());
+
+    console.log('🔵 [SaveDevis] Calling saveClient with:', {
+      nom: formData.nom,
+      prenom: formData.prenom,
+      mobile: formData.telephone || formData.mobile,
+      email: formData.email,
+      adresse_intervention: interventionAddress
+    });
+
     // First, save the client information
     const clientResult = await saveClient({
       nom: formData.nom,
       prenom: formData.prenom,
       raison_sociale: formData.raison_sociale || formData.nomSociete,
-      mobile: formData.telephone,
+      mobile: formData.telephone || formData.mobile,
       email: formData.email,
       email_facturation: formData.email_facturation,
-      adresse_intervention: formData.differentInterventionAddress 
-        ? formData.interventionAdresse 
-        : formData.adresse
+      adresse_intervention: interventionAddress
     });
 
     if (!clientResult.success) {
@@ -169,7 +195,7 @@ export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{
       assurance: formData.assurance,
       intervention_code_postal: formData.differentInterventionAddress ? formData.interventionCodePostal : formData.codePostal,
       intervention_ville: formData.differentInterventionAddress ? formData.interventionVille : formData.ville,
-      intervention_adresse: formData.differentInterventionAddress ? formData.interventionAdresse : formData.adresse,
+      intervention_adresse: interventionAddress,
       notes: formData.notes
     };
 
@@ -242,7 +268,7 @@ export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{
         total: calculatedPrices.total,
         serviceType: formData.serviceType || 'vitrerie',
         motif: formData.motif !== 'autre' ? formData.motif : formData.motifOther,
-        interventionAddress: formData.differentInterventionAddress ? formData.interventionAdresse : formData.adresse,
+        interventionAddress: interventionAddress,
         interventionCity: formData.differentInterventionAddress ? formData.interventionVille : formData.ville,
         interventionPostalCode: formData.differentInterventionAddress ? formData.interventionCodePostal : formData.codePostal,
       }
