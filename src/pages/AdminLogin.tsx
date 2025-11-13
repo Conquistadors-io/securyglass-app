@@ -14,6 +14,7 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -70,6 +71,41 @@ export default function AdminLogin() {
     }
   };
 
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/admin/login`,
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        const { error: roleError } = await supabase.functions.invoke('assign-admin-role', {
+          body: { userId: data.user.id }
+        });
+
+        if (roleError) {
+          console.error('Erreur attribution rôle:', roleError);
+          toast.warning("Compte créé mais rôle admin non assigné. Contactez l'administrateur.");
+        } else {
+          toast.success("Compte créé avec succès ! Vérifiez votre email pour confirmer.");
+        }
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Erreur lors de la création du compte");
+      console.error("Signup error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);
     
@@ -100,19 +136,40 @@ export default function AdminLogin() {
           <div className="flex justify-center">
             <img src={securyglassLogo} alt="SECURYGLASS" className="h-16 w-auto" />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-4">
             <div className="flex items-center justify-center gap-2">
               <ShieldCheck className="w-6 h-6 text-primary" />
               <CardTitle className="text-3xl font-bold">Admin Portal</CardTitle>
             </div>
             <p className="text-muted-foreground">
-              Connectez-vous pour accéder à l'espace administrateur
+              {mode === 'login' 
+                ? "Connectez-vous pour accéder à l'espace administrateur"
+                : "Créez votre compte administrateur"
+              }
             </p>
+            <div className="flex gap-2 justify-center">
+              <Button
+                type="button"
+                variant={mode === 'login' ? 'default' : 'outline'}
+                onClick={() => setMode('login')}
+                className="flex-1"
+              >
+                Connexion
+              </Button>
+              <Button
+                type="button"
+                variant={mode === 'signup' ? 'default' : 'outline'}
+                onClick={() => setMode('signup')}
+                className="flex-1"
+              >
+                Créer un compte
+              </Button>
+            </div>
           </div>
         </CardHeader>
 
         <CardContent className="space-y-6">
-          <form onSubmit={handleEmailLogin} className="space-y-4">
+          <form onSubmit={mode === 'login' ? handleEmailLogin : handleSignup} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
@@ -153,10 +210,10 @@ export default function AdminLogin() {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Connexion en cours...
+                  {mode === 'login' ? 'Connexion en cours...' : 'Création du compte...'}
                 </>
               ) : (
-                "Se connecter"
+                mode === 'login' ? 'Se connecter' : 'Créer mon compte admin'
               )}
             </Button>
           </form>
