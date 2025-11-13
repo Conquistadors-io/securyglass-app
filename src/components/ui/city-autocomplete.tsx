@@ -156,31 +156,31 @@ export function CityAutocomplete({
         }}
         placeholder={departmentCode ? placeholder : "Sélectionnez d'abord un département"}
         disabled={!departmentCode}
-        className={!departmentCode ? "bg-muted" : ""}
+        className={`h-12 ${!departmentCode ? "bg-gray-50" : ""}`}
       />
       
       {loading && (
-        <div className="absolute right-3 top-3">
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+        <div className="absolute right-4 top-1/2 -translate-y-1/2">
+          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
         </div>
       )}
       
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-auto">
+        <div className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-lg shadow-xl max-h-60 overflow-auto">
           {suggestions.map((city, index) => (
             <button
               key={`${city.code}-${index}`}
               type="button"
-              className="w-full px-4 py-2 text-left hover:bg-accent transition-colors cursor-pointer"
+              className="w-full px-4 py-3 text-left hover:bg-primary/5 transition-all duration-150 cursor-pointer border-b border-gray-100 last:border-0"
               onMouseDown={(e) => {
-                e.preventDefault(); // Empêcher le blur
+                e.preventDefault();
                 handleSelectSuggestion(city);
               }}
             >
-              <div className="font-medium">
+              <div className="font-medium text-gray-900">
                 {city.nom}
                 {city.codesPostaux && city.codesPostaux.length > 0 && (
-                  <span className="text-muted-foreground ml-2">
+                  <span className="text-gray-500 ml-2 font-normal">
                     ({city.codesPostaux[0]})
                   </span>
                 )}
@@ -191,7 +191,7 @@ export function CityAutocomplete({
       )}
       
       {showSuggestions && suggestions.length === 0 && !loading && inputValue.length >= 1 && departmentCode && (
-        <div className="absolute z-50 w-full mt-1 bg-background border border-border rounded-md shadow-lg p-4 text-sm text-muted-foreground">
+        <div className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-lg shadow-xl p-4 text-sm text-gray-500">
           Aucune ville trouvée
         </div>
       )}

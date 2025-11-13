@@ -228,7 +228,7 @@ export function AddressSelect({
   return (
     <div className="relative">
       <div className="relative">
-        <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
         <Input
           ref={inputRef}
           value={searchTerm}
@@ -237,21 +237,21 @@ export function AddressSelect({
           onBlur={handleInputBlur}
           placeholder={placeholder}
           disabled={disabled}
-          className="pl-10"
+          className="pl-12 h-12"
         />
       </div>
       
       {showSuggestions && isFocused && suggestions.length > 0 && !isAddressComplete && (
-        <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-background border border-border rounded-md shadow-md max-h-60 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 z-50 mt-2 bg-white border-2 border-gray-200 rounded-lg shadow-xl max-h-60 overflow-y-auto">
           {isLoading && (
-            <div className="px-3 py-2 text-sm text-muted-foreground">
+            <div className="px-4 py-3 text-sm text-gray-500 border-b border-gray-100">
               Recherche en cours...
             </div>
           )}
           {suggestions.map((suggestion, index) => (
             <div
               key={`${suggestion.value}-${index}`}
-              className="px-3 py-2 text-sm cursor-pointer hover:bg-muted"
+              className="px-4 py-3 text-sm cursor-pointer hover:bg-primary/5 transition-all duration-150 border-b border-gray-100 last:border-0 text-gray-900 font-medium"
               onClick={() => handleSuggestionClick(suggestion)}
             >
               {suggestion.label}
