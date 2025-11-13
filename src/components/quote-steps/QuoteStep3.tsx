@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Shield, MoveVertical, MoveHorizontal, Plus, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Maximize2, Store, RectangleHorizontal, ArrowUpFromLine, Sun, Grid3x3, MoreHorizontal, Ruler, Camera, ArrowRight, ArrowLeft } from "lucide-react";
+import { Shield, MoveVertical, MoveHorizontal, Plus, X, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Maximize2, Store, RectangleHorizontal, ArrowUpFromLine, Sun, Grid3x3, MoreHorizontal, Ruler, Camera, ArrowRight, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
@@ -301,8 +301,8 @@ export const QuoteStep3 = ({
               <div className="space-y-2">
                 <Label htmlFor="quantite" className="text-base font-semibold text-gray-700">Quantité</Label>
                 <div className="relative">
-                  <Plus className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <Input 
+                  <X className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Input
                     id="quantite" 
                     type="number" 
                     min="1" 
