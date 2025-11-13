@@ -1,6 +1,6 @@
 import formationArtisans from "@/assets/formation-artisans.png";
 import { Button } from "@/components/ui/button";
-import { Phone } from "lucide-react";
+import { Phone, ArrowRight } from "lucide-react";
 interface WelcomeScreenProps {
   onNavigate: (route: string) => void;
 }
@@ -39,8 +39,9 @@ export const WelcomeScreen = ({
           
           {/* Zone inférieure : Boutons CTA (bas fixe sur mobile, 2 colonnes sur desktop) */}
           <div className="flex flex-col gap-3 pb-safe md:grid md:grid-cols-2 md:gap-6 lg:gap-8 md:absolute md:left-12 lg:left-16 md:top-[420px] lg:top-[500px] md:max-w-2xl lg:max-w-4xl">
-            <Button size="lg" className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-10 lg:px-12 h-12 md:h-14 lg:h-16" onClick={() => onNavigate("online-quote")}>
+            <Button size="lg" className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-10 lg:px-12 h-12 md:h-14 lg:h-16 gap-2" onClick={() => onNavigate("online-quote")}>
               Devis gratuit
+              <ArrowRight className="w-5 h-5" />
             </Button>
             <div className="flex flex-col gap-2">
               <Button variant="outline" size="lg" className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full border-2 bg-white text-blue-700 border-blue-600 hover:bg-blue-50 px-6 md:px-10 lg:px-12 h-12 md:h-14 lg:h-16" asChild>
