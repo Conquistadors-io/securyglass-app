@@ -127,6 +127,16 @@ export const QuoteStep2 = ({
                   <div className="space-y-4">
                     {showAutresOptions && (
                       <>
+                        <label htmlFor="condensation" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "condensation" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
+                          <div className="flex items-center gap-3 flex-1">
+                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                              <Droplets className="w-5 h-5 text-primary" />
+                            </div>
+                            <Label htmlFor="condensation" className={`text-base font-semibold cursor-pointer ${formData.object === "condensation" ? "text-primary" : "text-gray-900"}`}>Condensation</Label>
+                          </div>
+                          <RadioGroupItem value="condensation" id="condensation" className="w-6 h-6" />
+                        </label>
+
                         <label htmlFor="verre-sur-mesure" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "verre-sur-mesure" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
                           <div className="flex items-center gap-3 flex-1">
                             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -175,16 +185,6 @@ export const QuoteStep2 = ({
                             <Label htmlFor="verre-anti-effraction" className={`text-base font-semibold cursor-pointer ${formData.object === "verre-anti-effraction" ? "text-primary" : "text-gray-900"}`}>Verre Anti-effraction</Label>
                           </div>
                           <RadioGroupItem value="verre-anti-effraction" id="verre-anti-effraction" className="w-6 h-6" />
-                        </label>
-
-                        <label htmlFor="condensation" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "condensation" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
-                          <div className="flex items-center gap-3 flex-1">
-                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                              <Droplets className="w-5 h-5 text-primary" />
-                            </div>
-                            <Label htmlFor="condensation" className={`text-base font-semibold cursor-pointer ${formData.object === "condensation" ? "text-primary" : "text-gray-900"}`}>Condensation</Label>
-                          </div>
-                          <RadioGroupItem value="condensation" id="condensation" className="w-6 h-6" />
                         </label>
                       </>
                     )}
