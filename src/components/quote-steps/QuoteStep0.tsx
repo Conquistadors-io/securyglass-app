@@ -85,7 +85,22 @@ export const QuoteStep0 = ({
                 </div>
               </label>
               
-              <div className="space-y-2">
+              <div className="space-y-4">
+                {showAutresOptions && (
+                  <label htmlFor="renovation" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md hover:scale-[1.02] ${formData.serviceType === 'renovation' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                    <RadioGroupItem value="renovation" id="renovation" className="w-6 h-6" />
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <Settings className="w-5 h-5 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <div className={`text-base font-semibold ${formData.serviceType === 'renovation' ? 'text-primary' : 'text-gray-900'}`}>Volet Roulant</div>
+                        <p className={`text-sm mt-0.5 ${formData.serviceType === 'renovation' ? 'text-primary/70' : 'text-muted-foreground'}`}>Installation et réparation</p>
+                      </div>
+                    </div>
+                  </label>
+                )}
+                
                 <div className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}
                   onClick={() => {
                     setFormData(prev => ({
@@ -108,13 +123,6 @@ export const QuoteStep0 = ({
                     <ChevronDown className={`w-5 h-5 text-gray-600 transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
                   </button>
                 </div>
-                
-                {showAutresOptions && <div className="ml-6 space-y-2">
-                    <label htmlFor="renovation" className={`flex items-center space-x-4 p-4 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.serviceType === 'renovation' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
-                      <RadioGroupItem value="renovation" id="renovation" className="w-5 h-5" />
-                      <div className={`flex-1 text-base font-medium ${formData.serviceType === 'renovation' ? 'text-primary' : 'text-gray-900'}`}>Volet Roulant</div>
-                    </label>
-                  </div>}
               </div>
             </RadioGroup>
           </div>
