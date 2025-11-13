@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Eye, Download, Search, Edit, CheckCircle, Mail, Phone } from "lucide-react";
+import { FileText, Eye, Download, Search, Edit, CheckCircle, Mail, Phone, Filter } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { AdminQuoteDetail } from "./admin/AdminQuoteDetail";
@@ -43,6 +44,7 @@ export const AdminQuotesList = () => {
   const [filteredQuotes, setFilteredQuotes] = useState<Quote[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedQuote, setSelectedQuote] = useState<any>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -53,21 +55,28 @@ export const AdminQuotesList = () => {
   }, []);
 
   useEffect(() => {
+    let filtered = quotes;
+
+    // Filter by status
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(quote => quote.status === statusFilter);
+    }
+
+    // Filter by search term
     if (searchTerm) {
-      const filtered = quotes.filter(quote => 
+      filtered = filtered.filter(quote => 
         quote.quote_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         quote.client_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
         quote.motif?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      quote.clients?.nom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      quote.clients?.prenom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      quote.clients?.raison_sociale?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      quote.clients?.mobile?.includes(searchTerm)
+        quote.clients?.nom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        quote.clients?.prenom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        quote.clients?.raison_sociale?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        quote.clients?.mobile?.includes(searchTerm)
       );
-      setFilteredQuotes(filtered);
-    } else {
-      setFilteredQuotes(quotes);
     }
-  }, [searchTerm, quotes]);
+
+    setFilteredQuotes(filtered);
+  }, [searchTerm, statusFilter, quotes]);
 
   const loadQuotes = async () => {
     try {
@@ -97,11 +106,11 @@ export const AdminQuotesList = () => {
   };
 
   const getStatusBadge = (status: string) => {
-    const statusConfig: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
+    const statusConfig: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" | "success" }> = {
       draft: { label: "Brouillon", variant: "outline" },
-      validated: { label: "Validé", variant: "default" },
+      validated: { label: "Validé", variant: "success" },
       sent: { label: "Envoyé", variant: "default" },
-      accepted: { label: "Accepté", variant: "default" },
+      accepted: { label: "Accepté", variant: "secondary" },
       rejected: { label: "Refusé", variant: "destructive" },
     };
 
@@ -198,26 +207,89 @@ export const AdminQuotesList = () => {
           </p>
         </div>
 
-        {/* Search */}
-        <div className="mb-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input
-              placeholder="Rechercher par numéro, email, nom, prénom, téléphone, raison sociale..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 h-12 text-base"
-            />
+        {/* Search and Filters */}
+        <div className="mb-6 space-y-4">
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Search bar */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                placeholder="Rechercher par numéro, email, nom, prénom, téléphone, raison sociale..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-12 h-12 text-base border-2"
+              />
+            </div>
+
+            {/* Status filter */}
+            <div className="w-full md:w-64">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="h-12 border-2">
+                  <div className="flex items-center gap-2">
+                    <Filter className="h-4 w-4" />
+                    <SelectValue placeholder="Filtrer par statut" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-gray-400"></div>
+                      Tous les devis
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="draft">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full border-2 border-gray-400"></div>
+                      Brouillons
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="validated">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      Validés
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="sent">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                      Envoyés
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="accepted">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-gray-600"></div>
+                      Acceptés
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="rejected">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      Refusés
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-          {searchTerm && filteredQuotes.length > 0 && (
-            <p className="text-sm text-muted-foreground mt-2">
-              {filteredQuotes.length} résultat{filteredQuotes.length > 1 ? 's' : ''} trouvé{filteredQuotes.length > 1 ? 's' : ''}
-            </p>
-          )}
-          {searchTerm && filteredQuotes.length === 0 && (
-            <p className="text-sm text-muted-foreground mt-2">
-              Aucun résultat pour "{searchTerm}"
-            </p>
+
+          {/* Results indicator */}
+          {(searchTerm || statusFilter !== 'all') && (
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <span>
+                {filteredQuotes.length} résultat{filteredQuotes.length !== 1 ? 's' : ''} trouvé{filteredQuotes.length !== 1 ? 's' : ''}
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setSearchTerm('');
+                  setStatusFilter('all');
+                }}
+                className="h-8"
+              >
+                Réinitialiser les filtres
+              </Button>
+            </div>
           )}
         </div>
 
