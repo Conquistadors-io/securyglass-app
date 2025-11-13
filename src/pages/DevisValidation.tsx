@@ -26,7 +26,7 @@ export const DevisValidation = () => {
         console.log('🔵 Validating quote with token:', token.substring(0, 10) + '...');
 
         // Chercher le devis par token
-        const { data: devis, error: fetchError } = await supabase
+        const { data: devis, error: fetchError } = await (supabase as any)
           .from('devis')
           .select('id, quote_number, status, client_email')
           .eq('validation_token', token)

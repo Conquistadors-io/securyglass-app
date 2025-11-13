@@ -64,7 +64,7 @@ export const AdminEmailsHistory = () => {
 
   const loadEmails = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('emails_sent')
         .select(`
           *,
@@ -77,8 +77,8 @@ export const AdminEmailsHistory = () => {
 
       if (error) throw error;
       
-      setEmails(data || []);
-      calculateStats(data || []);
+      setEmails(data as any || []);
+      calculateStats(data as any || []);
     } catch (error) {
       console.error('Error loading emails:', error);
       toast.error('Erreur lors du chargement de l\'historique');
