@@ -44,7 +44,12 @@ export const QuoteStep2 = ({
     e.preventDefault();
     onComplete(formData);
   };
-  const isValid = formData.object && formData.property && formData.motif && (formData.property !== "autre" || formData.propertyOther.trim() !== "");
+  // Motif requis uniquement si vitre cassée ou miroir cassé est sélectionné
+  const motifRequired = formData.object === "vitre-cassee" || formData.object === "miroir-casse";
+  const isValid = formData.object && 
+    formData.property && 
+    (!motifRequired || (formData.motif && (formData.motif !== "autre" || formData.motifOther.trim() !== ""))) &&
+    (formData.property !== "autre" || formData.propertyOther.trim() !== "");
   
   // Helper pour obtenir l'affichage de l'option sélectionnée
   const getSelectedOptionDisplay = (object: string) => {
@@ -237,56 +242,58 @@ export const QuoteStep2 = ({
             
           </div>
 
-          {/* Section Motif */}
-          <div className="space-y-4">
-            <div className="flex items-start gap-4 pb-4 border-b-2 border-gray-100">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <AlertCircle className="w-5 h-5 text-primary" />
-              </div>
-              <div className="flex-1">
-                <Label htmlFor="motif" className="text-base font-semibold text-gray-700">
-                  Motif <span className="text-destructive">*</span>
-                </Label>
-                <p className="text-sm text-muted-foreground mt-1 mb-3">
-                  Précisez la raison de votre demande
-                </p>
-                
-                <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
-                ...prev,
-                motif: value,
-                motifOther: ""
-              }))}>
-                  <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
-                    <SelectValue placeholder="Sélectionnez le motif" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="usure">Usure</SelectItem>
-                    <SelectItem value="accident">Accident</SelectItem>
-                    <SelectItem value="catastrophe-naturelle">Catastrophe naturelle</SelectItem>
-                    <SelectItem value="choc-thermique">Choc thermique</SelectItem>
-                    <SelectItem value="vandalisme">Vandalisme</SelectItem>
-                    <SelectItem value="effraction">Effraction ( ou tentative )</SelectItem>
-                    <SelectItem value="pompiers">Intervention des pompiers</SelectItem>
-                    <SelectItem value="projectiles">Projectiles</SelectItem>
-                    <SelectItem value="ne-sais-pas">Je ne sais pas</SelectItem>
-                    <SelectItem value="autre">Autres</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            
-            {formData.motif === "autre" && <div className="mt-4">
-                <Input 
-                  placeholder="Précisez le motif ..." 
-                  value={formData.motifOther} 
-                  onChange={e => setFormData(prev => ({
+          {/* Section Motif - conditionnelle */}
+          {(formData.object === "vitre-cassee" || formData.object === "miroir-casse") && (
+            <div className="space-y-4 animate-fade-in">
+              <div className="flex items-start gap-4 pb-4 border-b-2 border-gray-100">
+                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <AlertCircle className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <Label htmlFor="motif" className="text-base font-semibold text-gray-700">
+                    Motif <span className="text-destructive">*</span>
+                  </Label>
+                  <p className="text-sm text-muted-foreground mt-1 mb-3">
+                    Précisez la raison de votre demande
+                  </p>
+                  
+                  <Select value={formData.motif} onValueChange={value => setFormData(prev => ({
                   ...prev,
-                  motifOther: e.target.value
-                }))} 
-                  className="h-12 border-2" 
-                />
-              </div>}
-          </div>
+                  motif: value,
+                  motifOther: ""
+                }))}>
+                    <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
+                      <SelectValue placeholder="Sélectionnez le motif" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="usure">Usure</SelectItem>
+                      <SelectItem value="accident">Accident</SelectItem>
+                      <SelectItem value="catastrophe-naturelle">Catastrophe naturelle</SelectItem>
+                      <SelectItem value="choc-thermique">Choc thermique</SelectItem>
+                      <SelectItem value="vandalisme">Vandalisme</SelectItem>
+                      <SelectItem value="effraction">Effraction ( ou tentative )</SelectItem>
+                      <SelectItem value="pompiers">Intervention des pompiers</SelectItem>
+                      <SelectItem value="projectiles">Projectiles</SelectItem>
+                      <SelectItem value="ne-sais-pas">Je ne sais pas</SelectItem>
+                      <SelectItem value="autre">Autres</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              
+              {formData.motif === "autre" && <div className="mt-4">
+                  <Input 
+                    placeholder="Précisez le motif ..." 
+                    value={formData.motifOther} 
+                    onChange={e => setFormData(prev => ({
+                    ...prev,
+                    motifOther: e.target.value
+                  }))} 
+                    className="h-12 border-2" 
+                  />
+                </div>}
+            </div>
+          )}
 
           {/* Section Type de bien */}
           <div className="space-y-4">
