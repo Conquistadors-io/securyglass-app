@@ -96,16 +96,23 @@ export const QuoteStep2 = ({
                   </label>
                   
                   <div 
-                    className={`group flex items-center p-4 border-2 rounded-lg transition-colors cursor-pointer ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" || formData.object === "condensation" ? "border-primary bg-primary/5" : "border-border"}`}
+                    className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" || formData.object === "condensation" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}
                     onClick={() => setShowAutresOptions(!showAutresOptions)}
                   >
-                    <div className={`text-lg flex-1 ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" || formData.object === "condensation" ? "text-primary" : ""}`}>
-                      Autres
-                      {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
-                        <div className="text-primary mt-1">
-                          {formData.object === "verre-sur-mesure" ? "Verre sur mesure" : formData.object === "chatiere" ? "Chatière" : formData.object === "decoupe-aeration" ? "Découpe aération" : formData.object === "verre-anti-bruit" ? "Verre Anti-Bruit" : formData.object === "verre-anti-effraction" ? "Verre Anti-effraction" : formData.object === "condensation" ? "Condensation" : ""}
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <MoreHorizontal className="w-5 h-5 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <div className={`text-base font-semibold ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" || formData.object === "condensation" ? "text-primary" : "text-gray-900"}`}>
+                          Autres
                         </div>
-                      )}
+                        {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
+                          <p className="text-sm text-primary/70 mt-0.5">
+                            {formData.object === "verre-sur-mesure" ? "Verre sur mesure" : formData.object === "chatiere" ? "Chatière" : formData.object === "decoupe-aeration" ? "Découpe aération" : formData.object === "verre-anti-bruit" ? "Verre Anti-Bruit" : formData.object === "verre-anti-effraction" ? "Verre Anti-effraction" : formData.object === "condensation" ? "Condensation" : ""}
+                          </p>
+                        )}
+                      </div>
                     </div>
                     <button 
                       type="button" 
@@ -116,7 +123,7 @@ export const QuoteStep2 = ({
                       }} 
                       className="p-1 rounded transition-colors"
                     >
-                      <ChevronDown className={`w-5 h-5 text-foreground transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`w-5 h-5 text-gray-600 transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
                     </button>
                   </div>
                 </>}
