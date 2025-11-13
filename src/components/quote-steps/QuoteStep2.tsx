@@ -66,27 +66,27 @@ export const QuoteStep2 = ({
           }))} className="space-y-4">
               {isMiroiterie ? <>
                   <label htmlFor="miroir-casse" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "miroir-casse" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
-                    <RadioGroupItem value="miroir-casse" id="miroir-casse" className="w-6 h-6" />
                     <div className="flex items-center gap-3 flex-1">
                       <ShieldAlert className="w-5 h-5 text-primary" />
                       <Label htmlFor="miroir-casse" className={`text-base font-semibold cursor-pointer ${formData.object === "miroir-casse" ? "text-primary" : "text-gray-900"}`}>Miroir cassé</Label>
                     </div>
+                    <RadioGroupItem value="miroir-casse" id="miroir-casse" className="w-6 h-6" />
                   </label>
                   
                   <label htmlFor="miroir-sur-mesure" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "miroir-sur-mesure" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
-                    <RadioGroupItem value="miroir-sur-mesure" id="miroir-sur-mesure" className="w-6 h-6" />
                     <div className="flex items-center gap-3 flex-1">
                       <AlertCircle className="w-5 h-5 text-primary" />
                       <Label htmlFor="miroir-sur-mesure" className={`text-base font-semibold cursor-pointer ${formData.object === "miroir-sur-mesure" ? "text-primary" : "text-gray-900"}`}>Miroir sur mesure</Label>
                     </div>
+                    <RadioGroupItem value="miroir-sur-mesure" id="miroir-sur-mesure" className="w-6 h-6" />
                   </label>
                 </> : <>
                   <label htmlFor="vitre-cassee" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "vitre-cassee" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
-                    <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
                     <div className="flex items-center gap-3 flex-1">
                       <ShieldAlert className="w-5 h-5 text-primary" />
                       <Label htmlFor="vitre-cassee" className={`text-base font-semibold cursor-pointer ${formData.object === "vitre-cassee" ? "text-primary" : "text-gray-900"}`}>Vitre cassée</Label>
                     </div>
+                    <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
                   </label>
                   
                   <div 
