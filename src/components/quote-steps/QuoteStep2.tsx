@@ -79,8 +79,8 @@ export const QuoteStep2 = ({
                 ...prev,
                 object: value
               }));
-              // Fermer automatiquement le menu si une sous-option est sélectionnée
-              if (value !== "vitre-cassee" && value !== "autre") {
+              // Fermer le menu pour toute sélection sauf le bouton "Autres" lui-même
+              if (value !== "autre") {
                 setShowAutresOptions(false);
               }
             }} className="space-y-4">
