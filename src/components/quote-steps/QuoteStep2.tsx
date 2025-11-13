@@ -313,8 +313,8 @@ export const QuoteStep2 = ({
           {/* Section Motif */}
           <div className="space-y-4">
             <div className="flex items-start gap-4 pb-4 border-b-2 border-gray-100">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-                <AlertCircle className="w-5 h-5 text-amber-600" />
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <AlertCircle className="w-5 h-5 text-primary" />
               </div>
               <div className="flex-1">
                 <Label htmlFor="motif" className="text-base font-semibold text-gray-700">
