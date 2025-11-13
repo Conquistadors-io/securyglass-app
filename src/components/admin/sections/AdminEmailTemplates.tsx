@@ -51,7 +51,7 @@ export const AdminEmailTemplates = () => {
 
   const loadTemplates = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('email_templates')
         .select('*')
         .order('created_at', { ascending: false });
@@ -81,7 +81,7 @@ export const AdminEmailTemplates = () => {
 
     setIsLoading(true);
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('email_templates')
         .update({
           name: editForm.name,
@@ -106,7 +106,7 @@ export const AdminEmailTemplates = () => {
 
   const handleToggleActive = async (id: string, currentStatus: boolean) => {
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('email_templates')
         .update({ is_active: !currentStatus })
         .eq('id', id);
