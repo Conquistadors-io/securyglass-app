@@ -12,7 +12,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { devisId } = await req.json();
+    const { devisId, status = 'validated' } = await req.json();
     
     if (!devisId) {
       console.error('❌ [Validate Quote] Missing devisId in request');
@@ -22,7 +22,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    console.log('🔵 [Validate Quote] Starting validation for devis:', devisId);
+    console.log('🔵 [Validate Quote] Starting validation for devis:', devisId, 'with status:', status);
 
     // Use service role key to bypass RLS policies
     const supabaseAdmin = createClient(
@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
     const { data, error } = await supabaseAdmin
       .from('devis')
       .update({ 
-        status: 'validated',
+        status: status,
         updated_at: new Date().toISOString()
       })
       .eq('id', devisId)
