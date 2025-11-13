@@ -15,11 +15,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { format } from "date-fns";
+import { format, startOfToday, startOfWeek, startOfMonth, endOfToday, endOfWeek, endOfMonth, isWithinInterval } from "date-fns";
 import { fr } from "date-fns/locale";
 import { AdminQuoteDetail } from "./admin/AdminQuoteDetail";
 import { AdminQuoteEdit } from "./admin/AdminQuoteEdit";
+import { AdminQuoteStats } from "./admin/AdminQuoteStats";
 import { updateDevisStatus } from "@/services/devis";
+import { Calendar, CalendarRange } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 
 interface Quote {
   id: string;
@@ -45,6 +49,11 @@ export const AdminQuotesList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [dateFilter, setDateFilter] = useState<string>('all');
+  const [customDateRange, setCustomDateRange] = useState<{
+    from: Date | undefined;
+    to: Date | undefined;
+  }>({ from: undefined, to: undefined });
   const [selectedQuote, setSelectedQuote] = useState<any>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -54,8 +63,40 @@ export const AdminQuotesList = () => {
     loadQuotes();
   }, []);
 
+  const getDateRange = (filter: string) => {
+    const now = new Date();
+    
+    switch (filter) {
+      case 'today':
+        return { from: startOfToday(), to: endOfToday() };
+      case 'week':
+        return { from: startOfWeek(now, { locale: fr }), to: endOfWeek(now, { locale: fr }) };
+      case 'month':
+        return { from: startOfMonth(now), to: endOfMonth(now) };
+      case 'custom':
+        return customDateRange;
+      default:
+        return null;
+    }
+  };
+
+  const filterByDate = (quotesToFilter: Quote[], filter: string) => {
+    if (filter === 'all') return quotesToFilter;
+    
+    const range = getDateRange(filter);
+    if (!range || !range.from || !range.to) return quotesToFilter;
+    
+    return quotesToFilter.filter(quote => {
+      const quoteDate = new Date(quote.created_at);
+      return isWithinInterval(quoteDate, { start: range.from!, end: range.to! });
+    });
+  };
+
   useEffect(() => {
     let filtered = quotes;
+
+    // Filter by date
+    filtered = filterByDate(filtered, dateFilter);
 
     // Filter by status
     if (statusFilter !== 'all') {
@@ -76,7 +117,7 @@ export const AdminQuotesList = () => {
     }
 
     setFilteredQuotes(filtered);
-  }, [searchTerm, statusFilter, quotes]);
+  }, [searchTerm, statusFilter, dateFilter, customDateRange, quotes]);
 
   const loadQuotes = async () => {
     try {
@@ -105,15 +146,15 @@ export const AdminQuotesList = () => {
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    const statusConfig: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" | "success" }> = {
-      draft: { label: "Brouillon", variant: "outline" },
-      validated: { label: "Validé", variant: "success" },
-      sent: { label: "Envoyé", variant: "default" },
-      accepted: { label: "Accepté", variant: "secondary" },
-      rejected: { label: "Refusé", variant: "destructive" },
-    };
+  const statusConfig: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" | "success" }> = {
+    draft: { label: "Brouillon", variant: "outline" },
+    validated: { label: "Validé", variant: "success" },
+    sent: { label: "Envoyé", variant: "default" },
+    accepted: { label: "Accepté", variant: "secondary" },
+    rejected: { label: "Refusé", variant: "destructive" },
+  };
 
+  const getStatusBadge = (status: string) => {
     const config = statusConfig[status] || { label: status, variant: "secondary" };
     return <Badge variant={config.variant}>{config.label}</Badge>;
   };
@@ -207,6 +248,9 @@ export const AdminQuotesList = () => {
           </p>
         </div>
 
+        {/* Statistiques visuelles */}
+        <AdminQuoteStats quotes={quotes} filteredQuotes={filteredQuotes} />
+
         {/* Search and Filters */}
         <div className="mb-6 space-y-4">
           <div className="flex flex-col md:flex-row gap-4">
@@ -270,53 +314,141 @@ export const AdminQuotesList = () => {
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Filtre par date */}
+            <div className="w-full md:w-64">
+              <Select value={dateFilter} onValueChange={(value) => {
+                setDateFilter(value);
+                if (value !== 'custom') {
+                  setCustomDateRange({ from: undefined, to: undefined });
+                }
+              }}>
+                <SelectTrigger className="h-12 border-2">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4" />
+                    <SelectValue placeholder="Filtrer par date" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      Toutes les dates
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="today">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      Aujourd'hui
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="week">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      Cette semaine
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="month">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      Ce mois
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="custom">
+                    <div className="flex items-center gap-2">
+                      <CalendarRange className="h-4 w-4" />
+                      Plage personnalisée
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-          {/* Results indicator */}
-          {(searchTerm || statusFilter !== 'all') && (
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>
+          {/* Sélecteur de plage personnalisée */}
+          {dateFilter === 'custom' && (
+            <div className="flex justify-start">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="h-12 border-2">
+                    <CalendarRange className="h-4 w-4 mr-2" />
+                    {customDateRange.from && customDateRange.to ? (
+                      <>
+                        {format(customDateRange.from, 'dd/MM/yyyy', { locale: fr })} - {format(customDateRange.to, 'dd/MM/yyyy', { locale: fr })}
+                      </>
+                    ) : (
+                      'Sélectionner les dates'
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <CalendarComponent
+                    mode="range"
+                    selected={{
+                      from: customDateRange.from,
+                      to: customDateRange.to,
+                    }}
+                    onSelect={(range) => {
+                      setCustomDateRange({
+                        from: range?.from,
+                        to: range?.to,
+                      });
+                    }}
+                    numberOfMonths={2}
+                    locale={fr}
+                    className="pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+          )}
+
+          {/* Indicateur de résultats */}
+          {(searchTerm || statusFilter !== 'all' || dateFilter !== 'all') && (
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-sm">
+              <span className="font-semibold text-muted-foreground">
                 {filteredQuotes.length} résultat{filteredQuotes.length !== 1 ? 's' : ''} trouvé{filteredQuotes.length !== 1 ? 's' : ''}
               </span>
+              
+              {/* Afficher les filtres actifs */}
+              <div className="flex items-center gap-2 flex-wrap">
+                {statusFilter !== 'all' && (
+                  <Badge variant="outline" className="gap-1">
+                    Statut: {statusConfig[statusFilter]?.label || statusFilter}
+                  </Badge>
+                )}
+                {dateFilter !== 'all' && (
+                  <Badge variant="outline" className="gap-1">
+                    {dateFilter === 'today' && 'Aujourd\'hui'}
+                    {dateFilter === 'week' && 'Cette semaine'}
+                    {dateFilter === 'month' && 'Ce mois'}
+                    {dateFilter === 'custom' && customDateRange.from && customDateRange.to && (
+                      `${format(customDateRange.from, 'dd/MM/yy', { locale: fr })} - ${format(customDateRange.to, 'dd/MM/yy', { locale: fr })}`
+                    )}
+                  </Badge>
+                )}
+                {searchTerm && (
+                  <Badge variant="outline" className="gap-1">
+                    Recherche: "{searchTerm}"
+                  </Badge>
+                )}
+              </div>
+              
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => {
                   setSearchTerm('');
                   setStatusFilter('all');
+                  setDateFilter('all');
+                  setCustomDateRange({ from: undefined, to: undefined });
                 }}
                 className="h-8"
               >
-                Réinitialiser les filtres
+                Réinitialiser tous les filtres
               </Button>
             </div>
           )}
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <Card className="p-4">
-            <div className="text-sm text-muted-foreground">Total</div>
-            <div className="text-2xl font-bold">{quotes.length}</div>
-          </Card>
-          <Card className="p-4">
-            <div className="text-sm text-muted-foreground">Envoyés</div>
-            <div className="text-2xl font-bold">
-              {quotes.filter(q => q.status === 'sent').length}
-            </div>
-          </Card>
-          <Card className="p-4">
-            <div className="text-sm text-muted-foreground">Acceptés</div>
-            <div className="text-2xl font-bold text-green-600">
-              {quotes.filter(q => q.status === 'accepted').length}
-            </div>
-          </Card>
-          <Card className="p-4">
-            <div className="text-sm text-muted-foreground">Montant Total</div>
-            <div className="text-2xl font-bold">
-              {quotes.reduce((sum, q) => sum + (q.price_total || 0), 0).toFixed(2)} €
-            </div>
-          </Card>
         </div>
 
         {/* Table */}
