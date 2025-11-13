@@ -60,7 +60,6 @@ export const QuoteStep0 = ({
           <div>
             <RadioGroup value={formData.serviceType} onValueChange={handleServiceTypeChange} className="space-y-4">
               <label htmlFor="vitrerie" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md hover:scale-[1.02] ${formData.serviceType === 'vitrerie' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
-                <RadioGroupItem value="vitrerie" id="vitrerie" className="w-6 h-6" />
                 <div className="flex items-center gap-3 flex-1">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <Sparkles className="w-5 h-5 text-primary" />
@@ -70,10 +69,10 @@ export const QuoteStep0 = ({
                     <p className={`text-sm mt-0.5 ${formData.serviceType === 'vitrerie' ? 'text-primary/70' : 'text-muted-foreground'}`}>Tous types de verres</p>
                   </div>
                 </div>
+                <RadioGroupItem value="vitrerie" id="vitrerie" className="w-6 h-6" />
               </label>
               
               <label htmlFor="miroiterie" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md hover:scale-[1.02] ${formData.serviceType === 'miroiterie' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
-                <RadioGroupItem value="miroiterie" id="miroiterie" className="w-6 h-6" />
                 <div className="flex items-center gap-3 flex-1">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <Grid3x3 className="w-5 h-5 text-primary" />
@@ -83,12 +82,12 @@ export const QuoteStep0 = ({
                     <p className={`text-sm mt-0.5 ${formData.serviceType === 'miroiterie' ? 'text-primary/70' : 'text-muted-foreground'}`}>Tous types de miroirs</p>
                   </div>
                 </div>
+                <RadioGroupItem value="miroiterie" id="miroiterie" className="w-6 h-6" />
               </label>
               
               <div className="space-y-4">
                 {showAutresOptions && (
                   <label htmlFor="renovation" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md hover:scale-[1.02] ${formData.serviceType === 'renovation' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
-                    <RadioGroupItem value="renovation" id="renovation" className="w-6 h-6" />
                     <div className="flex items-center gap-3 flex-1">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                         <Settings className="w-5 h-5 text-primary" />
@@ -98,6 +97,7 @@ export const QuoteStep0 = ({
                         <p className={`text-sm mt-0.5 ${formData.serviceType === 'renovation' ? 'text-primary/70' : 'text-muted-foreground'}`}>Installation et réparation</p>
                       </div>
                     </div>
+                    <RadioGroupItem value="renovation" id="renovation" className="w-6 h-6" />
                   </label>
                 )}
                 
