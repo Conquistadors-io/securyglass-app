@@ -233,10 +233,10 @@ export const QuoteStep3 = ({
           </div>
 
           {/* Section Dimensions */}
-          <div className="bg-amber-50 border-l-4 border-amber-400 p-6 rounded-lg space-y-4">
+          <div className="bg-blue-50 p-6 rounded-lg space-y-4">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-                <Ruler className="w-5 h-5 text-amber-600" />
+              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                <Ruler className="w-5 h-5 text-blue-600" />
               </div>
               <h3 className="text-lg font-bold text-gray-900">
                 Dimensions
