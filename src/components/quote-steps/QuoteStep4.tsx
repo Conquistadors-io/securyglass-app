@@ -1,7 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { CheckCircle2, Edit3, Shield, Info, User, MapPin, FileText, ArrowRight } from "lucide-react";
@@ -16,7 +15,6 @@ export const QuoteStep4 = ({
   onValidate,
   onModify
 }: QuoteStep4Props) => {
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [miseEnSecurite, setMiseEnSecurite] = useState(data.miseEnSecurite || "non");
   // Helper function to escape regex special characters
   const escapeRegExp = (string: string) => {
@@ -330,37 +328,12 @@ export const QuoteStep4 = ({
         </CardContent>
       </Card>
 
-      {/* Section Acceptation des conditions */}
-      <Card className="!border-2 !border-blue-500 shadow-lg transition-shadow">
-        <CardContent className="p-6 bg-gradient-to-r from-purple-50 to-white">
-          <div className="flex items-start space-x-3">
-            <Checkbox id="terms" checked={acceptedTerms} onCheckedChange={checked => setAcceptedTerms(checked as boolean)} className="mt-1" />
-            <div className="space-y-1 leading-none">
-              <label htmlFor="terms" className="text-sm font-medium cursor-pointer">
-                J'accepte les conditions générales de vente (CGV) et les conditions générales d'utilisation (CGU)
-              </label>
-              <p className="text-xs text-muted-foreground">
-                En cochant cette case, vous acceptez nos{" "}
-                <a href="#" className="underline text-primary">
-                  conditions générales de vente
-                </a>{" "}
-                et nos{" "}
-                <a href="#" className="underline text-primary">
-                  conditions générales d'utilisation
-                </a>
-                .
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
       <div className="flex flex-col sm:flex-row gap-4 pt-6">
         <Button onClick={() => {
           // Update data with miseEnSecurite before validation
           data.miseEnSecurite = miseEnSecurite;
           onValidate();
-        }} className="flex-1 h-12" disabled={!acceptedTerms}>
+        }} className="flex-1 h-12">
           <CheckCircle2 className="h-4 w-4 mr-2" />
           Valider
         </Button>
