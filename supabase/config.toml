@@ -23,3 +23,6 @@ verify_jwt = false
 
 [functions.validate-quote]
 verify_jwt = false
+
+[functions.assign-admin-role]
+verify_jwt = false
