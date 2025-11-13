@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { FileText, ShieldAlert, AlertCircle, Home, Building2, Building, Store, MoreHorizontal, ChevronDown, ArrowRight, ArrowLeft, Ruler, Cat, Wind, VolumeX, Lock, Droplets, Info } from "lucide-react";
+import { FileText, ShieldAlert, AlertCircle, Home, Building2, Building, Store, MoreHorizontal, ChevronDown, ArrowRight, ArrowLeft, Ruler, Cat, Wind, VolumeX, Lock, Droplets, Info, Grid2x2 } from "lucide-react";
 interface QuoteStep2Props {
   data: any;
   onComplete: (data: any) => void;
@@ -83,7 +83,7 @@ export const QuoteStep2 = ({
                 </> : <>
                   <label htmlFor="vitre-cassee" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "vitre-cassee" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}>
                     <div className="flex items-center gap-3 flex-1">
-                      <ShieldAlert className="w-5 h-5 text-primary" />
+                      <Grid2x2 className="w-5 h-5 text-primary" />
                       <Label htmlFor="vitre-cassee" className={`text-base font-semibold cursor-pointer ${formData.object === "vitre-cassee" ? "text-primary" : "text-gray-900"}`}>Vitre cassée</Label>
                     </div>
                     <RadioGroupItem value="vitre-cassee" id="vitre-cassee" className="w-6 h-6" />
