@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.notify-admin-new-quote]
 verify_jwt = false
+
+[functions.validate-quote]
+verify_jwt = false

@@ -5,7 +5,7 @@ import { CheckCircle, Download, Calendar, CreditCard, FileText, Mail } from "luc
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
-import { saveDevis } from "@/services/devis";
+import { saveDevis, validateDevis } from "@/services/devis";
 import { generateQuotePDF, generateQuotePDFBase64, QuotePDFData } from "@/lib/pdf-generator";
 interface QuoteSummaryProps {
   data: any;
@@ -26,6 +26,8 @@ export const QuoteSummary = ({
   const [adminEmail, setAdminEmail] = useState<string>('');
   const [devisSaved, setDevisSaved] = useState(false);
   const [savedQuoteNumber, setSavedQuoteNumber] = useState<string>('');
+  const [savedDevisId, setSavedDevisId] = useState<string>('');
+  const [devisValidated, setDevisValidated] = useState(false);
   const [motifDescription, setMotifDescription] = useState<string>('');
   
   // Fetch motif description from database
@@ -417,6 +419,37 @@ export const QuoteSummary = ({
       saveDevisToDatabase();
     }
   }, [priceCalculation, devisSaved, calculationLoading]);
+  const validateDevisInDatabase = async (devisId: string) => {
+    if (devisValidated) {
+      console.log('🟡 [Validation] Devis already validated, skipping');
+      return;
+    }
+    
+    try {
+      console.log('🔵 [Validation] Validating devis:', devisId);
+      const { success, error } = await validateDevis(devisId);
+      
+      if (!success) {
+        throw new Error(error || 'Erreur lors de la validation');
+      }
+      
+      console.log('✅ [Validation] Devis validated successfully');
+      setDevisValidated(true);
+      
+      toast({
+        title: "Devis validé",
+        description: "Votre devis a été validé avec succès",
+      });
+    } catch (error) {
+      console.error('❌ [Validation] Error:', error);
+      toast({
+        title: "Erreur de validation",
+        description: error instanceof Error ? error.message : "Erreur lors de la validation",
+        variant: "destructive"
+      });
+    }
+  };
+
   const saveDevisToDatabase = async () => {
     if (devisSaved || !priceCalculation) return;
     try {
@@ -431,6 +464,7 @@ export const QuoteSummary = ({
       console.log('Devis saved with ID:', result.devisId, 'Quote number:', result.quoteNumber);
       setDevisSaved(true);
       setSavedQuoteNumber(result.quoteNumber);
+      setSavedDevisId(result.devisId);
 
       // Save to localStorage to prevent duplicate submissions
       const sessionKey = `devis_session_${data.email}_${JSON.stringify(data).substring(0, 50)}`;
@@ -652,6 +686,11 @@ export const QuoteSummary = ({
         title: "Email envoyé",
         description: `Le devis a été envoyé avec succès à ${data.email}`
       });
+
+      // Validate the devis after successful email send
+      if (savedDevisId && !devisValidated) {
+        await validateDevisInDatabase(savedDevisId);
+      }
     } catch (error) {
       console.error("❌ [Email] Error in sendQuoteEmailViaSendGrid:", error);
       console.error("❌ [Email] Error details:", {

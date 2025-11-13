@@ -43,6 +43,32 @@ const generateQuoteNumber = (): string => {
   return `DEV-${year}${month}${day}-${random}`;
 };
 
+export const validateDevis = async (devisId: string): Promise<{ success: boolean; error?: string }> => {
+  try {
+    console.log('🔵 [Validate Devis] Calling validate-quote edge function for:', devisId);
+    
+    const { data, error } = await supabase.functions.invoke('validate-quote', {
+      body: { devisId }
+    });
+
+    if (error) {
+      console.error('❌ [Validate Devis] Error from edge function:', error);
+      return { success: false, error: error.message };
+    }
+
+    if (!data || !data.success) {
+      console.error('❌ [Validate Devis] Edge function returned error:', data?.error);
+      return { success: false, error: data?.error || 'Erreur lors de la validation' };
+    }
+
+    console.log('✅ [Validate Devis] Devis validated successfully:', data.data);
+    return { success: true };
+  } catch (err) {
+    console.error('❌ [Validate Devis] Unexpected error:', err);
+    return { success: false, error: 'Erreur lors de la validation du devis' };
+  }
+};
+
 export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{ success: boolean; error?: string; devisId?: string; quoteNumber?: string }> => {
   try {
     // First, save the client information
