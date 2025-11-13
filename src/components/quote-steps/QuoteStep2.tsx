@@ -310,47 +310,47 @@ export const QuoteStep2 = ({
             >
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Carte Appartement */}
-                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
+                <label className={`cursor-pointer flex flex-col items-start gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md relative ${
                   formData.property === 'appartement' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
                 }`}>
-                  <RadioGroupItem value="appartement" className="sr-only" />
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <RadioGroupItem value="appartement" className="absolute top-4 right-4 w-5 h-5" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
                     <Building2 className="w-8 h-8 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-gray-700">Appartement</span>
+                  <span className="text-sm font-medium text-gray-700 text-center w-full">Appartement</span>
                 </label>
 
                 {/* Carte Maison */}
-                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
+                <label className={`cursor-pointer flex flex-col items-start gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md relative ${
                   formData.property === 'maison' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
                 }`}>
-                  <RadioGroupItem value="maison" className="sr-only" />
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <RadioGroupItem value="maison" className="absolute top-4 right-4 w-5 h-5" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
                     <Home className="w-8 h-8 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-gray-700">Maison</span>
+                  <span className="text-sm font-medium text-gray-700 text-center w-full">Maison</span>
                 </label>
 
                 {/* Carte Bureaux */}
-                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
+                <label className={`cursor-pointer flex flex-col items-start gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md relative ${
                   formData.property === 'bureau' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
                 }`}>
-                  <RadioGroupItem value="bureau" className="sr-only" />
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <RadioGroupItem value="bureau" className="absolute top-4 right-4 w-5 h-5" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
                     <Building className="w-8 h-8 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-gray-700">Bureaux</span>
+                  <span className="text-sm font-medium text-gray-700 text-center w-full">Bureaux</span>
                 </label>
 
                 {/* Carte Magasin */}
-                <label className={`cursor-pointer flex flex-col items-center gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md ${
+                <label className={`cursor-pointer flex flex-col items-start gap-4 p-6 border-2 rounded-xl transition-all duration-200 hover:border-primary hover:shadow-md relative ${
                   formData.property === 'commerce' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 bg-white'
                 }`}>
-                  <RadioGroupItem value="commerce" className="sr-only" />
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <RadioGroupItem value="commerce" className="absolute top-4 right-4 w-5 h-5" />
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
                     <Store className="w-8 h-8 text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-gray-700">Magasin</span>
+                  <span className="text-sm font-medium text-gray-700 text-center w-full">Magasin</span>
                 </label>
               </div>
 
@@ -359,17 +359,17 @@ export const QuoteStep2 = ({
                 <label className={`flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-primary ${
                   formData.property === 'immeuble' ? 'border-primary bg-primary/5' : 'border-gray-200'
                 }`}>
-                  <RadioGroupItem value="immeuble" />
                   <Building2 className="w-5 h-5 text-primary" />
-                  <span className="text-sm font-medium">Immeuble (ou parties communes)</span>
+                  <span className="text-sm font-medium flex-1">Immeuble (ou parties communes)</span>
+                  <RadioGroupItem value="immeuble" className="ml-auto" />
                 </label>
 
                 <label className={`flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-primary ${
                   formData.property === 'autre' ? 'border-primary bg-primary/5' : 'border-gray-200'
                 }`}>
-                  <RadioGroupItem value="autre" />
                   <MoreHorizontal className="w-5 h-5 text-primary" />
-                  <span className="text-sm font-medium">Autre</span>
+                  <span className="text-sm font-medium flex-1">Autre</span>
+                  <RadioGroupItem value="autre" className="ml-auto" />
                 </label>
               </div>
             </RadioGroup>
