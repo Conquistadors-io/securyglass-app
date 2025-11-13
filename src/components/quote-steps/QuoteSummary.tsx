@@ -632,6 +632,7 @@ export const QuoteSummary = ({
       };
       console.log("🔵 [Email] Preparing quote data for email...");
       const emailPayload = {
+        devisId: savedDevisId,
         email: data.email,
         clientName: `${data.civilite} ${data.nom}`,
         message: `Merci pour votre demande de devis. Veuillez trouver ci-joint votre devis pour ${data.object}.`,
