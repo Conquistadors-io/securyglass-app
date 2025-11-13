@@ -303,10 +303,7 @@ export const QuoteStep4 = ({
       {/* Section Mise en sécurité */}
       <Card className="border-2 border-gray-200 shadow-sm hover:shadow-md transition-shadow">
         <CardContent className="p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-              <Shield className="w-5 h-5 text-primary" />
-            </div>
+          <div className="mb-4">
             <h3 className="text-lg font-bold text-gray-900">
               Voulez-vous une mise en sécurité ?
             </h3>
