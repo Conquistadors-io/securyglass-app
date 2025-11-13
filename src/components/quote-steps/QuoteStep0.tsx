@@ -103,10 +103,6 @@ export const QuoteStep0 = ({
                 
                 <div className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}
                   onClick={() => {
-                    setFormData(prev => ({
-                      ...prev,
-                      serviceType: 'autres'
-                    }));
                     setShowAutresOptions(!showAutresOptions);
                   }}
                 >
