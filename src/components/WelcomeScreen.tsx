@@ -32,7 +32,7 @@ export const WelcomeScreen = ({
             </h2>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               <span className="bg-yellow-400 text-foreground px-2 font-extrabold">
-                en 5 minutes
+                en 3 minutes
               </span>
             </h2>
           </div>
