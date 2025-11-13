@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { CheckCircle2, Edit3, Shield, Info, User, MapPin, FileText, ArrowRight } from "lucide-react";
+import { CheckCircle2, Edit3, Shield, Info, User, MapPin, FileText, ArrowRight, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 interface QuoteStep4Props {
   data: any;
@@ -338,8 +338,8 @@ export const QuoteStep4 = ({
 
       <div className="flex flex-col sm:flex-row gap-4 pt-6">
         <Button onClick={() => onModify(0)} variant="outline" className="flex-1 h-12">
-          <Edit3 className="h-4 w-4 mr-2" />
-          Modifier
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Retour
         </Button>
         <Button onClick={() => {
           // Update data with miseEnSecurite before validation
