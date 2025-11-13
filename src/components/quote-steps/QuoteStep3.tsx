@@ -330,7 +330,7 @@ export const QuoteStep3 = ({
                   Photo (optionnel)
                 </Label>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Ajoutez une photo si possible pour nous aider à mieux comprendre votre besoin
+                  Ajoutez une photo si possible
                 </p>
               </div>
             </div>
