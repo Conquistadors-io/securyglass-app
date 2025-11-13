@@ -181,7 +181,7 @@ export const QuoteStep2 = ({
                     )}
 
                     <div 
-                      className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" || formData.object === "condensation" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}
+                      className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "autre" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}
                       onClick={() => setShowAutresOptions(!showAutresOptions)}
                     >
                       <div className="flex items-center gap-3 flex-1">
@@ -189,7 +189,7 @@ export const QuoteStep2 = ({
                           <MoreHorizontal className="w-5 h-5 text-primary" />
                         </div>
                         <div className="flex-1">
-                          <div className={`text-base font-semibold ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" || formData.object === "condensation" ? "text-primary" : "text-gray-900"}`}>
+                          <div className={`text-base font-semibold ${formData.object === "autre" ? "text-primary" : "text-gray-900"}`}>
                             Autres
                           </div>
                         </div>
