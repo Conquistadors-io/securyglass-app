@@ -59,7 +59,7 @@ export const QuoteStep0 = ({
 
           <div>
             <RadioGroup value={formData.serviceType} onValueChange={handleServiceTypeChange} className="space-y-4">
-              <label htmlFor="vitrerie" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md hover:scale-[1.02] ${formData.serviceType === 'vitrerie' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+              <label htmlFor="vitrerie" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-gray-300 ${formData.serviceType === 'vitrerie' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
                 <div className="flex items-center gap-3 flex-1">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <Sparkles className="w-5 h-5 text-primary" />
@@ -72,7 +72,7 @@ export const QuoteStep0 = ({
                 </div>
               </label>
               
-              <label htmlFor="miroiterie" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md hover:scale-[1.02] ${formData.serviceType === 'miroiterie' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+              <label htmlFor="miroiterie" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-gray-300 ${formData.serviceType === 'miroiterie' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
                 <div className="flex items-center gap-3 flex-1">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <Grid3x3 className="w-5 h-5 text-primary" />
@@ -87,7 +87,7 @@ export const QuoteStep0 = ({
               
               <div className="space-y-4">
                 {showAutresOptions && (
-                  <label htmlFor="renovation" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md hover:scale-[1.02] ${formData.serviceType === 'renovation' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <label htmlFor="renovation" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-gray-300 ${formData.serviceType === 'renovation' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
                     <div className="flex items-center gap-3 flex-1">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                         <Settings className="w-5 h-5 text-primary" />
@@ -101,7 +101,7 @@ export const QuoteStep0 = ({
                   </label>
                 )}
                 
-                  <div className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}
+                  <div className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-gray-300 ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}
                   onClick={() => {
                     setShowAutresOptions(!showAutresOptions);
                   }}
