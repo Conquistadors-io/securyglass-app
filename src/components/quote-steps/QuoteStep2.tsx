@@ -41,6 +41,20 @@ export const QuoteStep2 = ({
     onComplete(formData);
   };
   const isValid = formData.object && formData.property && formData.motif && (formData.property !== "autre" || formData.propertyOther.trim() !== "");
+  
+  // Helper pour obtenir l'affichage de l'option sélectionnée
+  const getSelectedOptionDisplay = (object: string) => {
+    const options = {
+      "verre-sur-mesure": { icon: Ruler, label: "Verre sur mesure" },
+      "chatiere": { icon: Cat, label: "Chatière" },
+      "decoupe-aeration": { icon: Wind, label: "Découpe aération" },
+      "verre-anti-bruit": { icon: VolumeX, label: "Verre Anti-Bruit" },
+      "verre-anti-effraction": { icon: Lock, label: "Verre Anti-effraction" },
+      "condensation": { icon: Droplets, label: "Condensation" }
+    };
+    return options[object as keyof typeof options];
+  };
+
   return <Card className="shadow-card border-0">
       <div className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -178,11 +192,6 @@ export const QuoteStep2 = ({
                           <div className={`text-base font-semibold ${formData.object === "autre" || formData.object === "verre-sur-mesure" || formData.object === "chatiere" || formData.object === "decoupe-aeration" || formData.object === "verre-anti-bruit" || formData.object === "verre-anti-effraction" || formData.object === "condensation" ? "text-primary" : "text-gray-900"}`}>
                             Autres
                           </div>
-                          {formData.object !== "autre" && formData.object !== "vitre-cassee" && (
-                            <p className="text-sm text-primary/70 mt-0.5">
-                              {formData.object === "verre-sur-mesure" ? "Verre sur mesure" : formData.object === "chatiere" ? "Chatière" : formData.object === "decoupe-aeration" ? "Découpe aération" : formData.object === "verre-anti-bruit" ? "Verre Anti-Bruit" : formData.object === "verre-anti-effraction" ? "Verre Anti-effraction" : formData.object === "condensation" ? "Condensation" : ""}
-                            </p>
-                          )}
                         </div>
                       </div>
                       <button 
@@ -197,6 +206,27 @@ export const QuoteStep2 = ({
                         <ChevronDown className={`w-5 h-5 text-gray-600 transition-transform ${showAutresOptions ? 'rotate-180' : ''}`} />
                       </button>
                     </div>
+
+                    {/* Afficher l'option sélectionnée EN DESSOUS du bouton Autres */}
+                    {formData.object !== "vitre-cassee" && formData.object !== "autre" && !showAutresOptions && (() => {
+                      const selectedOption = getSelectedOptionDisplay(formData.object);
+                      if (!selectedOption) return null;
+                      const OptionIcon = selectedOption.icon;
+                      
+                      return (
+                        <div className="flex items-center space-x-4 p-5 border-2 rounded-xl border-primary bg-primary/5 shadow-md">
+                          <div className="flex items-center gap-3 flex-1">
+                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                              <OptionIcon className="w-5 h-5 text-primary" />
+                            </div>
+                            <Label className="text-base font-semibold text-primary cursor-pointer">
+                              {selectedOption.label}
+                            </Label>
+                          </div>
+                          <RadioGroupItem value={formData.object} checked className="w-6 h-6" />
+                        </div>
+                      );
+                    })()}
                   </div>
                 </>}
             </RadioGroup>
