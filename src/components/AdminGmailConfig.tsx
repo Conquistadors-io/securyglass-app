@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AdminQuotesList } from "./AdminQuotesList";
+import { AdminEmailTemplates } from "./admin/sections/AdminEmailTemplates";
+import { AdminEmailsHistory } from "./admin/sections/AdminEmailsHistory";
 import { Button } from "./ui/button";
-import { LogOut } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { LogOut, FileText, Mail, History } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -45,7 +48,34 @@ export const AdminGmailConfig = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        <AdminQuotesList />
+        <Tabs defaultValue="quotes" className="w-full">
+          <TabsList className="grid w-full grid-cols-3 mb-8">
+            <TabsTrigger value="quotes" className="gap-2">
+              <FileText className="w-4 h-4" />
+              Devis
+            </TabsTrigger>
+            <TabsTrigger value="templates" className="gap-2">
+              <Mail className="w-4 h-4" />
+              Templates d'emails
+            </TabsTrigger>
+            <TabsTrigger value="history" className="gap-2">
+              <History className="w-4 h-4" />
+              Historique emails
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="quotes">
+            <AdminQuotesList />
+          </TabsContent>
+
+          <TabsContent value="templates">
+            <AdminEmailTemplates />
+          </TabsContent>
+
+          <TabsContent value="history">
+            <AdminEmailsHistory />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
