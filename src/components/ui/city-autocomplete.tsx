@@ -115,8 +115,8 @@ export function CityAutocomplete({
       : city.nom;
     setInputValue(cityWithPostal);
     onValueChange?.(cityWithPostal);
-    setShowSuggestions(false);
     setSuggestions([]);
+    setShowSuggestions(false);
     setTimeout(() => onComplete?.(), 100);
   };
 
@@ -190,7 +190,7 @@ export function CityAutocomplete({
         </div>
       )}
       
-      {showSuggestions && suggestions.length === 0 && !loading && inputValue.length >= 1 && departmentCode && (
+      {showSuggestions && suggestions.length === 0 && !loading && inputValue.length >= 1 && departmentCode && !inputValue.includes('(') && (
         <div className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-lg shadow-xl p-4 text-sm text-gray-500">
           Aucune ville trouvée
         </div>
