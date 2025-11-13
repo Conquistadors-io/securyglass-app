@@ -68,8 +68,8 @@ export const QuoteStep0 = ({
                     <div className={`text-base font-semibold ${formData.serviceType === 'vitrerie' ? 'text-primary' : 'text-gray-900'}`}>Vitrerie</div>
                     <p className={`text-sm mt-0.5 ${formData.serviceType === 'vitrerie' ? 'text-primary/70' : 'text-muted-foreground'}`}>Tous types de verres</p>
                   </div>
+                  <RadioGroupItem value="vitrerie" id="vitrerie" className="w-6 h-6 ml-auto" />
                 </div>
-                <RadioGroupItem value="vitrerie" id="vitrerie" className="w-6 h-6" />
               </label>
               
               <label htmlFor="miroiterie" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md hover:scale-[1.02] ${formData.serviceType === 'miroiterie' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
@@ -81,8 +81,8 @@ export const QuoteStep0 = ({
                     <div className={`text-base font-semibold ${formData.serviceType === 'miroiterie' ? 'text-primary' : 'text-gray-900'}`}>Miroiterie</div>
                     <p className={`text-sm mt-0.5 ${formData.serviceType === 'miroiterie' ? 'text-primary/70' : 'text-muted-foreground'}`}>Tous types de miroirs</p>
                   </div>
+                  <RadioGroupItem value="miroiterie" id="miroiterie" className="w-6 h-6 ml-auto" />
                 </div>
-                <RadioGroupItem value="miroiterie" id="miroiterie" className="w-6 h-6" />
               </label>
               
               <div className="space-y-4">
@@ -96,8 +96,8 @@ export const QuoteStep0 = ({
                         <div className={`text-base font-semibold ${formData.serviceType === 'renovation' ? 'text-primary' : 'text-gray-900'}`}>Volet Roulant</div>
                         <p className={`text-sm mt-0.5 ${formData.serviceType === 'renovation' ? 'text-primary/70' : 'text-muted-foreground'}`}>Installation et réparation</p>
                       </div>
+                      <RadioGroupItem value="renovation" id="renovation" className="w-6 h-6 ml-auto" />
                     </div>
-                    <RadioGroupItem value="renovation" id="renovation" className="w-6 h-6" />
                   </label>
                 )}
                 
