@@ -98,7 +98,7 @@ export const QuoteStep3 = ({
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="category" className="text-base font-semibold text-gray-700">
-                Catégorie <span className="text-destructive">*</span>
+                Support <span className="text-destructive">*</span>
               </Label>
                <Select value={formData.category} onValueChange={value => {
               setFormData(prev => ({
