@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Eye, Download, Search } from "lucide-react";
+import { FileText, Eye, Download, Search, Edit, CheckCircle, Mail, Phone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,9 @@ import {
 } from "@/components/ui/table";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import { AdminQuoteDetail } from "./admin/AdminQuoteDetail";
+import { AdminQuoteEdit } from "./admin/AdminQuoteEdit";
+import { updateDevisStatus } from "@/services/devis";
 
 interface Quote {
   id: string;
@@ -27,6 +30,12 @@ interface Quote {
   service_type: string;
   motif: string | null;
   vitrage: string | null;
+  clients?: {
+    nom: string | null;
+    prenom: string | null;
+    mobile: string;
+    raison_sociale: string | null;
+  };
 }
 
 export const AdminQuotesList = () => {
@@ -34,6 +43,9 @@ export const AdminQuotesList = () => {
   const [filteredQuotes, setFilteredQuotes] = useState<Quote[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedQuote, setSelectedQuote] = useState<any>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -45,7 +57,10 @@ export const AdminQuotesList = () => {
       const filtered = quotes.filter(quote => 
         quote.quote_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         quote.client_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        quote.motif?.toLowerCase().includes(searchTerm.toLowerCase())
+        quote.motif?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        quote.clients?.nom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        quote.clients?.prenom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        quote.clients?.mobile?.includes(searchTerm)
       );
       setFilteredQuotes(filtered);
     } else {
@@ -58,7 +73,10 @@ export const AdminQuotesList = () => {
       setIsLoading(true);
       const { data, error } = await supabase
         .from('devis')
-        .select('id, quote_number, client_email, status, price_total, created_at, service_type, motif, vitrage')
+        .select(`
+          *,
+          clients!inner(nom, prenom, mobile, raison_sociale)
+        `)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -80,6 +98,7 @@ export const AdminQuotesList = () => {
   const getStatusBadge = (status: string) => {
     const statusConfig: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
       draft: { label: "Brouillon", variant: "outline" },
+      validated: { label: "Validé", variant: "default" },
       sent: { label: "Envoyé", variant: "default" },
       accepted: { label: "Accepté", variant: "default" },
       rejected: { label: "Refusé", variant: "destructive" },
@@ -87,6 +106,85 @@ export const AdminQuotesList = () => {
 
     const config = statusConfig[status] || { label: status, variant: "secondary" };
     return <Badge variant={config.variant}>{config.label}</Badge>;
+  };
+
+  const handleViewDetails = async (quoteId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('devis')
+        .select(`
+          *,
+          clients!inner(nom, prenom, mobile, raison_sociale)
+        `)
+        .eq('id', quoteId)
+        .single();
+
+      if (error) throw error;
+
+      setSelectedQuote(data);
+      setIsDetailOpen(true);
+    } catch (error) {
+      console.error('Error loading quote details:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger les détails du devis.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleEdit = async (quoteId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('devis')
+        .select(`
+          *,
+          clients!inner(nom, prenom, mobile, raison_sociale)
+        `)
+        .eq('id', quoteId)
+        .single();
+
+      if (error) throw error;
+
+      setSelectedQuote(data);
+      setIsEditOpen(true);
+    } catch (error) {
+      console.error('Error loading quote for edit:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger le devis pour modification.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleValidateToggle = async (quoteId: string, currentStatus: string) => {
+    try {
+      const newStatus = currentStatus === 'draft' ? 'validated' : 'draft';
+      const result = await updateDevisStatus(quoteId, newStatus);
+
+      if (!result.success) {
+        throw new Error(result.error || 'Erreur lors de la validation');
+      }
+
+      toast({
+        title: "Statut mis à jour",
+        description: `Le devis a été ${newStatus === 'validated' ? 'validé' : 'marqué comme brouillon'}.`,
+      });
+
+      loadQuotes();
+    } catch (error) {
+      console.error('Error updating status:', error);
+      toast({
+        title: "Erreur",
+        description: error instanceof Error ? error.message : "Impossible de mettre à jour le statut.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSuccess = () => {
+    loadQuotes();
   };
 
   return (
@@ -111,7 +209,7 @@ export const AdminQuotesList = () => {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Rechercher par numéro, email ou motif..."
+              placeholder="Rechercher par numéro, email, nom, téléphone..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -179,8 +277,24 @@ export const AdminQuotesList = () => {
                     <TableCell>
                       {format(new Date(quote.created_at), 'dd/MM/yyyy', { locale: fr })}
                     </TableCell>
-                    <TableCell className="max-w-[200px] truncate">
-                      {quote.client_email}
+                    <TableCell className="max-w-[250px]">
+                      <div className="space-y-1">
+                        <div className="font-medium">
+                          {quote.clients?.raison_sociale || `${quote.clients?.prenom || ''} ${quote.clients?.nom || ''}`.trim() || 'N/A'}
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Mail className="h-3 w-3" />
+                          <span className="truncate max-w-[150px]">{quote.client_email}</span>
+                        </div>
+                        {quote.clients?.mobile && (
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <Phone className="h-3 w-3" />
+                            <a href={`tel:${quote.clients.mobile}`} className="hover:text-primary">
+                              {quote.clients.mobile}
+                            </a>
+                          </div>
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>{quote.service_type}</TableCell>
                     <TableCell className="max-w-[150px] truncate">
@@ -194,33 +308,33 @@ export const AdminQuotesList = () => {
                       {quote.price_total ? `${quote.price_total.toFixed(2)} €` : 'N/A'}
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      <div className="flex items-center justify-end gap-1">
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => {
-                            // TODO: Implement view details
-                            toast({
-                              title: "Fonctionnalité à venir",
-                              description: "La visualisation des détails sera bientôt disponible.",
-                            });
-                          }}
+                          onClick={() => handleViewDetails(quote.id)}
+                          title="Voir les détails"
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => {
-                            // TODO: Implement download PDF
-                            toast({
-                              title: "Fonctionnalité à venir",
-                              description: "Le téléchargement du PDF sera bientôt disponible.",
-                            });
-                          }}
+                          onClick={() => handleEdit(quote.id)}
+                          title="Modifier"
                         >
-                          <Download className="h-4 w-4" />
+                          <Edit className="h-4 w-4" />
                         </Button>
+                        {(quote.status === 'draft' || quote.status === 'validated') && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleValidateToggle(quote.id, quote.status)}
+                            title={quote.status === 'draft' ? 'Valider' : 'Marquer comme brouillon'}
+                          >
+                            <CheckCircle className={`h-4 w-4 ${quote.status === 'validated' ? 'text-green-600' : ''}`} />
+                          </Button>
+                        )}
                       </div>
                     </TableCell>
                   </TableRow>
@@ -230,6 +344,28 @@ export const AdminQuotesList = () => {
           </div>
         )}
       </Card>
+
+      {/* Modals */}
+      {selectedQuote && (
+        <>
+          <AdminQuoteDetail
+            quote={selectedQuote}
+            open={isDetailOpen}
+            onOpenChange={setIsDetailOpen}
+            onEdit={() => {
+              setIsDetailOpen(false);
+              setIsEditOpen(true);
+            }}
+            onValidate={() => handleValidateToggle(selectedQuote.id, selectedQuote.status)}
+          />
+          <AdminQuoteEdit
+            quote={selectedQuote}
+            open={isEditOpen}
+            onOpenChange={setIsEditOpen}
+            onSuccess={handleSuccess}
+          />
+        </>
+      )}
     </div>
   );
 };

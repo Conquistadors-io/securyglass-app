@@ -48,7 +48,7 @@ export const validateDevis = async (devisId: string): Promise<{ success: boolean
     console.log('🔵 [Validate Devis] Calling validate-quote edge function for:', devisId);
     
     const { data, error } = await supabase.functions.invoke('validate-quote', {
-      body: { devisId }
+      body: { devisId, status: 'validated' }
     });
 
     if (error) {
@@ -66,6 +66,65 @@ export const validateDevis = async (devisId: string): Promise<{ success: boolean
   } catch (err) {
     console.error('❌ [Validate Devis] Unexpected error:', err);
     return { success: false, error: 'Erreur lors de la validation du devis' };
+  }
+};
+
+export const updateDevisStatus = async (
+  devisId: string, 
+  newStatus: string
+): Promise<{ success: boolean; error?: string }> => {
+  try {
+    console.log('🔵 [Update Status] Calling validate-quote edge function for:', devisId, 'with status:', newStatus);
+    
+    const { data, error } = await supabase.functions.invoke('validate-quote', {
+      body: { devisId, status: newStatus }
+    });
+
+    if (error) {
+      console.error('❌ [Update Status] Error from edge function:', error);
+      return { success: false, error: error.message };
+    }
+
+    if (!data || !data.success) {
+      console.error('❌ [Update Status] Edge function returned error:', data?.error);
+      return { success: false, error: data?.error || 'Erreur lors de la mise à jour du statut' };
+    }
+
+    console.log('✅ [Update Status] Status updated successfully:', data.data);
+    return { success: true };
+  } catch (err) {
+    console.error('❌ [Update Status] Unexpected error:', err);
+    return { success: false, error: 'Erreur lors de la mise à jour du statut' };
+  }
+};
+
+export const updateDevis = async (
+  devisId: string, 
+  updatedData: Partial<DevisData>
+): Promise<{ success: boolean; error?: string }> => {
+  try {
+    console.log('🔵 [Update Devis] Updating devis:', devisId);
+    
+    const { data, error } = await supabase
+      .from('devis')
+      .update({
+        ...updatedData,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', devisId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('❌ [Update Devis] Error:', error);
+      return { success: false, error: error.message };
+    }
+
+    console.log('✅ [Update Devis] Devis updated successfully:', data);
+    return { success: true };
+  } catch (err) {
+    console.error('❌ [Update Devis] Unexpected error:', err);
+    return { success: false, error: 'Erreur lors de la mise à jour du devis' };
   }
 };
 
