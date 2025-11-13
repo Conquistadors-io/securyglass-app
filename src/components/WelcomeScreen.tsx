@@ -22,7 +22,7 @@ export const WelcomeScreen = ({
           {/* Zone supérieure : Titres en haut */}
           <div className="flex flex-col pt-8 md:absolute md:left-12 lg:left-16 md:top-8 lg:top-12 md:max-w-2xl lg:max-w-4xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-1">
-              Un bris de glace?
+              Un bris de glace ?
             </h1>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white mb-4 md:mb-6">
               Securyglass !
@@ -39,20 +39,11 @@ export const WelcomeScreen = ({
           
           {/* Zone inférieure : Boutons CTA (bas fixe sur mobile, 2 colonnes sur desktop) */}
           <div className="flex flex-col gap-3 pb-safe md:grid md:grid-cols-2 md:gap-6 lg:gap-8 md:absolute md:left-12 lg:left-16 md:top-[420px] lg:top-[500px] md:max-w-2xl lg:max-w-4xl">
-            <Button 
-              size="lg" 
-              className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-10 lg:px-12 h-12 md:h-14 lg:h-16" 
-              onClick={() => onNavigate("online-quote")}
-            >
+            <Button size="lg" className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-10 lg:px-12 h-12 md:h-14 lg:h-16" onClick={() => onNavigate("online-quote")}>
               Devis gratuit
             </Button>
             <div className="flex flex-col gap-2">
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full border-2 bg-white text-blue-700 border-blue-600 hover:bg-blue-50 px-6 md:px-10 lg:px-12 h-12 md:h-14 lg:h-16" 
-                asChild
-              >
+              <Button variant="outline" size="lg" className="w-full text-sm md:text-base lg:text-lg font-semibold rounded-full border-2 bg-white text-blue-700 border-blue-600 hover:bg-blue-50 px-6 md:px-10 lg:px-12 h-12 md:h-14 lg:h-16" asChild>
                 <a href="tel:0970144344" className="flex items-center justify-center gap-2">
                   <Phone size={18} className="md:w-5 md:h-5" />
                   09 70 14 43 44
