@@ -115,7 +115,7 @@ export const QuoteStep3 = ({
                  <SelectTrigger className={`h-12 border-2 ${validationErrors.category ? 'border-red-500' : 'border-gray-200'} hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10`}>
                   <SelectValue placeholder="Précisez la catégorie" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent side="bottom" align="start">
                   <SelectItem value="fenetre" className="text-blue-600">
                     <div className="flex items-center gap-2">
                       <Square className="w-4 h-4" />
