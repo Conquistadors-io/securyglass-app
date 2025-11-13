@@ -304,15 +304,15 @@ export const QuoteStep4 = ({
             <span className="text-lg font-semibold text-blue-800">Voulez vous une Mise en sécurité ?</span>
           </div>
           <RadioGroup value={miseEnSecurite} onValueChange={setMiseEnSecurite} className="flex gap-4">
-            <div className={`flex items-center space-x-3 px-4 h-12 border-2 rounded-lg transition-colors cursor-pointer ${miseEnSecurite === "non" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
-              <Label htmlFor="securite-non" className="cursor-pointer flex-1 font-medium">
+            <div className={`flex items-center space-x-3 px-4 h-12 border-2 rounded-lg transition-colors cursor-pointer ${miseEnSecurite === "non" ? "bg-primary border-primary" : "border-border"}`}>
+              <Label htmlFor="securite-non" className={`cursor-pointer flex-1 font-medium ${miseEnSecurite === "non" ? "text-primary-foreground" : "text-foreground"}`}>
                 Non
               </Label>
               <RadioGroupItem value="non" id="securite-non" className="w-5 h-5 bg-background ml-auto" />
             </div>
             
-            <div className={`flex items-center space-x-3 px-4 h-12 border-2 rounded-lg transition-colors cursor-pointer ${miseEnSecurite === "oui" ? "bg-primary text-primary-foreground border-primary" : "border-border"}`}>
-              <Label htmlFor="securite-oui" className="cursor-pointer flex-1 font-medium">
+            <div className={`flex items-center space-x-3 px-4 h-12 border-2 rounded-lg transition-colors cursor-pointer ${miseEnSecurite === "oui" ? "bg-primary border-primary" : "border-border"}`}>
+              <Label htmlFor="securite-oui" className={`cursor-pointer flex-1 font-medium ${miseEnSecurite === "oui" ? "text-primary-foreground" : "text-foreground"}`}>
                 Oui
               </Label>
               <RadioGroupItem value="oui" id="securite-oui" className="w-5 h-5 bg-background ml-auto" />
