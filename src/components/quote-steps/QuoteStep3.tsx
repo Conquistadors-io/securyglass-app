@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Shield, MoveVertical, MoveHorizontal, Plus, X, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Maximize2, Store, RectangleHorizontal, ArrowUpFromLine, Sun, Grid3x3, Grid2x2, MoreHorizontal, Ruler, Camera, ArrowRight, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
@@ -96,94 +97,156 @@ export const QuoteStep3 = ({
 
           {/* Section Type de vitrage */}
           <div className="space-y-4">
-             <div className="space-y-2">
+            <div className="space-y-2">
               <Label htmlFor="category" className="text-base font-semibold text-gray-700">
                 Catégorie <span className="text-destructive">*</span>
               </Label>
-               <Select value={formData.category} onValueChange={value => {
-              setFormData(prev => ({
-                ...prev,
-                category: value,
-                subcategory: value === "baie-vitree" ? "coulissante" : "",
-                vitrage: value === "baie-vitree" ? "double" : value === "vitrine" ? "verre-feuillete" : prev.vitrage
-              }));
-              setValidationErrors(prev => ({
-                ...prev,
-                category: false
-              }));
-            }}>
-                 <SelectTrigger className={`w-full h-12 border-2 ${validationErrors.category ? 'border-red-500' : 'border-gray-200'} hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10`}>
-                  <SelectValue placeholder="Précisez la catégorie" />
-                </SelectTrigger>
-                <SelectContent side="bottom" align="start">
-                  <SelectItem value="fenetre" className="text-blue-600">
-                    <div className="flex items-center gap-2">
-                      <Square className="w-4 h-4" />
-                      <span>Fenêtre</span>
+              <RadioGroup
+                value={formData.category}
+                onValueChange={value => {
+                  setFormData(prev => ({
+                    ...prev,
+                    category: value,
+                    subcategory: value === "baie-vitree" ? "coulissante" : "",
+                    vitrage: value === "baie-vitree" ? "double" : value === "vitrine" ? "verre-feuillete" : prev.vitrage
+                  }));
+                  setValidationErrors(prev => ({
+                    ...prev,
+                    category: false
+                  }));
+                }}
+                className="space-y-4"
+              >
+                <label htmlFor="cat-fenetre" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all cursor-pointer hover:border-gray-300 ${formData.category === 'fenetre' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Square className="w-5 h-5 text-primary" />
                     </div>
-                  </SelectItem>
-                  <SelectItem value="porte-vitree" className="text-blue-600">
-                    <div className="flex items-center gap-2">
-                      <DoorOpen className="w-4 h-4" />
-                      <span>Porte vitrée</span>
+                    <div className="flex-1">
+                      <div className={`text-base font-semibold ${formData.category === 'fenetre' ? 'text-primary' : 'text-gray-900'}`}>Fenêtre</div>
                     </div>
-                  </SelectItem>
-                  <SelectItem value="porte-entree" className="text-blue-600">
-                    <div className="flex items-center gap-2">
-                      <DoorClosed className="w-4 h-4" />
-                      <span>Porte d'entrée</span>
+                    <RadioGroupItem value="fenetre" id="cat-fenetre" className="w-6 h-6 ml-auto" />
+                  </div>
+                </label>
+
+                <label htmlFor="cat-porte-vitree" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all cursor-pointer hover:border-gray-300 ${formData.category === 'porte-vitree' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <DoorOpen className="w-5 h-5 text-primary" />
                     </div>
-                  </SelectItem>
-                  <SelectItem value="porte-fenetre" className="text-blue-600">
-                    <div className="flex items-center gap-2">
-                      <Maximize2 className="w-4 h-4" />
-                      <span>Porte-fenêtre</span>
+                    <div className="flex-1">
+                      <div className={`text-base font-semibold ${formData.category === 'porte-vitree' ? 'text-primary' : 'text-gray-900'}`}>Porte vitrée</div>
                     </div>
-                  </SelectItem>
-                  <SelectItem value="vitrine" className="text-blue-600">
-                    <div className="flex items-center gap-2">
-                      <Store className="w-4 h-4" />
-                      <span>Vitrine Magasin</span>
+                    <RadioGroupItem value="porte-vitree" id="cat-porte-vitree" className="w-6 h-6 ml-auto" />
+                  </div>
+                </label>
+
+                <label htmlFor="cat-porte-entree" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all cursor-pointer hover:border-gray-300 ${formData.category === 'porte-entree' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <DoorClosed className="w-5 h-5 text-primary" />
                     </div>
-                  </SelectItem>
-                  <SelectItem value="baie-vitree" className="text-blue-600">
-                    <div className="flex items-center gap-2">
-                      <RectangleHorizontal className="w-4 h-4" />
-                      <span>Baie vitrée</span>
+                    <div className="flex-1">
+                      <div className={`text-base font-semibold ${formData.category === 'porte-entree' ? 'text-primary' : 'text-gray-900'}`}>Porte d'entrée</div>
                     </div>
-                  </SelectItem>
-                  <SelectItem value="marquise" className="text-blue-600">
-                    <div className="flex items-center gap-2">
-                      <ArrowUpFromLine className="w-4 h-4" />
-                      <span>Marquise</span>
+                    <RadioGroupItem value="porte-entree" id="cat-porte-entree" className="w-6 h-6 ml-auto" />
+                  </div>
+                </label>
+
+                <label htmlFor="cat-porte-fenetre" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all cursor-pointer hover:border-gray-300 ${formData.category === 'porte-fenetre' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Maximize2 className="w-5 h-5 text-primary" />
                     </div>
-                  </SelectItem>
-                  <SelectItem value="fenetre-toit" className="text-blue-600">
-                    <div className="flex items-center gap-2">
-                      <Square className="w-4 h-4 rotate-45" />
-                      <span>Fenêtre de toit</span>
+                    <div className="flex-1">
+                      <div className={`text-base font-semibold ${formData.category === 'porte-fenetre' ? 'text-primary' : 'text-gray-900'}`}>Porte-fenêtre</div>
                     </div>
-                  </SelectItem>
-                  <SelectItem value="velux" className="text-blue-600">
-                    <div className="flex items-center gap-2">
-                      <Sun className="w-4 h-4" />
-                      <span>VELUX</span>
+                    <RadioGroupItem value="porte-fenetre" id="cat-porte-fenetre" className="w-6 h-6 ml-auto" />
+                  </div>
+                </label>
+
+                <label htmlFor="cat-vitrine" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all cursor-pointer hover:border-gray-300 ${formData.category === 'vitrine' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Store className="w-5 h-5 text-primary" />
                     </div>
-                  </SelectItem>
-                  <SelectItem value="cloison" className="text-blue-600">
-                    <div className="flex items-center gap-2">
-                      <Grid3x3 className="w-4 h-4" />
-                      <span>Cloison Vitrée Bureaux</span>
+                    <div className="flex-1">
+                      <div className={`text-base font-semibold ${formData.category === 'vitrine' ? 'text-primary' : 'text-gray-900'}`}>Vitrine Magasin</div>
                     </div>
-                  </SelectItem>
-                  <SelectItem value="autre" className="text-blue-600">
-                    <div className="flex items-center gap-2">
-                      <MoreHorizontal className="w-4 h-4" />
-                      <span>Autre</span>
+                    <RadioGroupItem value="vitrine" id="cat-vitrine" className="w-6 h-6 ml-auto" />
+                  </div>
+                </label>
+
+                <label htmlFor="cat-baie-vitree" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all cursor-pointer hover:border-gray-300 ${formData.category === 'baie-vitree' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <RectangleHorizontal className="w-5 h-5 text-primary" />
                     </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+                    <div className="flex-1">
+                      <div className={`text-base font-semibold ${formData.category === 'baie-vitree' ? 'text-primary' : 'text-gray-900'}`}>Baie vitrée</div>
+                    </div>
+                    <RadioGroupItem value="baie-vitree" id="cat-baie-vitree" className="w-6 h-6 ml-auto" />
+                  </div>
+                </label>
+
+                <label htmlFor="cat-marquise" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all cursor-pointer hover:border-gray-300 ${formData.category === 'marquise' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <ArrowUpFromLine className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className={`text-base font-semibold ${formData.category === 'marquise' ? 'text-primary' : 'text-gray-900'}`}>Marquise</div>
+                    </div>
+                    <RadioGroupItem value="marquise" id="cat-marquise" className="w-6 h-6 ml-auto" />
+                  </div>
+                </label>
+
+                <label htmlFor="cat-fenetre-toit" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all cursor-pointer hover:border-gray-300 ${formData.category === 'fenetre-toit' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Square className="w-5 h-5 text-primary rotate-45" />
+                    </div>
+                    <div className="flex-1">
+                      <div className={`text-base font-semibold ${formData.category === 'fenetre-toit' ? 'text-primary' : 'text-gray-900'}`}>Fenêtre de toit</div>
+                    </div>
+                    <RadioGroupItem value="fenetre-toit" id="cat-fenetre-toit" className="w-6 h-6 ml-auto" />
+                  </div>
+                </label>
+
+                <label htmlFor="cat-velux" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all cursor-pointer hover:border-gray-300 ${formData.category === 'velux' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Sun className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className={`text-base font-semibold ${formData.category === 'velux' ? 'text-primary' : 'text-gray-900'}`}>VELUX</div>
+                    </div>
+                    <RadioGroupItem value="velux" id="cat-velux" className="w-6 h-6 ml-auto" />
+                  </div>
+                </label>
+
+                <label htmlFor="cat-cloison" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all cursor-pointer hover:border-gray-300 ${formData.category === 'cloison' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Grid3x3 className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className={`text-base font-semibold ${formData.category === 'cloison' ? 'text-primary' : 'text-gray-900'}`}>Cloison Vitrée Bureaux</div>
+                    </div>
+                    <RadioGroupItem value="cloison" id="cat-cloison" className="w-6 h-6 ml-auto" />
+                  </div>
+                </label>
+
+                <label htmlFor="cat-autre" className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all cursor-pointer hover:border-gray-300 ${formData.category === 'autre' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}>
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <MoreHorizontal className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className={`text-base font-semibold ${formData.category === 'autre' ? 'text-primary' : 'text-gray-900'}`}>Autre</div>
+                    <RadioGroupItem value="autre" id="cat-autre" className="w-6 h-6 ml-auto" />
+                  </div>
+                </label>
+              </RadioGroup>
             </div>
             
             {formData.category === "baie-vitree" && <div className="space-y-2">
