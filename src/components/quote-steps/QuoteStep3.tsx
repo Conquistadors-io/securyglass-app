@@ -364,7 +364,7 @@ export const QuoteStep3 = ({
                 </Dialog>}
               
               <PhotoCapture onPhotoSelect={handlePhotoSelect}>
-                <Button type="button" variant="outline" className="w-full h-20 border-2 border-dashed border-gray-300 hover:border-primary hover:bg-primary/5 transition-all">
+                <Button type="button" variant="outline" className="w-full h-12 border-2 border-dashed border-gray-300 hover:border-primary hover:bg-primary/5 transition-all">
                   <Plus className="h-5 w-5 mr-2" />
                   Ajouter une photo
                 </Button>
