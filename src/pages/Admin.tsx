@@ -23,18 +23,9 @@ export default function AdminPage() {
         return;
       }
 
-      // Check if user has admin role using has_role function
-      const { data, error } = await supabase.rpc('has_role', {
-        _user_id: user.id,
-        _role: 'admin'
-      });
-
-      if (error) {
-        console.error('Error checking admin role:', error);
-        setIsAuthenticated(false);
-      } else {
-        setIsAuthenticated(data === true);
-      }
+      // Check if user email is admin email
+      const isAdmin = user.email === 'yves@securyglass.fr';
+      setIsAuthenticated(isAdmin);
     } catch (error) {
       console.error('Error during auth check:', error);
       setIsAuthenticated(false);

@@ -58,9 +58,10 @@ export const AdminQuotesList = () => {
         quote.quote_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         quote.client_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
         quote.motif?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        quote.clients?.nom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        quote.clients?.prenom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        quote.clients?.mobile?.includes(searchTerm)
+      quote.clients?.nom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      quote.clients?.prenom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      quote.clients?.raison_sociale?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      quote.clients?.mobile?.includes(searchTerm)
       );
       setFilteredQuotes(filtered);
     } else {
@@ -190,31 +191,34 @@ export const AdminQuotesList = () => {
   return (
     <div className="space-y-6">
       <Card className="p-6">
-        <div className="flex items-start gap-4 mb-6">
-          <div className="p-3 rounded-lg bg-primary/10">
-            <FileText className="h-6 w-6 text-primary" />
-          </div>
-          <div className="flex-1">
-            <h2 className="text-xl font-semibold text-foreground mb-2">
-              Historique des Devis
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              Consultez tous les devis générés par le système.
-            </p>
-          </div>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Gestion des Devis</h1>
+          <p className="text-muted-foreground">
+            Recherchez et gérez tous les devis clients
+          </p>
         </div>
 
         {/* Search */}
-        <div className="mb-4">
+        <div className="mb-6">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
-              placeholder="Rechercher par numéro, email, nom, téléphone..."
+              placeholder="Rechercher par numéro, email, nom, prénom, téléphone, raison sociale..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              className="pl-12 h-12 text-base"
             />
           </div>
+          {searchTerm && filteredQuotes.length > 0 && (
+            <p className="text-sm text-muted-foreground mt-2">
+              {filteredQuotes.length} résultat{filteredQuotes.length > 1 ? 's' : ''} trouvé{filteredQuotes.length > 1 ? 's' : ''}
+            </p>
+          )}
+          {searchTerm && filteredQuotes.length === 0 && (
+            <p className="text-sm text-muted-foreground mt-2">
+              Aucun résultat pour "{searchTerm}"
+            </p>
+          )}
         </div>
 
         {/* Stats */}
