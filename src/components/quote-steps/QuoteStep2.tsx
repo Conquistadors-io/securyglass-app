@@ -189,7 +189,7 @@ export const QuoteStep2 = ({
                     )}
 
                     <div 
-                      className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "autre" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}
+                      className={`flex items-center space-x-4 py-3 px-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-md ${formData.object === "autre" ? "border-primary bg-primary/5 shadow-md" : "border-gray-200"}`}
                       onClick={() => setShowAutresOptions(!showAutresOptions)}
                     >
                       <div className="flex items-center gap-3 flex-1">
