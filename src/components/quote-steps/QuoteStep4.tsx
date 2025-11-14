@@ -246,17 +246,13 @@ export const QuoteStep4 = ({
                 <div className="text-foreground">
                   {data.adresse_intervention}
                 </div>
-                <div className="text-foreground">
-                  {[data.codePostal, data.ville].filter(Boolean).join(" ")}
-                </div>
               </>}
             
             {/* Adresse d'intervention si différente */}
             {data.differentInterventionAddress && <div className="mt-3 pt-3 border-t border-muted">
                 <div className="text-sm font-medium text-muted-foreground mb-1">ADRESSE D'INTERVENTION</div>
                 <div className="text-foreground">
-                  {data.interventionAdresse}<br />
-                  {[data.interventionCodePostal, data.interventionVille].filter(Boolean).join(" ")}
+                  {data.interventionAdresse}
                 </div>
               </div>}
             
