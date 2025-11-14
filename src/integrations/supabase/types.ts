@@ -93,6 +93,7 @@ export type Database = {
         Row: {
           assurance: string | null
           category: string | null
+          civilite: string | null
           client_email: string
           created_at: string
           different_intervention_address: boolean
@@ -130,6 +131,7 @@ export type Database = {
         Insert: {
           assurance?: string | null
           category?: string | null
+          civilite?: string | null
           client_email: string
           created_at?: string
           different_intervention_address?: boolean
@@ -167,6 +169,7 @@ export type Database = {
         Update: {
           assurance?: string | null
           category?: string | null
+          civilite?: string | null
           client_email?: string
           created_at?: string
           different_intervention_address?: boolean

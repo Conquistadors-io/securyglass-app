@@ -5,6 +5,7 @@ import { saveClient } from "./clients";
 
 export interface DevisData {
   quote_number?: string;
+  civilite?: string;
   client_email: string;
   service_type: string;
   object: string;
@@ -179,6 +180,7 @@ export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{
     
     // Prepare data for validation
     const dataToValidate = {
+      civilite: formData.civilite,
       client_email: formData.email,
       service_type: formData.serviceType || 'vitrerie',
       object: formData.object || '',
@@ -210,6 +212,7 @@ export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{
 
     const devisData: DevisData = {
       quote_number: quoteNumber,
+      civilite: validationResult.data.civilite,
       client_email: validationResult.data.client_email!,
       service_type: validationResult.data.service_type!,
       object: validationResult.data.object!,
