@@ -211,7 +211,8 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro 
             }
           }}
           placeholder={placeholder}
-          className="pl-10 cursor-pointer"
+          className={`pl-10 ${value ? "cursor-pointer" : ""}`}
+          readOnly={!!value}
         />
       </div>
       

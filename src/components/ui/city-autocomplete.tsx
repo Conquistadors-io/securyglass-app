@@ -168,6 +168,7 @@ export function CityAutocomplete({
         placeholder={departmentCode ? placeholder : "Sélectionnez d'abord un département"}
         disabled={!departmentCode}
         className={`h-12 ${!departmentCode ? "bg-gray-50" : ""} ${value ? "cursor-pointer" : ""}`}
+        readOnly={!!value}
       />
       
       {loading && (
