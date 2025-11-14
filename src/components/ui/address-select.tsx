@@ -18,6 +18,7 @@ interface AddressSelectProps {
 interface AddressSuggestion {
   label: string
   value: string
+  streetOnly?: string
   postcode?: string
   city?: string
 }
@@ -140,15 +141,20 @@ export function AddressSelect({
         filtered = filtered.sort((a, b) => Number(matchesCity(b.properties)) - Number(matchesCity(a.properties)))
 
         const addressSuggestions = filtered.map((feature: any) => {
-          // Extraire seulement le numéro et la rue (sans code postal et ville)
           const fullAddress = feature.properties.label
           const streetAddress = fullAddress.split(',')[0].trim()
+          const postcode = feature.properties.postcode
+          const city = feature.properties.city
+          
+          // Construire le label complet : adresse + code postal + ville
+          const completeLabel = `${streetAddress}, ${postcode} ${city}`
           
           return {
-            label: streetAddress,
-            value: streetAddress,
-            postcode: feature.properties.postcode,
-            city: feature.properties.city,
+            label: completeLabel,
+            value: completeLabel,
+            streetOnly: streetAddress,
+            postcode: postcode,
+            city: city,
           }
         })
         setSuggestions(addressSuggestions)
@@ -209,13 +215,14 @@ export function AddressSelect({
   }
 
   const handleSuggestionClick = (suggestion: AddressSuggestion) => {
+    // Afficher l'adresse COMPLÈTE dans le champ
     setSearchTerm(suggestion.value)
     onValueChange?.(suggestion.value)
     
-    // Si on a des données de code postal et ville, les transmettre
-    if (onAddressSelect && suggestion.postcode && suggestion.city) {
+    // Passer les données séparées pour le formulaire
+    if (onAddressSelect && suggestion.streetOnly && suggestion.postcode && suggestion.city) {
       onAddressSelect({
-        address: suggestion.value,
+        address: suggestion.streetOnly,
         postcode: suggestion.postcode,
         city: suggestion.city,
       })
@@ -223,7 +230,7 @@ export function AddressSelect({
     
     setSuggestions([])
     setShowSuggestions(false)
-    setIsAddressComplete(true) // Marquer comme complète après sélection
+    setIsAddressComplete(true)
     setIsFocused(false)
     inputRef.current?.blur()
   }
