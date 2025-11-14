@@ -472,6 +472,7 @@ export const QuoteSummary = ({
       } = JSON.parse(savedDevisInfo);
       setDevisSaved(true);
       setSavedQuoteNumber(quoteNumber);
+      setSavedDevisId(devisId); // ✅ Correction: assign savedDevisId
       console.log('Found existing devis:', {
         devisId,
         quoteNumber

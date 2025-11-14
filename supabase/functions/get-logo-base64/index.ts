@@ -30,10 +30,11 @@ const fetchImageAsBase64 = async (url: string): Promise<string> => {
   }
 };
 
-// Public URLs of the images (these will be fetched from the deployed app)
+// Public URLs of the images from the deployed app's public folder
+const APP_URL = Deno.env.get('APP_URL') || 'https://kmeyrlplsvdjxowxmzan.supabase.co';
 const LOGO_URLS = {
-  securyglass: 'https://kmeyrlplsvdjxowxmzan.supabase.co/storage/v1/object/public/assets/securyglass-logo.png',
-  certification: 'https://kmeyrlplsvdjxowxmzan.supabase.co/storage/v1/object/public/assets/certification-qualite.jpg',
+  securyglass: `${APP_URL}/securyglass-logo.png`,
+  certification: `${APP_URL}/certification-qualite.jpg`,
 };
 
 // Alternative: If images are not in storage yet, we'll need to upload them first
