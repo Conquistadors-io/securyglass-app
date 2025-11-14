@@ -126,7 +126,7 @@ export const QuoteStep3 = ({
                   }));
                 }}
               >
-                <SelectTrigger className={`w-full h-auto min-h-[68px] rounded-xl border-2 ${validationErrors.category ? 'border-red-500' : 'border-gray-200'} bg-white px-5 py-5 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all`}>
+                <SelectTrigger className={`w-full h-auto min-h-[68px] rounded-xl border-2 px-5 py-5 transition-all duration-200 ${validationErrors.category ? 'border-red-500' : formData.category ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'} hover:border-primary hover:shadow-md focus:border-primary focus:ring-4 focus:ring-primary/10`}>
                   <div className="flex items-center gap-3 w-full">
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                       {formData.category === 'fenetre' && <Square className="w-5 h-5 text-primary" />}
@@ -142,7 +142,7 @@ export const QuoteStep3 = ({
                       {formData.category === 'autre' && <MoreHorizontal className="w-5 h-5 text-primary" />}
                     </div>
                     <div className="flex-1 text-left">
-                      <span className="text-base font-semibold text-gray-900">
+                      <span className={`text-base font-semibold ${formData.category ? 'text-primary' : 'text-gray-900'}`}>
                         {formData.category ? categoryLabels[formData.category] : "Choisir la catégorie"}
                       </span>
                     </div>
@@ -227,7 +227,7 @@ export const QuoteStep3 = ({
                 subcategory: value
               }));
             }}>
-                <SelectTrigger className="w-full h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
+                <SelectTrigger className={`w-full h-12 border-2 transition-all duration-200 ${formData.subcategory ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'} hover:border-primary hover:shadow-md focus:border-primary focus:ring-4 focus:ring-primary/10`}>
                   <SelectValue placeholder="Sélectionnez le type" />
                 </SelectTrigger>
                   <SelectContent>
@@ -251,7 +251,7 @@ export const QuoteStep3 = ({
                 vitrage: false
               }));
             }}>
-                <SelectTrigger className={`w-full h-12 border-2 ${validationErrors.vitrage ? 'border-red-500' : 'border-gray-200'} hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10`}>
+                <SelectTrigger className={`w-full h-12 border-2 transition-all duration-200 ${validationErrors.vitrage ? 'border-red-500' : formData.vitrage ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'} hover:border-primary hover:shadow-md focus:border-primary focus:ring-4 focus:ring-primary/10`}>
                   <SelectValue placeholder="Sélectionnez le type de vitrage" />
                 </SelectTrigger>
                 <SelectContent>
