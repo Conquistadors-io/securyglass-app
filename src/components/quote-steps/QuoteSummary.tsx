@@ -5,6 +5,7 @@ import { CheckCircle, Download, Calendar, CreditCard, FileText, Mail, Eye } from
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { saveDevis, validateDevis } from "@/services/devis";
 import { generateQuotePDF, generateQuotePDFBase64, QuotePDFData } from "@/lib/pdf-generator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -34,6 +35,8 @@ export const QuoteSummary = ({
   const [motifDescription, setMotifDescription] = useState<string>('');
   const [showPDFPreview, setShowPDFPreview] = useState(false);
   const [pdfData, setPdfData] = useState<QuotePDFData | null>(null);
+  const [validationToken, setValidationToken] = useState<string>('');
+  const navigate = useNavigate();
   
   // Fetch motif description from database
   const fetchMotifDescription = async () => {
@@ -740,6 +743,22 @@ export const QuoteSummary = ({
       console.log("✅ [Email] Email sent successfully to:", data.email);
       setEmailSent(true);
       
+      // Récupérer le validation_token du devis
+      try {
+        const { data: devisData, error: tokenError } = await supabase
+          .from('devis')
+          .select('validation_token')
+          .eq('id', savedDevisId)
+          .single();
+
+        if (devisData?.validation_token && !tokenError) {
+          setValidationToken(devisData.validation_token);
+          console.log("✅ [Email] Validation token retrieved successfully");
+        }
+      } catch (error) {
+        console.error('❌ [Email] Error fetching validation token:', error);
+      }
+      
       // Marquer le devis comme complété dans le cache
       try {
         const cache = localStorage.getItem('quote-cache');
@@ -912,6 +931,17 @@ export const QuoteSummary = ({
       {/* Action Buttons */}
       {emailSent && (
         <div className="space-y-4">
+          {validationToken && (
+            <Button 
+              variant="default" 
+              size="lg" 
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold" 
+              onClick={() => navigate(`/devis/valider?token=${validationToken}`)}
+            >
+              <CheckCircle className="h-5 w-5 mr-2" />
+              ✓ Valider le devis
+            </Button>
+          )}
           <Button 
             variant="default" 
             size="lg" 
