@@ -22,16 +22,11 @@ export default function AdminLogin() {
   }, []);
 
   const checkExistingSession = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const { data: hasAdminRole } = await supabase.rpc('has_role' as any, {
-        _user_id: user.id,
-        _role: 'admin'
-      });
-      
-      if (hasAdminRole) {
-        navigate('/admin', { replace: true });
-      }
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      // Redirection simple sans vérification du rôle
+      // Admin.tsx gérera la vérification
+      navigate('/admin', { replace: true });
     }
   };
 
