@@ -130,6 +130,16 @@ export function CityAutocomplete({
     }, 200);
   };
 
+  // Gérer le clic pour réinitialiser
+  const handleClick = () => {
+    if (value) {
+      setInputValue('');
+      onValueChange?.('');
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+
   if (disabled) {
     return (
       <Input
@@ -149,22 +159,16 @@ export function CityAutocomplete({
         value={inputValue}
         onChange={handleInputChange}
         onBlur={handleBlur}
-        onClick={() => {
-          if (inputValue) {
-            setInputValue('');
-            onValueChange?.('');
-            setSuggestions([]);
-            setShowSuggestions(false);
-          }
-        }}
+        onClick={handleClick}
         onFocus={() => {
-          if (suggestions.length > 0) {
+          if (suggestions.length > 0 && !value) {
             setShowSuggestions(true);
           }
         }}
         placeholder={departmentCode ? placeholder : "Sélectionnez d'abord un département"}
         disabled={!departmentCode}
-        className={`h-12 ${!departmentCode ? "bg-gray-50" : ""}`}
+        className={`h-12 ${!departmentCode ? "bg-gray-50" : ""} ${value ? "cursor-pointer" : ""}`}
+        readOnly={!!value}
       />
       
       {loading && (
