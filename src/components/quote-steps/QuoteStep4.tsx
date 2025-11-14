@@ -231,7 +231,6 @@ export const QuoteStep4 = ({
               className="h-10 border-2 hover:border-primary hover:bg-primary/5"
               onClick={() => onModify(1)}
             >
-              <Edit3 className="w-4 h-4 mr-2" />
               Modifier
             </Button>
           </div>
@@ -284,7 +283,6 @@ export const QuoteStep4 = ({
               className="h-10 border-2 hover:border-primary hover:bg-primary/5"
               onClick={() => onModify(2)}
             >
-              <Edit3 className="w-4 h-4 mr-2" />
               Modifier
             </Button>
           </div>
