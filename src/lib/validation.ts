@@ -39,6 +39,10 @@ export const clientSchema = z.object({
 });
 
 export const devisSchema = z.object({
+  civilite: z.string()
+    .trim()
+    .max(50)
+    .optional(),
   client_email: z.string()
     .trim()
     .email("Format d'email invalide")
