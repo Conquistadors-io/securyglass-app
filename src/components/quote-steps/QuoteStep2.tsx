@@ -256,7 +256,11 @@ export const QuoteStep2 = ({
               motifOther: ""
             }))}>
                 <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10">
-                  <SelectValue placeholder="Cause du sinistre" className="text-primary" />
+                  {formData.motif ? (
+                    <SelectValue />
+                  ) : (
+                    <span className="text-primary">Cause du sinistre</span>
+                  )}
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="sans-cause-apparente">Sans cause apparente</SelectItem>
