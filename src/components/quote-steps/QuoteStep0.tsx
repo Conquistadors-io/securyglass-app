@@ -101,7 +101,7 @@ export const QuoteStep0 = ({
                   </label>
                 )}
                 
-                  <div className={`flex items-center space-x-4 p-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-gray-300 ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}
+                  <div className={`flex items-center space-x-4 py-3 px-5 border-2 rounded-xl transition-all duration-200 cursor-pointer hover:border-gray-300 ${formData.serviceType === 'autres' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200'}`}
                   onClick={() => {
                     setShowAutresOptions(!showAutresOptions);
                   }}
