@@ -8,11 +8,13 @@ interface AddressSelectProps {
   value?: string
   onValueChange?: (value: string) => void
   onAddressSelect?: (data: { address: string; postcode: string; city: string }) => void
+  onAddressIncomplete?: () => void
   placeholder?: string
   departmentCode?: string
   city?: string
   disabled?: boolean
   id?: string
+  showError?: boolean
 }
 
 interface AddressSuggestion {
@@ -27,11 +29,13 @@ export function AddressSelect({
   value, 
   onValueChange, 
   onAddressSelect,
+  onAddressIncomplete,
   placeholder = "Tapez votre adresse", 
   departmentCode,
   city,
   disabled = false,
-  id
+  id,
+  showError = false
 }: AddressSelectProps) {
   const [searchTerm, setSearchTerm] = useState(value || "")
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([])
@@ -206,10 +210,12 @@ export function AddressSelect({
     // Si l'utilisateur efface complètement le champ, réinitialiser
     if (newValue.trim() === "") {
       setIsAddressComplete(false)
+      onAddressIncomplete?.()
     }
     // Si l'utilisateur modifie une adresse existante, réinitialiser seulement si elle était complète
     else if (isAddressComplete) {
       setIsAddressComplete(false)
+      onAddressIncomplete?.()
     }
     onValueChange?.(newValue)
   }
@@ -263,7 +269,10 @@ export function AddressSelect({
           onBlur={handleInputBlur}
           placeholder={placeholder}
           disabled={disabled}
-          className="pl-12 h-12"
+          className={cn(
+            "pl-12 h-12",
+            showError && !isAddressComplete && searchTerm.length > 0 && "border-destructive focus-visible:ring-destructive"
+          )}
         />
       </div>
       
