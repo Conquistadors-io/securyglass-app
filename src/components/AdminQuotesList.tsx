@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Eye, Download, Search, Edit, CheckCircle, Mail, Phone, Filter } from "lucide-react";
+import { FileText, Eye, Download, Search, Edit, CheckCircle, Mail, Phone, Filter, FilePlus, RefreshCw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -35,6 +35,7 @@ interface Quote {
   service_type: string;
   motif: string | null;
   vitrage: string | null;
+  pdf_url: string | null;
   clients?: {
     nom: string | null;
     prenom: string | null;
@@ -143,6 +144,36 @@ export const AdminQuotesList = () => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGeneratePDF = async (quoteId: string) => {
+    try {
+      toast({
+        title: "Génération du PDF",
+        description: "Génération en cours...",
+      });
+
+      const { data, error } = await supabase.functions.invoke(
+        'generate-store-quote-pdf',
+        { body: { quoteId } }
+      );
+
+      if (error) throw error;
+
+      toast({
+        title: "Succès",
+        description: "PDF généré avec succès",
+      });
+
+      loadQuotes();
+    } catch (error: any) {
+      console.error('Error generating PDF:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de générer le PDF",
+        variant: "destructive",
+      });
     }
   };
 
@@ -473,6 +504,7 @@ export const AdminQuotesList = () => {
                   <TableHead>Vitrage</TableHead>
                   <TableHead>Statut</TableHead>
                   <TableHead className="text-right">Montant TTC</TableHead>
+                  <TableHead>PDF</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -514,6 +546,38 @@ export const AdminQuotesList = () => {
                     <TableCell>{getStatusBadge(quote.status)}</TableCell>
                     <TableCell className="text-right font-semibold">
                       {quote.price_total ? `${quote.price_total.toFixed(2)} €` : 'N/A'}
+                    </TableCell>
+                    <TableCell>
+                      {quote.pdf_url ? (
+                        <div className="flex items-center gap-2">
+                          <a 
+                            href={quote.pdf_url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline"
+                            title="Télécharger le PDF"
+                          >
+                            <FileText className="h-4 w-4" />
+                          </a>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleGeneratePDF(quote.id)}
+                            title="Régénérer le PDF"
+                          >
+                            <RefreshCw className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleGeneratePDF(quote.id)}
+                          title="Générer le PDF"
+                        >
+                          <FilePlus className="h-4 w-4" />
+                        </Button>
+                      )}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-1">
