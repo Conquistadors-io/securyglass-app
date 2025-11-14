@@ -112,23 +112,27 @@ export const QuoteStep3 = ({
                   }));
                 }}
               >
-                <SelectTrigger className={`w-full h-14 border-2 ${validationErrors.category ? 'border-red-500' : 'border-gray-200'} hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10`}>
-                  <div className="flex items-center gap-3">
-                    {formData.category === 'fenetre' && <Square className="w-5 h-5 text-primary" />}
-                    {formData.category === 'porte-vitree' && <DoorOpen className="w-5 h-5 text-primary" />}
-                    {formData.category === 'porte-entree' && <DoorClosed className="w-5 h-5 text-primary" />}
-                    {formData.category === 'porte-fenetre' && <Maximize2 className="w-5 h-5 text-primary" />}
-                    {formData.category === 'vitrine' && <Store className="w-5 h-5 text-primary" />}
-                    {formData.category === 'baie-vitree' && <RectangleHorizontal className="w-5 h-5 text-primary" />}
-                    {formData.category === 'marquise' && <ArrowUpFromLine className="w-5 h-5 text-primary" />}
-                    {formData.category === 'fenetre-toit' && <Square className="w-5 h-5 text-primary rotate-45" />}
-                    {formData.category === 'velux' && <Sun className="w-5 h-5 text-primary" />}
-                    {formData.category === 'cloison' && <Grid3x3 className="w-5 h-5 text-primary" />}
-                    {formData.category === 'autre' && <MoreHorizontal className="w-5 h-5 text-primary" />}
-                    <SelectValue placeholder="Sélectionnez une catégorie" />
+                <SelectTrigger className={`w-full h-auto min-h-[68px] rounded-xl border-2 ${validationErrors.category ? 'border-red-500' : 'border-gray-200'} bg-white px-5 py-5 hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all`}>
+                  <div className="flex items-center gap-3 w-full">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      {formData.category === 'fenetre' && <Square className="w-5 h-5 text-primary" />}
+                      {formData.category === 'porte-vitree' && <DoorOpen className="w-5 h-5 text-primary" />}
+                      {formData.category === 'porte-entree' && <DoorClosed className="w-5 h-5 text-primary" />}
+                      {formData.category === 'porte-fenetre' && <Maximize2 className="w-5 h-5 text-primary" />}
+                      {formData.category === 'vitrine' && <Store className="w-5 h-5 text-primary" />}
+                      {formData.category === 'baie-vitree' && <RectangleHorizontal className="w-5 h-5 text-primary" />}
+                      {formData.category === 'marquise' && <ArrowUpFromLine className="w-5 h-5 text-primary" />}
+                      {formData.category === 'fenetre-toit' && <Square className="w-5 h-5 text-primary rotate-45" />}
+                      {formData.category === 'velux' && <Sun className="w-5 h-5 text-primary" />}
+                      {formData.category === 'cloison' && <Grid3x3 className="w-5 h-5 text-primary" />}
+                      {formData.category === 'autre' && <MoreHorizontal className="w-5 h-5 text-primary" />}
+                    </div>
+                    <div className="flex-1 text-left">
+                      <SelectValue placeholder="Choisir la catégorie" />
+                    </div>
                   </div>
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="z-[60]">
                   <SelectItem value="fenetre">
                     <div className="flex items-center gap-2">
                       <Square className="w-4 h-4" />
