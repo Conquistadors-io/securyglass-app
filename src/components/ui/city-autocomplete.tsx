@@ -149,6 +149,14 @@ export function CityAutocomplete({
         value={inputValue}
         onChange={handleInputChange}
         onBlur={handleBlur}
+        onClick={() => {
+          if (inputValue) {
+            setInputValue('');
+            onValueChange?.('');
+            setSuggestions([]);
+            setShowSuggestions(false);
+          }
+        }}
         onFocus={() => {
           if (suggestions.length > 0) {
             setShowSuggestions(true);
