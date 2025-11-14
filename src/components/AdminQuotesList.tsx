@@ -584,8 +584,18 @@ export const AdminQuotesList = () => {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleViewDetails(quote.id)}
-                          title="Voir les détails"
+                          onClick={() => {
+                            if (quote.pdf_url) {
+                              window.open(quote.pdf_url, '_blank', 'noopener,noreferrer');
+                            } else {
+                              toast({
+                                title: "PDF non disponible",
+                                description: "Le PDF du devis n'a pas encore été généré.",
+                                variant: "destructive",
+                              });
+                            }
+                          }}
+                          title="Ouvrir le PDF"
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
