@@ -11,7 +11,7 @@ export const WelcomeScreen = ({
       {/* Formation Artisans Banner */}
       <div className="relative w-full h-screen md:aspect-square bg-background overflow-hidden">
         {/* Image de fond */}
-        <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-cover object-[center_20%] md:object-center" />
+        <img src={formationArtisans} alt="Formation artisans aux réseaux sociaux" className="w-full h-full object-cover object-[35%_20%] md:object-center" />
         
         {/* Overlay léger pour contraste sur mobile */}
         <div className="absolute inset-0 bg-black/10 md:bg-transparent" />
