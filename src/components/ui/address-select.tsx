@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 interface AddressSelectProps {
   value?: string
   onValueChange?: (value: string) => void
+  onAddressSelect?: (data: { address: string; postcode: string; city: string }) => void
   placeholder?: string
   departmentCode?: string
   city?: string
@@ -17,11 +18,14 @@ interface AddressSelectProps {
 interface AddressSuggestion {
   label: string
   value: string
+  postcode?: string
+  city?: string
 }
 
 export function AddressSelect({ 
   value, 
   onValueChange, 
+  onAddressSelect,
   placeholder = "Tapez votre adresse", 
   departmentCode,
   city,
@@ -143,6 +147,8 @@ export function AddressSelect({
           return {
             label: streetAddress,
             value: streetAddress,
+            postcode: feature.properties.postcode,
+            city: feature.properties.city,
           }
         })
         setSuggestions(addressSuggestions)
@@ -205,6 +211,16 @@ export function AddressSelect({
   const handleSuggestionClick = (suggestion: AddressSuggestion) => {
     setSearchTerm(suggestion.value)
     onValueChange?.(suggestion.value)
+    
+    // Si on a des données de code postal et ville, les transmettre
+    if (onAddressSelect && suggestion.postcode && suggestion.city) {
+      onAddressSelect({
+        address: suggestion.value,
+        postcode: suggestion.postcode,
+        city: suggestion.city,
+      })
+    }
+    
     setSuggestions([])
     setShowSuggestions(false)
     setIsAddressComplete(true) // Marquer comme complète après sélection

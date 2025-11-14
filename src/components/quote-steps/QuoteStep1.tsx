@@ -7,8 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { User, Phone, Mail, MapPin, Hash, Shield, Star } from "lucide-react";
-import { DepartmentSelect } from "@/components/ui/department-select";
-import { CityAutocomplete } from "@/components/ui/city-autocomplete";
 import { AddressSelect } from "@/components/ui/address-select";
 import { InsuranceSelect } from "@/components/ui/insurance-select";
 import { saveClient } from "@/services/clients";
@@ -44,10 +42,6 @@ export const QuoteStep1 = ({
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [prevDepartment, setPrevDepartment] = useState(data.codePostal || "");
-  const [prevCity, setPrevCity] = useState(data.ville || "");
-  const [prevInterventionDepartment, setPrevInterventionDepartment] = useState(data.interventionCodePostal || "");
-  const [prevInterventionCity, setPrevInterventionCity] = useState(data.interventionVille || "");
 
   // Refs pour le focus automatique
   const raisonSocialeRef = useRef<HTMLInputElement>(null);
@@ -55,46 +49,6 @@ export const QuoteStep1 = ({
   const prenomRef = useRef<HTMLInputElement>(null);
   const mobileRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-
-  // Réinitialiser la ville et l'adresse si le département change
-  useEffect(() => {
-    if (formData.codePostal !== prevDepartment) {
-      setFormData(prev => ({
-        ...prev,
-        ville: "",
-        adresse_intervention: ""
-      }));
-      setPrevDepartment(formData.codePostal);
-      setPrevCity("");
-    } else if (formData.ville !== prevCity) {
-      // Si seule la ville change, réinitialiser uniquement l'adresse
-      setFormData(prev => ({
-        ...prev,
-        adresse_intervention: ""
-      }));
-      setPrevCity(formData.ville);
-    }
-  }, [formData.codePostal, formData.ville, prevDepartment, prevCity]);
-
-  // Réinitialiser la ville et l'adresse d'intervention si le département d'intervention change
-  useEffect(() => {
-    if (formData.interventionCodePostal !== prevInterventionDepartment) {
-      setFormData(prev => ({
-        ...prev,
-        interventionVille: "",
-        interventionAdresse: ""
-      }));
-      setPrevInterventionDepartment(formData.interventionCodePostal);
-      setPrevInterventionCity("");
-    } else if (formData.interventionVille !== prevInterventionCity) {
-      // Si seule la ville change, réinitialiser uniquement l'adresse
-      setFormData(prev => ({
-        ...prev,
-        interventionAdresse: ""
-      }));
-      setPrevInterventionCity(formData.interventionVille);
-    }
-  }, [formData.interventionCodePostal, formData.interventionVille, prevInterventionDepartment, prevInterventionCity]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -134,6 +88,7 @@ export const QuoteStep1 = ({
   const companyNameRequired = isCompanyOrBTP && !formData.raison_sociale;
   
   const isValid = formData.nom && formData.mobile && formData.email && 
+    formData.adresse_intervention && formData.codePostal && formData.ville &&
     !companyNameRequired && interventionFieldsValid;
 
   return <Card className="shadow-card border-0">
@@ -294,56 +249,22 @@ export const QuoteStep1 = ({
           </div>
 
           <div>
-            <Label htmlFor="codePostal">Département <span className="text-destructive">*</span></Label>
-            <div className="mt-1">
-              <DepartmentSelect 
-                value={formData.codePostal} 
-                onValueChange={(value) => setFormData(prev => ({
-                  ...prev,
-                  codePostal: value
-                }))}
-                placeholder="75 Numéro du département"
-                onComplete={() => {
-                  setTimeout(() => document.getElementById('city-input')?.focus(), 100);
-                }}
-              />
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="ville">Ville <span className="text-destructive">*</span></Label>
-            <div className="mt-1">
-              <CityAutocomplete 
-                id="city-input"
-                value={formData.codePostal ? formData.ville : ""} 
-                onValueChange={(value) => setFormData(prev => ({
-                  ...prev,
-                  ville: value
-                }))}
-                departmentCode={formData.codePostal}
-                placeholder="Saisissez votre ville"
-                disabled={!formData.codePostal}
-                onComplete={() => {
-                  setTimeout(() => document.getElementById('address-input')?.focus(), 100);
-                }}
-              />
-            </div>
-          </div>
-
-          <div>
             <Label htmlFor="adresse_intervention">Adresse d'intervention <span className="text-destructive">*</span></Label>
             <div className="mt-1">
               <AddressSelect 
                 id="address-input"
-                value={formData.codePostal && formData.ville ? formData.adresse_intervention : ""} 
+                value={formData.adresse_intervention} 
                 onValueChange={(value) => setFormData(prev => ({
                   ...prev,
                   adresse_intervention: value
                 }))}
-                departmentCode={formData.codePostal}
-                city={formData.ville}
-                placeholder=""
-                disabled={!formData.codePostal || !formData.ville}
+                onAddressSelect={(data) => setFormData(prev => ({
+                  ...prev,
+                  adresse_intervention: data.address,
+                  codePostal: data.postcode,
+                  ville: data.city
+                }))}
+                placeholder="Recherchez votre adresse en France"
               />
             </div>
             <p className="text-xs text-muted-foreground mt-1">Adresse où aura lieu l'intervention</p>
@@ -373,48 +294,21 @@ export const QuoteStep1 = ({
               {formData.differentInterventionAddress && (
                 <div className="space-y-4 ml-6">
                   <div>
-                    <Label htmlFor="interventionCodePostal">Département d'intervention <span className="text-destructive">*</span></Label>
-                    <div className="mt-1">
-                      <DepartmentSelect 
-                        value={formData.interventionCodePostal} 
-                        onValueChange={(value) => setFormData(prev => ({
-                          ...prev,
-                          interventionCodePostal: value
-                        }))}
-                        placeholder="75 Numéro du département"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="interventionVille">Ville d'intervention <span className="text-destructive">*</span></Label>
-                    <div className="mt-1">
-                      <CityAutocomplete 
-                        value={formData.interventionCodePostal ? formData.interventionVille : ""} 
-                        onValueChange={(value) => setFormData(prev => ({
-                          ...prev,
-                          interventionVille: value
-                        }))}
-                        departmentCode={formData.interventionCodePostal}
-                        placeholder="Saisissez la ville"
-                        disabled={!formData.interventionCodePostal}
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="interventionAdresse">Adresse d'intervention (facultatif)</Label>
+                    <Label htmlFor="interventionAdresse">Adresse d'intervention <span className="text-destructive">*</span></Label>
                     <div className="mt-1">
                       <AddressSelect 
-                        value={formData.interventionCodePostal && formData.interventionVille ? formData.interventionAdresse : ""} 
+                        value={formData.interventionAdresse} 
                         onValueChange={(value) => setFormData(prev => ({
                           ...prev,
                           interventionAdresse: value
                         }))}
-                        departmentCode={formData.interventionCodePostal}
-                        city={formData.interventionVille}
-                        placeholder="Tapez votre adresse d'intervention"
-                        disabled={!formData.interventionCodePostal || !formData.interventionVille}
+                        onAddressSelect={(data) => setFormData(prev => ({
+                          ...prev,
+                          interventionAdresse: data.address,
+                          interventionCodePostal: data.postcode,
+                          interventionVille: data.city
+                        }))}
+                        placeholder="Recherchez l'adresse d'intervention en France"
                       />
                     </div>
                   </div>
