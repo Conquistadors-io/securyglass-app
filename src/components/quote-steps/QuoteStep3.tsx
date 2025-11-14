@@ -391,18 +391,17 @@ export const QuoteStep3 = ({
                       <DialogTrigger asChild>
                         <button type="button" className="flex items-center gap-2 text-base font-medium text-primary cursor-pointer hover:text-primary/80 transition-colors">
                           <Eye className="h-4 w-4" />
-                          Voir la photo
+                          Voir photo
                         </button>
                       </DialogTrigger>
                       <Button 
                         type="button" 
-                        size="sm" 
+                        size="icon" 
                         variant="outline" 
                         onClick={handlePhotoDelete} 
                         className="text-red-600 border-red-200 hover:bg-red-50"
                       >
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        Supprimer
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
