@@ -742,12 +742,12 @@ export const QuoteSummary = ({
   }, [emailSent, isLoading, devisSaved, savedQuoteNumber, priceCalculation, calculationLoading]);
   return <div className="space-y-6">
       {/* Header Card */}
-      <Card className="shadow-card border-2 border-success">
-        <div className="p-6 bg-success/10">
+      <Card className={`shadow-card border-2 ${emailSent ? 'border-success' : 'border-primary'}`}>
+        <div className={`p-6 ${emailSent ? 'bg-success/10' : 'bg-primary/5'}`}>
           <div className="text-center">
-            <CheckCircle className="h-12 w-12 text-success mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-foreground mb-2">
-              {isLoading ? "Envoi en cours..." : emailSent ? "Devis envoyé !" : "Préparation du devis..."}
+            {emailSent && <CheckCircle className="h-12 w-12 text-success mx-auto mb-4" />}
+            <h2 className={`text-2xl font-bold mb-2 ${emailSent ? 'text-success' : 'text-primary'}`}>
+              {isLoading ? "Envoi en cours..." : emailSent ? "Devis envoyé !" : <span>Devis en cours<span className="animate-dots">...</span></span>}
             </h2>
             <p className="text-muted-foreground">
               {emailSent ? `à : ${data.email}` : isLoading ? "Veuillez patienter..." : ""}
