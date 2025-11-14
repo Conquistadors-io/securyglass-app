@@ -248,11 +248,9 @@ export const QuoteSummary = ({
   // Helper function to load logos with edge function + fallback
   const loadLogo = async (logoName: 'securyglass' | 'certification'): Promise<string> => {
     try {
-      // Try edge function first
+      // Try edge function first with query parameter
       console.log(`🔵 [Logo] Trying edge function for ${logoName}...`);
-      const { data, error } = await supabase.functions.invoke('get-logo-base64', {
-        body: { logo: logoName }
-      });
+      const { data, error } = await supabase.functions.invoke(`get-logo-base64?logo=${logoName}`);
       
       if (!error && data?.base64) {
         console.log(`✅ [Logo] Loaded ${logoName} from edge function`);
