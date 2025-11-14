@@ -188,7 +188,7 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro 
   }
 
   const handleClick = () => {
-    // Si un département est déjà sélectionné, le réinitialiser
+    // Si un département est déjà sélectionné, effacer pour permettre une nouvelle saisie
     if (value) {
       onValueChange?.("")
       setInputValue("")
@@ -212,7 +212,6 @@ export function DepartmentSelect({ value, onValueChange, placeholder = "Numéro 
           }}
           placeholder={placeholder}
           className="pl-10 cursor-pointer"
-          readOnly={!!value}
         />
       </div>
       
