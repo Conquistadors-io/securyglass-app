@@ -42,6 +42,7 @@ export const QuoteStep1 = ({
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [addressTouched, setAddressTouched] = useState(false);
 
   // Refs pour le focus automatique
   const raisonSocialeRef = useRef<HTMLInputElement>(null);
@@ -254,20 +255,42 @@ export const QuoteStep1 = ({
               <AddressSelect 
                 id="address-input"
                 value={formData.adresse_intervention} 
-                onValueChange={(value) => setFormData(prev => ({
-                  ...prev,
-                  adresse_intervention: value
-                }))}
-                onAddressSelect={(data) => setFormData(prev => ({
-                  ...prev,
-                  adresse_intervention: data.address,
-                  codePostal: data.postcode,
-                  ville: data.city
-                }))}
+                onValueChange={(value) => {
+                  setFormData(prev => ({
+                    ...prev,
+                    adresse_intervention: value
+                  }));
+                  setAddressTouched(true);
+                }}
+                onAddressSelect={(data) => {
+                  setFormData(prev => ({
+                    ...prev,
+                    adresse_intervention: data.address,
+                    codePostal: data.postcode,
+                    ville: data.city
+                  }));
+                  setAddressTouched(true);
+                }}
+                onAddressIncomplete={() => {
+                  setFormData(prev => ({
+                    ...prev,
+                    codePostal: "",
+                    ville: ""
+                  }));
+                }}
                 placeholder="Recherchez votre adresse en France"
+                showError={addressTouched && (!formData.codePostal || !formData.ville)}
               />
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Adresse où aura lieu l'intervention</p>
+            {addressTouched && formData.adresse_intervention && (!formData.codePostal || !formData.ville) ? (
+              <p className="text-xs text-destructive mt-1">
+                Veuillez sélectionner une adresse dans la liste de suggestions
+              </p>
+            ) : (
+              <p className="text-xs text-muted-foreground mt-1">
+                Adresse où aura lieu l'intervention
+              </p>
+            )}
           </div>
 
           {/* Adresse d'intervention différente pour les sociétés/BTP */}
