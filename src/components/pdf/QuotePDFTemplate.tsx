@@ -125,6 +125,9 @@ const styles = StyleSheet.create({
   },
   clientLine: {
     marginBottom: 2,
+    maxWidth: '100%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   clientLabel: {
     fontFamily: 'Helvetica-Bold',

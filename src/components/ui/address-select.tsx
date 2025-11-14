@@ -75,7 +75,10 @@ export function AddressSelect({
 
     return baseAddresses.map(addr => ({
       label: addr,
-      value: addr
+      value: addr,
+      streetOnly: addr,
+      postcode: departmentCode ? `${departmentCode}000` : undefined,
+      city: city || undefined
     }))
   }, [city])
 
@@ -253,7 +256,7 @@ export function AddressSelect({
     setTimeout(() => { 
       setShowSuggestions(false)
       setIsFocused(false)
-    }, 200)
+    }, 300)
   }
 
   return (
@@ -287,7 +290,10 @@ export function AddressSelect({
             <div
               key={`${suggestion.value}-${index}`}
               className="px-4 py-3 text-sm cursor-pointer hover:bg-primary/5 transition-all duration-150 border-b border-gray-100 last:border-0 text-gray-900 font-medium"
-              onClick={() => handleSuggestionClick(suggestion)}
+              onMouseDown={(e) => {
+                e.preventDefault()
+                handleSuggestionClick(suggestion)
+              }}
             >
               {suggestion.label}
             </div>
