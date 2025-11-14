@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle, Download, Calendar, CreditCard, FileText, Mail } from "lucide-react";
+import { CheckCircle, Download, Calendar, CreditCard, FileText, Mail, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import { saveDevis, validateDevis } from "@/services/devis";
 import { generateQuotePDF, generateQuotePDFBase64, QuotePDFData } from "@/lib/pdf-generator";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { PDFViewer } from "@react-pdf/renderer";
+import { QuotePDFTemplate } from "@/components/pdf/QuotePDFTemplate";
 interface QuoteSummaryProps {
   data: any;
   onNavigate: (route: string) => void;
@@ -29,6 +32,8 @@ export const QuoteSummary = ({
   const [savedDevisId, setSavedDevisId] = useState<string>('');
   const [devisValidated, setDevisValidated] = useState(false);
   const [motifDescription, setMotifDescription] = useState<string>('');
+  const [showPDFPreview, setShowPDFPreview] = useState(false);
+  const [pdfData, setPdfData] = useState<QuotePDFData | null>(null);
   
   // Fetch motif description from database
   const fetchMotifDescription = async () => {
@@ -296,7 +301,7 @@ export const QuoteSummary = ({
       });
       
       const displayQuoteNumber = savedQuoteNumber || quoteNumber;
-      const pdfData: QuotePDFData = {
+      const pdfDataToDownload: QuotePDFData = {
         quoteNumber: displayQuoteNumber,
         date: new Date().toLocaleDateString('fr-FR'),
         civilite: data.civilite,
@@ -347,7 +352,7 @@ export const QuoteSummary = ({
       
       const filename = `devis-${displayQuoteNumber}.pdf`;
       console.log('🔵 [PDF Download] Calling generateQuotePDF with filename:', filename);
-      await generateQuotePDF(pdfData, filename);
+      await generateQuotePDF(pdfDataToDownload, filename);
       
       console.log('✅ [PDF Download] PDF generated successfully');
       toast({
@@ -367,6 +372,72 @@ export const QuoteSummary = ({
       });
     }
   };
+
+  // Prepare PDF data when email is sent
+  useEffect(() => {
+    if (emailSent && priceCalculation && !pdfData) {
+      const preparePdfData = async () => {
+        try {
+          console.log('🔵 [PDF Preview] Loading images for preview...');
+          const [logoSecuryglass, logoCertification] = await Promise.all([
+            loadLogo('securyglass'),
+            loadLogo('certification')
+          ]);
+          
+          const displayQuoteNumber = savedQuoteNumber || quoteNumber;
+          const preparedData: QuotePDFData = {
+            quoteNumber: displayQuoteNumber,
+            date: new Date().toLocaleDateString('fr-FR'),
+            civilite: data.civilite,
+            nom: data.nom,
+            raison_sociale: data.raison_sociale,
+            nomSociete: data.nomSociete,
+            telephone: data.telephone,
+            email: data.email,
+            adresse: data.adresse,
+            codePostal: data.codePostal,
+            ville: data.ville,
+            differentInterventionAddress: data.differentInterventionAddress,
+            interventionAdresse: data.interventionAdresse,
+            interventionCodePostal: data.interventionCodePostal,
+            interventionVille: data.interventionVille,
+            object: data.object,
+            largeur: data.largeur,
+            hauteur: data.hauteur,
+            quantite: data.quantite,
+            vitrage: data.vitrage,
+            vitrageDetails: {
+              type: 'Vitrage Feuilleté Sécurit CLR Transparent',
+              epaisseur: 'EP10 55.2 mm',
+              normes: 'Normes ERP - Normes EN 12600 / EN 356',
+            },
+            delai: '48H',
+            motifDescription: motifDescription,
+            priceCalculation: priceCalculation,
+            companyInfo: {
+              siret: '91094284600015',
+              tva: 'FR2091094282846',
+              codeAPE: '6201Z',
+              capital: '10000',
+              rcs: 'Nanterre',
+              address: '65 Rue De La Croix - 92000 Nanterre',
+              iban: 'FR76 1020 7000 0123 2145 6187 131',
+              bic: 'CCBPFRPMTG',
+            },
+            logoSecuryglass,
+            logoCertification
+          };
+          
+          setPdfData(preparedData);
+          console.log('✅ [PDF Preview] PDF data prepared for preview');
+        } catch (error) {
+          console.error('❌ [PDF Preview] Error preparing PDF data:', error);
+        }
+      };
+      
+      preparePdfData();
+    }
+  }, [emailSent, priceCalculation, pdfData, data, savedQuoteNumber, motifDescription]);
 
   // Check if Gmail is configured by admin
   const checkGmailConfiguration = async () => {
@@ -838,12 +909,28 @@ export const QuoteSummary = ({
         </Button>}
 
       {/* Action Buttons */}
-      <div className="space-y-4">
-        <Button variant="default" size="lg" className="w-full" onClick={handleDownloadPDF}>
-          <Download className="h-5 w-5 mr-2" />
-          Télécharger le PDF
-        </Button>
-      </div>
+      {emailSent && (
+        <div className="space-y-4">
+          <Button 
+            variant="default" 
+            size="lg" 
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" 
+            onClick={() => setShowPDFPreview(true)}
+          >
+            <Eye className="h-5 w-5 mr-2" />
+            Voir le devis
+          </Button>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="w-full" 
+            onClick={handleDownloadPDF}
+          >
+            <Download className="h-5 w-5 mr-2" />
+            Télécharger le PDF
+          </Button>
+        </div>
+      )}
 
 
 
@@ -856,5 +943,21 @@ export const QuoteSummary = ({
           Nouveau Devis
         </Button>
       </div>
+
+      {/* PDF Preview Dialog */}
+      {pdfData && (
+        <Dialog open={showPDFPreview} onOpenChange={setShowPDFPreview}>
+          <DialogContent className="max-w-4xl h-[90vh] p-0">
+            <DialogHeader className="px-6 pt-6 pb-4">
+              <DialogTitle>Aperçu du devis</DialogTitle>
+            </DialogHeader>
+            <div className="flex-1 overflow-hidden px-6 pb-6">
+              <PDFViewer width="100%" height="100%" className="border-0">
+                <QuotePDFTemplate data={pdfData} />
+              </PDFViewer>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>;
 };
