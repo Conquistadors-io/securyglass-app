@@ -7,7 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { updateDevis } from "@/services/devis";
-import { Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Loader2, RefreshCw } from "lucide-react";
 
 interface QuoteEditProps {
   quote: any;
@@ -69,6 +70,39 @@ export const AdminQuoteEdit = ({ quote, open, onOpenChange, onSuccess }: QuoteEd
     }
   }, [quote]);
 
+  const handleRegeneratePDF = async () => {
+    setIsLoading(true);
+    try {
+      toast({
+        title: "Génération du PDF",
+        description: "Régénération en cours...",
+      });
+
+      const { data, error } = await supabase.functions.invoke(
+        'generate-store-quote-pdf',
+        { body: { quoteId: quote.id } }
+      );
+
+      if (error) throw error;
+
+      toast({
+        title: "Succès",
+        description: "PDF régénéré avec succès",
+      });
+
+      onSuccess();
+    } catch (error: any) {
+      console.error('Error regenerating PDF:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de régénérer le PDF",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -126,9 +160,21 @@ export const AdminQuoteEdit = ({ quote, open, onOpenChange, onSuccess }: QuoteEd
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Modifier le devis {quote?.quote_number}</DialogTitle>
-        </DialogHeader>
+      <DialogHeader>
+        <DialogTitle className="flex items-center justify-between">
+          <span>Modifier le devis {quote?.quote_number}</span>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleRegeneratePDF}
+            disabled={isLoading}
+          >
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Régénérer le PDF
+          </Button>
+        </DialogTitle>
+      </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Informations Client */}

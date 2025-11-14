@@ -26,3 +26,6 @@ verify_jwt = false
 
 [functions.assign-admin-role]
 verify_jwt = false
+
+[functions.generate-store-quote-pdf]
+verify_jwt = false

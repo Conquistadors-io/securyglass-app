@@ -106,6 +106,7 @@ export type Database = {
           motif_other: string | null
           notes: string | null
           object: string
+          pdf_url: string | null
           photo_url: string | null
           price_details: Json | null
           price_subtotal: number | null
@@ -121,6 +122,9 @@ export type Database = {
           status: string
           subcategory: string | null
           updated_at: string
+          validated_at: string | null
+          validation_ip: string | null
+          validation_token: string | null
           vitrage: string | null
         }
         Insert: {
@@ -139,6 +143,7 @@ export type Database = {
           motif_other?: string | null
           notes?: string | null
           object: string
+          pdf_url?: string | null
           photo_url?: string | null
           price_details?: Json | null
           price_subtotal?: number | null
@@ -154,6 +159,9 @@ export type Database = {
           status?: string
           subcategory?: string | null
           updated_at?: string
+          validated_at?: string | null
+          validation_ip?: string | null
+          validation_token?: string | null
           vitrage?: string | null
         }
         Update: {
@@ -172,6 +180,7 @@ export type Database = {
           motif_other?: string | null
           notes?: string | null
           object?: string
+          pdf_url?: string | null
           photo_url?: string | null
           price_details?: Json | null
           price_subtotal?: number | null
@@ -187,6 +196,9 @@ export type Database = {
           status?: string
           subcategory?: string | null
           updated_at?: string
+          validated_at?: string | null
+          validation_ip?: string | null
+          validation_token?: string | null
           vitrage?: string | null
         }
         Relationships: [
@@ -196,6 +208,113 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "clients"
             referencedColumns: ["email"]
+          },
+        ]
+      }
+      email_templates: {
+        Row: {
+          created_at: string
+          description: string | null
+          html_content: string
+          id: string
+          is_active: boolean
+          key: string
+          name: string
+          subject: string
+          updated_at: string
+          variables: Json
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          html_content: string
+          id?: string
+          is_active?: boolean
+          key: string
+          name: string
+          subject: string
+          updated_at?: string
+          variables?: Json
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          html_content?: string
+          id?: string
+          is_active?: boolean
+          key?: string
+          name?: string
+          subject?: string
+          updated_at?: string
+          variables?: Json
+        }
+        Relationships: []
+      }
+      emails_sent: {
+        Row: {
+          bounced_at: string | null
+          clicked_at: string | null
+          created_at: string
+          devis_id: string | null
+          error_message: string | null
+          html_content: string
+          id: string
+          opened_at: string | null
+          recipient_email: string
+          recipient_name: string | null
+          sendgrid_message_id: string | null
+          sent_at: string
+          status: string
+          subject: string
+          template_key: string
+          updated_at: string
+          variables_data: Json | null
+        }
+        Insert: {
+          bounced_at?: string | null
+          clicked_at?: string | null
+          created_at?: string
+          devis_id?: string | null
+          error_message?: string | null
+          html_content: string
+          id?: string
+          opened_at?: string | null
+          recipient_email: string
+          recipient_name?: string | null
+          sendgrid_message_id?: string | null
+          sent_at?: string
+          status?: string
+          subject: string
+          template_key: string
+          updated_at?: string
+          variables_data?: Json | null
+        }
+        Update: {
+          bounced_at?: string | null
+          clicked_at?: string | null
+          created_at?: string
+          devis_id?: string | null
+          error_message?: string | null
+          html_content?: string
+          id?: string
+          opened_at?: string | null
+          recipient_email?: string
+          recipient_name?: string | null
+          sendgrid_message_id?: string | null
+          sent_at?: string
+          status?: string
+          subject?: string
+          template_key?: string
+          updated_at?: string
+          variables_data?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "emails_sent_devis_id_fkey"
+            columns: ["devis_id"]
+            isOneToOne: false
+            referencedRelation: "devis"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -280,6 +399,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -289,9 +429,16 @@ export type Database = {
         Args: { _email: string; _mobile: string }
         Returns: boolean
       }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -418,6 +565,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
