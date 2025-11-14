@@ -55,6 +55,8 @@ export const QuoteStep1 = ({
   const prenomRef = useRef<HTMLInputElement>(null);
   const mobileRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
+  const villeRef = useRef<HTMLInputElement>(null);
+  const adresseRef = useRef<HTMLInputElement>(null);
 
   // Réinitialiser la ville et l'adresse si le département change
   useEffect(() => {
@@ -304,7 +306,7 @@ export const QuoteStep1 = ({
                 }))}
                 placeholder="75 Numéro du département"
                 onComplete={() => {
-                  // Le focus se déplacera automatiquement vers la ville quand elle sera affichée
+                  setTimeout(() => villeRef.current?.focus(), 100);
                 }}
               />
             </div>
@@ -322,6 +324,10 @@ export const QuoteStep1 = ({
                 departmentCode={formData.codePostal}
                 placeholder="Saisissez votre ville"
                 disabled={!formData.codePostal}
+                ref={villeRef}
+                onComplete={() => {
+                  setTimeout(() => adresseRef.current?.focus(), 100);
+                }}
               />
             </div>
           </div>
@@ -339,6 +345,7 @@ export const QuoteStep1 = ({
                 city={formData.ville}
                 placeholder=""
                 disabled={!formData.codePostal || !formData.ville}
+                ref={adresseRef}
               />
             </div>
             <p className="text-xs text-muted-foreground mt-1">Adresse où aura lieu l'intervention</p>
