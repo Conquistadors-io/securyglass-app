@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo, forwardRef } from "react"
 import { MapPin } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
@@ -18,14 +18,14 @@ interface AddressSuggestion {
   value: string
 }
 
-export function AddressSelect({ 
+export const AddressSelect = forwardRef<HTMLInputElement, AddressSelectProps>(({ 
   value, 
   onValueChange, 
   placeholder = "Tapez votre adresse", 
   departmentCode,
   city,
   disabled = false 
-}: AddressSelectProps) {
+}, ref) => {
   const [searchTerm, setSearchTerm] = useState(value || "")
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -33,6 +33,9 @@ export function AddressSelect({
   const [isAddressComplete, setIsAddressComplete] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
+
+  // Exposer l'input ref via le forward ref
+  React.useImperativeHandle(ref, () => inputRef.current!);
 
   // Suggestions d'adresses communes basées sur le type de ville
   const commonAddresses = useMemo(() => {
@@ -261,4 +264,6 @@ export function AddressSelect({
       )}
     </div>
   )
-}
+});
+
+AddressSelect.displayName = 'AddressSelect';
