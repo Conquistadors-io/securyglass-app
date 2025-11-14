@@ -117,9 +117,13 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     // ÉTAPE 3 : Construire l'URL de validation
-    const appUrl = Deno.env.get('APP_URL') || 'https://kmeyrlplsvdjxowxmzan.supabase.co';
+    const appUrl = Deno.env.get('APP_URL');
+    if (!appUrl) {
+      console.error('❌ APP_URL not set in secrets! Validation link will not work properly.');
+      throw new Error('APP_URL must be configured in Supabase secrets');
+    }
     const validationUrl = `${appUrl}/devis/valider?token=${validationToken}`;
-    console.log('🔵 Validation URL generated');
+    console.log('✅ Validation URL generated:', validationUrl);
 
     // ÉTAPE 4 : Générer le HTML du devis
     const quoteHTML = generateUnifiedQuoteHTML({

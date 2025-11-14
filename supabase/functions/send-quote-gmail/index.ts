@@ -14,11 +14,19 @@ const supabase = createClient(
 )
 
 interface QuoteEmailRequest {
+  devisId: string;
   email: string;
   clientName: string;
   message: string;
   quoteData: any;
   senderEmail?: string;
+}
+
+// Fonction de génération de token sécurisé
+function generateValidationToken(): string {
+  const array = new Uint8Array(32);
+  crypto.getRandomValues(array);
+  return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
 // Refresh access token if needed
@@ -154,7 +162,10 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email, clientName, message, quoteData, senderEmail }: QuoteEmailRequest = await req.json();
+    const { devisId, email, clientName, message, quoteData, senderEmail }: QuoteEmailRequest = await req.json();
+
+    console.log('🔵 [Gmail] Sending quote email to:', email);
+    console.log('🔵 [Gmail] Devis ID:', devisId);
 
     // Validate recipient email address
     const emailValidation = validateEmail(email);
@@ -168,7 +179,30 @@ const handler = async (req: Request): Promise<Response> => {
     // Use default sender email if not provided
     const actualSenderEmail = senderEmail || 'contact@securyglass.fr';
 
-    // Get valid access token
+    // ÉTAPE 1 : Générer le token de validation
+    const validationToken = generateValidationToken();
+    console.log('🔵 [Gmail] Generated validation token for devis:', devisId);
+
+    const { error: updateError } = await supabase
+      .from('devis')
+      .update({ validation_token: validationToken })
+      .eq('id', devisId);
+
+    if (updateError) {
+      console.error('❌ [Gmail] Error updating devis with token:', updateError);
+      throw new Error('Failed to generate validation token');
+    }
+
+    // ÉTAPE 2 : Construire l'URL de validation
+    const appUrl = Deno.env.get('APP_URL');
+    if (!appUrl) {
+      console.error('❌ APP_URL not set in secrets! Validation link will not work properly.');
+      throw new Error('APP_URL must be configured in Supabase secrets');
+    }
+    const validationUrl = `${appUrl}/devis/valider?token=${validationToken}`;
+    console.log('✅ [Gmail] Validation URL generated:', validationUrl);
+
+    // ÉTAPE 3 : Get valid access token
     const accessToken = await getValidAccessToken(actualSenderEmail);
     
     if (!accessToken) {
@@ -184,8 +218,8 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Generate email content
-    const htmlContent = generateUnifiedQuoteHTML({
+    // ÉTAPE 4 : Generate email content with validation button
+    const quoteHTML = generateUnifiedQuoteHTML({
       id: quoteData.id,
       quoteNumber: quoteData.id,
       date: quoteData.date,
@@ -197,6 +231,63 @@ const handler = async (req: Request): Promise<Response> => {
       vat: quoteData.vat,
       total: quoteData.total,
     });
+
+    const customMessage = message ? `<p>${message.replace(/\n/g, '<br>')}</p>` : '';
+    
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+            .content { background: #f9f9f9; padding: 30px; }
+            .cta-button { 
+              display: inline-block; 
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              color: white !important; 
+              padding: 15px 40px; 
+              text-decoration: none; 
+              border-radius: 5px; 
+              font-weight: bold;
+              margin: 20px 0;
+              text-align: center;
+            }
+            .quote-details { background: white; padding: 20px; border-radius: 5px; margin: 20px 0; }
+            .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Devis N° ${quoteData.id}</h1>
+            </div>
+            <div class="content">
+              <p>Bonjour ${clientName},</p>
+              ${customMessage}
+              <p>Veuillez trouver ci-dessous votre devis détaillé.</p>
+              
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${validationUrl}" class="cta-button">✓ Valider le devis</a>
+              </div>
+
+              <div class="quote-details">
+                ${quoteHTML}
+              </div>
+
+              <p>Pour toute question, n'hésitez pas à nous contacter.</p>
+              <p>Cordialement,<br>${quoteData.company.name}</p>
+            </div>
+            <div class="footer">
+              <p>${quoteData.company.name} | ${quoteData.company.email} | ${quoteData.company.phone}</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+
     const textContent = `
       Bonjour ${clientName},
 
@@ -206,6 +297,8 @@ const handler = async (req: Request): Promise<Response> => {
       - Numéro: ${quoteData.id}
       - Date: ${quoteData.date}
       - Total: ${quoteData.total.toFixed(2)} €
+
+      Pour valider votre devis, cliquez sur ce lien: ${validationUrl}
 
       Cordialement,
       ${quoteData.company.name}
