@@ -30,7 +30,7 @@ export const QuoteStep3 = ({
     velux: "VELUX",
     cloison: "Cloison Vitrée Bureaux",
     cheminee: "Cheminée",
-    serres: "Serres",
+    serre: "Serre",
     autre: "Autre"
   };
 
@@ -142,7 +142,7 @@ export const QuoteStep3 = ({
                       {formData.category === 'velux' && <Sun className="w-5 h-5 text-primary" />}
                       {formData.category === 'cloison' && <Grid3x3 className="w-5 h-5 text-primary" />}
                       {formData.category === 'cheminee' && <Flame className="w-5 h-5 text-primary" />}
-                      {formData.category === 'serres' && <Warehouse className="w-5 h-5 text-primary" />}
+                      {formData.category === 'serre' && <Warehouse className="w-5 h-5 text-primary" />}
                       {formData.category === 'autre' && <MoreHorizontal className="w-5 h-5 text-primary" />}
                     </div>
                     <div className="flex-1 text-left">
@@ -219,10 +219,10 @@ export const QuoteStep3 = ({
                       <span>Cheminée</span>
                     </div>
                   </SelectItem>
-                  <SelectItem value="serres">
+                  <SelectItem value="serre">
                     <div className="flex items-center gap-2">
                       <Warehouse className="w-4 h-4" />
-                      <span>Serres</span>
+                      <span>Serre</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="autre">
