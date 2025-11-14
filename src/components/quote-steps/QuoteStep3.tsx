@@ -18,6 +18,20 @@ export const QuoteStep3 = ({
   onComplete,
   onBack
 }: QuoteStep3Props) => {
+  const categoryLabels: Record<string, string> = {
+    fenetre: "Fenêtre",
+    "porte-vitree": "Porte vitrée",
+    "porte-entree": "Porte d'entrée",
+    "porte-fenetre": "Porte-fenêtre",
+    vitrine: "Vitrine Magasin",
+    "baie-vitree": "Baie vitrée",
+    marquise: "Marquise",
+    "fenetre-toit": "Fenêtre de toit",
+    velux: "VELUX",
+    cloison: "Cloison Vitrée Bureaux",
+    autre: "Autre"
+  };
+
   const [formData, setFormData] = useState({
     category: data.category || "fenetre",
     subcategory: data.subcategory || "coulissante",
@@ -128,7 +142,9 @@ export const QuoteStep3 = ({
                       {formData.category === 'autre' && <MoreHorizontal className="w-5 h-5 text-primary" />}
                     </div>
                     <div className="flex-1 text-left">
-                      <SelectValue placeholder="Choisir la catégorie" />
+                      <span className="text-base font-semibold text-gray-900">
+                        {formData.category ? categoryLabels[formData.category] : "Choisir la catégorie"}
+                      </span>
                     </div>
                   </div>
                 </SelectTrigger>
