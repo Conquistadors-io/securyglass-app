@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Shield, MoveVertical, MoveHorizontal, Plus, X, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Maximize2, Store, RectangleHorizontal, ArrowUpFromLine, Sun, Grid3x3, Grid2x2, MoreHorizontal, Ruler, Camera, ArrowRight, ArrowLeft } from "lucide-react";
+import { Shield, MoveVertical, MoveHorizontal, Plus, X, Eye, Trash2, ChevronDown, Square, DoorOpen, DoorClosed, Maximize2, Store, RectangleHorizontal, ArrowUpFromLine, Sun, Grid3x3, Grid2x2, MoreHorizontal, Ruler, Camera, ArrowRight, ArrowLeft, Flame, Warehouse } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { PhotoCapture } from "@/components/ui/photo-capture";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "@/components/ui/dialog";
@@ -29,6 +29,8 @@ export const QuoteStep3 = ({
     "fenetre-toit": "Fenêtre de toit",
     velux: "VELUX",
     cloison: "Cloison Vitrée Bureaux",
+    cheminee: "Cheminée",
+    serres: "Serres",
     autre: "Autre"
   };
 
@@ -139,6 +141,8 @@ export const QuoteStep3 = ({
                       {formData.category === 'fenetre-toit' && <Square className="w-5 h-5 text-primary rotate-45" />}
                       {formData.category === 'velux' && <Sun className="w-5 h-5 text-primary" />}
                       {formData.category === 'cloison' && <Grid3x3 className="w-5 h-5 text-primary" />}
+                      {formData.category === 'cheminee' && <Flame className="w-5 h-5 text-primary" />}
+                      {formData.category === 'serres' && <Warehouse className="w-5 h-5 text-primary" />}
                       {formData.category === 'autre' && <MoreHorizontal className="w-5 h-5 text-primary" />}
                     </div>
                     <div className="flex-1 text-left">
@@ -207,6 +211,18 @@ export const QuoteStep3 = ({
                     <div className="flex items-center gap-2">
                       <Grid3x3 className="w-4 h-4" />
                       <span>Cloison Vitrée Bureaux</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="cheminee">
+                    <div className="flex items-center gap-2">
+                      <Flame className="w-4 h-4" />
+                      <span>Cheminée</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="serres">
+                    <div className="flex items-center gap-2">
+                      <Warehouse className="w-4 h-4" />
+                      <span>Serres</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="autre">
