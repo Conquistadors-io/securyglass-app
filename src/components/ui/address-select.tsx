@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useState, useEffect, useMemo, forwardRef } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { MapPin } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
@@ -11,6 +11,7 @@ interface AddressSelectProps {
   departmentCode?: string
   city?: string
   disabled?: boolean
+  id?: string
 }
 
 interface AddressSuggestion {
@@ -18,14 +19,15 @@ interface AddressSuggestion {
   value: string
 }
 
-export const AddressSelect = forwardRef<HTMLInputElement, AddressSelectProps>(({ 
+export function AddressSelect({ 
   value, 
   onValueChange, 
   placeholder = "Tapez votre adresse", 
   departmentCode,
   city,
-  disabled = false 
-}, ref) => {
+  disabled = false,
+  id
+}: AddressSelectProps) {
   const [searchTerm, setSearchTerm] = useState(value || "")
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -33,9 +35,6 @@ export const AddressSelect = forwardRef<HTMLInputElement, AddressSelectProps>(({
   const [isAddressComplete, setIsAddressComplete] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
-
-  // Exposer l'input ref via le forward ref
-  React.useImperativeHandle(ref, () => inputRef.current!);
 
   // Suggestions d'adresses communes basées sur le type de ville
   const commonAddresses = useMemo(() => {
@@ -233,6 +232,7 @@ export const AddressSelect = forwardRef<HTMLInputElement, AddressSelectProps>(({
       <div className="relative">
         <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
         <Input
+          id={id}
           ref={inputRef}
           value={searchTerm}
           onChange={handleInputChange}
@@ -264,6 +264,4 @@ export const AddressSelect = forwardRef<HTMLInputElement, AddressSelectProps>(({
       )}
     </div>
   )
-});
-
-AddressSelect.displayName = 'AddressSelect';
+}

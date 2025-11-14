@@ -55,8 +55,6 @@ export const QuoteStep1 = ({
   const prenomRef = useRef<HTMLInputElement>(null);
   const mobileRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-  const villeRef = useRef<HTMLInputElement>(null);
-  const adresseRef = useRef<HTMLInputElement>(null);
 
   // Réinitialiser la ville et l'adresse si le département change
   useEffect(() => {
@@ -306,7 +304,7 @@ export const QuoteStep1 = ({
                 }))}
                 placeholder="75 Numéro du département"
                 onComplete={() => {
-                  setTimeout(() => villeRef.current?.focus(), 100);
+                  setTimeout(() => document.getElementById('city-input')?.focus(), 100);
                 }}
               />
             </div>
@@ -316,6 +314,7 @@ export const QuoteStep1 = ({
             <Label htmlFor="ville">Ville <span className="text-destructive">*</span></Label>
             <div className="mt-1">
               <CityAutocomplete 
+                id="city-input"
                 value={formData.codePostal ? formData.ville : ""} 
                 onValueChange={(value) => setFormData(prev => ({
                   ...prev,
@@ -324,9 +323,8 @@ export const QuoteStep1 = ({
                 departmentCode={formData.codePostal}
                 placeholder="Saisissez votre ville"
                 disabled={!formData.codePostal}
-                ref={villeRef}
                 onComplete={() => {
-                  setTimeout(() => adresseRef.current?.focus(), 100);
+                  setTimeout(() => document.getElementById('address-input')?.focus(), 100);
                 }}
               />
             </div>
@@ -336,6 +334,7 @@ export const QuoteStep1 = ({
             <Label htmlFor="adresse_intervention">Adresse d'intervention <span className="text-destructive">*</span></Label>
             <div className="mt-1">
               <AddressSelect 
+                id="address-input"
                 value={formData.codePostal && formData.ville ? formData.adresse_intervention : ""} 
                 onValueChange={(value) => setFormData(prev => ({
                   ...prev,
@@ -345,7 +344,6 @@ export const QuoteStep1 = ({
                 city={formData.ville}
                 placeholder=""
                 disabled={!formData.codePostal || !formData.ville}
-                ref={adresseRef}
               />
             </div>
             <p className="text-xs text-muted-foreground mt-1">Adresse où aura lieu l'intervention</p>

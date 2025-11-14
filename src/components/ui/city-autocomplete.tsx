@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Input } from './input';
 
 interface City {
@@ -16,17 +16,19 @@ interface CityAutocompleteProps {
   disabled?: boolean;
   className?: string;
   onComplete?: () => void;
+  id?: string;
 }
 
-export const CityAutocomplete = forwardRef<HTMLInputElement, CityAutocompleteProps>(({
+export function CityAutocomplete({
   value = '',
   onValueChange,
   placeholder = "Saisissez votre ville",
   departmentCode = '',
   disabled = false,
   className = "",
-  onComplete
-}, ref) => {
+  onComplete,
+  id
+}: CityAutocompleteProps) {
   const [inputValue, setInputValue] = useState(value);
   const [suggestions, setSuggestions] = useState<City[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -155,7 +157,7 @@ export const CityAutocomplete = forwardRef<HTMLInputElement, CityAutocompletePro
   return (
     <div ref={wrapperRef} className={`relative ${className}`}>
       <Input
-        ref={ref}
+        id={id}
         type="text"
         value={inputValue}
         onChange={handleInputChange}
@@ -210,6 +212,4 @@ export const CityAutocomplete = forwardRef<HTMLInputElement, CityAutocompletePro
       )}
     </div>
   );
-});
-
-CityAutocomplete.displayName = 'CityAutocomplete';
+}
