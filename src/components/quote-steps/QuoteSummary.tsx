@@ -978,11 +978,11 @@ export const QuoteSummary = ({
       {/* PDF Preview Dialog */}
       {pdfData && (
         <Dialog open={showPDFPreview} onOpenChange={setShowPDFPreview}>
-          <DialogContent className="max-w-4xl h-[90vh] p-0">
-            <DialogHeader className="px-6 pt-6 pb-4">
+          <DialogContent className="max-w-4xl h-[90vh] flex flex-col p-0">
+            <DialogHeader className="px-6 pt-6 pb-2 shrink-0">
               <DialogTitle>Aperçu du devis</DialogTitle>
             </DialogHeader>
-            <div className="flex-1 overflow-hidden px-6 pb-6">
+            <div className="flex-1 overflow-hidden px-6 pb-6 pt-2">
               <PDFViewer width="100%" height="100%" className="border-0">
                 <QuotePDFTemplate data={pdfData} />
               </PDFViewer>
