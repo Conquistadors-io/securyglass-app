@@ -302,7 +302,7 @@ export const QuoteStep1 = ({
                   ...prev,
                   codePostal: value
                 }))}
-                placeholder="Numéro du département"
+                placeholder="75 Numéro du département"
                 onComplete={() => {
                   // Le focus se déplacera automatiquement vers la ville quand elle sera affichée
                 }}
@@ -376,7 +376,7 @@ export const QuoteStep1 = ({
                           ...prev,
                           interventionCodePostal: value
                         }))}
-                        placeholder="Numéro du département"
+                        placeholder="75 Numéro du département"
                       />
                     </div>
                   </div>
