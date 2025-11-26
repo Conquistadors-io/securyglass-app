@@ -9,8 +9,10 @@ export const clientSchema = z.object({
     .max(255, "L'email ne peut pas dépasser 255 caractères"),
   mobile: z.string()
     .trim()
-    .regex(/^(\+33|0)[1-9](\d{2}){4}$/, "Format de téléphone invalide (ex: 0612345678)")
-    .max(20, "Le numéro de téléphone ne peut pas dépasser 20 caractères"),
+    .transform(val => val.replace(/[\s.\-]/g, '')) // Supprimer espaces, points, tirets
+    .refine(val => /^(\+33|0)[1-9](\d{2}){4}$/.test(val), {
+      message: "Format de téléphone invalide (ex: 0612345678 ou 06 12 34 56 78)"
+    }),
   nom: z.string()
     .trim()
     .min(1, "Le nom est requis")

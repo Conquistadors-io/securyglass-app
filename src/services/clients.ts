@@ -34,8 +34,19 @@ export const saveClient = async (data: {
     });
 
     if (!validationResult.success) {
-      const errors = validationResult.error.errors.map(e => e.message).join(", ");
-      console.error('Validation error:', errors);
+      const detailedErrors = validationResult.error.errors.map(e => ({
+        field: e.path.join('.'),
+        message: e.message,
+        code: e.code
+      }));
+      console.error('🔴 [SaveClient] Validation errors:', JSON.stringify(detailedErrors, null, 2));
+      console.error('🔴 [SaveClient] Input data:', JSON.stringify({
+        email: data.email,
+        mobile: data.mobile,
+        nom: data.nom,
+        adresse_intervention: data.adresse_intervention?.substring(0, 50) + '...'
+      }, null, 2));
+      const errors = validationResult.error.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(", ");
       return { success: false, error: errors };
     }
 
