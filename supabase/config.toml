@@ -1,31 +1,16 @@
-project_id = "kmeyrlplsvdjxowxmzan"
+project_id = "cwafbmbmgisusbdypcux"
 
-[functions.send-quote]
-verify_jwt = false
-
-[functions.gmail-oauth]
-verify_jwt = false
-
-[functions.send-quote-gmail]
-verify_jwt = false
-
-[functions.send-quote-sendgrid]
+[functions.assign-admin-role]
 verify_jwt = false
 
 [functions.compute-quote]
 verify_jwt = false
 
-[functions.get-logo-base64]
+[functions.generate-store-quote-pdf]
 verify_jwt = false
 
-[functions.notify-admin-new-quote]
+[functions.resend-api]
 verify_jwt = false
 
 [functions.validate-quote]
-verify_jwt = false
-
-[functions.assign-admin-role]
-verify_jwt = false
-
-[functions.generate-store-quote-pdf]
 verify_jwt = false

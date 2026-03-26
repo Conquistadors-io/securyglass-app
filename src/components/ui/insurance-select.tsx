@@ -94,14 +94,14 @@ export function InsuranceSelect({
           className="w-full justify-between pl-10 font-normal"
           disabled={disabled}
         >
-          <Shield className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <Shield className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <span className="truncate">
             {selectedInsurance ? selectedInsurance.name : (isCustomValue ? value : placeholder)}
           </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0" align="start" side="bottom" sideOffset={4}>
+      <PopoverContent className="w-full p-0" align="start" sideOffset={4} avoidCollisions>
         <Command shouldFilter={false}>
           <CommandInput 
             placeholder="Rechercher une assurance..." 

@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Mail, Lock, Loader2, ShieldCheck } from "lucide-react";
-import securyglassLogo from "@/assets/securyglass-logo.png";
 import { toast } from "sonner";
 
 export default function AdminLogin() {
@@ -129,7 +128,7 @@ export default function AdminLogin() {
       <Card className="w-full max-w-md shadow-2xl border-2">
         <CardHeader className="text-center space-y-4 pb-8">
           <div className="flex justify-center">
-            <img src={securyglassLogo} alt="SECURYGLASS" className="h-16 w-auto" />
+            <span className="text-3xl font-extrabold text-primary tracking-tight">SECURYGLASS</span>
           </div>
           <div className="space-y-4">
             <div className="flex items-center justify-center gap-2">
