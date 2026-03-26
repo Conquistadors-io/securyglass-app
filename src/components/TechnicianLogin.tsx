@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, Mail, Lock, User, Phone } from "lucide-react";
-import securyglassLogo from "@/assets/securyglass-logo.png";
 
 interface TechnicianLoginProps {
   onNavigate: (route: string) => void;
@@ -37,8 +36,7 @@ export const TechnicianLogin = ({ onNavigate }: TechnicianLoginProps) => {
           Retour
         </Button>
         <div className="flex flex-col items-center">
-          <img src={securyglassLogo} alt="SECURYGLASS" className="h-12 w-auto mb-2" />
-          <h1 className="text-xl font-bold text-white">SECURYGLASS</h1>
+          <h1 className="text-2xl font-extrabold text-white tracking-tight">SECURYGLASS</h1>
         </div>
         <div className="w-20"></div>
       </div>
@@ -63,14 +61,14 @@ export const TechnicianLogin = ({ onNavigate }: TechnicianLoginProps) => {
                 <div className="space-y-2">
                   <Label htmlFor="name">Nom complet</Label>
                   <div className="relative">
-                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input id="name" placeholder="Jean Dupont" className="pl-10" />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="phone">Téléphone</Label>
                   <div className="relative">
-                    <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input id="phone" placeholder="06 12 34 56 78" className="pl-10" />
                   </div>
                 </div>
@@ -79,14 +77,14 @@ export const TechnicianLogin = ({ onNavigate }: TechnicianLoginProps) => {
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input id="email" type="email" placeholder="votre@email.com" className="pl-10" />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Mot de passe</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input id="password" type="password" placeholder="••••••••" className="pl-10" />
               </div>
             </div>

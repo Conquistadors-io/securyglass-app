@@ -10,7 +10,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ArrowLeft, Send, Printer, Copy, FileText, Euro, Calendar, User, Phone, Mail, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import securyglassLogo from "@/assets/securyglass-logo.png";
 
 interface QuoteDetailProps {
   onNavigate: (route: string) => void;
@@ -280,13 +279,8 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
         <Card className="p-6 bg-gradient-to-r from-primary/5 to-secondary/5">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
-              <img 
-                src={securyglassLogo} 
-                alt="SECURYGLASS" 
-                className="h-12 w-12"
-              />
               <div>
-                <h2 className="font-bold text-foreground">securyglass®</h2>
+                <h2 className="text-xl font-extrabold text-primary tracking-tight">SECURYGLASS</h2>
                 <p className="text-sm text-muted-foreground">Glass for your security</p>
               </div>
             </div>

@@ -1,186 +1,60 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, ArrowRight, X } from "lucide-react";
-import { QuoteStep0 } from "./quote-steps/QuoteStep0";
-import { QuoteStep1 } from "./quote-steps/QuoteStep1";
-import { QuoteStep2 } from "./quote-steps/QuoteStep2";
-import { QuoteStep3 } from "./quote-steps/QuoteStep3";
-import { QuoteSummary } from "./quote-steps/QuoteSummary";
-import { QuoteStep4 } from "./quote-steps/QuoteStep4";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { ArrowLeft } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { QuoteStep0 } from './quote-steps/QuoteStep0';
+import { QuoteStep1 } from './quote-steps/QuoteStep1';
+import { QuoteStep2 } from './quote-steps/QuoteStep2';
+import { QuoteStep3 } from './quote-steps/QuoteStep3';
+import { QuoteStep4 } from './quote-steps/QuoteStep4';
+import { QuoteStepper } from './quote-steps/QuoteStepper';
+import { QuoteSummary } from './quote-steps/QuoteSummary';
 
 interface OnlineQuoteProps {
   onNavigate: (route: string) => void;
 }
 
-interface CachedQuoteData {
-  formData: any;
-  currentStep: number;
-  timestamp: number;
-  completed: boolean;
-}
-
-export const OnlineQuote = ({
-  onNavigate
-}: OnlineQuoteProps) => {
-  const [showResumeDialog, setShowResumeDialog] = useState(false);
-  const [showCancelDialog, setShowCancelDialog] = useState(false);
-
+export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
   const defaultFormData = {
-    serviceType: "",
-    civilite: "",
-    nom: "",
-    prenom: "",
-    raison_sociale: "",
-    mobile: "",
-    email: "",
-    email_facturation: "",
-    adresse_intervention: "",
-    codePostal: "",
-    ville: "",
-    assurance: "",
+    serviceType: '',
+    civilite: '',
+    nom: '',
+    prenom: '',
+    raison_sociale: '',
+    mobile: '',
+    email: '',
+    email_facturation: '',
+    adresse_intervention: '',
+    codePostal: '',
+    ville: '',
+    assurance: '',
     differentInterventionAddress: false,
-    interventionCodePostal: "",
-    interventionVille: "",
-    interventionAdresse: "",
-    object: "",
-    property: "",
-    motif: "",
-    category: "",
-    subcategory: "",
-    vitrage: "",
-    largeur: "",
-    hauteur: "",
-    quantite: "1",
-    photo: null as File | null
+    interventionCodePostal: '',
+    interventionVille: '',
+    interventionAdresse: '',
+    object: '',
+    property: '',
+    motif: '',
+    category: '',
+    subcategory: '',
+    vitrage: '',
+    largeur: '',
+    hauteur: '',
+    quantite: '1',
+    photo: null as File | null,
   };
 
-  // Initialisation avec gestion d'expiration et completion
-  const [currentStep, setCurrentStep] = useState(() => {
-    try {
-      const saved = localStorage.getItem('quote-cache');
-      if (!saved) return 0;
-      
-      const cache: CachedQuoteData = JSON.parse(saved);
-      const now = Date.now();
-      const expirationTime = 24 * 60 * 60 * 1000; // 24 heures
-      
-      // Si le cache a plus de 24h OU si le devis était complété, nettoyer
-      if (now - cache.timestamp > expirationTime || cache.completed) {
-        localStorage.removeItem('quote-cache');
-        localStorage.removeItem('quote-form-data');
-        localStorage.removeItem('quote-current-step');
-        console.log('🧹 Cache expiré ou devis complété - nettoyage');
-        return 0;
-      }
-      
-      return cache.currentStep;
-    } catch {
-      return 0;
-    }
-  });
-
-  const [formData, setFormData] = useState(() => {
-    try {
-      const saved = localStorage.getItem('quote-cache');
-      if (!saved) return defaultFormData;
-      
-      const cache: CachedQuoteData = JSON.parse(saved);
-      const now = Date.now();
-      const expirationTime = 24 * 60 * 60 * 1000;
-      
-      if (now - cache.timestamp > expirationTime || cache.completed) {
-        return defaultFormData;
-      }
-      
-      return cache.currentStep > 0 ? cache.formData : defaultFormData;
-    } catch {
-      return defaultFormData;
-    }
-  });
-
-  // Scroll vers le haut à chaque changement d'étape
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentStep]);
-
-  // Détecter les données existantes au chargement
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('quote-cache');
-      if (saved) {
-        const cache: CachedQuoteData = JSON.parse(saved);
-        const now = Date.now();
-        const expirationTime = 24 * 60 * 60 * 1000;
-        
-        // Si données valides et non expirées et non complétées et pas à l'étape 0
-        if (
-          now - cache.timestamp < expirationTime && 
-          !cache.completed && 
-          cache.currentStep > 0
-        ) {
-          setShowResumeDialog(true);
-        }
-      }
-    } catch (error) {
-      console.error('❌ Erreur lecture cache:', error);
-    }
-  }, []);
-
-  // Sauvegarder dans une structure unifiée avec timestamp
-  useEffect(() => {
-    try {
-      const cache: CachedQuoteData = {
-        formData,
-        currentStep,
-        timestamp: Date.now(),
-        completed: false
-      };
-      localStorage.setItem('quote-cache', JSON.stringify(cache));
-    } catch (error) {
-      console.error('❌ Erreur sauvegarde cache:', error);
-    }
-  }, [formData, currentStep]);
-
-  // Fonction pour vider le cache
-  const clearSavedData = () => {
-    try {
-      localStorage.removeItem('quote-cache');
-      localStorage.removeItem('quote-form-data'); // Compatibilité anciennes versions
-      localStorage.removeItem('quote-current-step'); // Compatibilité anciennes versions
-      console.log('✅ Cache du devis nettoyé');
-    } catch (error) {
-      console.error('❌ Erreur suppression cache:', error);
-    }
-  };
-
-  const handleCancelQuote = () => {
-    clearSavedData();
-    setCurrentStep(0);
-    setFormData(defaultFormData);
-    setShowCancelDialog(false);
-  };
-
-  const handleRestartQuote = () => {
-    clearSavedData();
-    setCurrentStep(0);
-    setFormData(defaultFormData);
-    setShowResumeDialog(false);
-  };
+  const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState(defaultFormData);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const totalSteps = 6;
-  const progress = (currentStep + 1) / totalSteps * 100;
+
+  // Reset scroll position to top on step change
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [currentStep]);
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
@@ -195,9 +69,9 @@ export const OnlineQuote = ({
   };
 
   const handleStepComplete = (stepData: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      ...stepData
+      ...stepData,
     }));
     if (currentStep < totalSteps) {
       handleNext();
@@ -217,96 +91,89 @@ export const OnlineQuote = ({
       case 4:
         return <QuoteStep4 data={formData} onValidate={handleNext} onModify={(step: number) => setCurrentStep(step)} />;
       case 5:
-        return <QuoteSummary data={formData} onNavigate={route => {
-          clearSavedData();
-          onNavigate(route);
-        }} onComplete={clearSavedData} />;
+        return (
+          <QuoteSummary
+            data={formData}
+            onNavigate={(route) => {
+              onNavigate(route);
+            }}
+            onComplete={() => {}}
+          />
+        );
       default:
         return null;
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Dialog de reprise */}
-      <AlertDialog open={showResumeDialog} onOpenChange={setShowResumeDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Devis en cours</AlertDialogTitle>
-            <AlertDialogDescription>
-              Vous avez un devis en cours. Souhaitez-vous le continuer ou recommencer ?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleRestartQuote}>
-              Recommencer
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={() => setShowResumeDialog(false)}>
-              Continuer
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* Dialog d'annulation */}
-      <AlertDialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Annuler le devis ?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Êtes-vous sûr de vouloir annuler ce devis ? Toutes les données seront perdues.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Non, continuer</AlertDialogCancel>
-            <AlertDialogAction onClick={handleCancelQuote} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Oui, annuler
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
+    <div className="h-screen flex flex-col overflow-hidden bg-gradient-to-b from-slate-50 to-sky-50/50">
       {/* Header */}
-      <div className="bg-gradient-primary px-6 py-4 text-white">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="text-white" 
-              onClick={() => currentStep === 0 ? onNavigate('welcome') : handlePrevious()}
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <h1 className="text-xl font-semibold">Devis en 3 minutes</h1>
-          </div>
-          <div className="flex items-center gap-2">
-            {currentStep > 0 && (
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="text-white hover:bg-white/20" 
-                onClick={() => setShowCancelDialog(true)}
-                title="Annuler le devis"
-              >
-                <X className="h-5 w-5" />
-              </Button>
-            )}
-            <span className="text-sm">
-              {currentStep + 1}/{totalSteps}
-            </span>
-          </div>
-        </div>
-        
-        {/* Progress Bar */}
-        <div className="mt-4">
-          <Progress value={progress} className="h-2 bg-white/20" />
+      <div className="bg-white border-b border-slate-100 shrink-0">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+          <Link to="/" className="flex items-center">
+            <span className="text-2xl font-extrabold text-primary tracking-tight">SECURYGLASS</span>
+          </Link>
+          <Link to="/" className="text-sm text-slate-500 hover:text-primary transition-colors flex items-center gap-1">
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Retour au site
+          </Link>
         </div>
       </div>
 
-      {/* Step Content */}
-      <div className="px-6 py-8">
-        {renderStep()}
+      {/* Main area wrapper — relative so button can be positioned absolutely outside the scroll flow */}
+      <div className="flex-1 min-h-0 relative">
+        {/* Scroll container — fills wrapper, contains stepper + form */}
+        <div ref={scrollRef} className="absolute inset-0 overflow-y-auto hide-scrollbar">
+          {/* Stepper — sticky at top of scroll area, lower z */}
+          <div className="sticky top-0 z-10 relative overflow-hidden bg-gradient-to-br from-[#0369a1] via-primary to-cyan-500">
+            <div className="py-16">
+              <QuoteStepper currentStep={currentStep} totalSteps={totalSteps} />
+            </div>
+          </div>
+
+          {/* Form — higher z, scrolls over stepper */}
+          <div className="relative z-20 -mt-4">
+            <div className="max-w-3xl mx-auto px-4 pb-12">
+              <div className="flex gap-4">
+                {/* Spacer — reserves space for the absolutely-positioned back button */}
+                <div className="hidden lg:block w-12 shrink-0" />
+
+                {/* Form card */}
+                <div className="flex-1 max-w-2xl mx-auto">
+                  <div
+                    key={currentStep}
+                    className="bg-white rounded-2xl shadow-xl shadow-slate-300/40 border border-slate-100 p-6 sm:p-8"
+                  >
+                    {renderStep()}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Back button — absolutely positioned OUTSIDE the scroll container */}
+        {currentStep <= 4 && (
+          <button
+            onClick={() => {
+              if (currentStep === 0) {
+                onNavigate('welcome');
+              } else if (currentStep === 4) {
+                setCurrentStep(0);
+              } else {
+                setCurrentStep(currentStep - 1);
+              }
+            }}
+            className="hidden lg:flex absolute z-30 items-center justify-center w-12 h-12 rounded-full border-2 border-slate-200 bg-white text-slate-500 hover:bg-slate-50 hover:border-slate-300 hover:text-slate-700 transition-all shadow-sm"
+            style={{
+              left: 'calc(50% - 368px)',
+              top: '200px',
+            }}
+            aria-label="Retour"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+        )}
       </div>
     </div>
   );

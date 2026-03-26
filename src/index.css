@@ -18,19 +18,19 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
 
-    /* Primary: Professional Blue */
-    --primary: 228 94% 54%;
+    /* Primary: Cyan Sky */
+    --primary: 199 89% 48%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 228 94% 64%;
-    --primary-dark: 228 94% 44%;
+    --primary-light: 199 89% 58%;
+    --primary-dark: 199 89% 38%;
 
     /* Secondary: Light Gray */
     --secondary: 0 0% 95%;
     --secondary-foreground: 0 0% 9%;
     --secondary-light: 0 0% 97%;
 
-    /* Accent: Professional Blue */
-    --accent: 228 94% 54%;
+    /* Accent: Cyan Sky */
+    --accent: 199 89% 48%;
     --accent-foreground: 0 0% 100%;
 
     /* Muted: Light grays */
@@ -42,7 +42,7 @@ All colors MUST be HSL.
 
     --border: 0 0% 89%;
     --input: 0 0% 100%;
-    --ring: 228 94% 54%;
+    --ring: 199 89% 48%;
 
     /* Success: Green */
     --success: 142 71% 45%;
@@ -53,17 +53,17 @@ All colors MUST be HSL.
     --warning-foreground: 0 0% 100%;
 
     /* Gradients - Clean and subtle */
-    --gradient-primary: linear-gradient(135deg, hsl(228 94% 54%), hsl(228 94% 64%));
+    --gradient-primary: linear-gradient(135deg, hsl(199 89% 48%), hsl(199 89% 58%));
     --gradient-secondary: linear-gradient(135deg, hsl(0 0% 95%), hsl(0 0% 97%));
-    --gradient-hero: linear-gradient(135deg, hsl(228 94% 54%), hsl(228 94% 64%));
+    --gradient-hero: linear-gradient(135deg, hsl(199 89% 48%), hsl(199 89% 58%));
     --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 98%));
-    --gradient-glow: linear-gradient(135deg, hsl(228 94% 54% / 0.1), hsl(228 94% 64% / 0.1));
+    --gradient-glow: linear-gradient(135deg, hsl(199 89% 48% / 0.1), hsl(199 89% 58% / 0.1));
 
     /* Shadows - Clean and professional */
     --shadow-card: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
     --shadow-button: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
     --shadow-emergency: 0 4px 6px -1px hsl(0 84% 60% / 0.1);
-    --shadow-glow: 0 0 15px hsl(228 94% 54% / 0.15);
+    --shadow-glow: 0 0 15px hsl(199 89% 48% / 0.15);
 
     --radius: 1rem;
 
@@ -87,7 +87,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
 
-    --primary: 228 94% 54%;
+    --primary: 199 89% 48%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 95%;
@@ -96,7 +96,7 @@ All colors MUST be HSL.
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 228 94% 54%;
+    --accent: 199 89% 48%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -104,7 +104,7 @@ All colors MUST be HSL.
 
     --border: 0 0% 89%;
     --input: 0 0% 100%;
-    --ring: 228 94% 54%;
+    --ring: 199 89% 48%;
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 245 25% 8%;
@@ -132,6 +132,15 @@ All colors MUST be HSL.
   .required-asterisk {
     color: hsl(0 84% 60%) !important;
   }
+
+  /* Hide scrollbar but keep scrollable */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Make asterisks red in all text content */
@@ -140,3 +149,144 @@ All colors MUST be HSL.
     color: inherit;
   }
 }
+
+/* ===== Landing Page Animations ===== */
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) rotate(15deg);
+  }
+  100% {
+    transform: translateX(200%) rotate(15deg);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(3deg);
+  }
+}
+
+@keyframes float-slower {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(-2deg);
+  }
+}
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Stagger delay utilities */
+.animate-hero-fade-in {
+  animation: hero-fade-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-hero-scale-in {
+  animation: hero-scale-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }
+.animate-delay-600 { animation-delay: 600ms; }
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-float-slower {
+  animation: float-slower 8s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 3s ease-in-out infinite;
+}
+
+/* Scroll-triggered animation base */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scroll-animate.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-animate-scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scroll-animate-scale.in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ===== Quote Form Step Transitions ===== */
+
+@keyframes step-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-step-enter {
+  animation: step-enter 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Branded CTA button for quote form */
+.btn-quote-cta {
+  @apply bg-gradient-to-r from-primary to-cyan-500 text-white font-semibold shadow-md;
+  @apply hover:shadow-lg hover:brightness-110 transition-all;
+}
+
