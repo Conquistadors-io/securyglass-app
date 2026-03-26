@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { resendApi } from "@/integrations/resend/resend";
 import { devisSchema } from "@/lib/validation";
 import { z } from "zod";
 import { saveClient } from "./clients";
@@ -262,21 +263,19 @@ export const saveDevis = async (formData: any, calculatedPrices: any): Promise<{
     console.log('Devis saved successfully:', { id: savedData.id, quote_number: savedData.quote_number });
     
     // Send admin notification asynchronously (don't wait for it)
-    supabase.functions.invoke('notify-admin-new-quote', {
-      body: {
-        quoteNumber: savedData.quote_number,
-        clientName: `${formData.prenom || ''} ${formData.nom || formData.raison_sociale || ''}`.trim(),
-        clientEmail: formData.email,
-        clientPhone: formData.telephone,
-        total: calculatedPrices.total,
-        serviceType: formData.serviceType || 'vitrerie',
-        motif: formData.motif !== 'autre' ? formData.motif : formData.motifOther,
-        interventionAddress: interventionAddress,
-        interventionCity: formData.differentInterventionAddress ? formData.interventionVille : formData.ville,
-        interventionPostalCode: formData.differentInterventionAddress ? formData.interventionCodePostal : formData.codePostal,
-      }
+    resendApi.notifyAdmin({
+      quoteNumber: savedData.quote_number,
+      clientName: `${formData.prenom || ''} ${formData.nom || formData.raison_sociale || ''}`.trim(),
+      clientEmail: formData.email,
+      clientPhone: formData.telephone,
+      total: calculatedPrices.total,
+      serviceType: formData.serviceType || 'vitrerie',
+      motif: formData.motif !== 'autre' ? formData.motif : formData.motifOther,
+      interventionAddress: interventionAddress,
+      interventionCity: formData.differentInterventionAddress ? formData.interventionVille : formData.ville,
+      interventionPostalCode: formData.differentInterventionAddress ? formData.interventionCodePostal : formData.codePostal,
     }).then(response => {
-      if (response.error) {
+      if (!response.success) {
         console.error('Failed to send admin notification:', response.error);
       } else {
         console.log('Admin notification sent successfully');

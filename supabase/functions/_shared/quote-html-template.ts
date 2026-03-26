@@ -207,8 +207,8 @@ export function generateUnifiedQuoteHTML(data: QuoteHTMLData): string {
             <div class="header-subtitle">SecuryGlass</div>
           </div>
           <div class="header-right">
-            <img src="https://kmeyrlplsvdjxowxmzan.supabase.co/storage/v1/object/public/assets/securyglass-logo.png" alt="SecuryGlass Logo" class="logo" />
-            <img src="https://kmeyrlplsvdjxowxmzan.supabase.co/storage/v1/object/public/assets/certification-qualite.jpg" alt="Certification" class="logo" />
+            <img src="{{APP_URL}}/securyglass-logo.png" alt="SecuryGlass Logo" class="logo" />
+            <img src="{{APP_URL}}/certification-qualite.jpg" alt="Certification" class="logo" />
           </div>
         </div>
         

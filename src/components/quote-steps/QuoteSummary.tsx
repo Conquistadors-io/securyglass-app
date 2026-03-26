@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
+import { resendApi } from '@/integrations/resend/resend';
 import { supabase } from '@/integrations/supabase/client';
 import { generateQuotePDF, generateQuotePDFBase64, QuotePDFData } from '@/lib/pdf-generator';
 import { saveDevis, validateDevis } from '@/services/devis';
@@ -255,37 +256,20 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
       </html>
     `;
   };
-  // Helper function to load logos with edge function + fallback
+  // Helper function to load logos from public folder as base64
   const loadLogo = async (logoName: 'securyglass' | 'certification'): Promise<string> => {
+    const fileName = logoName === 'securyglass' ? '/securyglass-logo.png' : '/certification-qualite.jpg';
     try {
-      // Try edge function first with query parameter
-      console.log(`🔵 [Logo] Trying edge function for ${logoName}...`);
-      const { data, error } = await supabase.functions.invoke(`get-logo-base64?logo=${logoName}`);
-
-      if (!error && data?.base64) {
-        console.log(`✅ [Logo] Loaded ${logoName} from edge function`);
-        return data.base64;
-      }
-
-      throw new Error('Edge function failed');
-    } catch (edgeFunctionError) {
-      // Fallback to public folder
-      console.log(`⚠️ [Logo] Edge function failed for ${logoName}, using fallback...`);
-      const fileName = logoName === 'securyglass' ? '/securyglass-logo.png' : '/certification-qualite.jpg';
-
-      try {
-        const res = await fetch(fileName);
-        const blob = await res.blob();
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result as string);
-          reader.readAsDataURL(blob);
-        });
-      } catch (fallbackError) {
-        console.error(`❌ [Logo] Failed to load ${logoName} even with fallback:`, fallbackError);
-        // Return a transparent 1x1 pixel PNG as last resort
-        return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
-      }
+      const res = await fetch(fileName);
+      const blob = await res.blob();
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error(`❌ [Logo] Failed to load ${logoName}:`, error);
+      return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
     }
   };
 
@@ -738,20 +722,12 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
         quoteData,
       };
 
-      console.log('🔵 [Email] Calling send-quote-sendgrid edge function...');
-      const { data: result, error } = await supabase.functions.invoke('send-quote-sendgrid', {
-        body: emailPayload,
-      });
+      console.log('🔵 [Email] Calling resend-api edge function...');
+      const result = await resendApi.sendQuote(emailPayload);
 
-      console.log('🔵 [Email] SendGrid function result:', {
+      console.log('🔵 [Email] Resend API result:', {
         success: result?.success,
-        error: error?.message,
       });
-
-      if (error) {
-        console.error('❌ [Email] Error calling send-quote-sendgrid:', error);
-        throw new Error(`Erreur lors de l'appel à l'edge function: ${error.message}`);
-      }
 
       if (!result || !result.success) {
         throw new Error(result?.error || "Échec de l'envoi de l'email");

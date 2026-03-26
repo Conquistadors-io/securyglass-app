@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ArrowLeft, Send, Printer, Copy, FileText, Euro, Calendar, User, Phone, Mail, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { resendApi } from "@/integrations/resend/resend";
 import { supabase } from "@/integrations/supabase/client";
 
 interface QuoteDetailProps {
@@ -204,25 +205,22 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
         });
       }
 
-      // Appeler l'edge function SendGrid pour envoyer l'email avec pièce jointe
-      const { data, error } = await supabase.functions.invoke('send-quote-sendgrid', {
-        body: {
-          email: clientEmail,
-          clientName: quote.client.name,
-          message,
-          ccInternal,
-          attachment: {
-            filename: `Devis-${quote.id}.pdf`,
-            contentBase64: pdfBase64,
-            type: "application/pdf"
-          },
-          quoteData
-        }
+      // Appeler l'edge function Resend API pour envoyer l'email avec pièce jointe
+      const data = await resendApi.sendCustom({
+        to: clientEmail,
+        subject: `Devis ${quote.id} - SecuryGlass`,
+        html: `
+          <h2>Bonjour ${quote.client.name},</h2>
+          <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>Veuillez trouver ci-joint votre devis pour les travaux de vitrerie.</p>
+          <p>Cordialement,<br>L'équipe SecuryGlass</p>
+        `,
+        cc: ccInternal ? ['contact@securyglass.fr'] : undefined,
+        attachments: [{
+          filename: `Devis-${quote.id}.pdf`,
+          content: pdfBase64,
+        }],
       });
-
-      if (error) {
-        throw error;
-      }
 
       setStatus("sent");
       setShowSendDialog(false);
