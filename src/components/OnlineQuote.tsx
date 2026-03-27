@@ -125,7 +125,7 @@ export const OnlineQuote = ({ onNavigate }: OnlineQuoteProps) => {
         {/* Scroll container — fills wrapper, contains stepper + form */}
         <div ref={scrollRef} className="absolute inset-0 overflow-y-auto hide-scrollbar">
           {/* Stepper — sticky at top of scroll area, lower z */}
-          <div className="sticky top-0 z-10 relative overflow-hidden bg-gradient-to-br from-[#0369a1] via-primary to-cyan-500">
+          <div className="sticky top-0 z-10 relative overflow-hidden bg-gradient-to-br from-primary-dark via-primary to-primary-light">
             <div className="py-16">
               <QuoteStepper currentStep={currentStep} totalSteps={totalSteps} />
             </div>

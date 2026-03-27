@@ -34,37 +34,31 @@ export const clientSchema = z.object({
     .optional()
     .nullable()
     .or(z.literal("")),
-  adresse_intervention: z.string()
+  address_line: z.string()
     .trim()
-    .min(5, "L'adresse doit contenir au moins 5 caractères")
-    .max(500, "L'adresse ne peut pas dépasser 500 caractères"),
+    .max(500, "L'adresse ne peut pas dépasser 500 caractères")
+    .optional()
+    .nullable(),
+  city: z.string()
+    .trim()
+    .max(100, "La ville ne peut pas dépasser 100 caractères")
+    .optional()
+    .nullable(),
+  postal_code: z.string()
+    .trim()
+    .max(10, "Le code postal ne peut pas dépasser 10 caractères")
+    .optional()
+    .nullable(),
 });
 
-export const devisSchema = z.object({
-  civilite: z.string()
-    .trim()
-    .max(50)
+export const quoteSchema = z.object({
+  client_id: z.string()
+    .uuid("L'identifiant client est invalide")
     .optional(),
-  client_email: z.string()
-    .trim()
-    .email("Format d'email invalide")
-    .max(255),
   service_type: z.string()
     .trim()
     .min(1, "Le type de service est requis")
     .max(50),
-  object: z.string()
-    .trim()
-    .min(1, "L'objet est requis")
-    .max(100),
-  property: z.string()
-    .trim()
-    .max(100)
-    .optional(),
-  property_other: z.string()
-    .trim()
-    .max(200)
-    .optional(),
   motif: z.string()
     .trim()
     .max(100)
@@ -73,43 +67,27 @@ export const devisSchema = z.object({
     .trim()
     .max(200)
     .optional(),
-  category: z.string()
+  property_type: z.string()
     .trim()
     .max(100)
     .optional(),
-  subcategory: z.string()
+  property_other: z.string()
     .trim()
-    .max(100)
+    .max(200)
     .optional(),
-  vitrage: z.string()
-    .trim()
-    .max(100)
-    .optional(),
-  largeur_cm: z.number()
-    .positive("La largeur doit être positive")
-    .max(10000, "La largeur ne peut pas dépasser 10000 cm")
-    .optional(),
-  hauteur_cm: z.number()
-    .positive("La hauteur doit être positive")
-    .max(10000, "La hauteur ne peut pas dépasser 10000 cm")
-    .optional(),
-  quantite: z.number()
-    .int("La quantité doit être un nombre entier")
-    .positive("La quantité doit être positive")
-    .max(1000, "La quantité ne peut pas dépasser 1000"),
   assurance: z.string()
     .trim()
     .max(100)
     .optional(),
-  intervention_code_postal: z.string()
+  intervention_postal_code: z.string()
     .trim()
     .max(10)
     .optional(),
-  intervention_ville: z.string()
+  intervention_city: z.string()
     .trim()
     .max(100)
     .optional(),
-  intervention_adresse: z.string()
+  intervention_address: z.string()
     .trim()
     .max(500)
     .optional(),
@@ -118,6 +96,9 @@ export const devisSchema = z.object({
     .max(1000, "Les notes ne peuvent pas dépasser 1000 caractères")
     .optional(),
 });
+
+// Keep the old name as alias for backward compatibility during migration
+export const devisSchema = quoteSchema;
 
 export const quoteComputeSchema = z.object({
   largeur: z.number()

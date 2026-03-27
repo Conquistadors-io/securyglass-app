@@ -1,9 +1,9 @@
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
-// Couleurs de marque
+// Couleurs de marque SecuryGlass
 const COLORS = {
-  primary: '#2563eb',
-  primaryLight: '#3b82f6',
+  primary: '#3a9a84',
+  primaryLight: '#60bca8',
   secondary: '#f9fafb',
   text: '#333333',
   textMuted: '#666666',

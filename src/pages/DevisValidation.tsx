@@ -26,23 +26,23 @@ export const DevisValidation = () => {
         console.log('🔵 Validating quote with token:', token.substring(0, 10) + '...');
 
         // Chercher le devis par token
-        const { data: devis, error: fetchError } = await (supabase as any)
-          .from('devis')
-          .select('id, quote_number, status, client_email')
+        const { data: quoteData, error: fetchError } = await supabase
+          .from('quotes')
+          .select('id, quote_number, status')
           .eq('validation_token', token)
           .single();
 
-        if (fetchError || !devis) {
+        if (fetchError || !quoteData) {
           console.error('❌ Token not found:', fetchError);
           setStatus('error');
           toast.error('Ce lien de validation est invalide ou expiré');
           return;
         }
 
-        setQuoteNumber(devis.quote_number || devis.id);
+        setQuoteNumber(quoteData.quote_number || quoteData.id);
 
         // Vérifier si déjà validé
-        if (devis.status === 'validated') {
+        if (quoteData.status === 'validated') {
           console.log('⚠️ Quote already validated');
           setStatus('already-validated');
           toast.info('Ce devis a déjà été validé précédemment');
@@ -60,9 +60,9 @@ export const DevisValidation = () => {
         }
 
         // Valider le devis via l'edge function
-        const { data: validateData, error: validateError } = await supabase.functions.invoke('validate-quote', {
+        const { data: validateData, error: validateError } = await supabase.functions.invoke('update-quote-status', {
           body: { 
-            devisId: devis.id, 
+            quoteId: quoteData.id, 
             status: 'validated',
             validatedAt: new Date().toISOString(),
             validationIp: clientIp
@@ -97,7 +97,7 @@ export const DevisValidation = () => {
           <div className="mx-auto mb-4">
             {status === 'loading' && <Loader2 className="h-16 w-16 text-primary animate-spin" />}
             {status === 'success' && <CheckCircle2 className="h-16 w-16 text-green-500" />}
-            {status === 'already-validated' && <CheckCircle2 className="h-16 w-16 text-blue-500" />}
+            {status === 'already-validated' && <CheckCircle2 className="h-16 w-16 text-primary" />}
             {status === 'error' && <XCircle className="h-16 w-16 text-red-500" />}
           </div>
           <CardTitle className="text-3xl font-bold">
@@ -126,11 +126,11 @@ export const DevisValidation = () => {
                 </p>
               </div>
 
-              <div className="bg-blue-50 border-l-4 border-blue-500 p-4">
-                <p className="text-sm text-blue-900">
+              <div className="bg-primary/5 border-l-4 border-primary p-4">
+                <p className="text-sm text-primary-dark">
                   <strong>Prochaines étapes :</strong>
                 </p>
-                <ul className="list-disc list-inside text-sm text-blue-800 mt-2 space-y-1">
+                <ul className="list-disc list-inside text-sm text-primary-dark mt-2 space-y-1">
                   <li>Vous recevrez un email de confirmation</li>
                   <li>Notre équipe vous contactera pour convenir d'une date d'intervention</li>
                   <li>Un technicien se rendra sur place selon le rendez-vous convenu</li>
@@ -140,11 +140,11 @@ export const DevisValidation = () => {
           )}
 
           {status === 'already-validated' && (
-            <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 text-center">
-              <p className="text-blue-900">
-                Ce devis <span className="font-mono bg-blue-100 px-2 py-1 rounded">{quoteNumber}</span> a déjà été validé précédemment.
+            <div className="bg-primary/5 border-2 border-primary/20 rounded-lg p-6 text-center">
+              <p className="text-primary-dark">
+                Ce devis <span className="font-mono bg-primary/10 px-2 py-1 rounded">{quoteNumber}</span> a déjà été validé précédemment.
               </p>
-              <p className="text-sm text-blue-700 mt-2">
+              <p className="text-sm text-primary mt-2">
                 Si vous avez des questions, n'hésitez pas à nous contacter.
               </p>
             </div>

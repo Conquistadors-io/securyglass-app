@@ -6,11 +6,11 @@ verify_jwt = false
 [functions.compute-quote]
 verify_jwt = false
 
-[functions.generate-store-quote-pdf]
+[functions.generate-quote-pdf]
 verify_jwt = false
 
 [functions.resend-api]
 verify_jwt = false
 
-[functions.validate-quote]
+[functions.update-quote-status]
 verify_jwt = false

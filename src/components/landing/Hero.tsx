@@ -9,7 +9,7 @@ export const Hero = () => {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden min-h-screen flex items-center bg-gradient-to-br from-[#0369a1] via-primary to-cyan-500"
+      className="relative overflow-hidden min-h-screen flex items-center bg-gradient-to-br from-primary-dark via-primary to-primary-light"
     >
       {/* Subtle glass pattern overlay */}
       <div className="absolute inset-0 opacity-[0.03]">

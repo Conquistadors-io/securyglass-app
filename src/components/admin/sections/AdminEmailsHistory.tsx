@@ -108,7 +108,7 @@ export const AdminEmailsHistory = () => {
     if (email.clicked_at) return <Badge className="bg-green-700">Cliqué</Badge>;
     if (email.opened_at) return <Badge className="bg-yellow-600">Ouvert</Badge>;
     if (status === 'delivered') return <Badge className="bg-green-500">Délivré</Badge>;
-    if (status === 'sent') return <Badge className="bg-blue-500">Envoyé</Badge>;
+    if (status === 'sent') return <Badge className="bg-primary">Envoyé</Badge>;
     if (status === 'failed') return <Badge variant="destructive">Échec</Badge>;
     return <Badge variant="outline">{status}</Badge>;
   };
@@ -148,7 +148,7 @@ export const AdminEmailsHistory = () => {
             <CardTitle className="text-sm font-medium text-muted-foreground">Envoyés</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-500">{stats.sent}</div>
+            <div className="text-2xl font-bold text-primary">{stats.sent}</div>
           </CardContent>
         </Card>
 

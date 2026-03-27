@@ -1,7 +1,8 @@
 // ─── Resend API Types ────────────────────────────────────
 
 export interface SendQuoteParams {
-  devisId: string;
+  quoteId: string;
+  validationToken?: string;
   templateKey?: string;
   email: string;
   clientName: string;

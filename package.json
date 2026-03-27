@@ -11,11 +11,11 @@
     "preview": "vite preview",
     "supabase:link": "npx supabase link --project-ref cwafbmbmgisusbdypcux",
     "supabase:types": "npx supabase gen types typescript --project-id cwafbmbmgisusbdypcux --schema public > src/integrations/supabase/types.ts",
-    "supabase:functions:deploy": "supabase functions deploy --project-ref cwafbmbmgisusbdypcux",
+    "supabase:functions:deploy": "npx supabase functions deploy --project-ref cwafbmbmgisusbdypcux",
     "supabase:migrations:pull": "npx supabase link --project-ref cwafbmbmgisusbdypcux && npx supabase db pull",
     "supabase:migrations:push": "npx supabase link --project-ref cwafbmbmgisusbdypcux && npx supabase db push",
-    "supabase:secrets:push": "supabase secrets set --project-ref cwafbmbmgisusbdypcux --env-file supabase/functions/.env",
-    "supabase:secrets:list": "supabase secrets list --project-ref cwafbmbmgisusbdypcux"
+    "supabase:secrets:push": "npx supabase secrets set --project-ref cwafbmbmgisusbdypcux --env-file supabase/functions/.env",
+    "supabase:secrets:list": "npx supabase secrets list --project-ref cwafbmbmgisusbdypcux"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.10",

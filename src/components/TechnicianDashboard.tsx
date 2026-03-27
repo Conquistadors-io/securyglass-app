@@ -62,7 +62,7 @@ export const TechnicianDashboard = ({
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "upcoming":
-        return <Badge className="bg-blue-100 text-blue-800">À venir</Badge>;
+        return <Badge className="bg-primary/10 text-primary-dark">À venir</Badge>;
       case "to-confirm":
         return <Badge className="bg-yellow-100 text-yellow-800">À confirmer</Badge>;
       default:
@@ -195,7 +195,7 @@ export const TechnicianDashboard = ({
                         className="w-24 h-8"
                       />
                     ) : (
-                      <Badge className="bg-blue-100 text-blue-800">{profileData.competences}</Badge>
+                      <Badge className="bg-primary/10 text-primary-dark">{profileData.competences}</Badge>
                     )}
                   </div>
                   <div className="flex justify-between items-center">
@@ -374,7 +374,7 @@ export const TechnicianDashboard = ({
                         onCheckedChange={(checked) => updateField('astreinteNuit', checked)}
                       />
                     ) : (
-                      <Badge className={profileData.astreinteNuit ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-800"}>
+                      <Badge className={profileData.astreinteNuit ? "bg-primary/10 text-primary-dark" : "bg-gray-100 text-gray-800"}>
                         {profileData.astreinteNuit ? "Activé" : "Désactivé"}
                       </Badge>
                     )}
@@ -387,7 +387,7 @@ export const TechnicianDashboard = ({
                         onCheckedChange={(checked) => updateField('astreinteWeekend', checked)}
                       />
                     ) : (
-                      <Badge className={profileData.astreinteWeekend ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-800"}>
+                      <Badge className={profileData.astreinteWeekend ? "bg-primary/10 text-primary-dark" : "bg-gray-100 text-gray-800"}>
                         {profileData.astreinteWeekend ? "Activé" : "Désactivé"}
                       </Badge>
                     )}
@@ -415,7 +415,7 @@ export const TechnicianDashboard = ({
             <div className="mb-1">
               <h1 className="text-xl font-bold text-foreground">Thomas Carpentier</h1>
               <div className="flex items-center space-x-2 mt-1">
-                <Badge className="bg-blue-500 text-white text-xs font-medium">Expert</Badge>
+                <Badge className="bg-primary text-white text-xs font-medium">Expert</Badge>
                 <Badge className="bg-green-100 text-green-800 text-xs">Disponible</Badge>
               </div>
             </div>
@@ -474,11 +474,11 @@ Travaux</div>
         </div>
         
         <div className="grid grid-cols-2 gap-3">
-          <div className="flex items-center space-x-2 bg-blue-50 p-3 rounded-lg">
-            <Zap className="h-5 w-5 text-blue-600" />
+          <div className="flex items-center space-x-2 bg-primary/5 p-3 rounded-lg">
+            <Zap className="h-5 w-5 text-primary" />
             <div>
-              <div className="text-sm font-medium text-blue-800">97% Taux</div>
-              <div className="text-xs text-blue-600">Fiable</div>
+              <div className="text-sm font-medium text-primary-dark">97% Taux</div>
+              <div className="text-xs text-primary">Fiable</div>
             </div>
           </div>
           

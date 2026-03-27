@@ -39,7 +39,7 @@ export const QuoteStepper = ({ currentStep, totalSteps }: QuoteStepperProps) => 
                     ? 'bg-emerald-400 border-emerald-400 text-white'
                     : isActive
                       ? 'bg-white border-white text-primary shadow-lg shadow-black/10 scale-110'
-                      : 'bg-sky-500 border-white/40 text-white'
+                      : 'bg-primary-dark border-white/40 text-white'
                 }`}
               >
                 {isCompleted ? <Check className="w-4 h-4" /> : index + 1}

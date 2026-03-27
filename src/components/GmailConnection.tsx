@@ -66,7 +66,7 @@ export const GmailConnection = ({
 
       {/* Instructions */}
       <div className="space-y-4 text-sm text-muted-foreground">
-        <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg">
+        <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-lg">
           <h3 className="font-semibold text-foreground mb-2">📧 Comment ça fonctionne :</h3>
           <ul className="space-y-1">
             <li>• Une fois votre Gmail connecté, tous les devis seront envoyés depuis votre compte</li>

@@ -62,7 +62,7 @@ export const InvoiceDetail = ({ onNavigate }: InvoiceDetailProps) => {
       case "paid":
         return <Badge className="bg-green-100 text-green-800">Payée</Badge>;
       case "sent":
-        return <Badge className="bg-blue-100 text-blue-800">Envoyée</Badge>;
+        return <Badge className="bg-primary/10 text-primary-dark">Envoyée</Badge>;
       case "overdue":
         return <Badge className="bg-red-100 text-red-800">En retard</Badge>;
       default:

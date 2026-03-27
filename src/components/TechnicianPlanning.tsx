@@ -198,7 +198,7 @@ export const TechnicianPlanning = ({ onNavigate }: TechnicianPlanningProps) => {
               <div className="text-xs text-muted-foreground">Occupé</div>
             </div>
             <div>
-              <div className="text-lg font-bold text-blue-600">3h</div>
+              <div className="text-lg font-bold text-primary">3h</div>
               <div className="text-xs text-muted-foreground">Libre</div>
             </div>
             <div>

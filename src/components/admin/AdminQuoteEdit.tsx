@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { updateDevis } from "@/services/devis";
+import { updateQuote } from "@/services/quotes";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, RefreshCw } from "lucide-react";
 
@@ -21,15 +21,11 @@ export const AdminQuoteEdit = ({ quote, open, onOpenChange, onSuccess }: QuoteEd
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [formData, setFormData] = useState({
-    client_email: '',
     service_type: '',
     object: '',
     property: '',
     motif: '',
     category: '',
-    vitrage: '',
-    largeur_cm: '',
-    hauteur_cm: '',
     quantite: '1',
     assurance: '',
     intervention_adresse: '',
@@ -46,20 +42,16 @@ export const AdminQuoteEdit = ({ quote, open, onOpenChange, onSuccess }: QuoteEd
   useEffect(() => {
     if (quote) {
       setFormData({
-        client_email: quote.client_email || '',
         service_type: quote.service_type || '',
         object: quote.object || '',
         property: quote.property || '',
         motif: quote.motif || '',
         category: quote.category || '',
-        vitrage: quote.vitrage || '',
-        largeur_cm: quote.largeur_cm?.toString() || '',
-        hauteur_cm: quote.hauteur_cm?.toString() || '',
         quantite: quote.quantite?.toString() || '1',
         assurance: quote.assurance || '',
-        intervention_adresse: quote.intervention_adresse || '',
-        intervention_code_postal: quote.intervention_code_postal || '',
-        intervention_ville: quote.intervention_ville || '',
+        intervention_adresse: quote.intervention_adresse || quote.intervention_address || '',
+        intervention_code_postal: quote.intervention_code_postal || quote.intervention_postal_code || '',
+        intervention_ville: quote.intervention_ville || quote.intervention_city || '',
         notes: quote.notes || '',
         price_subtotal: quote.price_subtotal?.toString() || '',
         price_tva: quote.price_tva?.toString() || '',
@@ -79,7 +71,7 @@ export const AdminQuoteEdit = ({ quote, open, onOpenChange, onSuccess }: QuoteEd
       });
 
       const { data, error } = await supabase.functions.invoke(
-        'generate-store-quote-pdf',
+        'generate-quote-pdf',
         { body: { quoteId: quote.id } }
       );
 
@@ -109,30 +101,26 @@ export const AdminQuoteEdit = ({ quote, open, onOpenChange, onSuccess }: QuoteEd
 
     try {
       const updatedData: any = {
-        client_email: formData.client_email,
         service_type: formData.service_type,
         object: formData.object,
         quantite: parseInt(formData.quantite),
         status: formData.status,
       };
 
-      if (formData.property) updatedData.property = formData.property;
+      if (formData.property) updatedData.property_type = formData.property;
       if (formData.motif) updatedData.motif = formData.motif;
       if (formData.category) updatedData.category = formData.category;
-      if (formData.vitrage) updatedData.vitrage = formData.vitrage;
-      if (formData.largeur_cm) updatedData.largeur_cm = parseFloat(formData.largeur_cm);
-      if (formData.hauteur_cm) updatedData.hauteur_cm = parseFloat(formData.hauteur_cm);
       if (formData.assurance) updatedData.assurance = formData.assurance;
-      if (formData.intervention_adresse) updatedData.intervention_adresse = formData.intervention_adresse;
-      if (formData.intervention_code_postal) updatedData.intervention_code_postal = formData.intervention_code_postal;
-      if (formData.intervention_ville) updatedData.intervention_ville = formData.intervention_ville;
+      if (formData.intervention_adresse) updatedData.intervention_address = formData.intervention_adresse;
+      if (formData.intervention_code_postal) updatedData.intervention_postal_code = formData.intervention_code_postal;
+      if (formData.intervention_ville) updatedData.intervention_city = formData.intervention_ville;
       if (formData.notes) updatedData.notes = formData.notes;
       if (formData.price_subtotal) updatedData.price_subtotal = parseFloat(formData.price_subtotal);
       if (formData.price_tva) updatedData.price_tva = parseFloat(formData.price_tva);
       if (formData.price_tva_rate) updatedData.price_tva_rate = parseFloat(formData.price_tva_rate);
       if (formData.price_total) updatedData.price_total = parseFloat(formData.price_total);
 
-      const result = await updateDevis(quote.id, updatedData);
+      const result = await updateQuote(quote.id, updatedData);
 
       if (!result.success) {
         throw new Error(result.error || 'Erreur lors de la mise à jour');
@@ -177,18 +165,22 @@ export const AdminQuoteEdit = ({ quote, open, onOpenChange, onSuccess }: QuoteEd
       </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Informations Client */}
+          {/* Client Info (read-only from join) */}
           <div className="space-y-4">
             <h3 className="font-semibold text-lg">Informations Client</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="client_email">Email *</Label>
+                <Label>Client</Label>
                 <Input
-                  id="client_email"
-                  type="email"
-                  value={formData.client_email}
-                  onChange={(e) => setFormData({ ...formData, client_email: e.target.value })}
-                  required
+                  value={quote?.clients ? `${quote.clients.prenom || ''} ${quote.clients.nom || ''}`.trim() || quote.clients.raison_sociale || 'N/A' : 'N/A'}
+                  disabled
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Email</Label>
+                <Input
+                  value={quote?.clients?.email || 'N/A'}
+                  disabled
                 />
               </div>
             </div>
@@ -238,34 +230,6 @@ export const AdminQuoteEdit = ({ quote, open, onOpenChange, onSuccess }: QuoteEd
                   id="category"
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="vitrage">Vitrage</Label>
-                <Input
-                  id="vitrage"
-                  value={formData.vitrage}
-                  onChange={(e) => setFormData({ ...formData, vitrage: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="largeur_cm">Largeur (cm)</Label>
-                <Input
-                  id="largeur_cm"
-                  type="number"
-                  step="0.01"
-                  value={formData.largeur_cm}
-                  onChange={(e) => setFormData({ ...formData, largeur_cm: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="hauteur_cm">Hauteur (cm)</Label>
-                <Input
-                  id="hauteur_cm"
-                  type="number"
-                  step="0.01"
-                  value={formData.hauteur_cm}
-                  onChange={(e) => setFormData({ ...formData, hauteur_cm: e.target.value })}
                 />
               </div>
               <div className="space-y-2">

@@ -34,7 +34,7 @@ export const TechnicianOrder = ({ onNavigate }: TechnicianOrderProps) => {
       case "confirmed":
         return {
           label: "Confirmé",
-          color: "bg-blue-100 text-blue-800", 
+          color: "bg-primary/10 text-primary-dark", 
           progress: 50,
           description: "Production en cours chez le fournisseur"
         };

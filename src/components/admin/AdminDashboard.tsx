@@ -22,7 +22,7 @@ export const AdminDashboard = () => {
     try {
       // Fetch quotes stats
       const { data: quotes, error: quotesError } = await supabase
-        .from('devis')
+        .from('quotes')
         .select('status, price_total');
 
       if (quotesError) throw quotesError;
@@ -40,8 +40,8 @@ export const AdminDashboard = () => {
         return sum + (parseFloat(quote.price_total?.toString() || '0'));
       }, 0) || 0;
       
-      const pendingQuotes = quotes?.filter(q => q.status === 'draft' || q.status === 'pending').length || 0;
-      const sentQuotes = quotes?.filter(q => q.status === 'sent').length || 0;
+      const pendingQuotes = quotes?.filter(q => q.status === 'draft').length || 0;
+      const sentQuotes = quotes?.filter(q => q.status === 'sent' || q.status === 'validated').length || 0;
       const acceptedQuotes = quotes?.filter(q => q.status === 'accepted').length || 0;
 
       setStats({
@@ -70,7 +70,7 @@ export const AdminDashboard = () => {
       title: "Clients",
       value: stats.totalClients,
       icon: Users,
-      color: "text-blue-600",
+      color: "text-primary",
     },
     {
       title: "Chiffre d'Affaires",

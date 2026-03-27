@@ -20,7 +20,7 @@ import { fr } from "date-fns/locale";
 import { AdminQuoteDetail } from "./admin/AdminQuoteDetail";
 import { AdminQuoteEdit } from "./admin/AdminQuoteEdit";
 import { AdminQuoteStats } from "./admin/AdminQuoteStats";
-import { updateDevisStatus } from "@/services/devis";
+import { updateQuoteStatus } from "@/services/quotes";
 import { Calendar, CalendarRange } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
@@ -28,18 +28,18 @@ import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 interface Quote {
   id: string;
   quote_number: string | null;
-  client_email: string;
+  client_id: string;
   status: string;
   price_total: number | null;
   created_at: string;
   service_type: string;
   motif: string | null;
-  vitrage: string | null;
   pdf_url: string | null;
   clients?: {
     nom: string | null;
     prenom: string | null;
     mobile: string;
+    email: string;
     raison_sociale: string | null;
   };
 }
@@ -108,7 +108,7 @@ export const AdminQuotesList = () => {
     if (searchTerm) {
       filtered = filtered.filter(quote => 
         quote.quote_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        quote.client_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (quote.clients?.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
         quote.motif?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         quote.clients?.nom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         quote.clients?.prenom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -124,10 +124,10 @@ export const AdminQuotesList = () => {
     try {
       setIsLoading(true);
       const { data, error } = await supabase
-        .from('devis')
+        .from('quotes')
         .select(`
           *,
-          clients!inner(nom, prenom, mobile, raison_sociale)
+          clients!inner(nom, prenom, mobile, email, raison_sociale)
         `)
         .order('created_at', { ascending: false });
 
@@ -155,7 +155,7 @@ export const AdminQuotesList = () => {
       });
 
       const { data, error } = await supabase.functions.invoke(
-        'generate-store-quote-pdf',
+        'generate-quote-pdf',
         { body: { quoteId } }
       );
 
@@ -193,10 +193,10 @@ export const AdminQuotesList = () => {
   const handleViewDetails = async (quoteId: string) => {
     try {
       const { data, error } = await supabase
-        .from('devis')
+        .from('quotes')
         .select(`
           *,
-          clients!inner(nom, prenom, mobile, raison_sociale)
+          clients!inner(nom, prenom, mobile, email, raison_sociale)
         `)
         .eq('id', quoteId)
         .single();
@@ -218,10 +218,10 @@ export const AdminQuotesList = () => {
   const handleEdit = async (quoteId: string) => {
     try {
       const { data, error } = await supabase
-        .from('devis')
+        .from('quotes')
         .select(`
           *,
-          clients!inner(nom, prenom, mobile, raison_sociale)
+          clients!inner(nom, prenom, mobile, email, raison_sociale)
         `)
         .eq('id', quoteId)
         .single();
@@ -243,7 +243,7 @@ export const AdminQuotesList = () => {
   const handleValidateToggle = async (quoteId: string, currentStatus: string) => {
     try {
       const newStatus = currentStatus === 'draft' ? 'validated' : 'draft';
-      const result = await updateDevisStatus(quoteId, newStatus);
+      const result = await updateQuoteStatus(quoteId, newStatus);
 
       if (!result.success) {
         throw new Error(result.error || 'Erreur lors de la validation');
@@ -326,7 +326,7 @@ export const AdminQuotesList = () => {
                   </SelectItem>
                   <SelectItem value="sent">
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-primary"></div>
                       Envoyés
                     </div>
                   </SelectItem>
@@ -524,7 +524,7 @@ export const AdminQuotesList = () => {
                         </div>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <Mail className="h-3 w-3" />
-                          <span className="truncate max-w-[150px]">{quote.client_email}</span>
+                          <span className="truncate max-w-[150px]">{quote.clients?.email || 'N/A'}</span>
                         </div>
                         {quote.clients?.mobile && (
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -541,7 +541,7 @@ export const AdminQuotesList = () => {
                       {quote.motif || 'N/A'}
                     </TableCell>
                     <TableCell className="max-w-[150px] truncate">
-                      {quote.vitrage || 'N/A'}
+                      {quote.service_type || 'N/A'}
                     </TableCell>
                     <TableCell>{getStatusBadge(quote.status)}</TableCell>
                     <TableCell className="text-right font-semibold">

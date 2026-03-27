@@ -120,7 +120,7 @@ export const QuoteStep3 = ({ data, onComplete, onBack }: QuoteStep3Props) => {
       {/* Header de section avec icône */}
       <div className="mb-6 pb-6 border-b border-slate-100">
         <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-cyan-100 flex items-center justify-center">
+          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/20 flex items-center justify-center">
             <Grid2x2 className="w-6 h-6 text-primary" />
           </div>
           <div className="flex-1">
@@ -275,10 +275,10 @@ export const QuoteStep3 = ({ data, onComplete, onBack }: QuoteStep3Props) => {
                 <SelectValue placeholder="Sélectionnez le type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="coulissante" className="text-blue-600">
+                <SelectItem value="coulissante" className="text-primary">
                   Coulissante
                 </SelectItem>
-                <SelectItem value="fixe" className="text-blue-600">
+                <SelectItem value="fixe" className="text-primary">
                   Fixe
                 </SelectItem>
               </SelectContent>
@@ -309,19 +309,19 @@ export const QuoteStep3 = ({ data, onComplete, onBack }: QuoteStep3Props) => {
               <SelectValue placeholder="Sélectionnez le type de vitrage" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="simple" className="text-blue-600">
+              <SelectItem value="simple" className="text-primary">
                 Simple Vitrage
               </SelectItem>
-              <SelectItem value="double" className="text-blue-600">
+              <SelectItem value="double" className="text-primary">
                 Double Vitrage
               </SelectItem>
-              <SelectItem value="verre-securit" className="text-blue-600">
+              <SelectItem value="verre-securit" className="text-primary">
                 Verre Cheminée
               </SelectItem>
-              <SelectItem value="verre-feuillete" className="text-blue-600">
+              <SelectItem value="verre-feuillete" className="text-primary">
                 Verre Feuilleté Sécurit
               </SelectItem>
-              <SelectItem value="verre-trempe" className="text-blue-600">
+              <SelectItem value="verre-trempe" className="text-primary">
                 Verre Trempé Sécurit
               </SelectItem>
             </SelectContent>

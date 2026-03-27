@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Clean Business Design System - Based on Screenshot */
+    /* SecuryGlass Design System — Brand: #60bca8 */
     --background: 0 0% 98%;
     --foreground: 0 0% 9%;
 
@@ -18,63 +18,75 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
 
-    /* Primary: Cyan Sky */
-    --primary: 199 89% 48%;
+    /* Primary: SecuryGlass Teal (#60bca8) */
+    --primary: 167 41% 56%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 199 89% 58%;
-    --primary-dark: 199 89% 38%;
+    --primary-light: 167 42% 68%;
+    --primary-dark: 166 45% 42%;
 
-    /* Secondary: Light Gray */
-    --secondary: 0 0% 95%;
+    /* Secondary: Teal-tinted neutral (#f1f5f4) */
+    --secondary: 165 17% 95%;
     --secondary-foreground: 0 0% 9%;
-    --secondary-light: 0 0% 97%;
+    --secondary-light: 165 17% 97%;
 
-    /* Accent: Cyan Sky */
-    --accent: 199 89% 48%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent: Warm Amber (#e8a838) */
+    --accent: 38 79% 56%;
+    --accent-foreground: 0 0% 9%;
 
-    /* Muted: Light grays */
-    --muted: 0 0% 96%;
+    /* Muted: Neutral grays */
+    --muted: 165 10% 96%;
     --muted-foreground: 0 0% 45%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 89%;
+    --border: 165 10% 89%;
     --input: 0 0% 100%;
-    --ring: 199 89% 48%;
+    --ring: 167 41% 56%;
 
     /* Success: Green */
     --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
 
-    /* Warning: Orange */
-    --warning: 32 95% 44%;
+    /* Warning: Amber */
+    --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    /* Gradients - Clean and subtle */
-    --gradient-primary: linear-gradient(135deg, hsl(199 89% 48%), hsl(199 89% 58%));
-    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 95%), hsl(0 0% 97%));
-    --gradient-hero: linear-gradient(135deg, hsl(199 89% 48%), hsl(199 89% 58%));
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 98%));
-    --gradient-glow: linear-gradient(135deg, hsl(199 89% 48% / 0.1), hsl(199 89% 58% / 0.1));
+    /* Chart palette — 6 distinct, accessible colors */
+    --chart-1: 167 41% 56%;   /* #60bca8 — brand teal */
+    --chart-2: 198 43% 42%;   /* #3d7a99 — deep ocean */
+    --chart-3: 38 79% 56%;    /* #e8a838 — golden amber */
+    --chart-4: 4 68% 63%;     /* #e06860 — coral */
+    --chart-5: 250 37% 64%;   /* #8b7ec8 — soft purple */
+    --chart-6: 157 27% 49%;   /* #5ba085 — forest green */
 
-    /* Shadows - Clean and professional */
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(167 41% 56%), hsl(167 42% 68%));
+    --gradient-secondary: linear-gradient(135deg, hsl(165 17% 95%), hsl(165 17% 97%));
+    --gradient-hero: linear-gradient(135deg, hsl(167 41% 56%), hsl(166 45% 42%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(0 0% 98%));
+    --gradient-glow: linear-gradient(135deg, hsl(167 41% 56% / 0.1), hsl(167 42% 68% / 0.1));
+
+    /* Shadows */
     --shadow-card: 0 1px 3px 0 hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
     --shadow-button: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
     --shadow-emergency: 0 4px 6px -1px hsl(0 84% 60% / 0.1);
-    --shadow-glow: 0 0 15px hsl(199 89% 48% / 0.15);
+    --shadow-glow: 0 0 15px hsl(167 41% 56% / 0.15);
 
     --radius: 1rem;
 
-    --sidebar-background: 245 25% 10%;
+    /* Sidebar: Dark teal theme */
+    --sidebar-background: 167 30% 10%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 267 85% 65%;
+    --sidebar-primary: 167 41% 56%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 245 20% 15%;
+    --sidebar-accent: 167 20% 15%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 245 20% 20%;
-    --sidebar-ring: 267 85% 65%;
+    --sidebar-border: 167 20% 20%;
+    --sidebar-ring: 167 41% 56%;
+
+    /* Typography */
+    --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
   }
 
   .light {
@@ -87,33 +99,33 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
 
-    --primary: 199 89% 48%;
+    --primary: 167 41% 56%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 95%;
+    --secondary: 165 17% 95%;
     --secondary-foreground: 0 0% 9%;
 
-    --muted: 0 0% 96%;
+    --muted: 165 10% 96%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 199 89% 48%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 38 79% 56%;
+    --accent-foreground: 0 0% 9%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 89%;
+    --border: 165 10% 89%;
     --input: 0 0% 100%;
-    --ring: 199 89% 48%;
+    --ring: 167 41% 56%;
 
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 245 25% 8%;
-    --sidebar-primary: 267 85% 65%;
+    --sidebar-foreground: 167 30% 8%;
+    --sidebar-primary: 167 41% 56%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 245 5% 95%;
-    --sidebar-accent-foreground: 245 25% 8%;
-    --sidebar-border: 245 10% 90%;
-    --sidebar-ring: 267 85% 65%;
+    --sidebar-accent: 165 5% 95%;
+    --sidebar-accent-foreground: 167 30% 8%;
+    --sidebar-border: 165 10% 90%;
+    --sidebar-ring: 167 41% 56%;
   }
 }
 
@@ -124,6 +136,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
   }
 }
 
@@ -286,7 +299,7 @@ All colors MUST be HSL.
 
 /* Branded CTA button for quote form */
 .btn-quote-cta {
-  @apply bg-gradient-to-r from-primary to-cyan-500 text-white font-semibold shadow-md;
+  @apply bg-gradient-to-r from-primary to-primary-light text-white font-semibold shadow-md;
   @apply hover:shadow-lg hover:brightness-110 transition-all;
 }
 

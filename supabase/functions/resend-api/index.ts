@@ -15,7 +15,8 @@ type Action = 'send-quote' | 'notify-admin' | 'send-custom';
 
 interface SendQuotePayload {
   action: 'send-quote';
-  devisId: string;
+  quoteId: string;
+  validationToken?: string;
   templateKey?: string;
   email: string;
   clientName: string;
@@ -69,12 +70,6 @@ type RequestPayload = SendQuotePayload | NotifyAdminPayload | SendCustomPayload;
 
 // ─── Helpers ─────────────────────────────────────────────
 
-function generateValidationToken(): string {
-  const array = new Uint8Array(32);
-  crypto.getRandomValues(array);
-  return Array.from(array, (byte) => byte.toString(16).padStart(2, '0')).join('');
-}
-
 function replaceVariables(text: string, data: Record<string, any>): string {
   let result = text;
   for (const [key, value] of Object.entries(data)) {
@@ -110,7 +105,8 @@ function getAppUrl(): string {
 
 async function handleSendQuote(payload: SendQuotePayload) {
   const {
-    devisId,
+    quoteId,
+    validationToken,
     templateKey = 'DEVIS_ENVOYE',
     email,
     clientName,
@@ -120,7 +116,7 @@ async function handleSendQuote(payload: SendQuotePayload) {
     attachment,
   } = payload;
 
-  console.log('🔵 [Resend API] send-quote to:', email, '| template:', templateKey, '| devis:', devisId);
+  console.log('🔵 [Resend API] send-quote to:', email, '| template:', templateKey, '| quote:', quoteId);
 
   // Validate email
   const emailValidation = validateEmail(email);
@@ -146,23 +142,13 @@ async function handleSendQuote(payload: SendQuotePayload) {
   }
   console.log('✅ Template loaded:', template.name);
 
-  // 2. Generate validation token
-  const validationToken = generateValidationToken();
-  console.log('🔵 Generated validation token for devis:', devisId);
-
-  const { error: updateError } = await supabase
-    .from('devis')
-    .update({ validation_token: validationToken })
-    .eq('id', devisId);
-
-  if (updateError) {
-    console.error('❌ Error updating devis with token:', updateError);
-    throw new Error('Failed to generate validation token');
+  // 2. Build validation URL from pre-generated token
+  const validationUrl = validationToken
+    ? `${appUrl}/devis/valider?token=${validationToken}`
+    : '';
+  if (validationToken) {
+    console.log('✅ Validation URL generated:', validationUrl);
   }
-
-  // 3. Build validation URL
-  const validationUrl = `${appUrl}/devis/valider?token=${validationToken}`;
-  console.log('✅ Validation URL generated:', validationUrl);
 
   // 4. Generate quote HTML and replace logo URLs with APP_URL (logos served from public folder)
   let quoteHTML = generateUnifiedQuoteHTML({
@@ -236,13 +222,13 @@ async function handleSendQuote(payload: SendQuotePayload) {
   // 10. Log in emails_sent
   const { error: logError } = await supabase.from('emails_sent').insert({
     template_key: templateKey,
-    devis_id: devisId,
+    quote_id: quoteId,
     recipient_email: emailValidation.data!,
     recipient_name: clientName,
     subject: emailSubject,
     html_content: emailContent,
     variables_data: templateVariables,
-    sendgrid_message_id: messageId,
+    external_message_id: messageId,
     status: 'sent',
   });
 
@@ -288,17 +274,17 @@ async function handleNotifyAdmin(payload: NotifyAdminPayload) {
       <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background-color: #1e40af; color: white; padding: 20px; text-align: center; }
+        .header { background-color: #3a9a84; color: white; padding: 20px; text-align: center; }
         .content { background-color: #f9fafb; padding: 20px; margin: 20px 0; }
         .info-row { padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
         .info-label { font-weight: bold; color: #4b5563; }
         .info-value { color: #111827; }
-        .amount { font-size: 24px; color: #1e40af; font-weight: bold; text-align: center; padding: 20px; }
+        .amount { font-size: 24px; color: #3a9a84; font-weight: bold; text-align: center; padding: 20px; }
         .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; }
         .button { 
           display: inline-block; 
           padding: 12px 24px; 
-          background-color: #1e40af; 
+          background-color: #3a9a84; 
           color: white; 
           text-decoration: none; 
           border-radius: 6px;

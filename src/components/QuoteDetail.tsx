@@ -75,7 +75,7 @@ export const QuoteDetail = ({ onNavigate }: QuoteDetailProps) => {
       case "pending":
         return <Badge className="bg-yellow-100 text-yellow-800">En attente</Badge>;
       case "sent":
-        return <Badge className="bg-blue-100 text-blue-800">Envoyé</Badge>;
+        return <Badge className="bg-primary/10 text-primary-dark">Envoyé</Badge>;
       case "accepted":
         return <Badge className="bg-green-100 text-green-800">Accepté</Badge>;
       case "converted":

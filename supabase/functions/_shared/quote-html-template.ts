@@ -201,14 +201,10 @@ export function generateUnifiedQuoteHTML(data: QuoteHTMLData): string {
     <body>
       <div class="container">
         <!-- Header -->
-        <div class="header">
+        <div class="header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; padding: 20px; background: linear-gradient(135deg, #3a9a84, #60bca8); border-radius: 8px;">
           <div class="header-left">
-            <div class="header-title">DEVIS</div>
-            <div class="header-subtitle">SecuryGlass</div>
-          </div>
-          <div class="header-right">
-            <img src="{{APP_URL}}/securyglass-logo.png" alt="SecuryGlass Logo" class="logo" />
-            <img src="{{APP_URL}}/certification-qualite.jpg" alt="Certification" class="logo" />
+            <div style="font-size: 32px; font-weight: bold; color: #ffffff; margin-bottom: 5px;">DEVIS</div>
+            <div style="font-size: 14px; color: rgba(255,255,255,0.85); font-style: italic;">SecuryGlass — Glass for your security</div>
           </div>
         </div>
         

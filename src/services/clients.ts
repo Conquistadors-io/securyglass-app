@@ -1,6 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
 import { clientSchema } from "@/lib/validation";
-import { z } from "zod";
 
 export interface ClientData {
   email: string;
@@ -8,19 +7,25 @@ export interface ClientData {
   nom: string;
   prenom?: string | null;
   raison_sociale?: string | null;
+  civilite?: string | null;
   email_facturation?: string | null;
-  adresse_intervention: string;
+  address_line?: string | null;
+  city?: string | null;
+  postal_code?: string | null;
 }
 
 export const saveClient = async (data: {
   nom: string;
   prenom?: string;
   raison_sociale?: string;
+  civilite?: string;
   mobile: string;
   email: string;
   email_facturation?: string;
-  adresse_intervention: string;
-}): Promise<{ success: boolean; error?: string }> => {
+  address_line?: string;
+  city?: string;
+  postal_code?: string;
+}): Promise<{ success: boolean; error?: string; clientId?: string }> => {
   try {
     // Validate input data
     const validationResult = clientSchema.safeParse({
@@ -30,7 +35,9 @@ export const saveClient = async (data: {
       prenom: data.prenom || null,
       raison_sociale: data.raison_sociale || null,
       email_facturation: data.email_facturation || null,
-      adresse_intervention: data.adresse_intervention,
+      address_line: data.address_line || null,
+      city: data.city || null,
+      postal_code: data.postal_code || null,
     });
 
     if (!validationResult.success) {
@@ -40,12 +47,6 @@ export const saveClient = async (data: {
         code: e.code
       }));
       console.error('🔴 [SaveClient] Validation errors:', JSON.stringify(detailedErrors, null, 2));
-      console.error('🔴 [SaveClient] Input data:', JSON.stringify({
-        email: data.email,
-        mobile: data.mobile,
-        nom: data.nom,
-        adresse_intervention: data.adresse_intervention?.substring(0, 50) + '...'
-      }, null, 2));
       const errors = validationResult.error.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(", ");
       return { success: false, error: errors };
     }
@@ -56,45 +57,39 @@ export const saveClient = async (data: {
       nom: validationResult.data.nom!,
       prenom: validationResult.data.prenom,
       raison_sociale: validationResult.data.raison_sociale,
+      civilite: data.civilite || null,
       email_facturation: validationResult.data.email_facturation || null,
-      adresse_intervention: validationResult.data.adresse_intervention!,
+      address_line: validationResult.data.address_line || null,
+      city: validationResult.data.city || null,
+      postal_code: validationResult.data.postal_code || null,
     };
 
-    // Check if client exists using the secure function
-    const { data: existsData, error: existsError } = await supabase
-      .rpc('check_client_exists', {
+    // Upsert client via SECURITY DEFINER function (bypasses RLS)
+    const { data: clientId, error: upsertError } = await supabase
+      .rpc('upsert_client', {
         _email: clientData.email,
-        _mobile: clientData.mobile
+        _mobile: clientData.mobile,
+        _nom: clientData.nom,
+        _prenom: clientData.prenom || null,
+        _raison_sociale: clientData.raison_sociale || null,
+        _civilite: clientData.civilite || null,
+        _email_facturation: clientData.email_facturation || null,
+        _address_line: clientData.address_line || null,
+        _city: clientData.city || null,
+        _postal_code: clientData.postal_code || null,
       });
 
-    if (existsError) {
-      console.error('Error checking client existence:', existsError);
-      return { success: false, error: existsError.message };
+    if (upsertError) {
+      console.error('Error upserting client:', upsertError);
+      return { success: false, error: upsertError.message };
     }
 
-    let error;
-    if (existsData) {
-      // Client exists, update it
-      const result = await supabase
-        .from('clients')
-        .update(clientData)
-        .or(`email.eq.${clientData.email},mobile.eq.${clientData.mobile}`);
-      error = result.error;
-    } else {
-      // Client doesn't exist, insert it
-      const result = await supabase
-        .from('clients')
-        .insert(clientData);
-      error = result.error;
+    if (!clientId) {
+      return { success: false, error: 'Client ID non retourné après sauvegarde' };
     }
 
-    if (error) {
-      console.error('Error saving client:', error);
-      return { success: false, error: error.message };
-    }
-
-    console.log('Client saved/updated successfully for email:', data.email);
-    return { success: true };
+    console.log('Client saved/updated successfully:', clientId);
+    return { success: true, clientId };
   } catch (err) {
     console.error('Unexpected error saving client:', err);
     return { success: false, error: 'Une erreur inattendue s\'est produite' };

@@ -85,6 +85,7 @@ export const QuoteStep1 = ({ data, onComplete, onBack }: QuoteStep1Props) => {
   const isValid =
     formData.nom &&
     formData.mobile &&
+    /^0[67]( \d{2}){4}$/.test(formData.mobile) &&
     formData.email &&
     formData.adresse_intervention &&
     formData.codePostal &&
@@ -96,7 +97,7 @@ export const QuoteStep1 = ({ data, onComplete, onBack }: QuoteStep1Props) => {
     <div>
       <div className="mb-6 pb-6 border-b border-slate-100">
         <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-cyan-100 flex items-center justify-center">
+          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/20 flex items-center justify-center">
             <User className="w-6 h-6 text-primary" />
           </div>
           <div className="flex-1">
@@ -235,15 +236,19 @@ export const QuoteStep1 = ({ data, onComplete, onBack }: QuoteStep1Props) => {
               ref={mobileRef}
               id="mobile"
               type="tel"
+              inputMode="numeric"
               placeholder="06 12 34 56 78"
               className="pl-10"
+              maxLength={14}
               value={formData.mobile}
-              onChange={(e) =>
+              onChange={(e) => {
+                const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                const formatted = digits.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
                 setFormData((prev) => ({
                   ...prev,
-                  mobile: e.target.value,
-                }))
-              }
+                  mobile: formatted,
+                }));
+              }}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
                   e.preventDefault();
@@ -253,6 +258,11 @@ export const QuoteStep1 = ({ data, onComplete, onBack }: QuoteStep1Props) => {
               required
             />
           </div>
+          {formData.mobile && !/^0[67]( \d{2}){4}$/.test(formData.mobile) && (
+            <p className="text-xs text-destructive mt-1">
+              Numéro mobile invalide (format attendu : 06 ou 07 suivi de 8 chiffres)
+            </p>
+          )}
         </div>
 
         <div>

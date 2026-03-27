@@ -6,17 +6,18 @@ import { FileText, TrendingUp } from "lucide-react";
 interface Quote {
   id: string;
   quote_number: string | null;
-  client_email: string;
+  client_id: string;
   status: string;
   price_total: number | null;
   created_at: string;
   service_type: string;
   motif: string | null;
-  vitrage: string | null;
+  pdf_url: string | null;
   clients?: {
     nom: string | null;
     prenom: string | null;
     mobile: string;
+    email: string;
     raison_sociale: string | null;
   };
 }
@@ -44,10 +45,10 @@ export const AdminQuoteStats = ({ quotes, filteredQuotes }: AdminQuoteStatsProps
 
     return [
       { name: 'Brouillons', value: stats.draft, color: '#94a3b8', status: 'draft' },
-      { name: 'Validés', value: stats.validated, color: '#22c55e', status: 'validated' },
-      { name: 'Envoyés', value: stats.sent, color: '#3b82f6', status: 'sent' },
-      { name: 'Acceptés', value: stats.accepted, color: '#6b7280', status: 'accepted' },
-      { name: 'Refusés', value: stats.rejected, color: '#ef4444', status: 'rejected' },
+      { name: 'Validés', value: stats.validated, color: '#60bca8', status: 'validated' },
+      { name: 'Envoyés', value: stats.sent, color: '#3d7a99', status: 'sent' },
+      { name: 'Acceptés', value: stats.accepted, color: '#5ba085', status: 'accepted' },
+      { name: 'Refusés', value: stats.rejected, color: '#e06860', status: 'rejected' },
     ].filter(stat => stat.value > 0);
   }, [filteredQuotes]);
 
@@ -75,7 +76,7 @@ export const AdminQuoteStats = ({ quotes, filteredQuotes }: AdminQuoteStatsProps
         </Card>
         <Card className="p-4 border-2">
           <div className="text-sm text-muted-foreground">Envoyés</div>
-          <div className="text-2xl font-bold text-blue-600">
+          <div className="text-2xl font-bold text-primary">
             {sentCount}
           </div>
         </Card>

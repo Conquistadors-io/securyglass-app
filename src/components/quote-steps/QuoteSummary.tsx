@@ -6,7 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { resendApi } from '@/integrations/resend/resend';
 import { supabase } from '@/integrations/supabase/client';
 import { generateQuotePDF, generateQuotePDFBase64, QuotePDFData } from '@/lib/pdf-generator';
-import { saveDevis, validateDevis } from '@/services/devis';
+import { saveQuote, validateQuote } from '@/services/quotes';
 import { PDFViewer } from '@react-pdf/renderer';
 import { CheckCircle, Download, Eye, Mail } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -20,8 +20,6 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
   const { toast } = useToast();
   const [emailSent, setEmailSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [gmailConfigured, setGmailConfigured] = useState(false);
-  const [adminEmail, setAdminEmail] = useState<string>('');
   const [devisSaved, setDevisSaved] = useState(false);
   const [savedQuoteNumber, setSavedQuoteNumber] = useState<string>('');
   const [savedDevisId, setSavedDevisId] = useState<string>('');
@@ -111,9 +109,8 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
     calculatePrice();
     fetchMotifDescription();
   }, []);
-  const quoteNumber = `DEV-${Date.now().toString().slice(-8)}`;
   const generateQuoteHTML = () => {
-    const displayQuoteNumber = savedQuoteNumber || quoteNumber;
+    const displayQuoteNumber = savedQuoteNumber || 'DRAFT';
     const subtotal = priceCalculation?.subtotal ?? 0;
     const tva = priceCalculation?.tva ?? 0;
     const total = priceCalculation?.total ?? 0;
@@ -135,7 +132,7 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
           th { background-color: #f5f5f5; }
           .totals { text-align: right; margin-top: 20px; }
           .total-line { margin-bottom: 5px; }
-          .final-total { font-weight: bold; font-size: 1.2em; color: #2563eb; }
+          .final-total { font-weight: bold; font-size: 1.2em; color: #3a9a84; }
           .logo { width: 80px; height: 80px; margin: 0 auto 20px; }
         </style>
       </head>
@@ -155,7 +152,7 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
           <h3>Client</h3>
           <p><strong>${data.civilite} ${data.nom}</strong></p>
           ${data.raison_sociale || data.nomSociete ? `<p><strong>${data.raison_sociale || data.nomSociete}</strong></p>` : ''}
-          <p>${data.telephone}</p>
+          <p>${data.mobile}</p>
           <p>${data.email}</p>
           ${data.adresse ? `<p>${data.adresse}</p>` : ''}
           ${data.codePostal && data.ville ? `<p>${data.codePostal} ${data.ville}</p>` : ''}
@@ -289,7 +286,7 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
         certSize: logoCertification.length,
       });
 
-      const displayQuoteNumber = savedQuoteNumber || quoteNumber;
+      const displayQuoteNumber = savedQuoteNumber || 'DRAFT';
       const pdfDataToDownload: QuotePDFData = {
         quoteNumber: displayQuoteNumber,
         date: new Date().toLocaleDateString('fr-FR'),
@@ -297,7 +294,7 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
         nom: data.nom,
         raison_sociale: data.raison_sociale,
         nomSociete: data.nomSociete,
-        telephone: data.telephone,
+        telephone: data.mobile,
         email: data.email,
         adresse: data.adresse,
         codePostal: data.codePostal,
@@ -373,7 +370,7 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
             loadLogo('certification'),
           ]);
 
-          const displayQuoteNumber = savedQuoteNumber || quoteNumber;
+          const displayQuoteNumber = savedQuoteNumber || 'DRAFT';
           const preparedData: QuotePDFData = {
             quoteNumber: displayQuoteNumber,
             date: new Date().toLocaleDateString('fr-FR'),
@@ -381,7 +378,7 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
             nom: data.nom,
             raison_sociale: data.raison_sociale,
             nomSociete: data.nomSociete,
-            telephone: data.telephone,
+            telephone: data.mobile,
             email: data.email,
             adresse: data.adresse,
             codePostal: data.codePostal,
@@ -428,41 +425,18 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
     }
   }, [emailSent, priceCalculation, pdfData, data, savedQuoteNumber, motifDescription]);
 
-  // Check if Gmail is configured by admin
-  const checkGmailConfiguration = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('gmail_credentials')
-        .select('user_email, expires_at')
-        .gte('expires_at', new Date().toISOString())
-        .single();
-      if (data && !error) {
-        setGmailConfigured(true);
-        setAdminEmail(data.user_email);
-      } else {
-        setGmailConfigured(false);
-        setAdminEmail('');
-      }
-    } catch (error) {
-      console.log('No Gmail configuration found');
-      setGmailConfigured(false);
-      setAdminEmail('');
-    }
-  };
   useEffect(() => {
-    checkGmailConfiguration();
-
     // Check if there's already a saved devis for this session
     const sessionKey = `devis_session_${data.email}_${JSON.stringify(data).substring(0, 50)}`;
     const savedDevisInfo = localStorage.getItem(sessionKey);
     if (savedDevisInfo) {
-      const { devisId, quoteNumber } = JSON.parse(savedDevisInfo);
+      const { devisId, quoteNumber: savedQN } = JSON.parse(savedDevisInfo);
       setDevisSaved(true);
-      setSavedQuoteNumber(quoteNumber);
-      setSavedDevisId(devisId); // ✅ Correction: assign savedDevisId
+      setSavedQuoteNumber(savedQN);
+      setSavedDevisId(devisId);
       console.log('Found existing devis:', {
         devisId,
-        quoteNumber,
+        quoteNumber: savedQN,
       });
       return;
     }
@@ -484,7 +458,7 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
 
     try {
       console.log('🔵 [Validation] Validating devis:', devisId);
-      const { success, error } = await validateDevis(devisId);
+      const { success, error } = await validateQuote(devisId);
 
       if (!success) {
         throw new Error(error || 'Erreur lors de la validation');
@@ -510,41 +484,39 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
   const saveDevisToDatabase = async () => {
     if (devisSaved || !priceCalculation) return;
     try {
-      console.log('Saving devis to database...');
-      const result = await saveDevis(data, priceCalculation);
+      console.log('Saving quote to database...');
+      const result = await saveQuote(data, priceCalculation);
       if (!result.success) {
         throw new Error(result.error || 'Erreur lors de la sauvegarde du devis');
       }
-      if (!result.devisId || !result.quoteNumber) {
+      if (!result.quoteId || !result.quoteNumber) {
         throw new Error('ID ou numéro de devis manquant après sauvegarde');
       }
-      console.log('Devis saved with ID:', result.devisId, 'Quote number:', result.quoteNumber);
+      console.log('Quote saved with ID:', result.quoteId, 'Quote number:', result.quoteNumber);
       setDevisSaved(true);
       setSavedQuoteNumber(result.quoteNumber);
-      setSavedDevisId(result.devisId);
+      setSavedDevisId(result.quoteId);
+
+      // Store the validation token from the insert
+      if (result.validationToken) {
+        setValidationToken(result.validationToken);
+      }
 
       // Save to localStorage to prevent duplicate submissions
       const sessionKey = `devis_session_${data.email}_${JSON.stringify(data).substring(0, 50)}`;
       localStorage.setItem(
         sessionKey,
         JSON.stringify({
-          devisId: result.devisId,
+          devisId: result.quoteId,
           quoteNumber: result.quoteNumber,
         }),
       );
-      if (gmailConfigured) {
-        toast({
-          title: 'Devis enregistré',
-          description: 'Devis enregistré avec succès!',
-        });
-      } else {
-        toast({
-          title: 'Devis enregistré',
-          description: "Devis enregistré avec succès! L'envoi par email n'est pas configuré.",
-        });
-      }
+      toast({
+        title: 'Devis enregistré',
+        description: 'Devis enregistré avec succès!',
+      });
     } catch (error) {
-      console.error('Error saving devis:', error);
+      console.error('Error saving quote:', error);
       toast({
         title: 'Erreur',
         description: error instanceof Error ? error.message : 'Erreur lors de la sauvegarde du devis',
@@ -567,7 +539,7 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
     setIsLoading(true);
     console.log('🔵 [Email] Starting email send process to:', data.email);
     try {
-      const displayQuoteNumber = savedQuoteNumber || quoteNumber;
+      const displayQuoteNumber = savedQuoteNumber || 'DRAFT';
       console.log('🔵 [Email] Generating PDF with @react-pdf/renderer for quote:', displayQuoteNumber);
 
       // Load images using edge function with fallback
@@ -590,7 +562,7 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
         nom: data.nom,
         raison_sociale: data.raison_sociale,
         nomSociete: data.nomSociete,
-        telephone: data.telephone,
+        telephone: data.mobile,
         email: data.email,
         adresse: data.adresse,
         codePostal: data.codePostal,
@@ -646,7 +618,7 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
         client: {
           name: `${data.civilite} ${data.nom}`,
           email: data.email,
-          phone: data.telephone,
+          phone: data.mobile,
           address: data.adresse || '',
         },
         company: {
@@ -709,7 +681,8 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
       };
       console.log('🔵 [Email] Preparing quote data for email...');
       const emailPayload = {
-        devisId: savedDevisId,
+        quoteId: savedDevisId,
+        validationToken: validationToken || undefined,
         email: data.email,
         clientName: `${data.civilite} ${data.nom}`,
         message: `Merci pour votre demande de devis. Veuillez trouver ci-joint votre devis pour ${data.object}.`,
@@ -735,22 +708,6 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
 
       console.log('✅ [Email] Email sent successfully to:', data.email);
       setEmailSent(true);
-
-      // Récupérer le validation_token du devis
-      try {
-        const { data: devisData, error: tokenError } = await supabase
-          .from('devis')
-          .select('validation_token')
-          .eq('id', savedDevisId)
-          .single();
-
-        if (devisData?.validation_token && !tokenError) {
-          setValidationToken(devisData.validation_token);
-          console.log('✅ [Email] Validation token retrieved successfully');
-        }
-      } catch (error) {
-        console.error('❌ [Email] Error fetching validation token:', error);
-      }
 
       // Marquer le devis comme complété dans le cache
       try {
@@ -943,7 +900,7 @@ export const QuoteSummary = ({ data, onNavigate, onComplete }: QuoteSummaryProps
       </div>
 
       {/* Manual Send Button if not auto-sent */}
-      {gmailConfigured && !emailSent && !isLoading && (
+      {!emailSent && !isLoading && (
         <Button variant="default" size="lg" className="w-full" onClick={sendQuoteEmailViaSendGrid}>
           <Mail className="h-5 w-5 mr-2" />
           Envoyer le devis par email

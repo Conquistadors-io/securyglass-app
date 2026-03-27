@@ -83,7 +83,7 @@ export const QuoteStep2 = ({ data, onComplete, onBack }: QuoteStep2Props) => {
       {/* Header de section avec icône */}
       <div className="mb-6 pb-6 border-b border-slate-100">
         <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-cyan-100 flex items-center justify-center">
+          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/20 flex items-center justify-center">
             <FileText className="w-6 h-6 text-primary" />
           </div>
           <div className="flex-1">

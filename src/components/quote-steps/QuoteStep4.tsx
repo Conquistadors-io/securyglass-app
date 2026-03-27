@@ -128,7 +128,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
         },
         {
           label: 'Téléphone',
-          value: data.telephone,
+          value: data.mobile,
           key: 'telephone',
         },
         {
@@ -223,7 +223,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
       {/* Header */}
       <div className="pb-6 border-b border-slate-100">
         <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-cyan-100 flex items-center justify-center">
+          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-primary-light/20 flex items-center justify-center">
             <CheckCircle2 className="w-6 h-6 text-primary" />
           </div>
           <div>
@@ -270,7 +270,7 @@ export const QuoteStep4 = ({ data, onValidate, onModify }: QuoteStep4Props) => {
               <div className="text-foreground font-medium">{data.raison_sociale || data.nomSociete}</div>
             )}
           <div className="text-foreground">{data.email}</div>
-          <div className="text-foreground">{data.telephone}</div>
+          <div className="text-foreground">{data.mobile}</div>
           {!data.differentInterventionAddress && (
             <>
               <div className="text-foreground">{data.adresse_intervention}</div>

@@ -1,4 +1,3 @@
-import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.0';
 import { renderToBuffer } from "npm:@react-pdf/renderer@4.3.1";
 import React from "npm:react@18.3.1";
@@ -9,9 +8,9 @@ const corsHeaders = {
 };
 
 // Import the PDF template components
-const { Document, Page, Text, View, StyleSheet, Font, Image } = await import("npm:@react-pdf/renderer@4.3.1");
+const { Document, Page, Text, View, StyleSheet } = await import("npm:@react-pdf/renderer@4.3.1");
 
-// Styles for PDF (same as QuotePDFTemplate)
+// Styles for PDF
 const colors = {
   primary: '#1e40af',
   secondary: '#3b82f6',
@@ -66,17 +65,6 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border,
     paddingBottom: 5,
   },
-  row: {
-    flexDirection: 'row',
-    marginBottom: 5,
-  },
-  label: {
-    fontWeight: 'bold',
-    width: 150,
-  },
-  value: {
-    flex: 1,
-  },
   table: {
     marginTop: 10,
     marginBottom: 20,
@@ -130,7 +118,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const handler = async (req: Request): Promise<Response> => {
+Deno.serve(async (req: Request): Promise<Response> => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -151,9 +139,9 @@ const handler = async (req: Request): Promise<Response> => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Fetch quote data with client information
+    // Fetch quote data with client and items
     const { data: quote, error: quoteError } = await supabase
-      .from('devis')
+      .from('quotes')
       .select(`
         *,
         clients (
@@ -163,7 +151,21 @@ const handler = async (req: Request): Promise<Response> => {
           raison_sociale,
           email,
           email_facturation,
-          adresse_intervention
+          address_line,
+          city,
+          postal_code
+        ),
+        quote_items (
+          description,
+          category,
+          vitrage,
+          largeur_cm,
+          hauteur_cm,
+          quantite,
+          unit_price,
+          price_subtotal,
+          price_total,
+          sort_order
         )
       `)
       .eq('id', quoteId)
@@ -180,39 +182,55 @@ const handler = async (req: Request): Promise<Response> => {
     console.log('✅ Quote data loaded');
 
     // Prepare PDF data
+    const clientAddress = [
+      quote.clients?.address_line,
+      `${quote.clients?.postal_code || ''} ${quote.clients?.city || ''}`.trim()
+    ].filter(Boolean).join(', ');
+
     const pdfData = {
       quoteNumber: quote.quote_number || 'DRAFT',
       date: new Date(quote.created_at).toLocaleDateString('fr-FR'),
       client: {
         name: quote.clients?.raison_sociale || `${quote.clients?.prenom || ''} ${quote.clients?.nom || ''}`.trim(),
-        address: quote.clients?.adresse_intervention || quote.intervention_adresse || '',
-        city: `${quote.intervention_code_postal || ''} ${quote.intervention_ville || ''}`.trim(),
-        email: quote.client_email,
+        address: clientAddress || quote.intervention_address || '',
+        city: `${quote.intervention_postal_code || ''} ${quote.intervention_city || ''}`.trim(),
+        email: quote.clients?.email || '',
         phone: quote.clients?.mobile || '',
       },
       company: {
         name: 'SECURYGLASS',
-        address: '123 Rue Example',
-        city: '75000 Paris',
-        phone: '01 23 45 67 89',
+        address: '65 Rue De La Croix',
+        city: '92000 Nanterre',
+        phone: '09 70 14 43 44',
         email: 'contact@securyglass.fr',
-        siret: '123 456 789 00012',
+        siret: '91094284600015',
       },
-      items: [
-        {
-          description: `${quote.service_type} - ${quote.object}${quote.motif ? ` (${quote.motif})` : ''}`,
-          details: quote.vitrage ? `Vitrage: ${quote.vitrage}, Dimensions: ${quote.largeur_cm}x${quote.hauteur_cm} cm` : '',
-          quantity: quote.quantite || 1,
-          unitPrice: quote.price_subtotal || 0,
-          total: (quote.quantite || 1) * (quote.price_subtotal || 0),
-        },
-      ],
+      items: (quote.quote_items || [])
+        .sort((a: any, b: any) => a.sort_order - b.sort_order)
+        .map((item: any) => ({
+          description: `${item.description}${item.vitrage ? ` - Vitrage: ${item.vitrage}` : ''}${item.largeur_cm && item.hauteur_cm ? `, ${item.largeur_cm}x${item.hauteur_cm} cm` : ''}`,
+          details: item.category || '',
+          quantity: item.quantite || 1,
+          unitPrice: item.unit_price || 0,
+          total: item.price_total || 0,
+        })),
       subtotal: quote.price_subtotal || 0,
       vat: quote.price_tva || 0,
       vatRate: quote.price_tva_rate || 10,
       total: quote.price_total || 0,
       notes: quote.notes || '',
     };
+
+    // Fallback if no items
+    if (pdfData.items.length === 0) {
+      pdfData.items = [{
+        description: `${quote.service_type}${quote.motif ? ` (${quote.motif})` : ''}`,
+        details: '',
+        quantity: 1,
+        unitPrice: quote.price_subtotal || 0,
+        total: quote.price_total || 0,
+      }];
+    }
 
     // Create PDF document
     const QuotePDFDocument = React.createElement(
@@ -266,7 +284,7 @@ const handler = async (req: Request): Promise<Response> => {
             React.createElement(Text, { style: { ...styles.tableCell, flex: 1, textAlign: 'right' } }, 'Prix Unit.'),
             React.createElement(Text, { style: { ...styles.tableCell, flex: 1, textAlign: 'right' } }, 'Total HT')
           ),
-          ...pdfData.items.map((item, index) =>
+          ...pdfData.items.map((item: any, index: number) =>
             React.createElement(
               View,
               { key: index, style: styles.tableRow },
@@ -326,10 +344,10 @@ const handler = async (req: Request): Promise<Response> => {
     const pdfBuffer = await renderToBuffer(QuotePDFDocument);
     console.log('✅ PDF rendered successfully');
 
-    // Upload to storage
-    const fileName = `${quoteId}/quote-${pdfData.quoteNumber}.pdf`;
+    // Upload to storage with organized path: pdf/{quote_id}/devis-XXX.pdf
+    const fileName = `pdf/${quoteId}/devis-${pdfData.quoteNumber}.pdf`;
     const { error: uploadError } = await supabase.storage
-      .from('quote-pdfs')
+      .from('quote-documents')
       .upload(fileName, pdfBuffer, {
         contentType: 'application/pdf',
         upsert: true,
@@ -344,46 +362,44 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Get public URL
     const { data: urlData } = supabase.storage
-      .from('quote-pdfs')
+      .from('quote-documents')
       .getPublicUrl(fileName);
 
     const pdfUrl = urlData.publicUrl;
 
-    // Update devis with PDF URL
+    // Update quote with PDF URL
     const { error: updateError } = await supabase
-      .from('devis')
+      .from('quotes')
       .update({ pdf_url: pdfUrl })
       .eq('id', quoteId);
 
     if (updateError) {
-      console.error('❌ Error updating devis:', updateError);
+      console.error('❌ Error updating quote:', updateError);
       throw new Error('Failed to update quote with PDF URL');
     }
 
-    console.log('✅ Devis updated with PDF URL');
+    console.log('✅ Quote updated with PDF URL');
 
     return new Response(
-      JSON.stringify({ 
-        success: true, 
+      JSON.stringify({
+        success: true,
         pdfUrl,
-        message: 'PDF generated and stored successfully' 
+        message: 'PDF generated and stored successfully'
       }),
-      { 
-        status: 200, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+      {
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     );
 
   } catch (error: any) {
-    console.error('❌ Error in generate-store-quote-pdf:', error);
+    console.error('❌ Error in generate-quote-pdf:', error);
     return new Response(
       JSON.stringify({ error: error.message || 'Internal server error' }),
-      { 
-        status: 500, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+      {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     );
   }
-};
-
-serve(handler);
+});
